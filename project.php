@@ -220,7 +220,7 @@ qq;
         $createdAt = (!empty($row['created_at'])) ? formatDate($row['created_at']) : '-';
 
         echo "<tr>";
-        echo "<td><span class=\"bubble grayBubble\"><a href=\"story.php?id=" . $row['id'] . "\">" . $row['show_id'] . "</a></span></td>";
+        echo "<td><span class=\"bubble grayBubble\">" . $row['show_id'] . "</span></td>";
         echo "<td>" . $row['hour_title'] . "</td>";
         echo "<td>" . $row['type_title'] . "</td>";
         echo "<td>" . $row['title'] . "</td>";
@@ -304,7 +304,7 @@ qq;
         $typeSelect .= '</select>';
 
         echo "<tr>";
-        echo "<td><span class=\"$class\"><a href=\"story.php?id=" . $row['id'] . "\">" . $row['show_id'] . "</a></span></td>";
+        echo "<td><span class=\"$class\">" . $row['show_id'] . "</span></td>";
         echo "<td>" . $hourSelect . "</td>";
         echo "<td>" . $typeSelect . "</td>";
         echo "<td class=\"textCenter\">" . $icon . "</td>";
