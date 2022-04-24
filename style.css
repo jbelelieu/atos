@@ -701,6 +701,14 @@ table td.summary {
   grid-row-gap: 0px;
 }
 
+.columns2575 {
+  display: grid;
+  grid-template-columns: 25% 75%;
+  grid-template-rows: 1fr;
+  grid-column-gap: 10px;
+  grid-row-gap: 0px;
+}
+
 .halfHalfColumns {
   display: grid;
   grid-template-columns: 1fr 1fr;

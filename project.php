@@ -91,6 +91,8 @@ $inStatement = trim($inStatement, ',');
 
 include "includes/header.php";
 
+$nextId = generateTicketId($_GET['id']);
+
 echo <<<qq
 <div class="collectionsTable">
 
@@ -115,9 +117,16 @@ echo <<<qq
                     </div>
                 </div>
 
-                <div>
-                <label>Story</label>
-                <input type="text" name="title" style="width:80%;" /> <button type="submit">Create</button>
+                <div class="columns2575">
+                    <div>
+                        <label>Reference Number</label>
+                        <input type="text" name="show_id" value="$nextId" />
+                    </div>
+
+                    <div>
+                    <label>Story</label>
+                    <input type="text" name="title" style="width:80%;" /> <button type="submit">Create</button>
+                    </div>
                 </div>
 
                 <input type="hidden" name="project_id" value="$_GET[id]" />
@@ -381,11 +390,9 @@ function createStory(array $data): void
 {
     global $db;
 
-    $project = getProjectById($data['project_id']);
-
-    $totalStoriesInProject = getNextStoryNumberForProject($data['project_id']);
-
-    $id = $project['code'] . '-' . $totalStoriesInProject;
+    $id = (isset($data['show_id']) && (!empty($data['show_id'])))
+        ? $data['show_id']
+        : generateTicketId($data['project_id']);
 
     $statement = $db->prepare('
         INSERT INTO story (show_id, due_at, title, collection, rate_type, type, status)
@@ -402,6 +409,21 @@ function createStory(array $data): void
     $statement->execute();
 
     redirect('project.php', $data['project_id'], 'Your new story has been created as ' . $id);
+}
+
+/**
+ * @param integer $projectId
+ * @return string
+ */
+function generateTicketId(int $projectId): string
+{
+    $project = getProjectById($projectId);
+
+    $totalStoriesInProject = getNextStoryNumberForProject($projectId);
+
+    $id = $project['code'] . '-' . $totalStoriesInProject;
+
+    return $project['code'] . '-' . $totalStoriesInProject;
 }
 
 /**
