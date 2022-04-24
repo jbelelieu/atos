@@ -7,9 +7,7 @@ ATOS is a locally hosted, no setup-required, application that makes invoicing ag
 
 ATOS is 100% open source and free to use.
 
------
-
-# Support The Project
+## Support The Project
 
 - [Spread the word on Twitter!](http://twitter.com/intent/tweet?text=Freelancers!+Check+out+ATO+Stories+%2C+a+drop+dead+simple%2C+locally+hosted+story+tracker+and+invoice+generator+designed+for+freelancer+software+developers.&url=https%3A%2F%2Fgithub.com%2Fjbelelieu%2Fato_stories)
 - [Buy me a Coffee!](https://www.buymeacoffee.com/jbelelieu)
@@ -18,20 +16,20 @@ ATOS is 100% open source and free to use.
 
 # Notice About Deploying ATOS To The Web
 
-This was always meant to be used locally. While there shouldn't be any problems deploying it, I don't recommend allowing anyone to access this who you don't trust fully. There is no concept of "users" in the platform, so anyone with access will be able to do whatever they want with your data.
+This was always meant to be used locally. While there shouldn't be any problems deploying it, I don't recommend allowing anyone to access this who you don't fully trust. There is no concept of "users" in the platform, so anyone with access will be able to do whatever they want with your data.
 
 -----
 
 # Requirements
 
 - PHP8+
-- SQLite
+- SQLite3
 
 # Local Setup
 
 ## Create the SQLite Database
 
-Create an empty SQLite database fike inside the `db` folder named `pm.sqlite3`.
+Create an empty SQLite database fike inside the `db` folder named `atos.sqlite3`.
 
 ## Start the PHP Server
 

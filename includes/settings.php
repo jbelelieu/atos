@@ -1,6 +1,10 @@
 <?php
 
 $atosSettings = [
+    // What is your database file called.
+    'DATABASE_FILE_NAME' => 'pm.sqlite3',
+    
+    // What should the default collection for a new project be called?
     'UNORGANIZED_NAME' => 'Unorganized',
 ];
 
@@ -11,18 +15,30 @@ $atosSettings = [
  * @param string|null $default
  * @return string
  */
-function getSetting(AsosSettings $key, string $default = null)
+function getSetting(AsosSettings $key, $default = null)
+{
+    switch ($key) {
+        case AsosSettings::DATABASE_FILE_NAME:
+            return returnSetting('DATABASE_FILE_NAME', $default);
+        case AsosSettings::UNORGANIZED_NAME:
+            return returnSetting('UNORGANIZED_NAME', $default);
+        default:
+            return $default;
+    }
+}
+
+/**
+ * @param string $settingKey
+ * @param [type] $default
+ * @return void
+ */
+function returnSetting(string $settingKey, $default = null)
 {
     global $atosSettings;
 
-    switch ($key) {
-        case AsosSettings::UNORGANIZED_NAME:
-            return array_key_exists('UNORGANIZED_NAME', $atosSettings)
-                ? $atosSettings['UNORGANIZED_NAME']
-                : $default;
-            default:
-                return $default;
-    }
+    return array_key_exists($settingKey, $atosSettings)
+        ? $atosSettings[$settingKey]
+        : $default;
 }
 
 /**
@@ -31,4 +47,5 @@ function getSetting(AsosSettings $key, string $default = null)
 enum AsosSettings: string
 {
     case UNORGANIZED_NAME = 'UNORGANIZED_NAME';
+    case DATABASE_FILE_NAME = 'DATABASE_FILE_NAME';
 }

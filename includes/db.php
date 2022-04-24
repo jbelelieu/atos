@@ -7,7 +7,7 @@ require "helpers.php";
  * @link  https://renenyffenegger.ch/notes/development/web/php/snippets/sqlite/index
  */
 
-$dbFile = 'db/pm.sqlite3';
+$dbFile = 'db/' . getSetting(AsosSettings::DATABASE_FILE_NAME, 'atos.sqlite3');
 if (!file_exists($dbFile)) {
     echo "Database file not found.";
     exit;
