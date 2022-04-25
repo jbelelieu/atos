@@ -1,6 +1,6 @@
 ![ATOS Logo](assets/atos_logo.png)
 
-![ATOS Screen Shot](assets/atos_screen.png)
+💬&nbsp;&nbsp;&nbsp;[Tweet About ATOS](http://twitter.com/intent/tweet?text=Freelancers!+Check+out+ATO+Stories+%2C+a+drop+dead+simple%2C+locally+hosted+story+tracker+and+invoice+generator+designed+for+freelancer+software+developers.&url=https%3A%2F%2Fgithub.com%2Fjbelelieu%2Fato_stories)&nbsp;&nbsp;&nbsp;☕️&nbsp;&nbsp;&nbsp;[Buy me a Coffee!](https://www.buymeacoffee.com/jbelelieu)
 
 ATOS is built by a freelancer, for freelancers.
 
@@ -11,9 +11,7 @@ ATOS is a locally hosted, no setup-required, application that makes invoicing ag
 
 ATOS is 100% open source and free to use.
 
-💬&nbsp;&nbsp;&nbsp;[Tweet About ATOS](http://twitter.com/intent/tweet?text=Freelancers!+Check+out+ATO+Stories+%2C+a+drop+dead+simple%2C+locally+hosted+story+tracker+and+invoice+generator+designed+for+freelancer+software+developers.&url=https%3A%2F%2Fgithub.com%2Fjbelelieu%2Fato_stories)&nbsp;&nbsp;&nbsp;☕️&nbsp;&nbsp;&nbsp;[Buy me a Coffee!](https://www.buymeacoffee.com/jbelelieu)
-
------
+![ATOS Screen Shot](assets/atos_screen.png)
 
 # Notice About Deploying ATOS To The Web
 
