@@ -1,16 +1,17 @@
-<img src="http://castlamp.net/img/atos_logo.png" style="height:100px;width:auto;" alt="ATOS Logo" />
+![ATOS Logo](assets/atos_logo.png)
 
+![ATOS Screen Shot](assets/atos_screen.png)
+
+ATOS is built by a freelancer, for freelancers.
 
 ATOS is a locally hosted, no setup-required, application that makes invoicing against backlogs drop dead simple. ATOS is designed to:
 
-- Track stories
-- Generate invoices against those completed stories
+- **Project Management**: Track stories
+- **Invoice Generation**: Generate invoices against those completed stories
 
 ATOS is 100% open source and free to use.
 
-💬&nbsp;&nbsp;&nbsp;[Spread the word on Twitter!](http://twitter.com/intent/tweet?text=Freelancers!+Check+out+ATO+Stories+%2C+a+drop+dead+simple%2C+locally+hosted+story+tracker+and+invoice+generator+designed+for+freelancer+software+developers.&url=https%3A%2F%2Fgithub.com%2Fjbelelieu%2Fato_stories)
-
-☕️&nbsp;&nbsp;&nbsp;[Buy me a Coffee!](https://www.buymeacoffee.com/jbelelieu)
+💬&nbsp;&nbsp;&nbsp;[Tweet About ATOS](http://twitter.com/intent/tweet?text=Freelancers!+Check+out+ATO+Stories+%2C+a+drop+dead+simple%2C+locally+hosted+story+tracker+and+invoice+generator+designed+for+freelancer+software+developers.&url=https%3A%2F%2Fgithub.com%2Fjbelelieu%2Fato_stories)&nbsp;&nbsp;&nbsp;☕️&nbsp;&nbsp;&nbsp;[Buy me a Coffee!](https://www.buymeacoffee.com/jbelelieu)
 
 -----
 
@@ -27,11 +28,13 @@ This was always meant to be used locally. While there shouldn't be any problems 
 
 # Local Setup
 
-## Create the SQLite Database
+## Update Your Default Settings (Optional Step)
 
-Create an empty SQLite database fike inside the `db` folder named `atos.sqlite3`.
+Open `SystemSettings.sample.php` and update the values as needed. Optionally rename it to `SystemSettings.env.php`, otherwise ATOS will do that for you.
 
 ## Start the PHP Server
+
+Once in the home directory of your project, via command line, state the PHP server:
 
 ```
 php -S localhost:9001
@@ -39,15 +42,17 @@ php -S localhost:9001
 
 You can now access ATOS from any web browser at `http://localhost:9001`.
 
-## Run the Base Migrations Against the New Database
-
-You can find the migrations at `db/migrations.sql`.
+## phpLiteAdmin Notice
 
 For your convinience, ATOS ships with [phpLiteAdmin](https://www.phpliteadmin.org/). You can access that from `http://localhost:9001/db`.
 
+ATOS will automatically attempt to run migrations at first start up. On the off chance that migrations fail, you can use phpLiteAdmin to manually execute the contents of `db/migrations.sql`.
+
 ## Invoices
 
-If you plan on generating and saving invoices locally, you will need to make sure the `invoices` directory is writable: `chmod 0755 invoices`
+If you plan on generating and saving invoices locally (which I recommend you do), you will need to make sure the `invoices` directory is writable: `chmod 0755 invoices`.
+
+Note that invoices are saved as HTML. Most computers have reasonable "Print as PDF" options now; please use that feature to print a PDF if required. Note that ATOS hard codes styles, so changing `assets/style.css` won't affect already saved invoices.
 
 -----
 
