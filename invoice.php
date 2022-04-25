@@ -23,6 +23,7 @@ $invoiceCompletedString = language('completed_on', 'Tasks completed on');
 $lastDate = null;
 $storyHtml = '';
 $dayHours = 0;
+$totalHours = 0;
 $shippedStories = getStoriesInCollection($_GET['collection'], false, 'ended_at ASC');
 foreach ($shippedStories as $aStory) {
     if (!array_key_exists($aStory['rate_type'], $hoursByRateType)) {
@@ -45,6 +46,7 @@ qq;
     }
 
     $dayHours += (int) $aStory['hours'];
+    $totalHours += (int) $aStory['hours'];
 
     $storyHtml .= <<<qq
 <tr class="noBorder">
@@ -82,7 +84,9 @@ qq;
 }
 
 $daysDue = getSetting(AsosSettings::INVOICE_DUE_DATE_IN_DAYS, 14);
-$dueDate = ($daysDue > 0) ? formatDate(date('Y-m-d H:i:s', time() + 1209600)) : '';
+$dueDate = ($daysDue > 0)
+    ? language('due_on', 'Due on ') . formatDate(date('Y-m-d H:i:s', time() + 1209600))
+    : '';
 
 $logo = (file_exists($ATOS_HOME_DIR . '/logo.png'))
     ? '<div id="logoArea"><img src="logo.png" alt="' . $company['title'] . '" /></div>'
@@ -90,6 +94,7 @@ $logo = (file_exists($ATOS_HOME_DIR . '/logo.png'))
 
 $file = str_replace('%display_items%', ($settingListType === 'none') ? 'none' : 'block', $file);
 $file = str_replace('%logo%', $logo, $file);
+$file = str_replace('%total_hours%', $totalHours, $file);
 $file = str_replace('%date%', date('Y/m/d'), $file);
 $file = str_replace('%due_date%', $dueDate, $file);
 $file = str_replace('%total%', formatMoney($grandTotal), $file);

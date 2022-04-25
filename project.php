@@ -196,7 +196,7 @@ foreach ($collectionResults as $aCollection) {
     $hours = 0;
 
     $openStories = getStoriesInCollection($aCollection['id']);
-    $otherStories = getStoriesInCollection($aCollection['id'], false, 'ended_at DESC, status ASC', true);
+    $otherStories = getStoriesInCollection($aCollection['id'], false, 'ended_at ASC, status ASC', true);
 
     $isProjectDefault = (bool) $aCollection['is_project_default'];
 

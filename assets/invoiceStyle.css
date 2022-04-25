@@ -631,6 +631,7 @@ table td.shipped {
 
 .totalFocus {
   font-size: 1.2em;
+  font-weight: bold;
 }
 
 table td.closed {

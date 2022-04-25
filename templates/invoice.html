@@ -24,6 +24,9 @@
                             <br /><br />
                             Sent On<br />
                             %date%
+                            <br />
+                            <br />
+                            %due_date%
                         </h4>
                     </div>
                     <div>
@@ -67,15 +70,11 @@
                             </thead>
                             <tbody>
                                 %rate_types%
-                                <tr style="font-weight:bold;">
-                                    <td valign="top" colspan="3" style="vertical-align: middle;"
-                                        class="textRight">
-                                        %due_date%
-                                    </td>
-                                    <td valign="top">
-                                        <div class="totalFocus">
-                                            %total%
-                                        </div>
+                                <tr>
+                                    <td valign="top" colspan="2"></td>
+                                    <td>%total_hours%</td>
+                                    <td valign="top" class="totalFocus">
+                                        %total%
                                     </td>
                                 </tr>
                             </tbody>
