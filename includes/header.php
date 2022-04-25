@@ -42,7 +42,7 @@ echo <<<qq
         </div>
         <div id="nav" class="textRight">
             $lastProject
-            <a href="taxes.php">Taxes</a>
+            <!--<a href="taxes.php">Taxes</a>-->
             <a href="settings.php">Settings</a>
         <div>
     </div>

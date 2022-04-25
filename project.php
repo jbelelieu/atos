@@ -196,17 +196,23 @@ foreach ($collectionResults as $aCollection) {
     $openStories = getStoriesInCollection($aCollection['id']);
     $otherStories = getStoriesInCollection($aCollection['id'], false, 'ended_at DESC, status ASC');
 
-    $tripFlag = $collectionCount > 1 && $aCollection['id'] !== 1;
+    $isProjectDefault = (bool) $aCollection['is_project_default'];
+
+    $tripFlag = $collectionCount > 1 && !$isProjectDefault;
     if ($tripFlag) {
         echo "<details><summary><h4 class=\"bubble\">$aCollection[title]</h4></summary>";
     } else {
         echo "<h4 class=\"bubble\">$aCollection[title]</h4>";
     }
 
-    echo <<<qq
+    if (!$isProjectDefault) {
+        echo <<<qq
         <div class="clearFix"></div>
         <h4 class="bubble noMarginTop">Open Stories</h4>
+qq;
+    }
 
+    echo <<<qq
         <table>
         <thead>
         <tr>
@@ -235,11 +241,14 @@ qq;
         echo "</tr>";
     }
 
-    // TODO: Link to an overview of that story.
+    // TODO: Link to an overview of that story + story notes.
     echo <<<qq
         </tbody>
         </table>
+qq;
 
+    if (!$isProjectDefault) {
+        echo <<<qq
         <hr />
 
         <h4 class="bubble">Billable</h4>
@@ -264,77 +273,78 @@ qq;
         <tbody>
 qq;
 
-    foreach ($otherStories as $row) {
-        $createdAt = (!empty($row['created_at'])) ? formatDate($row['created_at']) : '-';
+        foreach ($otherStories as $row) {
+            $createdAt = (!empty($row['created_at'])) ? formatDate($row['created_at']) : '-';
 
-        $adjustedColor = adjustBrightness($row['status_color'], -10);
+            $adjustedColor = adjustBrightness($row['status_color'], -10);
 
-        if ($row['status'] == 2) {
-            $status = formatDate($row['ended_at'], 'Y-m-d');
-            $label = "<div class=\"bubble greenBubble\">" . $row['show_id'] . "</div>";
-        } elseif ($row['status'] == 4) {
-            $status = formatDate($row['ended_at'], 'Y-m-d');
-            $label = "<div class=\"bubble redBubble\">" . $row['show_id'] . "</div>";
-        } elseif ($row['status'] == 3) {
-            $status = formatDate($row['ended_at'], 'Y-m-d');
-            $label = "<div class=\"bubble blueBubble\">" . $row['show_id'] . "</div>";
-        } else {
-            $label = "<div class=\"bubble \" style=\"background-color:" . $row['status_color'] . "\">" . $row['show_id'] . "</div>";
-        }
+            if ($row['status'] == 2) {
+                $status = formatDate($row['ended_at'], 'Y-m-d');
+                $label = "<div class=\"bubble greenBubble\">" . $row['show_id'] . "</div>";
+            } elseif ($row['status'] == 4) {
+                $status = formatDate($row['ended_at'], 'Y-m-d');
+                $label = "<div class=\"bubble redBubble\">" . $row['show_id'] . "</div>";
+            } elseif ($row['status'] == 3) {
+                $status = formatDate($row['ended_at'], 'Y-m-d');
+                $label = "<div class=\"bubble blueBubble\">" . $row['show_id'] . "</div>";
+            } else {
+                $label = "<div class=\"bubble \" style=\"background-color:" . $row['status_color'] . "\">" . $row['show_id'] . "</div>";
+            }
 
-        $hours += (int) $row['hours'];
+            $hours += (int) $row['hours'];
 
-        $hourSelect = '<select name="story[' . $row['id'] . '][rates]">';
-        foreach ($hourTypeResults as $aType) {
-            $hourSelect .= ($aType['id'] === $row['rate_type'])
+            $hourSelect = '<select name="story[' . $row['id'] . '][rates]">';
+            foreach ($hourTypeResults as $aType) {
+                $hourSelect .= ($aType['id'] === $row['rate_type'])
                 ? '<option value="' . $aType['id'] . '" selected="selected">' . $aType['title'] . '</option>'
                 : '<option value="' . $aType['id'] . '">' . $aType['title'] . '</option>';
-        }
-        $hourSelect .= '</select>';
+            }
+            $hourSelect .= '</select>';
 
-        $typeSelect = '<select name="story[' . $row['id'] . '][types]">';
-        foreach ($storyTypeResults as $aStoryType) {
-            $typeSelect .= ($aStoryType['id'] === $row['type'])
+            $typeSelect = '<select name="story[' . $row['id'] . '][types]">';
+            foreach ($storyTypeResults as $aStoryType) {
+                $typeSelect .= ($aStoryType['id'] === $row['type'])
                 ? '<option value="' . $aStoryType['id'] . '" selected="selected">' . $aStoryType['title'] . '</option>'
                 : '<option value="' . $aStoryType['id'] . '">' . $aStoryType['title'] . '</option>';
+            }
+            $typeSelect .= '</select>';
+
+            $options = buildStoryOptions($_GET['id'], $row['id'], true);
+
+            echo "<tr>";
+            echo "<td>" . $label . "</td>";
+            echo "<td>" . $hourSelect . "</td>";
+            echo "<td>" . $typeSelect . "</td>";
+            echo "<td class=\"textCenter\"><div class=\"emoji_bump\">" . putIcon($row['status_emoji'], $row['status_color']) . "</div></td>";
+            echo "<td><input type=\"date\" autocomplete=\"off\" name=\"story[$row[id]][ended_at]\" value=\"$status\" /></td>";
+            echo "<td><input type=\"text\" autocomplete=\"off\" name=\"story[$row[id]][hours]\" value=\"$row[hours]\" /></td>";
+            echo "<td><input type=\"text\" autocomplete=\"off\" style=\"width:100%;\" name=\"story[$row[id]][title]\" value=\"$row[title]\" /></td>";
+            echo "<td class=\"textRight\"><div class=\"emoji_bump\">$options</div></td>";
+            echo "</tr>";
         }
-        $typeSelect .= '</select>';
 
-        $options = buildStoryOptions($_GET['id'], $row['id'], true);
-
-        echo "<tr>";
-        echo "<td>" . $label . "</td>";
-        echo "<td>" . $hourSelect . "</td>";
-        echo "<td>" . $typeSelect . "</td>";
-        echo "<td class=\"textCenter\"><div class=\"emoji_bump\">" . putIcon($row['status_emoji'], $row['status_color']) . "</div></td>";
-        echo "<td><input type=\"date\" autocomplete=\"off\" name=\"story[$row[id]][ended_at]\" value=\"$status\" /></td>";
-        echo "<td><input type=\"text\" autocomplete=\"off\" name=\"story[$row[id]][hours]\" value=\"$row[hours]\" /></td>";
-        echo "<td><input type=\"text\" autocomplete=\"off\" style=\"width:100%;\" name=\"story[$row[id]][title]\" value=\"$row[title]\" /></td>";
-        echo "<td class=\"textRight\"><div class=\"emoji_bump\">$options</div></td>";
-        echo "</tr>";
-    }
-
-    echo <<<qq
+        echo <<<qq
 <tr>
 <td colspan="5"></td>
 <td>$hours</td>
 <td colspan="2">
 qq;
 
-    echo '<button type="submit">Update Stories</button> <button type="button" onClick="window.location=\'invoice.php?collection=' . $aCollection['id'] . '\'">Preview Invoice</button> <button type="button" onClick="window.location=\'invoice.php?collection=' . $aCollection['id'] . '&save=1\'">Generate & Save Invoice</button>';
+        echo '<button type="submit">Update Stories</button> <button type="button" onClick="window.location=\'invoice.php?collection=' . $aCollection['id'] . '\'">Preview Invoice</button> <button type="button" onClick="window.location=\'invoice.php?collection=' . $aCollection['id'] . '&save=1\'">Generate & Save Invoice</button>';
 
-    echo <<<qq
+        echo <<<qq
         </td>
         </tr>
         </tbody>
         </table>
 qq;
 
-    if ($tripFlag) {
-        echo "</details>";
-    }
+        if ($tripFlag) {
+            echo "</details>";
+        }
 
-    echo "</form>";
+        echo "</form>";
+    }
 }
 
 echo <<<qq
