@@ -1,8 +1,23 @@
 <?php
 
+/**
+ * ATOS: "Built by freelancer 🙋‍♂️, for freelancers 🕺 🤷 💃🏾 "
+ *
+ * @author @jbelelieu
+ * @copyright Humanity, any year.
+ * @license AGPL-3.0 License
+ * @link https://github.com/jbelelieu/atos
+ */
+
 require "includes/db.php";
 
-// -------------------------------------
+/**
+ *
+ * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
+ *
+ *   Actions
+ *
+ */
 
 if (isset($_GET['action'])) {
     switch ($_GET['action']) {
@@ -30,212 +45,91 @@ if (isset($_POST['action'])) {
     }
 }
 
-// -------------------------------------
+/**
+ *
+ * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
+ *
+ *   Down and Dirty
+ *
+ */
 
-$projects = getProjects();
 $clients = getCompanies();
 
+// The client select dropdown
 $clientSelect = '<option value=""></option>';
 foreach ($clients as $aClient) {
     $clientSelect .= '<option value="' . $aClient['id'] . '">' . $aClient['title'] . '</option>';
 }
 
-include "includes/header.php";
+// Client table
+$totalValue = 0;
+$renderedClients = '';
 
-echo <<<qq
-<div class="border">
-    <div class="halfHalfColumns">
-        <div>
-            <div class="formBox padLess">
-                <form action="index.php" method="post">
-                    <div class="halfHalfColumns">
-                        <div>
-                            <label><b>Companies &amp; Clients</b>&nbsp;&nbsp;Name</label>
-                            <input type="text" name="title" />
-                            
-                            <label>Logo URL</label>
-                            <input type="text" name="logo_url" />
-                            
-                            <label>Phone</label>
-                            <input type="text" name="phone" />
-                            
-                            <label>Email</label>
-                            <input type="text" name="email" />
-                        </div>
-                        <div>
-                            <div>
-                            <label>Address (html ok)</label>
-                            <textarea name="address"></textarea>
-                            </div>
+foreach ($clients as $aClient) {
+    $value = getCompanyTotals($aClient['id']);
 
-                            <div>
-                            <label>Instructions (html ok)</label>
-                            <textarea name="address"></textarea>
-                            </div>
-                        </div>
-                    </div>
+    $totalValue += $value['total'];
 
-                    <button type="submit">Create</button>
-                    <input type="hidden" name="action" value="createCompany" />
-                </form>
-            </div>
-        </div>
-        <div>
-            <div class="formBox padLess">
-qq;
+    $logo = $aClient['logo_url']
+        ? '<img src="' . $aClient['logo_url'] . '" class="clientLogo" />'
+        : '';
 
-if (sizeof($clients) < 2) {
-    echo <<<qq
-            <div class="bubble helpBubble">
-                <label><b>Projects</b></label>
-                <p class="help">You can't create a project until you've created at least two companies. We recommend adding your own company first, then your first client's information. For each project you start, you'll need (a) a company you are representing (the contracted party) and (b) a company you are working for (your client).<br /><br />👈&nbsp;&nbsp;Add companies over there</p>
-            </div>
-qq;
-} else {
-    echo <<<qq
-                <form action="index.php" method="post">
-                    <div class="halfHalfColumns">
-                        <div>
-                        <label><b>Projects</b>&nbsp;&nbsp;Contracted Party</label>
-                        <select name="company_id">$clientSelect</select>
-                        </div>
-
-                        <div>
-                        <label>Your Client</label>
-                        <select name="client_id">$clientSelect</select>
-                        </div>
-
-                        <div>
-                        <label>Project Code</label>
-                        <input type="text" name="code" style="width:80px" maxlength=2  />
-                        <p class="fieldHelp">Used to name stories for example, "<u>PA</u>-120".</p>
-                        </div>
-
-                        <div>
-                        <label>Project Title</label>
-                        <input type="text" name="title" />
-                        </div>
-                    </div>
-
-                    <button type="submit">Create</button>
-
-                    <input type="hidden" name="action" value="createProject" />
-                </form>
-qq;
+    $renderedClients .= template(
+        'snippets/client_table_entry',
+        [
+            'client' => $aClient,
+            'logo' => $logo,
+            'totalClientValue' => formatMoney($totalValue),
+        ],
+        true
+    );
 }
 
-echo <<<qq
-            </div>
-        </div>
-    </div>
-</div>
+// -------------------------------------
 
-<div class="collectionsTable">
-    <h4 class="bubble">Projects</h4>
-    <table>
-    <thead>
-    <tr>
-    <th>Title</th>
-    <th>Client</th>
-    <th width=190>Hours Billed</th>
-    <th width=190>Value Billed</th>
-    <th width="42"></th>
-    </tr>
-    </thead>
-qq;
+$projects = getProjects();
 
-    $totalProjectValue = 0;
-    $totalProjectHours = 0;
+$totalProjectValue = 0;
+$totalProjectHours = 0;
+$renderedProjects = '';
 
-    foreach ($projects as $aProject) {
-        $value = getProjectTotals($aProject['id']);
+// Project table
+foreach ($projects as $aProject) {
+    $value = getProjectTotals($aProject['id']);
 
-        $totalProjectValue += $value['total'];
-        $totalProjectHours += $value['hours'];
+    $totalProjectValue += $value['total'];
+    $totalProjectHours += $value['hours'];
 
-        echo "<tr>";
-        echo "<td><a href=\"project.php?_success=Welcome+to+your+" . $aProject['title'] . "+project!&id=" . $aProject['id'] . "\">" . $aProject['title'] . "</a></td>";
-        echo "<td>" . $aProject['company_name'] . "</td>";
-        echo "<td>" . $value['hours'] . "</td>";
-        echo "<td>" . formatMoney($value['total']) . "</td>";
-        echo "<td class=\"textRight\"><a onclick=\"return confirm('This will delete the project and all associated data - are you sure?')\" href=\"index.php?action=deleteProject&id=" . $aProject['id'] . "\">❌</a></td>";
-        echo "</tr>";
-    }
+    $renderedProjects .= template(
+        'snippets/project_table_entry',
+        [
+            'project' => $aProject,
+            'hours' => $value['hours'],
+            'total' => formatMoney($value['total']),
+        ],
+        true
+    );
+}
 
-    $totalProjectValue = formatMoney($totalProjectValue);
-
-echo <<<qq
-    <tr>
-    <td colspan=2></td>
-    <td class="summary">$totalProjectHours</td>
-    <td class="summary">$totalProjectValue</td>
-    <td></td>
-    </tr>
-    </table>
-qq;
-
-// --------------------------------
-
-echo <<<qq
-<div class="collectionsTable">
-    <h4 class="bubble">Companies &amp; Clients</h4>
-    <table>
-    <thead>
-    <tr>
-    <th>Logo</th>
-    <th>Title</th>
-    <th>Address</th>
-    <th>Phone</th>
-    <th>Email</th>
-    <th>Website</th>
-    <th>Value Billed</th>
-    <th width="42"></th>
-    </tr>
-    </thead>
-qq;
-
-    $totalValue = 0;
-    foreach ($clients as $aClient) {
-        $value = getCompanyTotals($aClient['id']);
-
-        $totalValue += $value['total'];
-
-        $logo = $aClient['logo_url']
-            ? '<img src="' . $aClient['logo_url'] . '" class="clientLogo" />'
-            : '';
-
-        echo "<tr>";
-        echo "<td>" . $logo . "</td>";
-        echo "<td>" . $aClient['title'] . "</td>";
-        echo "<td>" . $aClient['address'] . "</td>";
-        echo "<td>" . $aClient['phone'] . "</td>";
-        echo "<td>" . $aClient['email'] . "</td>";
-        echo "<td>" . $aClient['website'] . "</td>";
-        echo "<td>" . formatMoney($value['total']) . "</td>";
-        echo "<td class=\"textRight\"><a onclick=\"return confirm('This will delete the client - are you sure?')\" href=\"index.php?action=deleteCompany&id=" . $aClient['id'] . "\">❌</a></td>";
-        echo "</tr>";
-    }
-
-echo "<tr>";
-echo "<td colspan=6></td>";
-echo "<td class=\"summary\">" . formatMoney($totalValue) . "</td>";
-echo "<td></td>";
-echo "</tr>";
-echo "</table>";
-
-// --------------------------------
-
-echo "</div>";
-
-include "includes/footer.php";
+echo template(
+    'index',
+    [
+        'clientSelect' => $clientSelect,
+        'clients' => $renderedClients,
+        'projects' => $renderedProjects,
+        'totalClients' => sizeof($clients),
+        'totalProjectHours' => $totalProjectHours,
+        'totalProjectValue' => formatMoney($totalProjectValue),
+        'totalClientValue' => formatMoney($totalValue),
+    ]
+);
 exit;
-
 
 /**
  *
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
  *
- *   Module functions
+ *   Functions
  *
  */
 

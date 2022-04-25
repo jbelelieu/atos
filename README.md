@@ -75,7 +75,16 @@ You can customize some of the language that isn't on templates using the `includ
 **What stories get places on invoices?**
 All stories set to a "Closed" state. If you don't want something appearing on an invoice, either bump it back to the default collection or into an "Open" state
 
-# Special Thank You
+**Are you planning on modernizes the code?**
+I'm aware this isn't the most presentable code, and I promise if the project takes off, I'll clean it up and implement more advanced templating engines, etc..
+
+**Do you plan on making a more dynamic frontend for ATOS?**
+While I love Javascript frameworks like React and use them extensively, no, I have no plans of transitioning away from PHP rendering at this time. It's drop dead simple this way, and I want to introduce as little complexity as possible.
+
+**Will future versions remain compatible with the beta?**
+100%, no question. I used this personally, and I can't lose years of data for an upgrade. Your data won't becoming obsolete and you won't need to re-import anything with future versions.
+
+# Special Thank Yous
 
 - The fine folks over at [phpLiteAdmin](https://www.phpliteadmin.org/) for the SQLite3 manager.
 - The artists over at [flaticon](https://flaticon.com/) for their CSS icon set.

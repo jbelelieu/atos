@@ -141,6 +141,42 @@ function redirect(
 }
 
 /**
+ * @param string $templateName
+ * @param array $args
+ * @param bool $skipHeaderFooter
+ * @return void
+ */
+function template(
+    string $templateName,
+    array $args,
+    bool $skipHeaderFooter = false
+) {
+    global $ATOS_HOME_DIR;
+
+    $path = $ATOS_HOME_DIR . '/templates/admin/' . $templateName . '.php';
+    if (!file_exists($path)) {
+        systemError('You are trying to load a template that does not exist');
+    }
+
+    extract($args);
+
+    ob_start();
+    
+    if (!$skipHeaderFooter) {
+        include $ATOS_HOME_DIR . '/templates/admin/header.php';
+    }
+
+    include $ATOS_HOME_DIR . '/templates/admin/' . $templateName . '.php';
+
+    if (!$skipHeaderFooter) {
+        include $ATOS_HOME_DIR . '/templates/admin/footer.php';
+    }
+
+    return ob_get_clean();
+}
+
+
+/**
  * @param string $msg
  * @return void
  */

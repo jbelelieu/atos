@@ -96,7 +96,7 @@ $inStatement = trim($inStatement, ',');
 
 // -------------------------------------
 
-include "includes/header.php";
+include "templates/admin/header.php";
 
 $nextId = generateTicketId($_GET['id']);
 
@@ -387,7 +387,7 @@ echo <<<qq
 </script>
 qq;
 
-include "includes/footer.php";
+include "templates/admin/footer.php";
 exit;
 
 /**
