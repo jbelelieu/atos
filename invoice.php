@@ -17,8 +17,9 @@ $project = getProjectById($collection['project_id']);
 $company = getCompanyById($project['company_id']);
 $clientCompany = getCompanyById($project['client_id']);
 
+$lastDate = null;
 $storyHtml = '';
-$shippedStories = getStoriesInCollection($_GET['collection'], false);
+$shippedStories = getStoriesInCollection($_GET['collection'], false, 'ended_at ASC');
 foreach ($shippedStories as $aStory) {
     if (!array_key_exists($aStory['rate_type'], $hoursByRateType)) {
         $hoursByRateType[$aStory['rate_type']] = 0;
@@ -28,10 +29,20 @@ foreach ($shippedStories as $aStory) {
 
     $dateDelivered = formatDate($aStory['ended_at'], 'Y/m/d');
 
+    if ($lastDate !== $dateDelivered) {
+        $storyHtml .= <<<qq
+    <tr class="borderTop">
+    <td colspan=4 class="dateHeader">$dateDelivered</td>
+    </tr>
+qq;
+
+        $lastDate = $dateDelivered;
+    }
+
     $storyHtml .= <<<qq
-<tr>
+<tr class="noBorder">
 <td valign="top" class="tb-stories-id">$aStory[show_id]</td>
-<td valign="top" class="tb-stories-title">$aStory[title]</td>
+<td valign="top" width=400 class="tb-stories-title ellipsis">$aStory[title]</td>
 <td valign="top" class="tb-stories-hour_tile">$aStory[hour_title]</td>
 <td valign="top" class="tb-stories-hours">$aStory[hours]</td>
 </tr>
@@ -76,11 +87,12 @@ $file = str_replace('%rate_types%', $ratesHtml, $file);
 $file = str_replace('%stories%', $storyHtml, $file);
 $file = str_replace('%invoice_title%', $project['title'] . ': ' . $collection['title'], $file);
 
+$file = updateCallers($file, $collection, 'collection');
 $file = updateCallers($file, $project, 'project');
 $file = updateCallers($file, $company, 'company');
 $file = updateCallers($file, $clientCompany, 'client');
 
-$styles = file_get_contents('style.css');
+$styles = file_get_contents('assets/style.css');
 $file = str_replace('%css%', $styles, $file);
 
 if (!empty($_GET['save']) && $_GET['save'] === '1') {
