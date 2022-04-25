@@ -7,20 +7,23 @@ Whether you're selling time-based sprints, or simply tracking time worked, ATOS 
 
 💬&nbsp;&nbsp;&nbsp;[Tweet About ATOS](http://twitter.com/intent/tweet?text=Freelancers!+Check+out+ATO+Stories+%2C+a+drop+dead+simple%2C+locally+hosted+story+tracker+and+invoice+generator+designed+for+freelancer+software+developers.&url=https%3A%2F%2Fgithub.com%2Fjbelelieu%2Fato_stories)&nbsp;&nbsp;&nbsp;☕️&nbsp;&nbsp;&nbsp;[Buy me a Coffee!](https://www.buymeacoffee.com/jbelelieu)
 
-ATOS is a locally hosted, zero-setup application that makes invoicing against backlogs drop-dead simple. ATOS is designed to:
+ATOS is a locally hosted, zero-setup application that makes invoicing against backlogs drop-dead simple. It does:
 
 - **Project Management**: Track stories
 - **Invoice Generation**: Generate detailed invoices against those completed stories
+- **Estimated Taxes**: Coming soon, I'll be adding help for US-based developers around estimated taxes.
 
 ATOS is 100% open source and free to use, licensed under the [GNU AGPLv3 License](https://www.gnu.org/licenses/agpl-3.0.en.html).
 
-<!-- ![ATOS Screen Shot](assets/atos_screen.png) -->
-
-#### Notice About Deploying ATOS To The Web
-
-This was always meant to be used locally. While there shouldn't be any problems deploying it, I don't recommend allowing anyone to access this who you don't fully trust. There is no concept of "users" in the platform, so anyone with access will be able to do whatever they want with your data.
+![ATOS Screen Shot](assets/atos_invoice_screen.png)
 
 -----
+
+```
+Notice About Deploying ATOS To The Web
+
+This was always meant to be used locally. While there shouldn't be any problems deploying it, I don't recommend allowing anyone to access this who you don't fully trust. There is no concept of "users" in the platform, so anyone with access will be able to do whatever they want with your data.
+```
 
 # Setup
 
@@ -32,11 +35,7 @@ Open `SystemSettings.sample.php` and update the values as needed. Optionally ren
 
 ### Start the PHP Server
 
-Once in the home directory of your project, via command line, state the PHP server:
-
-```
-php -S localhost:9001
-```
+Once in the home directory of your project, via command line, state the PHP server: `php -S localhost:9001`
 
 You can now access ATOS from any web browser at `http://localhost:9001`.
 
@@ -69,38 +68,10 @@ Note that invoices are saved as HTML. Most computers have reasonable "Print as P
 - **Rate Types**: Each story can be assigned it's own billable rate. This means that you can offer different hourly rates for different types of services, such as standard coding vs devops rates.
 - **Flexible Stories**: Use the story tool to manage your entire project, or copy and paste story IDs and titles directly from your client's JIRA (for example) and use ATOS to track and bill hours against known stories.
 
------
-
-# Tips and Tricks
-
-#### Mobile Experience
-
-This was never meant to be used on mobile. I highly recommend using this on a desktop over mobile.
-
------
-
 # FAQ
 
-#### What stories get places on invoices?
-
+**What stories get places on invoices?**
 All stories set to a "Closed" state. If you don't want something appearing on an invoice, either bump it back to the default collection or into an "Open" state
-
------
-
-# Roadmap Features
-
-Note that I only work on this when I have time, which isn't very often. So while ideally I'd like to get these out sooner than later, I can't make guarantees on when I'll get to them.
-
-- Search features for projects: By type, by rate, by title, by ID, by completed date.
-- Estimated tax tools: for American freelancers, guidance and help on how to estimate your quarterly taxes.
-
------
-
-# Additional Resources for Freelancers
-
-- Estimated Taxes Spreadsheet: 
-
------
 
 # Special Thank You
 
