@@ -1,7 +1,7 @@
 <?php
 
-require "system.php";
 require "helpers.php";
+require "system.php";
 
 session_start();
 
@@ -13,6 +13,23 @@ if (!file_exists($dbFile)) {
 
 $db = new PDO("sqlite:$dbFile");
 $db->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+
+//
+try {
+    $isInstalledStmt = $db->prepare("
+        SELECT name FROM sqlite_master WHERE type='table' AND name='story' 
+    ");
+    $isInstalledStmt->execute();
+    $installed = $isInstalledStmt->fetch(PDO::FETCH_ASSOC);
+
+    if (!$installed || empty($installed['name'])) {
+        $migrations = file_get_contents('./db/migrations.sql');
+        $db->exec($migrations);
+    }
+} catch (\Exception $e) {
+    systemError($e->getMessage());
+}
+
 
 /**
  * @param integer $clientId
@@ -363,8 +380,6 @@ function getNextStoryNumberForProject(int $id): int
         
         return (int) $count[1] + 1;
     } catch (Exception $e) {
-        dd($e);
-
         return 1;
     }
 }

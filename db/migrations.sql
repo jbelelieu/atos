@@ -80,10 +80,6 @@ CREATE TABLE `story` (
   CONSTRAINT fk_rate_type FOREIGN KEY(rate_type) REFERENCES story_hour_type(id)
 );
 
--- Update this before running!
-INSERT INTO company (title, logo_url, address, phone, email)
-VALUES ('Your Company Name', 'http://yoursite.com/logo.png', '123 Sesame St<Br />New York, New York, 12345', '1-555-123-4567', 'invoices@yourcompany.com');
-
 INSERT INTO story_type (id, title) VALUES (1, 'Story'), (2, 'Chore'), (3, 'Meeting');
 
 -- The primary items should not be removed and need
