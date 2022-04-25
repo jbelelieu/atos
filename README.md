@@ -57,6 +57,16 @@ Note that invoices are saved as HTML. Most computers have reasonable "Print as P
 
 You can customize some of the language that isn't on templates using the `includes/language.php` file.
 
+If you happen to translate the application, please share it with the community!
+
+##### Notice: Templates Files
+
+You certainly don't need to, but if you want to, feel free to thinker with all of the templates in the `templates` folder.
+
+Please see the docs for a list of available variables for each template.
+
+If you happen to make a new theme, please share it with the community!
+
 -----
 
 # Features
