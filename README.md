@@ -1,4 +1,4 @@
-# ATOS
+<img src="https://github.com/jbelelieu/atos/assets/atos_logo.png" style="height:100px;width:auto;" alt="ATOS Logo" />
 
 ATOS is a locally hosted, no setup-required, application that makes invoicing against backlogs drop dead simple. ATOS is designed to:
 
@@ -89,6 +89,12 @@ Note that I only work on this when I have time, which isn't very often. So while
 
 - Search features for projects: By type, by rate, by title, by ID, by completed date.
 - Estimated tax tools: for American freelancers, guidance and help on how to estimate your quarterly taxes.
+
+-----
+
+# Additional Resources for Freelancers
+
+- Estimated Taxes Spreadsheet: 
 
 -----
 
