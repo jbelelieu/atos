@@ -74,11 +74,7 @@ qq;
 }
 
 $daysDue = getSetting(AsosSettings::INVOICE_DUE_DATE_IN_DAYS, 14);
-if ($daysDue > 0) {
-    $dueDate = formatDate(date('Y-m-d H:i:s', time() + 1209600));
-} else {
-    $dueDate = '-';
-}
+$dueDate = ($daysDue > 0) ? formatDate(date('Y-m-d H:i:s', time() + 1209600)) : '';
 
 $file = str_replace('%date%', date('Y/m/d'), $file);
 $file = str_replace('%due_date%', $dueDate, $file);
@@ -92,7 +88,7 @@ $file = updateCallers($file, $project, 'project');
 $file = updateCallers($file, $company, 'company');
 $file = updateCallers($file, $clientCompany, 'client');
 
-$styles = file_get_contents('assets/style.css');
+$styles = file_get_contents('assets/invoiceStyle.css');
 $file = str_replace('%css%', $styles, $file);
 
 if (!empty($_GET['save']) && $_GET['save'] === '1') {

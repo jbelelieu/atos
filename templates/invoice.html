@@ -60,7 +60,7 @@
                         <tr style="font-weight:bold;">
                             <td valign="top" colspan="3" style="vertical-align: middle;"
                                 class="textRight">
-                                Please pay by %due_date%
+                                %due_date%
                             </td>
                             <td valign="top">
                                 <div class="totalFocus">
@@ -71,9 +71,14 @@
                     </tbody>
                 </table>
 
-                <h4>Payment Instructions</h4>
-
-                %client.instructions%
+            </div>
+            <div class="sunk columns2575">
+                <div class="textRight">
+                    <h4>Payment Instructions</h4>
+                </div>
+                <div>
+                    %client.instructions%
+                </div>
             </div>
             <div class="pad borderSectionTop">
                 <h1>%collection.title%</h1>
@@ -81,7 +86,7 @@
                 <table width="100%" style="font-size:90%;">
                     <thead>
                         <tr>
-                            <th width="100">Story ID</th>
+                            <th width="100">Task No.</th>
                             <th width="">Task</th>
                             <th width="155">Rate Type</th>
                             <th width="60">Hrs</th>

@@ -411,51 +411,6 @@ hr {
   visibility: hidden;
 }
 
-header {
-  padding: 0 16px;
-  background-color: #000;
-  height: 32px;
-  line-height: 32px;
-}
-
-header a {
-  color: #e5e5e5;
-  font-weight: bold;
-}
-
-#logo {
-  position: relative;
-}
-
-#icon {
-  position: absolute;
-  left: 0;
-  top: 0;
-  height: 32px;
-  width: 32px;
-  text-align: center;
-  vertical-align: center;
-}
-
-#icon img {
-  max-height: 100%;
-  max-width: 100%;
-  width: auto;
-  height: auto;
-  position: absolute;
-  top: 0;
-  bottom: 0;
-  left: 0;
-  right: 0;
-  margin: auto;
-}
-
-#company {
-  position: absolute;
-  left: 32px;
-  top: 0;
-}
-
 header span:last-child {
   margin-right: 24px;
 }
@@ -480,19 +435,6 @@ footer {
 
 .holderFull {
   padding: 42px 0;
-}
-
-#collections div {
-  display: block;
-  margin-top: 4px;
-}
-
-#collections span {
-  margin-right: 14px;
-}
-
-#collections a {
-  margin-right: 6px;
 }
 
 .border {
@@ -520,33 +462,6 @@ footer {
 
 .borderSection h1 {
   margin-top: 0px;
-}
-
-.collectionsTable h3,
-.collectionsTable h4 {
-  font-size: 13px;
-  display: inline-block;
-  padding: 6px 16px 6px 12px;
-}
-
-.collectionsTable h3 {
-  background-color: #28afc9;
-  color: #111;
-}
-
-.collectionsTable h4 {
-  background-color: #111;
-  color: #e5e5e5;
-}
-
-.collectionsTable h4:before {
-  border-color: #666 #fff;
-}
-
-.storyTable h5 {
-  margin-left: 9px;
-  font-size: 14px;
-  text-transform: uppercase;
 }
 
 .bubble {
@@ -604,64 +519,39 @@ footer {
   margin: 0 auto;
 }
 
-#collectionsScroller {
-  overflow-y: auto;
-  height: 80px;
-  border: 1px solid #e5e5e5;
-  margin-top: 6px;
+.sunk {
+    background-color: #f9f9f9;
+    border-top: 1px solid #e5e5e5;
+    padding: 24px;
+    border-bottom: 1px solid #e5e5e5;
+    line-height: 1.3em;
+    font-size: 0.95em;
 }
 
-.helpBubble {
-  background-color: #fff9a8;
-  padding: 6px 24px;
+.sunk h4 {
+    font-size: 12px;
+    margin: 0;
+    padding: 0;
+    text-transform: uppercase;
+    color: #999;
+    line-height: 1.3em;
 }
 
-.helpBubble:before {
-  border-color: #bfb967 #fff;
+.sunk p:first-child {
+    padding-top: 0px;
+    margin-top: 0px;
+}
+
+.columns2575 {
+  display: grid;
+  grid-template-columns: 100px 1fr;
+  grid-template-rows: 1fr;
+  grid-column-gap: 50px;
+  grid-row-gap: 0px;
 }
 
 /*  */
 
-label {
-  display: block;
-  margin-top: 12px;
-  font-size: 85%;
-  color: #666;
-}
-
-input:not([type='checkbox']):not([type='radio']),
-textarea,
-select {
-  margin-top: 4px;
-  padding: 4px;
-  height: 32px;
-  width: 100%;
-  border: 1px solid #e5e5e5;
-  border-bottom: 2px solid #e5e5e5;
-}
-
-textarea {
-  width: 100%;
-  min-width: 300px;
-  min-height: 100px;
-}
-
-button {
-  height: 32px;
-}
-
-.formBox h1 {
-  margin: 0;
-  padding: 0;
-  font-size: 18px;
-}
-
-.fieldHelp {
-  font-size: 0.8em;
-  color: #b1b1b1;
-  padding: 0;
-  margin: 0 0 4px 0;
-}
 
 .noMarginTop { margin-top: 0px; }
 
@@ -764,76 +654,18 @@ table td.summary {
   font-size: 0.9em;
 }
 
-.standardColumns {
-  display: grid;
-  grid-template-columns: 3fr 1fr;
-  grid-template-rows: 1fr;
-  grid-column-gap: 10px;
-  grid-row-gap: 0px;
+/*  */
+
+.invoiceFooter {
+  color: #e5e5e5;
+  text-align: right;
+  margin: 5px 0 24px 0;
+  font-size: 0.8em;
 }
 
-.twoColumns {
-  display: grid;
-  grid-template-columns: repeat(2, 1fr);
-  grid-template-rows: 1fr;
-  grid-column-gap: 10px;
-  grid-row-gap: 0px;
-}
-
-.columns2575 {
-  display: grid;
-  grid-template-columns: 25% 75%;
-  grid-template-rows: 1fr;
-  grid-column-gap: 10px;
-  grid-row-gap: 0px;
-}
-
-.halfHalfColumns {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  grid-template-rows: 1fr;
-  grid-column-gap: 10px;
-  grid-row-gap: 0px;
-}
-
-.threeColumns {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  grid-template-rows: 1fr;
-  grid-column-gap: 10px;
-  grid-row-gap: 0px;
-}
-
-.headerColumns {
-  display: grid;
-  grid-template-columns: 100px 1fr 300px;
-  grid-template-rows: 1fr;
-  grid-column-gap: 10px;
-  grid-row-gap: 0px;
-}
-
-.emoji_bump {
-  margin-top: 10px;
-}
-
-#nav a {
-  margin-left: 12px;
-  display: inline-block;
-}
-
-img.clientLogo {
-  max-height: 80px;
-  max-width: 80px;
-  width: auto;
-  height: auto;
-}
-
-.iconColor {
-  color: #111;
-  width: 22px;
-  height: 22px;
-  display: inline-block;
-  font-size: 16px;
+.invoiceFooter a {
+  color: #e5e5e5;
+  text-decoration: underline;
 }
 
 /*  */
