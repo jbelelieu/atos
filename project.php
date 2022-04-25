@@ -26,7 +26,7 @@ if (isset($_GET['action'])) {
             shiftCollection($_GET);
             break;
         default:
-            redirect('project.php', $_GET['id'], '', 'Unknown action');
+            redirect('project.php', $_GET['id'], null, 'Unknown action');
     }
 }
 
@@ -42,14 +42,16 @@ if (isset($_POST['action'])) {
             updateStories($_POST);
             break;
         default:
-            echo "Unknown action.";
-            exit;
+            redirect('project.php', $_GET['id'], null, 'Unknown action');
     }
 }
 
 // -------------------------------------
 
 $project = getProjectById($_GET['id']);
+
+$_SESSION["viewingProject"] = $_GET['id'];
+$_SESSION["viewingProjectName"] = $project['title'];
 
 $storyStatuses = getStoryStatuses();
 
@@ -166,9 +168,9 @@ $at = 0;
 foreach ($collectionResults as $row) {
     $at++;
 
-    $delete = $row['id'] > 1 ? "<a href=\"project.php?action=deleteCollection&project_id=" . $_GET['id'] . "&id=" . $row['id'] . "\">❌</a>" : '';
+    $delete = $row['id'] > 1 ? "<a href=\"project.php?action=deleteCollection&project_id=" . $_GET['id'] . "&id=" . $row['id'] . "\">" . putIcon('fi-sr-trash') . "</a>" : '';
 
-    $update = ($row['id'] > 1) ? "<a href=\"project.php?action=makeCurrentCollection&project_id=" . $_GET['id'] . "&id=" . $row['id'] . "\">💼</a>" : '';
+    $update = ($row['id'] > 2) ? "<a href=\"project.php?action=makeCurrentCollection&project_id=" . $_GET['id'] . "&id=" . $row['id'] . "\">" . putIcon('fi-sr-apps-sort') . "</a>" : '';
 
     echo "<div><span>" . $row['title'] . "</span>" . $update . $delete . "</div>";
 }
@@ -192,7 +194,7 @@ foreach ($collectionResults as $aCollection) {
     $hours = 0;
 
     $openStories = getStoriesInCollection($aCollection['id']);
-    $otherStories = getStoriesInCollection($aCollection['id'], false);
+    $otherStories = getStoriesInCollection($aCollection['id'], false, 'ended_at DESC, status ASC');
 
     $tripFlag = $collectionCount > 1 && $aCollection['id'] !== 1;
     if ($tripFlag) {
@@ -202,7 +204,8 @@ foreach ($collectionResults as $aCollection) {
     }
 
     echo <<<qq
-        <h5>Stories</h5>
+        <div class="clearFix"></div>
+        <h4 class="bubble noMarginTop">Open Stories</h4>
 
         <table>
         <thead>
@@ -211,7 +214,7 @@ foreach ($collectionResults as $aCollection) {
         <th width="140">Rate Type</th>
         <th width="140">Type</th>
         <th width=>Title</th>
-        <th width="140"></th>
+        <th width="200"></th>
         </tr>
         </thead>
         <tbody>
@@ -220,17 +223,14 @@ qq;
     foreach ($openStories as $row) {
         $createdAt = (!empty($row['created_at'])) ? formatDate($row['created_at']) : '-';
 
-        $options = '';
-        foreach ($storyStatuses as $aStatus) {
-            $options .= "<a href=\"project.php?action=updateStoryStatus&status=" . $aStatus['id'] . "&project_id=" . $_GET['id'] . "&id=" . $row['id'] . "\">" . $aStatus['emoji'] . "</a>&nbsp;";
-        }
+        $options = buildStoryOptions($_GET['id'], $row['id']);
 
         echo "<tr>";
         echo "<td><span class=\"bubble grayBubble\">" . $row['show_id'] . "</span></td>";
         echo "<td>" . $row['hour_title'] . "</td>";
         echo "<td>" . $row['type_title'] . "</td>";
-        echo "<td>" . $row['title'] . "</td>";
-        echo "<td class=\"textRight\">$options<a onclick=\"return confirm('This will delete the story - are you sure?')\" href=\"project.php?action=deleteStory&project_id=" . $_GET['id'] . "&id=" . $row['id'] . "\">❌</a>
+        echo "<td class=\"ellipsis\">" . $row['title'] . "</td>";
+        echo "<td class=\"textRight\">$options<a onclick=\"return confirm('This will delete the story - are you sure?')\" href=\"project.php?action=deleteStory&project_id=" . $_GET['id'] . "&id=" . $row['id'] . "\">" . putIcon('fi-sr-trash') . "</a>
     </td>";
         echo "</tr>";
     }
@@ -242,9 +242,9 @@ qq;
 
         <hr />
 
-        <h5>Billable</h5>
+        <h4 class="bubble">Billable</h4>
 
-        <form action="project.php?id=$_GET[id]" method="post">
+        <form class="preventLeaving" action="project.php?id=$_GET[id]" method="post" autocomplete="on">
         <input type="hidden" name="project_id" value="$_GET[id]" />
         <input type="hidden" name="action" value="updateStories" />
 
@@ -258,12 +258,11 @@ qq;
         <th width="120">Completed</th>
         <th width="75">Hours</th>
         <th width=>Title</th>
-        <th width="140"></th>
+        <th width="150"></th>
         </tr>
         </thead>
         <tbody>
 qq;
-
 
     foreach ($otherStories as $row) {
         $createdAt = (!empty($row['created_at'])) ? formatDate($row['created_at']) : '-';
@@ -271,13 +270,13 @@ qq;
         $adjustedColor = adjustBrightness($row['status_color'], -10);
 
         if ($row['status'] == 2) {
-            $status = formatDate($row['ended_at']);
+            $status = formatDate($row['ended_at'], 'Y-m-d');
             $label = "<div class=\"bubble greenBubble\">" . $row['show_id'] . "</div>";
         } elseif ($row['status'] == 4) {
-            $status = formatDate($row['ended_at']);
+            $status = formatDate($row['ended_at'], 'Y-m-d');
             $label = "<div class=\"bubble redBubble\">" . $row['show_id'] . "</div>";
         } elseif ($row['status'] == 3) {
-            $status = formatDate($row['ended_at']);
+            $status = formatDate($row['ended_at'], 'Y-m-d');
             $label = "<div class=\"bubble blueBubble\">" . $row['show_id'] . "</div>";
         } else {
             $label = "<div class=\"bubble \" style=\"background-color:" . $row['status_color'] . "\">" . $row['show_id'] . "</div>";
@@ -301,20 +300,17 @@ qq;
         }
         $typeSelect .= '</select>';
 
+        $options = buildStoryOptions($_GET['id'], $row['id'], true);
+
         echo "<tr>";
-        echo "<td>$label</td>";
+        echo "<td>" . $label . "</td>";
         echo "<td>" . $hourSelect . "</td>";
         echo "<td>" . $typeSelect . "</td>";
-        echo "<td class=\"textCenter\">" . $row['status_emoji'] . "</td>";
-        echo "<td>" . $status . "</td>";
+        echo "<td class=\"textCenter\"><div class=\"emoji_bump\">" . putIcon($row['status_emoji'], $row['status_color']) . "</div></td>";
+        echo "<td><input type=\"date\" autocomplete=\"off\" name=\"story[$row[id]][ended_at]\" value=\"$status\" /></td>";
         echo "<td><input type=\"text\" autocomplete=\"off\" name=\"story[$row[id]][hours]\" value=\"$row[hours]\" /></td>";
         echo "<td><input type=\"text\" autocomplete=\"off\" style=\"width:100%;\" name=\"story[$row[id]][title]\" value=\"$row[title]\" /></td>";
-        echo "<td class=\"textRight\">
-    <a href=\"project.php?action=markStoryComplete&project_id=" . $_GET['id'] . "&id=" . $row['id'] . "\">✅</a>
-    <a href=\"project.php?action=markStoryShipped&project_id=" . $_GET['id'] . "&id=" . $row['id'] . "\">🚀</a>
-    <a href=\"project.php?action=markStoryClosed&project_id=" . $_GET['id'] . "&id=" . $row['id'] . "\">⛔️</a>
-    <a onclick=\"return confirm('This will delete the story - are you sure?')\" href=\"project.php?action=deleteStory&project_id=" . $_GET['id'] . "&id=" . $row['id'] . "\">❌</a>
-    </td>";
+        echo "<td class=\"textRight\"><div class=\"emoji_bump\">$options</div></td>";
         echo "</tr>";
     }
 
@@ -344,6 +340,28 @@ qq;
 echo <<<qq
     </div>
 </div>
+<script>
+    $('.preventLeaving').data('serialize',$('#form').serialize());
+
+    $(window).bind('keydown', function(event) {
+    if (event.ctrlKey || event.metaKey) {
+        switch (String.fromCharCode(event.which).toLowerCase()) {
+        case 's':
+            event.preventDefault();
+            alert('ctrl-s');
+            break;
+        case 'f':
+            event.preventDefault();
+            alert('ctrl-f');
+            break;
+        case 'g':
+            event.preventDefault();
+            alert('ctrl-g');
+            break;
+        }
+    }
+}
+</script>
 qq;
 
 include "includes/footer.php";
@@ -356,6 +374,24 @@ exit;
  *   Module functions
  *
  */
+
+function buildStoryOptions(
+    int $projectId,
+    $itemId,
+    bool $skipMoveCollection = false
+): string {
+    global $storyStatuses;
+
+    $options = (!$skipMoveCollection)
+        ? "<a title=\"Move Collections\" href=\"project.php?action=shiftCollection&project_id=" . $projectId . "&id=" . $itemId . "\">" . putIcon('fi-sr-undo') . "</a>"
+        : '';
+
+    foreach ($storyStatuses as $aStatus) {
+        $options .= "<a title=\"" . $aStatus['title'] . "\" href=\"project.php?action=updateStoryStatus&status=" . $aStatus['id'] . "&project_id=" . $projectId . "&id=" . $itemId . "\">" . putIcon($aStatus['emoji'], $aStatus['color']) . "</a>";
+    }
+
+    return $options;
+}
 
 /**
  * @param array $data
@@ -507,21 +543,23 @@ function shiftCollection(array $data): void
     global $db;
 
     $story = getStory($data['id']);
+    $currentStatus = getStoryStatusById($story['status']);
 
-    // Move to latest
+    // Default to Open
     if ($story['collection'] === 1) {
-        $latestCollection = getLatestCollection();
+        $useCollection = getLatestCollectionForProject($data['project_id']);
 
-        $moveTo = $latestCollection['id'];
-
-        $msg = 'Your story is now part of the "' . $latestCollection['title'] . '" collection.';
+        $moveTo = $useCollection['id'];
     }
-    // Move to unorganized
+
+    // Move to default collection
     else {
-        $moveTo = 1;
+        $useCollection = getDefaultCollectionForProject($data['project_id']);
 
-        $msg = 'Your story is now under the "Unorganized" collection.';
+        $moveTo = $useCollection['id'];
     }
+
+    $msg = 'Your story is now part of the "' . $useCollection['title'] . '" collection.';
 
     $statement = $db->prepare('
         UPDATE story
@@ -545,10 +583,18 @@ function updateStories(array $data): void
 
     foreach ($data['story'] as $storyId => $aStory) {
         $statement = $db->prepare('
-            UPDATE story
-            SET hours = :hours, type = :type, rate_type = :rate_type, title = :title
-            WHERE id = :id
+            UPDATE
+                story
+            SET
+                hours = :hours,
+                type = :type,
+                rate_type = :rate_type,
+                title = :title,
+                ended_at = :ended_at
+            WHERE
+                id = :id
         ');
+        $statement->bindParam(':ended_at', $aStory['ended_at']);
         $statement->bindParam(':hours', $aStory['hours']);
         $statement->bindParam(':type', $aStory['types']);
         $statement->bindParam(':rate_type', $aStory['rates']);
@@ -572,10 +618,16 @@ function updateStoryStatus(array $data): void
         redirect('project.php', $data['project_id'], null, 'Invalid status received.');
     }
 
+    $status = getStoryStatusById($data['status']);
     $story = getStory($data['id']);
 
-    $hours = ($story['status'] === 1 && $data['status'] !== 1) ? 1 : 0;
-
+    $hours = 0;
+    if ((int) $story['hours'] > 0) {
+        $hours = $story['hours'];
+    } elseif ((bool) $status['is_billable_state']) {
+        $hours = 1;
+    }
+    
     $statement = $db->prepare('
         UPDATE story
         SET status = :status, ended_at = :ended_at, hours = :hours
