@@ -30,6 +30,8 @@ function getSetting(AsosSettings $key, $default = null)
             return returnSetting('DATABASE_FILE_NAME', $default);
         case AsosSettings::INVOICE_DUE_DATE_IN_DAYS:
             return (int) returnSetting('INVOICE_DUE_DATE_IN_DAYS', $default);
+        case AsosSettings::INVOICE_ORDER_BY_DATE_COMPLETED:
+            return returnSetting('INVOICE_ORDER_BY_DATE_COMPLETED', $default);
         case AsosSettings::UNORGANIZED_NAME:
             return returnSetting('UNORGANIZED_NAME', $default);
         default:
@@ -58,5 +60,6 @@ enum AsosSettings: string
 {
     case DATABASE_FILE_NAME = 'DATABASE_FILE_NAME';
     case INVOICE_DUE_DATE_IN_DAYS = 'INVOICE_DUE_DATE_IN_DAYS';
+    case INVOICE_ORDER_BY_DATE_COMPLETED = 'INVOICE_ORDER_BY_DATE_COMPLETED';
     case UNORGANIZED_NAME = 'UNORGANIZED_NAME';
 }

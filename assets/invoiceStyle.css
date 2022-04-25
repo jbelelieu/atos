@@ -645,7 +645,7 @@ table td.complete {
 
 table td.dateHeader {
   font-weight: bold;
-  font-size: 110%;
+  /* font-size: 90%; */
 }
 
 table td.summary {

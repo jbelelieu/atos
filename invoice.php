@@ -9,6 +9,8 @@ if (empty($_GET['collection'])) {
 
 $file = file_get_contents('templates/invoice.html');
 
+$settingListType = getSetting(AsosSettings::INVOICE_ORDER_BY_DATE_COMPLETED, 'list');
+
 $hoursByRateType = [];
 
 $rateTypes = getRateTypes();
@@ -17,8 +19,10 @@ $project = getProjectById($collection['project_id']);
 $company = getCompanyById($project['company_id']);
 $clientCompany = getCompanyById($project['client_id']);
 
+$invoiceCompletedString = language('completed_on', 'Tasks completed on');
 $lastDate = null;
 $storyHtml = '';
+$dayHours = 0;
 $shippedStories = getStoriesInCollection($_GET['collection'], false, 'ended_at ASC');
 foreach ($shippedStories as $aStory) {
     if (!array_key_exists($aStory['rate_type'], $hoursByRateType)) {
@@ -29,15 +33,18 @@ foreach ($shippedStories as $aStory) {
 
     $dateDelivered = formatDate($aStory['ended_at'], 'Y/m/d');
 
-    if ($lastDate !== $dateDelivered) {
+    if ($lastDate !== $dateDelivered && $settingListType === 'by_date') {
         $storyHtml .= <<<qq
     <tr class="borderTop">
-    <td colspan=4 class="dateHeader">$dateDelivered</td>
+    <td colspan=3 class="dateHeader">$invoiceCompletedString$dateDelivered</td>
     </tr>
 qq;
 
         $lastDate = $dateDelivered;
+        $dayHours = 0;
     }
+
+    $dayHours += (int) $aStory['hours'];
 
     $storyHtml .= <<<qq
 <tr class="noBorder">
@@ -48,6 +55,7 @@ qq;
 </tr>
 qq;
 }
+
 
 $grandTotal = 0;
 $ratesHtml = '';
@@ -80,6 +88,7 @@ $logo = (file_exists($ATOS_HOME_DIR . '/logo.png'))
     ? '<div id="logoArea"><img src="logo.png" alt="' . $company['title'] . '" /></div>'
     : '';
 
+$file = str_replace('%display_items%', ($settingListType === 'none') ? 'none' : 'block', $file);
 $file = str_replace('%logo%', $logo, $file);
 $file = str_replace('%date%', date('Y/m/d'), $file);
 $file = str_replace('%due_date%', $dueDate, $file);
