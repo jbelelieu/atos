@@ -53,15 +53,6 @@ function dd($data)
 }
 
 /**
- * @param $money
- * @return string
- */
-function formatMoney($money): string
-{
-    return '$' . number_format($money / 100, 2);
-}
-
-/**
  * @param string $date
  * @param string $format
  * @return string
@@ -69,6 +60,15 @@ function formatMoney($money): string
 function formatDate(string $date, string $format = 'Y/m/d'): string
 {
     return date($format, strtotime($date));
+}
+
+/**
+ * @param $money
+ * @return string
+ */
+function formatMoney($money): string
+{
+    return '$' . number_format($money / 100, 2);
 }
 
 /**

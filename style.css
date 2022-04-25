@@ -662,7 +662,7 @@ table tr:not(:last-child) {
 table td,
 table th {
   vertical-align: top;
-  padding: 9px 16px;
+  padding: 6px 16px;
 }
 
 table td input {
@@ -692,6 +692,12 @@ table td.complete {
 
 table td.summary {
   font-weight: bold;
+}
+
+.ellipsis {
+  text-overflow: ellipsis ellipsis;
+  overflow: hidden;
+  white-space: nowrap;
 }
 
 /*  */

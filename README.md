@@ -52,37 +52,14 @@ If you plan on generating and saving invoices locally, you will need to make sur
 
 # Features
 
-## Drop Dead Simple
-
-The point of this is to be easy to use, drop dead simple, and efficient. You shouldn't be fighting with project management tools; focus on coding.
-
-## All Your Projects In One Spot
-
-Manage as many projects as you wish, each optionally as a different company, and each for different clients.
-
-## Bill Different Projects As Different Entities
-
-ATOS allows you to set up multiple companies. Each project is assigned a company you are working on it as, as well as a company representing the client you are building this for.
-
-## Invoicable Story Collections
-
-Create a collection of stories and automatically generate invoices against collections.
-
-## Beautiful Invoices
-
-Generate beautiful, dynamic, and customizable invoices with one click of the mouse!
-
-## Story Types
-
-The application allows you to create as many story types as you wish. Defaults are the standard `Story` and `Chore` types.
-
-## Rate Types
-
-Each story can be assigned it's own billable rate. This means that you can offer different hourly rates for different types of services, such as standard coding vs devops rates.
-
-## Flexible Stories
-
-Use the story tool to manage your entire project, or copy and paste story IDs and titles directly from your client's JIRA (for example) and use ATOS to track and bill hours against known stories.
+- **Drop Dead Simple**: The point of this is to be easy to use, drop dead simple, and efficient. You shouldn't be fighting with project management tools; focus on coding.
+- **All Your Projects In One Spot**: Manage as many projects as you wish, each with their own collections, stories, etc..
+- **Bill Different Projects As Different Entities**: Set up multiple company profiles, for yourself and your clients. Each project is assigned a contracted party, as well as the client company, allowing you flexiblity to offer services as different entities.
+- **Invoicable Story Collections**: Create a collection of stories descrbing one billable period, and automatically generate detailed invoices breaking down your work, the rates for each service, and more.
+- **Beautiful Invoices**: Generate beautiful, dynamic, and customizable invoices with one click of the mouse! Everything is template based, allowing you easy access to edit the look and feel of the templates you generate.
+- **Story Types**: The application allows you to create as many story types as you wish. Defaults are the standard `Story` and `Chore` types.
+- **Rate Types**: Each story can be assigned it's own billable rate. This means that you can offer different hourly rates for different types of services, such as standard coding vs devops rates.
+- **Flexible Stories**: Use the story tool to manage your entire project, or copy and paste story IDs and titles directly from your client's JIRA (for example) and use ATOS to track and bill hours against known stories.
 
 -----
 

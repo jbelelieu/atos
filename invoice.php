@@ -30,10 +30,10 @@ foreach ($shippedStories as $aStory) {
 
     $storyHtml .= <<<qq
 <tr>
-<td valign="top">$aStory[show_id]</td>
-<td valign="top">$aStory[title]</td>
-<td valign="top">$aStory[hour_title]</td>
-<td valign="top">$aStory[hours]</td>
+<td valign="top" class="tb-stories-id">$aStory[show_id]</td>
+<td valign="top" class="tb-stories-title">$aStory[title]</td>
+<td valign="top" class="tb-stories-hour_tile">$aStory[hour_title]</td>
+<td valign="top" class="tb-stories-hours">$aStory[hours]</td>
 </tr>
 qq;
 }
@@ -62,7 +62,15 @@ foreach ($rateTypes as $aType) {
 qq;
 }
 
+$daysDue = getSetting(AsosSettings::INVOICE_DUE_DATE_IN_DAYS, 14);
+if ($daysDue > 0) {
+    $dueDate = formatDate(date('Y-m-d H:i:s', time() + 1209600));
+} else {
+    $dueDate = '-';
+}
+
 $file = str_replace('%date%', date('Y/m/d'), $file);
+$file = str_replace('%due_date%', $dueDate, $file);
 $file = str_replace('%total%', formatMoney($grandTotal), $file);
 $file = str_replace('%rate_types%', $ratesHtml, $file);
 $file = str_replace('%stories%', $storyHtml, $file);
