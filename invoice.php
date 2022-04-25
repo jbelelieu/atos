@@ -103,7 +103,7 @@ $dueDate = ($daysDue > 0)
     ? language('due_on', 'Due on ') . formatDate(date('Y-m-d H:i:s', time() + 1209600))
     : '';
 
-$logo = (file_exists($ATOS_HOME_DIR . '/logo.png'))
+$logo = (file_exists(ATOS_HOME_DIR . '/logo.png'))
     ? '<div id="logoArea"><img src="logo.png" alt="' . $company['title'] . '" /></div>'
     : '';
 

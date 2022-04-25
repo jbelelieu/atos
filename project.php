@@ -146,7 +146,7 @@ foreach ($collectionResults as $aCollection) {
     $openStories = getStoriesInCollection($aCollection['id']);
     foreach ($openStories as $row) {
         $renderedOpenStories .= template(
-            'snippets/collection_table_open_entry',
+            'admin/snippets/collection_table_open_entry',
             [
                 'story' => $row,
                 'options' => buildStoryOptions($_GET['id'], $row['id'], false, $row['status']),
@@ -197,7 +197,7 @@ foreach ($collectionResults as $aCollection) {
         $typeSelect .= '</select>';
 
         $renderedOtherStories .= template(
-            'snippets/collection_table_other_entry',
+            'admin/snippets/collection_table_other_entry',
             [
                 'endedAt' => $endedAt,
                 'hours' => $hours,
@@ -213,7 +213,7 @@ foreach ($collectionResults as $aCollection) {
     }
 
     $collectionsRendered .= template(
-        'snippets/collection',
+        'admin/snippets/collection',
         [
             'collection' => $aCollection,
             'isProjectDefault' => $isProjectDefault,
@@ -227,7 +227,7 @@ foreach ($collectionResults as $aCollection) {
 
 // Render the entire page.
 echo template(
-    'projects',
+    'admin/projects',
     [
         'collections' => $collections,
         'collectionsRendered' => $collectionsRendered,

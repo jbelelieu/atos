@@ -1,22 +1,41 @@
 <?php
 
-$ATOS_HOME_DIR = __DIR__ . '/..';
+/**
+ * ATOS: "Built by freelancer 🙋‍♂️, for freelancers 🕺 🤷 💃🏾 "
+ *
+ * System setting loader and actions.
+ *
+ * @author @jbelelieu
+ * @copyright Humanity, any year.
+ * @license AGPL-3.0 License
+ * @link https://github.com/jbelelieu/atos
+ */
 
+define('ATOS_HOME_DIR', __DIR__ . '/..');
+
+// Try to load the system settings.
 try {
-    if (!file_exists($ATOS_HOME_DIR . '/SystemSettings.env.php')) {
+    if (!file_exists(ATOS_HOME_DIR . '/SystemSettings.env.php')) {
         $worked = @rename(
-            $ATOS_HOME_DIR . '/SystemSettings.sample.php',
-            $ATOS_HOME_DIR . '/SystemSettings.env.php'
+            ATOS_HOME_DIR . '/SystemSettings.sample.php',
+            ATOS_HOME_DIR . '/SystemSettings.env.php'
         );
         if (!$worked) {
             systemError('We could not rename <u>SystemSettings.sample.php</u> to <u>SystemSettings.env.php</u>. Please do that and try again.');
         }
     }
     
-    $atosSettings = require $ATOS_HOME_DIR . '/SystemSettings.env.php';
+    $atosSettings = require ATOS_HOME_DIR . '/SystemSettings.env.php';
 } catch (Exception $e) {
     systemError($e->getMessage());
 }
+
+/**
+ * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
+ *
+ *   System setting interactions
+ *
+ */
 
 /**
  * @param string $key

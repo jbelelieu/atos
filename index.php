@@ -75,7 +75,7 @@ foreach ($clients as $aClient) {
         : '';
 
     $renderedClients .= template(
-        'snippets/client_table_entry',
+        'admin/snippets/client_table_entry',
         [
             'client' => $aClient,
             'logo' => $logo,
@@ -100,7 +100,7 @@ foreach ($projects as $aProject) {
     $totalProjectHours += $value['hours'];
 
     $renderedProjects .= template(
-        'snippets/project_table_entry',
+        'admin/snippets/project_table_entry',
         [
             'project' => $aProject,
             'hours' => $value['hours'],
@@ -111,7 +111,7 @@ foreach ($projects as $aProject) {
 }
 
 echo template(
-    'index',
+    'admin/index',
     [
         'clientSelect' => $clientSelect,
         'clients' => $renderedClients,

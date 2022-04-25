@@ -1,6 +1,17 @@
 <?php
 
 /**
+ * ATOS: "Built by freelancer 🙋‍♂️, for freelancers 🕺 🤷 💃🏾 "
+ *
+ * Various helper functions used throughout the application.
+ *
+ * @author @jbelelieu
+ * @copyright Humanity, any year.
+ * @license AGPL-3.0 License
+ * @link https://github.com/jbelelieu/atos
+ */
+
+/**
  * @link https://stackoverflow.com/users/1034002/torkil-johnsen
  * @param [type] $hex
  * @param [type] $steps
@@ -81,17 +92,22 @@ function language(string $key, string $default = ''): string
  * @param string $default
  * @return string
  */
-function putIcon(string $name, string $color = '#111', string $default = 'fi-sr-circle'): string
-{
+function putIcon(
+    string $name,
+    string $color = '#111',
+    string $default = 'fi-sr-circle'
+): string {
+    $useColor = empty($color) ? '#111' : $color;
+    $useDefault = empty($default) ? 'fi-sr-circle' : $default;
     $explode = explode(' ', $name);
     
     $usePart = ($explode['0'] === 'fi') ? $explode[1] : $explode[0];
 
-    $finalUse = (substr($usePart, 0, 3) === 'fi-') ? $usePart : $default;
+    $finalUse = (substr($usePart, 0, 3) === 'fi-') ? $usePart : $useDefault;
 
-    $color = ltrim($color, '#');
+    $color = ltrim($useColor, '#');
 
-    return '<i style="color:#' . $color . ';" class="iconColor fi '. $finalUse . '"></i>';
+    return '<i style="color:#' . $useColor . ';" class="iconColor fi '. $finalUse . '"></i>';
 }
 
 /**
@@ -100,7 +116,7 @@ function putIcon(string $name, string $color = '#111', string $default = 'fi-sr-
  */
 function formatMoney($money): string
 {
-    return '$' . number_format($money / 100, 2);
+    return '$' . number_format($money / 100, 0);
 }
 
 /**
@@ -151,9 +167,7 @@ function template(
     array $args,
     bool $skipHeaderFooter = false
 ) {
-    global $ATOS_HOME_DIR;
-
-    $path = $ATOS_HOME_DIR . '/templates/admin/' . $templateName . '.php';
+    $path = ATOS_HOME_DIR . '/templates/' . $templateName . '.php';
     if (!file_exists($path)) {
         systemError('You are trying to load a template that does not exist');
     }
@@ -163,13 +177,13 @@ function template(
     ob_start();
     
     if (!$skipHeaderFooter) {
-        include $ATOS_HOME_DIR . '/templates/admin/header.php';
+        include ATOS_HOME_DIR . '/templates/admin/snippets/header.php';
     }
 
-    include $ATOS_HOME_DIR . '/templates/admin/' . $templateName . '.php';
+    include ATOS_HOME_DIR . '/templates/' . $templateName . '.php';
 
     if (!$skipHeaderFooter) {
-        include $ATOS_HOME_DIR . '/templates/admin/footer.php';
+        include ATOS_HOME_DIR . '/templates/admin/snippets/footer.php';
     }
 
     return ob_get_clean();
