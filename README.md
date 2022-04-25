@@ -1,6 +1,6 @@
 ![ATOS Logo](assets/atos_logo.png)
 
-**Built for freelancer 🙋‍♂️, for freelancers 🕺 🤷 💃🏾.**
+**Built by freelancer 🙋‍♂️, for freelancers 🕺 🤷 💃🏾 .**
 
 Whether you're selling time-based sprints, or simply tracking time worked, ATOS will allow you to manage multiple projects for multiple clients at once, while generating beautiful invoices for you in the process.
 
