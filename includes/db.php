@@ -1,11 +1,7 @@
 <?php
 
-require "settings.php";
+require "system.php";
 require "helpers.php";
-
-/**
- * @link  https://renenyffenegger.ch/notes/development/web/php/snippets/sqlite/index
- */
 
 $dbFile = 'db/' . getSetting(AsosSettings::DATABASE_FILE_NAME, 'atos.sqlite3');
 if (!file_exists($dbFile)) {
@@ -20,7 +16,7 @@ $db->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
  * @param integer $clientId
  * @return array
  */
-function getClientTotals(int $clientId): array
+function getCompanyTotals(int $clientId)
 {
     global $db;
 
@@ -54,7 +50,7 @@ function getClientTotals(int $clientId): array
 /**
  * @return array
  */
-function getCompanies(): array
+function getCompanies()
 {
     global $db;
 
@@ -72,7 +68,7 @@ function getCompanies(): array
  * @param integer $projectId
  * @return array
  */
-function getProjectTotals(int $projectId): array
+function getProjectTotals(int $projectId)
 {
     global $db;
 
@@ -109,7 +105,7 @@ function getProjectTotals(int $projectId): array
  * @param boolean $isOpen
  * @return array
  */
-function getStoriesInCollection(int $collectionId, bool $isOpen = true): array
+function getStoriesInCollection(int $collectionId, bool $isOpen = true)
 {
     global $db;
 
@@ -121,7 +117,11 @@ function getStoriesInCollection(int $collectionId, bool $isOpen = true): array
             story_type.title as type_title,
             story_hour_type.title as hour_title,
             story_hour_type.rate as hour_rate,
-            story_status.title as status
+            story_status.title as status_title,
+            story_status.is_complete_state,
+            story_status.title as status_id,
+            story_status.emoji as status_emoji,
+            story_status.color as status_color
         FROM story
         JOIN story_type ON story.type = story_type.id
         JOIN story_status ON story.status = story_status.id
@@ -145,7 +145,23 @@ function getStoriesInCollection(int $collectionId, bool $isOpen = true): array
 /**
  * @return array
  */
-function getStoryTypes(): array
+function getStoryStatuses()
+{
+    global $db;
+
+    $statement = $db->prepare("
+        SELECT * FROM story_status
+    ");
+
+    $statement->execute();
+
+    return $statement->fetchAll(PDO::FETCH_ASSOC);
+}
+
+/**
+ * @return array
+ */
+function getStoryTypes()
 {
     global $db;
 
@@ -161,7 +177,7 @@ function getStoryTypes(): array
 /**
  * @return array
  */
-function getProjects(): array
+function getProjects()
 {
     global $db;
 
@@ -181,7 +197,7 @@ function getProjects(): array
 /**
  * @return array
  */
-function getRateTypes(): array
+function getRateTypes()
 {
     global $db;
 
@@ -197,10 +213,10 @@ function getRateTypes(): array
 }
 
 /**
- * @param integer $storyId
+ * @param integer $storyStatusId
  * @return array
  */
-function getStoryStatusById(int $storyId): array
+function getStoryStatusById(int $storyStatusId)
 {
     global $db;
 
@@ -210,7 +226,7 @@ function getStoryStatusById(int $storyId): array
         WHERE id = :id
     ");
 
-    $statement->bindParam(':id', $storyId);
+    $statement->bindParam(':id', $storyStatusId);
 
     $statement->execute();
 
@@ -220,7 +236,7 @@ function getStoryStatusById(int $storyId): array
 /**
  * @return array
  */
-function getCompanyById(int $companyId): array
+function getCompanyById(int $companyId)
 {
     global $db;
 
@@ -241,7 +257,7 @@ function getCompanyById(int $companyId): array
  * @param int $id
  * @return array
  */
-function getCollectionById(int $id): array
+function getCollectionById(int $id)
 {
     global $db;
 
@@ -262,7 +278,7 @@ function getCollectionById(int $id): array
  * @param integer $projectId
  * @return array
  */
-function getCollectionByProject(int $projectId, int $limit = 5): array
+function getCollectionByProject(int $projectId, int $limit = 5)
 {
     global $db;
 
@@ -286,22 +302,31 @@ function getCollectionByProject(int $projectId, int $limit = 5): array
  * @param int $id
  * @return array
  */
-function getProjectById(int $id): array
+function getProjectById(int $id)
 {
     global $db;
 
-    $statement = $db->prepare('
+    try {
+        $statement = $db->prepare('
         SELECT project.*, company.title as company_name
         FROM project
         JOIN company ON project.client_id = company.id
         WHERE project.id=:id
     ');
 
-    $statement->bindParam(':id', $id);
+        $statement->bindParam(':id', $id);
 
-    $statement->execute();
+        $statement->execute();
 
-    return $statement->fetch(PDO::FETCH_ASSOC);
+        $res = $statement->fetch(PDO::FETCH_ASSOC);
+        if (!$res) {
+            redirect('index.php', null, null, 'Something went wrong finding that project.');
+        }
+
+        return $res;
+    } catch (\PDOException $e) {
+        redirect('index.php', null, null, 'Something went wrong finding that project.');
+    }
 }
 
 /**
@@ -312,30 +337,40 @@ function getNextStoryNumberForProject(int $id): int
 {
     global $db;
 
-    $statement = $db->prepare('
-        SELECT story.show_id
-        FROM story
-        JOIN story_collection ON story.collection = story_collection.id
-        WHERE story_collection.project_id = :id
-        ORDER BY story.id DESC
-    ');
+    try {
+        $statement = $db->prepare('
+            SELECT story.show_id
+            FROM story
+            JOIN story_collection ON story.collection = story_collection.id
+            WHERE story_collection.project_id = :id
+            ORDER BY story.id DESC
+        ');
 
-    $statement->bindParam(':id', $id);
+        $statement->bindParam(':id', $id);
 
-    $statement->execute();
+        $statement->execute();
 
-    $results = $statement->fetch();
+        $results = $statement->fetch(PDO::FETCH_ASSOC);
 
-    $count = explode('-', $results['show_id']);
+        if (!$results) {
+            return 1;
+        }
     
-    return (int) $count[1] + 1;
+        $count = explode('-', $results['show_id']);
+        
+        return (int) $count[1] + 1;
+    } catch (Exception $e) {
+        dd($e);
+
+        return 1;
+    }
 }
 
 /**
  * @param integer $storyId
  * @return array
  */
-function getStory(int $storyId): array
+function getStory(int $storyId)
 {
     global $db;
 
@@ -355,7 +390,7 @@ function getStory(int $storyId): array
 /**
  * @return array
  */
-function getLatestCollection(): array
+function getLatestCollection()
 {
     global $db;
 

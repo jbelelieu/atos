@@ -16,13 +16,7 @@ if (isset($_GET['action'])) {
         case 'deleteStory':
             deleteStory($_GET);
             break;
-        case 'markStoryShipped':
-            updateStoryStatus($_GET, 3);
-            break;
-        case 'markStoryComplete':
-            updateStoryStatus($_GET, 2);
-            break;
-        case 'markStoryClosed':
+        case 'updateStoryStatus':
             updateStoryStatus($_GET, 4);
             break;
         case 'makeCurrentCollection':
@@ -52,6 +46,12 @@ if (isset($_POST['action'])) {
             exit;
     }
 }
+
+// -------------------------------------
+
+$project = getProjectById($_GET['id']);
+
+$storyStatuses = getStoryStatuses();
 
 // -------------------------------------
 
@@ -180,6 +180,7 @@ echo <<<qq
 
 <div class="storyTable">
     <div>
+        <h3 class=\"bubble blueBubble\">Project "$project[title]"</h3>
 qq;
 
 // -------------------------------------
@@ -219,17 +220,17 @@ qq;
     foreach ($openStories as $row) {
         $createdAt = (!empty($row['created_at'])) ? formatDate($row['created_at']) : '-';
 
+        $options = '';
+        foreach ($storyStatuses as $aStatus) {
+            $options .= "<a href=\"project.php?action=updateStoryStatus&status=" . $aStatus['id'] . "&project_id=" . $_GET['id'] . "&id=" . $row['id'] . "\">" . $aStatus['emoji'] . "</a>&nbsp;";
+        }
+
         echo "<tr>";
         echo "<td><span class=\"bubble grayBubble\">" . $row['show_id'] . "</span></td>";
         echo "<td>" . $row['hour_title'] . "</td>";
         echo "<td>" . $row['type_title'] . "</td>";
         echo "<td>" . $row['title'] . "</td>";
-        echo "<td class=\"textRight\">
-    <a href=\"project.php?action=markStoryComplete&project_id=" . $_GET['id'] . "&id=" . $row['id'] . "\">✅</a>
-    <a href=\"project.php?action=markStoryShipped&project_id=" . $_GET['id'] . "&id=" . $row['id'] . "\">🚀</a>
-    <a href=\"project.php?action=markStoryClosed&project_id=" . $_GET['id'] . "&id=" . $row['id'] . "\">⛔️</a>
-    <a href=\"project.php?action=shiftCollection&project_id=" . $_GET['id'] . "&id=" . $row['id'] . "\">↪️</a>
-    <a onclick=\"return confirm('This will delete the story - are you sure?')\" href=\"project.php?action=deleteStory&project_id=" . $_GET['id'] . "&id=" . $row['id'] . "\">❌</a>
+        echo "<td class=\"textRight\">$options<a onclick=\"return confirm('This will delete the story - are you sure?')\" href=\"project.php?action=deleteStory&project_id=" . $_GET['id'] . "&id=" . $row['id'] . "\">❌</a>
     </td>";
         echo "</tr>";
     }
@@ -250,8 +251,8 @@ qq;
         <table>
         <thead>
         <tr>
-        <th width="90">ID</th>
-        <th width="150">Rate Type</th>
+        <th width="140">ID</th>
+        <th width="180">Rate Type</th>
         <th width="150">Type</th>
         <th width="42"></th>
         <th width="120">Completed</th>
@@ -267,22 +268,19 @@ qq;
     foreach ($otherStories as $row) {
         $createdAt = (!empty($row['created_at'])) ? formatDate($row['created_at']) : '-';
 
-        if ($row['status'] === 'Closed') {
-            $icon = '⛔️';
-            $class = 'bubble redBubble';
+        $adjustedColor = adjustBrightness($row['status_color'], -10);
+
+        if ($row['status'] == 2) {
             $status = formatDate($row['ended_at']);
-        } elseif ($row['status'] === 'Shipped') {
-            $icon = '🚀';
-            $class = 'bubble blueBubble';
+            $label = "<div class=\"bubble greenBubble\">" . $row['show_id'] . "</div>";
+        } elseif ($row['status'] == 4) {
             $status = formatDate($row['ended_at']);
-        } elseif ($row['status'] === 'Complete') {
-            $icon = '✅';
-            $class = 'bubble greenBubble';
+            $label = "<div class=\"bubble redBubble\">" . $row['show_id'] . "</div>";
+        } elseif ($row['status'] == 3) {
             $status = formatDate($row['ended_at']);
+            $label = "<div class=\"bubble blueBubble\">" . $row['show_id'] . "</div>";
         } else {
-            $icon = '';
-            $class = 'bubble grayBubble';
-            $status = $row['status'];
+            $label = "<div class=\"bubble \" style=\"background-color:" . $row['status_color'] . "\">" . $row['show_id'] . "</div>";
         }
 
         $hours += (int) $row['hours'];
@@ -304,10 +302,10 @@ qq;
         $typeSelect .= '</select>';
 
         echo "<tr>";
-        echo "<td><span class=\"$class\">" . $row['show_id'] . "</span></td>";
+        echo "<td>$label</td>";
         echo "<td>" . $hourSelect . "</td>";
         echo "<td>" . $typeSelect . "</td>";
-        echo "<td class=\"textCenter\">" . $icon . "</td>";
+        echo "<td class=\"textCenter\">" . $row['status_emoji'] . "</td>";
         echo "<td>" . $status . "</td>";
         echo "<td><input type=\"text\" autocomplete=\"off\" name=\"story[$row[id]][hours]\" value=\"$row[hours]\" /></td>";
         echo "<td><input type=\"text\" autocomplete=\"off\" style=\"width:100%;\" name=\"story[$row[id]][title]\" value=\"$row[title]\" /></td>";
@@ -440,8 +438,6 @@ function deleteCollection(array $data): void
 
     $collection = getCollectionById($data['id']);
 
-    dd($collection);
-
     if ($collection['is_project_default'] === 1) {
         redirect('project.php', $data['project_id'], '', 'You cannot delete the "Unorganized" collection from a project.');
     }
@@ -566,15 +562,19 @@ function updateStories(array $data): void
 
 /**
  * @param array $data
- * @param integer $newStatus
  * @return void
  */
-function updateStoryStatus(array $data, int $newStatus): void
+function updateStoryStatus(array $data): void
 {
     global $db;
 
+    if (!isset($data['status']) || empty($data['status'])) {
+        redirect('project.php', $data['project_id'], null, 'Invalid status received.');
+    }
+
     $story = getStory($data['id']);
-    $hours = ($story['status'] === 1 && $newStatus !== 1) ? 1 : 0;
+
+    $hours = ($story['status'] === 1 && $data['status'] !== 1) ? 1 : 0;
 
     $statement = $db->prepare('
         UPDATE story
@@ -582,13 +582,13 @@ function updateStoryStatus(array $data, int $newStatus): void
         WHERE id = :id
     ');
 
-    $statement->bindParam(':status', $newStatus);
+    $statement->bindParam(':status', $data['status']);
     $statement->bindParam(':hours', $hours);
     $statement->bindParam(':id', $data['id']);
     $statement->bindParam(':ended_at', date('Y-m-d H:i:s'));
     $statement->execute();
 
-    $status = getStoryStatusById($newStatus);
+    $status = getStoryStatusById($data['status']);
 
     redirect(
         'project.php',

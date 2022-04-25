@@ -201,7 +201,7 @@ qq;
 
     $totalValue = 0;
     foreach ($clients as $aClient) {
-        $value = getClientTotals($aClient['id']);
+        $value = getCompanyTotals($aClient['id']);
 
         $totalValue += $value['total'];
 
@@ -222,7 +222,7 @@ qq;
     }
 
 echo "<tr>";
-echo "<td colspan=6 class=\"summary\">" . $logo . "</td>";
+echo "<td colspan=6></td>";
 echo "<td class=\"summary\">" . formatMoney($totalValue) . "</td>";
 echo "<td></td>";
 echo "</tr>";

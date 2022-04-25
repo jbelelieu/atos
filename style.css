@@ -475,22 +475,31 @@ footer {
 .textCenter { text-align: center; }
 .textRight { text-align: right; }
 .pad { padding: 32px 24px; }
-.padLess { padding: 12px; }
-.padLessTop { padding-top: 12px; }
-.padLessLeft { padding-left: 12px; }
-.padLessRight { padding-right: 12px; }
-.padLessBottom { padding-bottom: 12px; }
+.padLess { padding: 24px; }
+.padLessTop { padding-top: 24px; }
+.padLessLeft { padding-left: 24px; }
+.padLessRight { padding-right: 24px; }
+.padLessBottom { padding-bottom: 24px; }
 
 .borderSection h1 {
   margin-top: 0px;
 }
 
+.collectionsTable h3,
+.collectionsTable h4 {
+  font-size: 13px;
+  display: inline-block;
+  padding: 6px 16px 6px 12px;
+}
+
+.collectionsTable h3 {
+  background-color: #28afc9;
+  color: #111;
+}
+
 .collectionsTable h4 {
   background-color: #111;
   color: #e5e5e5;
-  font-size: 13px;
-  display: inline-block;
-  padding: 6px 16px 6px 9px;
 }
 
 .collectionsTable h4:before {
@@ -510,13 +519,30 @@ footer {
   padding: 6px 16px 6px 9px;
 }
 
-.bubble:before {
+.bubbleBack {
+  position: absolute;
+  z-index: 1;
+  width: 100%;
+  height: 100%;
+  border: 1px solid red;
+}
+
+.bubbleFront {
+  position: absolute;
+  z-index: 2;
+  width: 100%;
+  height: 100%;
+}
+
+.bubble:before,
+.bubbleFront:before {
   content: "";
   position: absolute;
   top: 0;
   right: 0;
   border-width: 0 9px 9px 0;
   border-style: solid;
+  border-color: transparent #fff;
 }
 
 .greenBubble {
@@ -581,7 +607,7 @@ label {
   color: #666;
 }
 
-input,
+input:not([type='checkbox']):not([type='radio']),
 textarea,
 select {
   margin-top: 4px;
@@ -625,7 +651,6 @@ table {
 table th {
   border-bottom: 1px solid #e5e5e5;
   text-align: left;
-  padding: 9px;
   font-size: 85%;
   color: #555;
 }
@@ -634,9 +659,10 @@ table tr:not(:last-child) {
   border-bottom: 1px dotted #e5e5e5;
 }
 
-table td {
+table td,
+table th {
   vertical-align: top;
-  padding: 9px;
+  padding: 9px 16px;
 }
 
 table td input {
