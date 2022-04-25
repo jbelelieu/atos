@@ -16,7 +16,7 @@ if (isset($_GET['action'])) {
             deleteStoryType($_GET);
             break;
         default:
-            redirect('project.php', $_GET['id'], '', 'Unknown action');
+            redirect('settings.php', null, null, 'Unknown action');
     }
 }
 
@@ -32,8 +32,7 @@ if (isset($_POST['action'])) {
             createStoryType($_POST);
             break;
         default:
-            echo "Unknown action.";
-            exit;
+            redirect('settings.php', null, null, 'Unknown action');
     }
 }
 
@@ -55,12 +54,17 @@ echo <<<qq
                         <label><b>Statuses</b>&nbsp;&nbsp;Title</label>
                         <input type="text" name="title" />
                         
+                        <label>Complete State?</label>
+                        <input type="radio" name="is_complete_state" value="1" checked="checked" /> Yes, we can consider these stories completed.<br />
+                        <input type="radio" name="is_complete_state" value="0" /> No, stories with this status are not complete.
+
                         <label>Billable State?</label>
-                        <input type="radio" name="is_complete_state" value="1" checked="checked" /> Yes, this status represents a billable state.<br />
-                        <input type="radio" name="is_complete_state" value="0" /> No, stories with this status shouldn't be billed out.
+                        <input type="radio" name="is_billable_state" value="1" checked="checked" /> Yes, this status represents a billable state.<br />
+                        <input type="radio" name="is_billable_state" value="0" /> No, do not bill for stories with this status.
                         
                         <label>Emoji</label>
                         <input type="text" name="emoji" maxlength=10 style="width:100px;" /> <button type="submit">Create</button>
+                        <p class="fieldHelp">Select any icon from <a href="https://www.flaticon.com/uicons/?weight=solid&corner=rounded" target="_blank">here</a>. Type the name ("<u>fi-sr-briefcase</u>" for example) found by clicking on the icon.</p>
                     </div>
                     <input type="hidden" name="action" value="createStatus" />
                 </form>
@@ -98,8 +102,10 @@ echo <<<qq
     <table>
     <thead>
     <tr>
+    <th width="42"></th>
     <th width="50%">Title</th>
-    <th>Billable?</th>
+    <th>Is Complete?</th>
+    <th>Is Billable?</th>
     <th width="42"></th>
     </tr>
     </thead>
@@ -107,10 +113,13 @@ qq;
 
 foreach ($statuses as $aStatus) {
     $state = $aStatus['is_complete_state'] ? 'Yes' : 'No';
+    $billable = $aStatus['is_billable_state'] ? 'Yes' : 'No';
 
     echo "<tr>";
-    echo "<td>" . $aStatus['title'] . "&nbsp;&nbsp;&nbsp;" . $aStatus['emoji'] . "</td>";
+    echo "<td>" . putIcon($aStatus['emoji'], $aStatus['color']) . "</td>";
+    echo "<td>" . $aStatus['title'] . "</td>";
     echo "<td>" . $state . "</td>";
+    echo "<td>" . $billable . "</td>";
     echo "<td class=\"textRight\"><a onclick=\"return confirm('This will delete the status - are you sure?')\" href=\"settings.php?action=deleteStatus&id=" . $aStatus['id'] . "\">❌</a></td>";
     echo "</tr>";
 }
@@ -219,12 +228,14 @@ function createStatus(array $data): void
         INSERT INTO story_status (
             title,
             is_complete_state,
+            is_billable_state,
             emoji,
             color
         )
         VALUES (
             :title,
             :is_complete_state,
+            :is_billable_state,
             :emoji,
             :color
         )
@@ -232,6 +243,7 @@ function createStatus(array $data): void
 
     $statement->bindParam(':title', $data['title']);
     $statement->bindParam(':is_complete_state', $data['is_complete_state']);
+    $statement->bindParam(':is_billable_state', $data['is_billable_state']);
     $statement->bindParam(':emoji', $data['emoji']);
     $statement->bindParam(':color', $data['color']);
     $statement->execute();

@@ -13,7 +13,7 @@ if (isset($_GET['action'])) {
             deleteProject($_GET);
             break;
         default:
-            redirect('project.php', $_GET['id'], '', 'Unknown action');
+            redirect('index.php', null, null, 'Unknown action');
     }
 }
 
@@ -26,8 +26,7 @@ if (isset($_POST['action'])) {
             createCompany($_POST);
             break;
         default:
-            echo "Unknown action.";
-            exit;
+            redirect('index.php', null, null, 'Unknown action');
     }
 }
 
@@ -48,8 +47,6 @@ echo <<<qq
     <div class="halfHalfColumns">
         <div>
             <div class="formBox padLess">
-            
-
                 <form action="index.php" method="post">
                     <div class="halfHalfColumns">
                         <div>
@@ -81,8 +78,6 @@ echo <<<qq
                     <button type="submit">Create</button>
                     <input type="hidden" name="action" value="createCompany" />
                 </form>
-
-
             </div>
         </div>
         <div>
