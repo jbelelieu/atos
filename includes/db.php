@@ -3,6 +3,8 @@
 require "system.php";
 require "helpers.php";
 
+session_start();
+
 $dbFile = 'db/' . getSetting(AsosSettings::DATABASE_FILE_NAME, 'atos.sqlite3');
 if (!file_exists($dbFile)) {
     echo "Database file not found.";
@@ -105,8 +107,11 @@ function getProjectTotals(int $projectId)
  * @param boolean $isOpen
  * @return array
  */
-function getStoriesInCollection(int $collectionId, bool $isOpen = true)
-{
+function getStoriesInCollection(
+    int $collectionId,
+    bool $isOpen = true,
+    string $order = 'status ASC, created_at DESC'
+) {
     global $db;
 
     $statusQuery = $isOpen ? 'story.status = 1' : 'story.status != 1';
@@ -130,9 +135,7 @@ function getStoriesInCollection(int $collectionId, bool $isOpen = true)
             story.collection = :collection
             AND $statusQuery
         ORDER BY
-            status ASC,
-            status DESC,
-            created_at DESC
+            $order
     ");
 
     $statement->bindParam(':collection', $collectionId);
@@ -388,17 +391,48 @@ function getStory(int $storyId)
 }
 
 /**
- * @return array
+ * @param integer $projectId
+ * @return void
  */
-function getLatestCollection()
+function getDefaultCollectionForProject(int $projectId)
 {
     global $db;
 
     $statement = $db->prepare('
         SELECT *
         FROM story_collection
+        WHERE
+            project_id = :project_id
+            AND is_project_default = true
         ORDER BY created_at DESC
+        LIMIT 1
     ');
+
+    $statement->bindParam(':project_id', $projectId);
+
+    $statement->execute();
+
+    return $statement->fetch(PDO::FETCH_ASSOC);
+}
+
+
+/**
+ * @param integer $projectId
+ * @return void
+ */
+function getLatestCollectionForProject(int $projectId)
+{
+    global $db;
+
+    $statement = $db->prepare('
+        SELECT *
+        FROM story_collection
+        WHERE project_id = :project_id
+        ORDER BY created_at DESC
+        LIMIT 1
+    ');
+
+    $statement->bindParam(':project_id', $projectId);
 
     $statement->execute();
 

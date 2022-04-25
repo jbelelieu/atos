@@ -37,6 +37,7 @@ CREATE TABLE `story_status` (
   `id` INTEGER PRIMARY KEY AUTOINCREMENT,
   `title` varchar(255),
   `is_complete_state` boolean DEFAULT false,
+  `is_billable_state` boolean DEFAULT false,
   `color` varchar(10),
   `emoji` varchar(10)
 );
@@ -87,12 +88,12 @@ INSERT INTO story_type (id, title) VALUES (1, 'Story'), (2, 'Chore'), (3, 'Meeti
 
 -- The primary items should not be removed and need
 -- to remain in this order!
-INSERT INTO story_status (id, title, emoji, color, is_complete_state) VALUES
-(1, 'Open', '☑️', '#e5e5e5', false),
-(2, 'Complete', '✅', '#47F43E', true),
-(3, 'Shipped', '🚀', '#3fcce8', true),
-(4, 'Closed', '⛔️', '#b82a36', true),
-(5, 'Superseded', '➰', '#f1f1f1', true);
+INSERT INTO story_status (id, title, emoji, color, is_complete_state, is_billable_state) VALUES
+(1, 'Open', 'fi-sr-list-check', '#111111', false, false),
+(2, 'Complete', 'fi-sr-checkbox', '#47F43E', true, true),
+(3, 'Shipped', 'fi-sr-rocket-lunch', '#3fcce8', true, true),
+(4, 'Closed', 'fi-sr-cross-circle', '#b82a36', true, false),
+(5, 'Superseded', 'fi-sr-time-fast', '#f1f1f1', true, false);
 
 -- This is in dollar cents, so $50 = 5000.
 INSERT INTO story_hour_type (id, title, rate) VALUES (1, 'Standard Rate', '5000');

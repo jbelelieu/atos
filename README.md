@@ -65,6 +65,34 @@ If you plan on generating and saving invoices locally, you will need to make sur
 
 # Tips and Tricks
 
-## Example Use Case
+#### Example Use Case
 
 Mine! I built this because I was juggling multiple contract projects at once and needed to keep track of what I was working on, billing, etc.. This pseudo-PM tool with built in invoice generation allows me to manage all projects for multiple clients all at once, without needing a bunch of different software.
+
+#### Mobile Experience
+
+This was never meant to be used on mobile. I highly recommend using this on a desktop over mobile.
+
+-----
+
+# FAQ
+
+#### What stories get places on invoices?
+
+All stories set to a "Closed" state. If you don't want something appearing on an invoice, either bump it back to the default collection or into an "Open" state
+
+-----
+
+# Roadmap Features
+
+Note that I only work on this when I have time, which isn't very often. So while ideally I'd like to get these out sooner than later, I can't make guarantees on when I'll get to them.
+
+- Search features for projects: By type, by rate, by title, by ID, by completed date.
+- Estimated tax tools: for American freelancers, guidance and help on how to estimate your quarterly taxes.
+
+-----
+
+# Special Thank You
+
+- The fine folks over at [phpLiteAdmin](https://www.phpliteadmin.org/) for the SQLite3 manager.
+- The artists over at [flaticon](https://flaticon.com/) for their CSS icon set.

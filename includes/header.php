@@ -10,7 +10,9 @@ echo <<<qq
     <meta charset="utf-8">
     <title>$title</title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <link rel="stylesheet" href="style.css" />
+    <link rel="stylesheet" href="assets/style.css" />
+    <link rel="stylesheet" href="assets/icons.css" />
+    <script type="text/javascript" src="assets/jquery.js"></script>
 </head>
 
 <body>
@@ -30,12 +32,15 @@ if (!empty($_GET['_error'])) {
     echo "<span class=\"error\">" . $_GET['_error'] . "</span>";
 }
 
+$lastProject = (isset($_SESSION["viewingProject"]) && !empty($_SESSION["viewingProject"]))
+    ? '<a href="project.php?id=' . $_SESSION["viewingProject"] . '">Back to ' . $_SESSION["viewingProjectName"] . '</a>'
+    : '';
 
 echo <<<qq
         </div>
         <div id="nav" class="textRight">
-            <!--<a href="index.php">Projects</a>-->
-            <!--<a href="taxes.php">Taxes</a>-->
+            $lastProject
+            <a href="taxes.php">Taxes</a>
             <a href="settings.php">Settings</a>
         <div>
     </div>
