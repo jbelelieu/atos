@@ -1,8 +1,7 @@
 <?php
-
 $pageTitle = (isset($_metaTitle)) ? $_metaTitle : 'ATOS';
+?>
 
-echo <<<qq
 <!doctype html>
 <html class="no-js" lang="">
 
@@ -24,12 +23,11 @@ echo <<<qq
             <div id="company"><a href="/index.php">ATOS</a></div>
         </div>
         <div>
-qq;
 
+<?php
 if (!empty($_GET['_success'])) {
     echo "<span class=\"success\">" . $_GET['_success'] . "</span>";
 }
-
 if (!empty($_GET['_error'])) {
     echo "<span class=\"error\">" . $_GET['_error'] . "</span>";
 }
@@ -37,8 +35,8 @@ if (!empty($_GET['_error'])) {
 $lastProject = (isset($_SESSION["viewingProject"]) && !empty($_SESSION["viewingProject"]))
     ? '<a href="/project.php?id=' . $_SESSION["viewingProject"] . '">Back to ' . $_SESSION["viewingProjectName"] . '</a>'
     : '';
-
-echo <<<qq
+?>
+    
         </div>
         <div id="nav" class="textRight">
             $lastProject
@@ -46,4 +44,3 @@ echo <<<qq
         <div>
     </div>
 </header>
-qq;

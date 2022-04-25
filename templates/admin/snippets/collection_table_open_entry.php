@@ -23,7 +23,7 @@
     <?php echo $options; ?>
     <a
         onclick="return confirm('This will delete the story - are you sure?')"
-        href="project.php?action=deleteStory&project_id=<?php echo $project['id']; ?>&id=<?php echo $story['id']; ?>">
+        href="project.php?action=deleteStory&project_id=<?php echo $_GET['id']; ?>&id=<?php echo $story['id']; ?>">
         <?php echo putIcon('fi-sr-trash'); ?>
     </a>
 </td>

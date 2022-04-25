@@ -3,7 +3,7 @@
 <div class="standardColumns border">
     <div>
         <div class="formBox padLess">
-            <form action="project.php?id=$_GET[id]" method="post">
+            <form action="project.php?id=<?php echo $project['id']; ?>" method="post">
                 <div class="threeColumns">
                     <div>
                     <label><b>Story</b>&nbsp;&nbsp;Collection</label>
@@ -33,7 +33,7 @@
                     </div>
                 </div>
 
-                <input type="hidden" name="project_id" value="$_GET[id]" />
+                <input type="hidden" name="project_id" value="<?php echo $project['id']; ?>" />
                 <input type="hidden" name="action" value="createStory" />
             </form>
         </div>
