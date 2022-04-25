@@ -76,6 +76,11 @@ qq;
 $daysDue = getSetting(AsosSettings::INVOICE_DUE_DATE_IN_DAYS, 14);
 $dueDate = ($daysDue > 0) ? formatDate(date('Y-m-d H:i:s', time() + 1209600)) : '';
 
+$logo = (file_exists($ATOS_HOME_DIR . '/logo.png'))
+    ? '<div id="logoArea"><img src="logo.png" alt="' . $company['title'] . '" /></div>'
+    : '';
+
+$file = str_replace('%logo%', $logo, $file);
 $file = str_replace('%date%', date('Y/m/d'), $file);
 $file = str_replace('%due_date%', $dueDate, $file);
 $file = str_replace('%total%', formatMoney($grandTotal), $file);

@@ -373,7 +373,8 @@ h1, h2, h3, h4, h5 {
 }
 
 h1 {
-  font-size: 32px;
+  font-size: 14px;
+  text-transform: uppercase;
   color: #111;
 }
 
@@ -516,7 +517,7 @@ footer {
 
 #holderFixed {
   width: 800px;
-  margin: 0 auto;
+  margin: 42px auto;
 }
 
 .sunk {
@@ -528,26 +529,51 @@ footer {
     font-size: 0.95em;
 }
 
-.sunk h4 {
+h4 {
     font-size: 12px;
     margin: 0;
     padding: 0;
     text-transform: uppercase;
-    color: #999;
     line-height: 1.3em;
+    color: #666;
+}
+
+.larger {
+    font-size: 120%;
+}
+
+.sunk h4 {
+    color: #999;
 }
 
 .sunk p:first-child {
     padding-top: 0px;
-    margin-top: 0px;
+    margin-top: -2px;
+}
+
+.sunk p:last-child {
+    padding-bottom: 0px;
+    margin-bottom: 0px;
 }
 
 .columns2575 {
   display: grid;
-  grid-template-columns: 100px 1fr;
+  grid-template-columns: 190px 1fr;
   grid-template-rows: 1fr;
-  grid-column-gap: 50px;
+  grid-column-gap: 40px;
   grid-row-gap: 0px;
+}
+
+#logoArea {
+    text-align: center;
+    margin-bottom: 42px;
+}
+
+#logoArea img {
+    max-height: 100px;
+    max-width: 200px;
+    width: auto;
+    height: auto;
 }
 
 /*  */
@@ -557,9 +583,14 @@ footer {
 
 /*  */
 
+.columns2575 table:first-child {
+    margin-top: -10px;
+}
+
 table {
     width: 100%;
     border-collapse: collapse;
+    font-size: 0.95em;
 }
 
 table th {
@@ -599,11 +630,7 @@ table td.shipped {
 }
 
 .totalFocus {
-  font-size: 1.1em;
-  background-color: #111;
-  color: #fff;
-  border-radius: 9px;
-  padding: 9px;
+  font-size: 1.2em;
 }
 
 table td.closed {

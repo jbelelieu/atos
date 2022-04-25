@@ -2,6 +2,9 @@
 
 **Built by freelancer 🙋‍♂️, for freelancers 🕺 🤷 💃🏾.**
 
+Whether you're selling time-based sprints, or simply tracking time worked, ATOS will allow you to manage multiple projects for multiple clients at once, while generating beautiful invoices for you in the process.
+
+
 💬&nbsp;&nbsp;&nbsp;[Tweet About ATOS](http://twitter.com/intent/tweet?text=Freelancers!+Check+out+ATO+Stories+%2C+a+drop+dead+simple%2C+locally+hosted+story+tracker+and+invoice+generator+designed+for+freelancer+software+developers.&url=https%3A%2F%2Fgithub.com%2Fjbelelieu%2Fato_stories)&nbsp;&nbsp;&nbsp;☕️&nbsp;&nbsp;&nbsp;[Buy me a Coffee!](https://www.buymeacoffee.com/jbelelieu)
 
 ATOS is a locally hosted, zero-setup application that makes invoicing against backlogs drop-dead simple. ATOS is designed to:
@@ -13,24 +16,21 @@ ATOS is 100% open source and free to use, licensed under the [GNU AGPLv3 License
 
 <!-- ![ATOS Screen Shot](assets/atos_screen.png) -->
 
-# Notice About Deploying ATOS To The Web
+#### Notice About Deploying ATOS To The Web
 
 This was always meant to be used locally. While there shouldn't be any problems deploying it, I don't recommend allowing anyone to access this who you don't fully trust. There is no concept of "users" in the platform, so anyone with access will be able to do whatever they want with your data.
 
 -----
 
-# Requirements
+# Setup
 
-- PHP8+
-- SQLite3
+ATOS requires `PHP8+` and `SQLite3`.
 
-# Local Setup
-
-## Update Your Default Settings (Optional Step)
+### Update Your Default Settings (Optional Step)
 
 Open `SystemSettings.sample.php` and update the values as needed. Optionally rename it to `SystemSettings.env.php`, otherwise ATOS will do that for you.
 
-## Start the PHP Server
+### Start the PHP Server
 
 Once in the home directory of your project, via command line, state the PHP server:
 
@@ -40,13 +40,17 @@ php -S localhost:9001
 
 You can now access ATOS from any web browser at `http://localhost:9001`.
 
-## phpLiteAdmin Notice
+##### phpLiteAdmin Notice
 
 For your convinience, ATOS ships with [phpLiteAdmin](https://www.phpliteadmin.org/). You can access that from `http://localhost:9001/db`.
 
 ATOS will automatically attempt to run migrations at first start up. On the off chance that migrations fail, you can use phpLiteAdmin to manually execute the contents of `db/migrations.sql`.
 
-## Invoices
+### Your Logo
+
+You can add your logo to outgoing invoices by simply replacing `logo.png` in the main directory of the project with your actual logo.
+
+### Invoices
 
 If you plan on generating and saving invoices locally (which I recommend you do), you will need to make sure the `invoices` directory is writable: `chmod 0755 invoices`.
 
@@ -68,10 +72,6 @@ Note that invoices are saved as HTML. Most computers have reasonable "Print as P
 -----
 
 # Tips and Tricks
-
-#### Example Use Case
-
-Mine! I built this because I was juggling multiple contract projects at once and needed to keep track of what I was working on, billing, etc.. This pseudo-PM tool with built in invoice generation allows me to manage all projects for multiple clients all at once, without needing a bunch of different software.
 
 #### Mobile Experience
 

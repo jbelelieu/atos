@@ -13,76 +13,85 @@
 <body>
     <div id="holderFixed">
 
-        <p align="center">
-            <img src="http://taco.haus/clubjboj2022.png" width="150" />
-        </p>
+        %logo%
 
         <div class="border">
             <div class="borderSection pad">
-                <h1>Overview</h1>
-
-                <table width="100%">
-                    <tr>
-                        <th><b>Billing Party</b></th>
-                        <th><b>Bill To</b></th>
-                        <th><b>Details</b></th>
-                    </tr>
-                    <tr>
-                        <td width="33%" valign="top">
-                            <b>%company.title%</b><br />
-                            %company.address%
-                        </td>
-                        <td width="33%" valign="top">
-                            <b>%client.title%</b><br />
-                            %client.address%
-                        </td>
-                        <td width="34%" valign="top">
-                            <b>%project.title%</b><br />
-                            Invoiced on %date%
-                        </td>
-                    </tr>
-                </table>
+                <div class="columns2575">
+                    <div class="textRight">
+                        <h4>
+                            <span class="larger">%project.title%</span>
+                            <br /><br />
+                            Sent On<br />
+                            %date%
+                        </h4>
+                    </div>
+                    <div>
+                        <table width="100%">
+                            <tr>
+                                <th><b>Billing Party</b></th>
+                                <th><b>Bill To</b></th>
+                            </tr>
+                            <tr>
+                                <td width="50%" valign="top">
+                                    <b>%company.title%</b><br />
+                                    %company.address%
+                                </td>
+                                <td width="50%" valign="top">
+                                    <b>%client.title%</b><br />
+                                    %client.address%
+                                </td>
+                            </tr>
+                        </table>
+                    </div>
+                </div>
             </div>
             <div class="borderSection borderSectionTop pad">
-                <h1>Invoice</h1>
-
-                <table width="100%">
-                    <thead>
-                        <tr>
-                            <th width="50%">Line Item</th>
-                            <th width="18%">Rate</th>
-                            <th width="12%">Units</th>
-                            <th width="20%">Subtotal</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        %rate_types%
-                        <tr style="font-weight:bold;">
-                            <td valign="top" colspan="3" style="vertical-align: middle;"
-                                class="textRight">
-                                %due_date%
-                            </td>
-                            <td valign="top">
-                                <div class="totalFocus">
-                                    %total%
-                                </div>
-                            </td>
-                        </tr>
-                    </tbody>
-                </table>
-
+                <div class="columns2575">
+                    <div class="textRight">
+                        <h4>
+                            <span class="larger">%collection.title%</span>
+                            <br /><br />
+                            Invoiced &raquo;
+                        </h4>
+                    </div>
+                    <div>
+                        <table width="100%">
+                            <thead>
+                                <tr>
+                                    <th width="50%">Line Item</th>
+                                    <th width="18%">Rate</th>
+                                    <th width="12%">Units</th>
+                                    <th width="20%">Subtotal</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                %rate_types%
+                                <tr style="font-weight:bold;">
+                                    <td valign="top" colspan="3" style="vertical-align: middle;"
+                                        class="textRight">
+                                        %due_date%
+                                    </td>
+                                    <td valign="top">
+                                        <div class="totalFocus">
+                                            %total%
+                                        </div>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
             </div>
             <div class="sunk columns2575">
                 <div class="textRight">
-                    <h4>Payment Instructions</h4>
+                    <h4>Instructions &raquo;</h4>
                 </div>
                 <div>
                     %client.instructions%
                 </div>
             </div>
-            <div class="pad borderSectionTop">
-                <h1>%collection.title%</h1>
-
+            <div class="borderSectionTop">
                 <table width="100%" style="font-size:90%;">
                     <thead>
                         <tr>
