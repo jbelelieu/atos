@@ -63,6 +63,24 @@ function formatDate(string $date, string $format = 'Y/m/d'): string
 }
 
 /**
+ * @param string $name
+ * @param string $default
+ * @return string
+ */
+function putIcon(string $name, string $color = '#111', string $default = 'fi-sr-circle'): string
+{
+    $explode = explode(' ', $name);
+    
+    $usePart = ($explode['0'] === 'fi') ? $explode[1] : $explode[0];
+
+    $finalUse = (substr($usePart, 0, 3) === 'fi-') ? $usePart : $default;
+
+    $color = ltrim($color, '#');
+
+    return '<i style="color:#' . $color . ';" class="iconColor fi '. $finalUse . '"></i>';
+}
+
+/**
  * @param $money
  * @return string
  */
