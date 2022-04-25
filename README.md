@@ -1,4 +1,5 @@
-<img src="https://github.com/jbelelieu/atos/assets/atos_logo.png" style="height:100px;width:auto;" alt="ATOS Logo" />
+<img src="http://castlamp.net/img/atos_logo.png" style="height:100px;width:auto;" alt="ATOS Logo" />
+
 
 ATOS is a locally hosted, no setup-required, application that makes invoicing against backlogs drop dead simple. ATOS is designed to:
 
