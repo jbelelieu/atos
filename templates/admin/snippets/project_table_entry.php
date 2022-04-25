@@ -1,7 +1,7 @@
 
 <tr>
     <td>
-        <a href="/project.php?_success=Welcome+to+your+<?php echo $title; ?>+project&id=<?php echo $id; ?>">
+        <a href="/project.php?_success=Welcome+to+your+<?php echo $project['title']; ?>+project&id=<?php echo $project['id']; ?>">
             <?php echo $project['title']; ?>
         </a>
     </td>

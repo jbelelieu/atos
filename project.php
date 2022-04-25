@@ -1,5 +1,16 @@
 <?php
 
+/**
+ * ATOS: "Built by freelancer 🙋‍♂️, for freelancers 🕺 🤷 💃🏾 "
+ *
+ * This file controls all things collections and stories.
+ *
+ * @author @jbelelieu
+ * @copyright Humanity, any year.
+ * @license AGPL-3.0 License
+ * @link https://github.com/jbelelieu/atos
+ */
+
 require "includes/db.php";
 
 if (empty($_GET['id'])) {
@@ -11,7 +22,12 @@ if (empty($_GET['id'])) {
     );
 }
 
-// -------------------------------------
+/**
+ * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
+ *
+ *   Actions
+ *
+ */
 
 if (isset($_GET['action'])) {
     switch ($_GET['action']) {
@@ -51,129 +67,56 @@ if (isset($_POST['action'])) {
     }
 }
 
-// -------------------------------------
+/**
+ * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
+ *
+ *   Down and Dirty
+ *
+ */
 
 $project = getProjectById($_GET['id']);
+$storyStatuses = getStoryStatuses();
+$hourTypeResults = getRateTypes();
+$storyTypeResults = getStoryTypes();
+$collectionResults = getCollectionByProject($_GET['id']);
 
+// Convienience feature for easier navigation.
 $_SESSION["viewingProject"] = $_GET['id'];
 $_SESSION["viewingProjectName"] = $project['title'];
 
-$storyStatuses = getStoryStatuses();
-
-// -------------------------------------
-
-$storyTypeResults = getStoryTypes();
-
+// Story type select for the story create form.
 $storyTypeSelect = '';
+
 foreach ($storyTypeResults as $aType) {
     $storyTypeSelect .= '<option value="' . $aType['id'] . '">' . $aType['title'] . '</option>';
 }
 
-// -------------------------------------
-
-$hourTypeResults = getRateTypes();
-
+// Rate type select for the story create form.
 $hourTypeSelect = '';
+
 foreach ($hourTypeResults as $aType) {
     $hourTypeSelect .= '<option value="' . $aType['id'] . '">' . $aType['title'] . ' (' . formatMoney($aType['rate']) . ')</option>';
 }
 
-// -------------------------------------
-
-$collectionResults = getCollectionByProject($_GET['id']);
-
+// Build the collections dropdown for the story create form.
 $collectionSelect = '';
-$inStatement = '';
 $collectionArray = [];
+
 foreach ($collectionResults as $aCollection) {
     array_push($collectionArray, $aCollection['id']);
 
     $collectionSelect .= '<option value="' . $aCollection['id'] . '">' . $aCollection['title'] . '</option>';
-
-    $inStatement .= '?,';
 }
-$inStatement = trim($inStatement, ',');
 
-// -------------------------------------
-
-include "templates/admin/header.php";
-
-$nextId = generateTicketId($_GET['id']);
-
-echo <<<qq
-<div class="collectionsTable">
-
-<div class="standardColumns border">
-    <div>
-        <div class="formBox padLess">
-            <form action="project.php?id=$_GET[id]" method="post">
-                <div class="threeColumns">
-                    <div>
-                    <label><b>{language('story', 'Story')}</b>&nbsp;&nbsp;Collection</label>
-                    <select name="collection">$collectionSelect</select>
-                    </div>
-
-                    <div>
-                    <label>Type</label>
-                    <select name="type">$storyTypeSelect</select>
-                    </div>
-
-                    <div>
-                    <label>Rate Type</label>
-                    <select name="rate_type">$hourTypeSelect</select>
-                    </div>
-                </div>
-
-                <div class="columns2575">
-                    <div>
-                        <label>Reference Number</label>
-                        <input type="text" name="show_id" value="$nextId" />
-                    </div>
-
-                    <div>
-                    <label>Description</label>
-                    <input type="text" name="title" style="width:80%;" /> <button type="submit">Create</button>
-                    </div>
-                </div>
-
-                <input type="hidden" name="project_id" value="$_GET[id]" />
-                <input type="hidden" name="action" value="createStory" />
-            </form>
-        </div>
-    </div>
-    <div>
-        <div class="formBox padLessRight padLessTop padLessBottom">
-            <form action="project.php?id=$_GET[id]" method="post">
-                <div class="twoColumns">
-                    <div>
-                    <label><b>Collections</b>&nbsp;&nbsp;Title</label>
-                    <input type="text" name="title" />
-                    </div>
-
-                    <div style="align-self: end;">
-                        <input type="hidden" name="project_id" value="$_GET[id]" />
-                        <input type="hidden" name="action" value="createCollection" />
-                        <button type="submit">Create</button>
-                    </div>
-                    <!--
-                    <div>
-                    <label>Ends</label>
-                    <input type="date" name="ended_at" />
-                    </div>
-                    -->
-                </div>
-            </form>
-        </div>
-
-        <div id="collections" class="padLessBottom">
-qq;
-
-$totalResults = sizeof($collectionResults);
+// Build the collections list.
+$collections = '';
+$totalCollections = sizeof($collectionResults);
 $at = 0;
+
 foreach ($collectionResults as $row) {
     $at++;
 
-    if ($at === $totalResults) {
+    if ($at === $totalCollections) {
         continue;
     }
 
@@ -183,218 +126,125 @@ foreach ($collectionResults as $row) {
         ? "<a title=\"" . language('make_active_collection', 'Make Active Collection') . "\" href=\"project.php?action=makeCurrentCollection&project_id=" . $_GET['id'] . "&id=" . $row['id'] . "\">" . $row['title'] . "</a>"
         : $row['title'];
 
-    echo "<div><span>" . $update . "</span>" . $delete . "</div>";
+    $collections .= "<div><span>" . $update . "</span>" . $delete . "</div>";
 }
 
-echo <<<qq
-        </div>
-    </div>
-</div>
-
-<div class="storyTable">
-    <div>
-        <h3 class=\"bubble blueBubble\">Project "$project[title]"</h3>
-qq;
-
-// -------------------------------------
-
+// Render the collections, split between open, billable, and unorganized.
+$collectionsRendered = '';
 $collectionCount = 0;
+
 foreach ($collectionResults as $aCollection) {
     $collectionCount++;
 
     $hours = 0;
 
-    $openStories = getStoriesInCollection($aCollection['id']);
-    $otherStories = getStoriesInCollection($aCollection['id'], false, 'ended_at ASC, status ASC', true);
-
     $isProjectDefault = (bool) $aCollection['is_project_default'];
 
     $tripFlag = $collectionCount > 1 && !$isProjectDefault;
-    if ($tripFlag) {
-        echo "<details><summary><h4 class=\"bubble\">$aCollection[title]</h4></summary>";
-    } else {
-        echo "<h4 class=\"bubble\">$aCollection[title]</h4>";
-    }
 
-    if (!$isProjectDefault) {
-        echo <<<qq
-        <div class="clearFix"></div>
-        <h4 class="bubble noMarginTop">Open Stories</h4>
-qq;
-    }
-
-    echo <<<qq
-        <table>
-        <thead>
-        <tr>
-        <th width="140">ID</th>
-        <th width="140">Rate Type</th>
-        <th width="42"></th>
-        <th width="140">Type</th>
-        <th width=>Title</th>
-        <th width="240"></th>
-        </tr>
-        </thead>
-        <tbody>
-qq;
-
+    $renderedOpenStories = '';
+    $openStories = getStoriesInCollection($aCollection['id']);
     foreach ($openStories as $row) {
-        $createdAt = (!empty($row['created_at'])) ? formatDate($row['created_at']) : '-';
-
-        $options = buildStoryOptions($_GET['id'], $row['id'], false, $row['status']);
-
-        echo "<tr>";
-        echo "<td><span class=\"bubble grayBubble\">" . $row['show_id'] . "</span></td>";
-        echo "<td>" . $row['hour_title'] . "</td>";
-        echo "<td><div class=\"emoji_bump_sm\">" . putIcon($row['status_emoji'], $row['status_color']) . "</div></td>";
-        echo "<td>" . $row['type_title'] . "</td>";
-        echo "<td class=\"ellipsis\">" . $row['title'] . "</td>";
-        echo "<td class=\"textRight\">$options<a onclick=\"return confirm('This will delete the story - are you sure?')\" href=\"project.php?action=deleteStory&project_id=" . $_GET['id'] . "&id=" . $row['id'] . "\">" . putIcon('fi-sr-trash') . "</a>
-    </td>";
-        echo "</tr>";
+        $renderedOpenStories .= template(
+            'snippets/collection_table_open_entry',
+            [
+                'story' => $row,
+                'options' => buildStoryOptions($_GET['id'], $row['id'], false, $row['status']),
+            ],
+            true
+        );
     }
 
-    // TODO: Link to an overview of that story + story notes.
-    echo <<<qq
-        </tbody>
-        </table>
-qq;
+    $renderedOtherStories = '';
+    $otherStories = getStoriesInCollection(
+        $aCollection['id'],
+        false,
+        'ended_at ASC, status ASC',
+        true
+    );
+    foreach ($otherStories as $row) {
+        $adjustedColor = adjustBrightness($row['status_color'], -10);
 
-    if (!$isProjectDefault) {
-        echo <<<qq
-        <hr />
-
-        <h4 class="bubble">Billable</h4>
-
-        <form class="preventLeaving" action="project.php?id=$_GET[id]" method="post" autocomplete="on">
-        <input type="hidden" name="project_id" value="$_GET[id]" />
-        <input type="hidden" name="action" value="updateStories" />
-
-        <table>
-        <thead>
-        <tr>
-        <th width="140">ID</th>
-        <th width="180">Rate Type</th>
-        <th width="150">Type</th>
-        <th width="42"></th>
-        <th width="120">Completed</th>
-        <th width="75">Hours</th>
-        <th width=>Title</th>
-        <th width="150"></th>
-        </tr>
-        </thead>
-        <tbody>
-qq;
-
-        foreach ($otherStories as $row) {
-            $createdAt = (!empty($row['created_at'])) ? formatDate($row['created_at']) : '-';
-
-            $adjustedColor = adjustBrightness($row['status_color'], -10);
-
-            if ($row['status'] == 2) {
-                $status = formatDate($row['ended_at'], 'Y-m-d');
-                $label = "<div class=\"bubble greenBubble\">" . $row['show_id'] . "</div>";
-            } elseif ($row['status'] == 4) {
-                $status = formatDate($row['ended_at'], 'Y-m-d');
-                $label = "<div class=\"bubble redBubble\">" . $row['show_id'] . "</div>";
-            } elseif ($row['status'] == 3) {
-                $status = formatDate($row['ended_at'], 'Y-m-d');
-                $label = "<div class=\"bubble blueBubble\">" . $row['show_id'] . "</div>";
-            } else {
-                $label = "<div class=\"bubble \" style=\"background-color:" . $row['status_color'] . "\">" . $row['show_id'] . "</div>";
-            }
-
-            $hours += (int) $row['hours'];
-
-            $hourSelect = '<select name="story[' . $row['id'] . '][rates]">';
-            foreach ($hourTypeResults as $aType) {
-                $hourSelect .= ($aType['id'] === $row['rate_type'])
-                ? '<option value="' . $aType['id'] . '" selected="selected">' . $aType['title'] . '</option>'
-                : '<option value="' . $aType['id'] . '">' . $aType['title'] . '</option>';
-            }
-            $hourSelect .= '</select>';
-
-            $typeSelect = '<select name="story[' . $row['id'] . '][types]">';
-            foreach ($storyTypeResults as $aStoryType) {
-                $typeSelect .= ($aStoryType['id'] === $row['type'])
-                ? '<option value="' . $aStoryType['id'] . '" selected="selected">' . $aStoryType['title'] . '</option>'
-                : '<option value="' . $aStoryType['id'] . '">' . $aStoryType['title'] . '</option>';
-            }
-            $typeSelect .= '</select>';
-
-            $options = buildStoryOptions($_GET['id'], $row['id'], true, $row['status']);
-
-            echo "<tr>";
-            echo "<td>" . $label . "</td>";
-            echo "<td>" . $hourSelect . "</td>";
-            echo "<td>" . $typeSelect . "</td>";
-            echo "<td class=\"textCenter\"><div class=\"emoji_bump\">" . putIcon($row['status_emoji'], $row['status_color']) . "</div></td>";
-            echo "<td><input type=\"date\" autocomplete=\"off\" name=\"story[$row[id]][ended_at]\" value=\"$status\" /></td>";
-            echo "<td><input type=\"text\" autocomplete=\"off\" name=\"story[$row[id]][hours]\" value=\"$row[hours]\" /></td>";
-            echo "<td><input type=\"text\" autocomplete=\"off\" style=\"width:100%;\" name=\"story[$row[id]][title]\" value=\"$row[title]\" /></td>";
-            echo "<td class=\"textRight\"><div class=\"emoji_bump\">$options</div></td>";
-            echo "</tr>";
+        if ($row['status'] == 2) {
+            $endedAt = formatDate($row['ended_at'], 'Y-m-d');
+            $label = "<div class=\"bubble greenBubble\">" . $row['show_id'] . "</div>";
+        } elseif ($row['status'] == 4) {
+            $endedAt = formatDate($row['ended_at'], 'Y-m-d');
+            $label = "<div class=\"bubble redBubble\">" . $row['show_id'] . "</div>";
+        } elseif ($row['status'] == 3) {
+            $endedAt = formatDate($row['ended_at'], 'Y-m-d');
+            $label = "<div class=\"bubble blueBubble\">" . $row['show_id'] . "</div>";
+        } else {
+            $label = "<div class=\"bubble \" style=\"background-color:" . $row['status_color'] . "\">" . $row['show_id'] . "</div>";
         }
 
-        echo <<<qq
-<tr>
-<td colspan="5"></td>
-<td>$hours</td>
-<td colspan="2">
-qq;
+        $hours += (int) $row['hours'];
 
-        echo '<button type="submit">' . language('update_stories', 'Update Stories') . '</button> <button type="button" onClick="window.open(\'invoice.php?collection=' . $aCollection['id'] . '\')">' . language('preview_invoice', 'Preview Invoice') . '</button> <button type="button" onClick="window.location=\'invoice.php?collection=' . $aCollection['id'] . '&save=1\'">' . language('generate_invoice', 'Generate & Save Invoice') . '</button>';
-
-        echo <<<qq
-        </td>
-        </tr>
-        </tbody>
-        </table>
-qq;
-
-        if ($tripFlag) {
-            echo "</details>";
+        $hourSelect = '<select name="story[' . $row['id'] . '][rates]">';
+        foreach ($hourTypeResults as $aType) {
+            $hourSelect .= ($aType['id'] === $row['rate_type'])
+            ? '<option value="' . $aType['id'] . '" selected="selected">' . $aType['title'] . '</option>'
+            : '<option value="' . $aType['id'] . '">' . $aType['title'] . '</option>';
         }
+        $hourSelect .= '</select>';
 
-        echo "</form>";
+        $typeSelect = '<select name="story[' . $row['id'] . '][types]">';
+        foreach ($storyTypeResults as $aStoryType) {
+            $typeSelect .= ($aStoryType['id'] === $row['type'])
+            ? '<option value="' . $aStoryType['id'] . '" selected="selected">' . $aStoryType['title'] . '</option>'
+            : '<option value="' . $aStoryType['id'] . '">' . $aStoryType['title'] . '</option>';
+        }
+        $typeSelect .= '</select>';
+
+        $renderedOtherStories .= template(
+            'snippets/collection_table_other_entry',
+            [
+                'endedAt' => $endedAt,
+                'hours' => $hours,
+                'hourSelect' => $hourSelect,
+                'label' => $label,
+                'options' => buildStoryOptions($_GET['id'], $row['id'], false, $row['status']),
+                'project' => $project,
+                'story' => $row,
+                'typeSelect' => $typeSelect,
+            ],
+            true
+        );
     }
+
+    $collectionsRendered .= template(
+        'snippets/collection',
+        [
+            'collection' => $aCollection,
+            'isProjectDefault' => $isProjectDefault,
+            'openStories' => $renderedOpenStories,
+            'otherStories' => $renderedOtherStories,
+            'tripFlag' => $tripFlag,
+        ],
+        true
+    );
 }
 
-echo <<<qq
-    </div>
-</div>
-<script>
-    $('.preventLeaving').data('serialize',$('#form').serialize());
-
-    $(window).bind('keydown', function(event) {
-    if (event.ctrlKey || event.metaKey) {
-        switch (String.fromCharCode(event.which).toLowerCase()) {
-        case 's':
-            event.preventDefault();
-            alert('ctrl-s');
-            break;
-        case 'f':
-            event.preventDefault();
-            alert('ctrl-f');
-            break;
-        case 'g':
-            event.preventDefault();
-            alert('ctrl-g');
-            break;
-        }
-    }
-}
-</script>
-qq;
-
-include "templates/admin/footer.php";
+// Render the entire page.
+echo template(
+    'projects',
+    [
+        'collections' => $collections,
+        'collectionsRendered' => $collectionsRendered,
+        'collectionSelect' => $collectionSelect,
+        'hourTypeSelect' => $hourTypeSelect,
+        'nextId' => generateTicketId($_GET['id']),
+        'project' => $project,
+        'storyTypeSelect' => $storyTypeSelect,
+        'totalCollections' => $totalCollections,
+    ]
+);
 exit;
 
 /**
- *
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
  *
- *   Module functions
+ *   Functions
  *
  */
 

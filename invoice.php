@@ -1,10 +1,25 @@
 <?php
 
+/**
+ * ATOS: "Built by freelancer 🙋‍♂️, for freelancers 🕺 🤷 💃🏾 "
+ *
+ * The purpose of this file is to render invoices.
+ *
+ * @author @jbelelieu
+ * @copyright Humanity, any year.
+ * @license AGPL-3.0 License
+ * @link https://github.com/jbelelieu/atos
+ */
+
 require "includes/db.php";
 
 if (empty($_GET['collection'])) {
-    echo "No Collection ID.";
-    exit;
+    redirect(
+        'index.php',
+        null,
+        null,
+        language('error_invalid_id', 'You need to provide a valid ID')
+    );
 }
 
 $file = file_get_contents('templates/invoice.html');

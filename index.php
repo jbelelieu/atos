@@ -3,6 +3,8 @@
 /**
  * ATOS: "Built by freelancer 🙋‍♂️, for freelancers 🕺 🤷 💃🏾 "
  *
+ * This file controls projects and companies.
+ *
  * @author @jbelelieu
  * @copyright Humanity, any year.
  * @license AGPL-3.0 License
@@ -12,7 +14,6 @@
 require "includes/db.php";
 
 /**
- *
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
  *
  *   Actions
@@ -46,7 +47,6 @@ if (isset($_POST['action'])) {
 }
 
 /**
- *
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
  *
  *   Down and Dirty
@@ -85,8 +85,7 @@ foreach ($clients as $aClient) {
     );
 }
 
-// -------------------------------------
-
+// Build the projects table.
 $projects = getProjects();
 
 $totalProjectValue = 0;
@@ -126,7 +125,6 @@ echo template(
 exit;
 
 /**
- *
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
  *
  *   Functions
