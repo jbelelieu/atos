@@ -7,26 +7,32 @@
                     <div class="halfHalfColumns">
                         <div>
                             <label><b>Companies &amp; Clients</b>&nbsp;&nbsp;Name</label>
-                            <input type="text" name="title" />
+                            <input
+                                type="text"
+                                required="required"
+                                autocomplete="off"
+                                name="title" />
                             
                             <label>Logo URL</label>
-                            <input type="text" name="logo_url" />
+                            <input type="text" name="logo_url" autocomplete="off" />
                             
                             <label>Phone</label>
-                            <input type="text" name="phone" />
+                            <input type="text" name="phone" autocomplete="off" />
                             
                             <label>Email</label>
-                            <input type="text" name="email" />
+                            <input type="text" name="email" autocomplete="off" />
                         </div>
                         <div>
                             <div>
                             <label>Address (html ok)</label>
-                            <textarea name="address"></textarea>
+                            <textarea name="address" autocomplete="off"></textarea>
                             </div>
 
                             <div>
                             <label>Instructions (html ok)</label>
-                            <textarea name="address"></textarea>
+                            <textarea
+                                name="address"
+                                autocomplete="off"></textarea>
                             </div>
                         </div>
                     </div>
@@ -49,23 +55,33 @@
                     <div class="halfHalfColumns">
                         <div>
                         <label><b>Projects</b>&nbsp;&nbsp;Contracted Party</label>
-                        <select name="company_id"><?php echo $clientSelect; ?></select>
+                        <select required="required" name="company_id"><?php echo $clientSelect; ?></select>
                         </div>
 
                         <div>
                         <label>Your Client</label>
-                        <select name="client_id"><?php echo $clientSelect; ?></select>
+                        <select required="required" name="client_id"><?php echo $clientSelect; ?></select>
                         </div>
 
                         <div>
                         <label>Project Code</label>
-                        <input type="text" name="code" style="width:80px" maxlength=2  />
+                        <input
+                            required="required"
+                            autocomplete="off"
+                            type="text"
+                            name="code"
+                            style="width:80px"
+                            maxlength=2 />
                         <p class="fieldHelp">Used to name stories for example, "<u>PA</u>-120".</p>
                         </div>
 
                         <div>
                         <label>Project Title</label>
-                        <input type="text" name="title" />
+                        <input
+                            type="text"
+                            name="title"
+                            required="required"
+                            autocomplete="off" />
                         </div>
                     </div>
 

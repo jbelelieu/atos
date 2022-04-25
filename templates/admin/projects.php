@@ -24,12 +24,12 @@
                 <div class="columns2575">
                     <div>
                         <label>Reference Number</label>
-                        <input type="text" name="show_id" value="<?php echo $nextId; ?>" />
+                        <input type="text" name="show_id" required="required" autocomplete="off" value="<?php echo $nextId; ?>" />
                     </div>
 
                     <div>
                     <label>Description</label>
-                    <input type="text" name="title" style="width:80%;" /> <button type="submit">Create</button>
+                    <input type="text" name="title" required="required" autocomplete="off" style="width:80%;" /> <button type="submit">Create</button>
                     </div>
                 </div>
 
@@ -44,7 +44,7 @@
                 <div class="twoColumns">
                     <div>
                     <label><b>Collections</b>&nbsp;&nbsp;Title</label>
-                    <input type="text" name="title" />
+                    <input type="text" required="required" autocomplete="off" name="title" />
                     </div>
 
                     <div style="align-self: end;">
