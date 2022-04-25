@@ -3,7 +3,12 @@
 require "includes/db.php";
 
 if (empty($_GET['id'])) {
-    redirect('index.php', null, null, 'You need to provide a valid project ID.');
+    redirect(
+        'index.php',
+        null,
+        null,
+        language('error_invalid_id', 'You need to provide a valid ID')
+    );
 }
 
 // -------------------------------------
@@ -104,7 +109,7 @@ echo <<<qq
             <form action="project.php?id=$_GET[id]" method="post">
                 <div class="threeColumns">
                     <div>
-                    <label><b>Stories</b>&nbsp;&nbsp;Collection</label>
+                    <label><b>{language('story', 'Story')}</b>&nbsp;&nbsp;Collection</label>
                     <select name="collection">$collectionSelect</select>
                     </div>
 
@@ -126,7 +131,7 @@ echo <<<qq
                     </div>
 
                     <div>
-                    <label>Story</label>
+                    <label>Description</label>
                     <input type="text" name="title" style="width:80%;" /> <button type="submit">Create</button>
                     </div>
                 </div>
@@ -163,15 +168,19 @@ echo <<<qq
         <div id="collections" class="padLessBottom">
 qq;
 
-// TODO: Link to an overview of that collection.
+$totalResults = sizeof($collectionResults);
 $at = 0;
 foreach ($collectionResults as $row) {
     $at++;
 
+    if ($at === $totalResults) {
+        continue;
+    }
+
     $delete = $row['id'] > 1 ? "<a href=\"project.php?action=deleteCollection&project_id=" . $_GET['id'] . "&id=" . $row['id'] . "\">" . putIcon('fi-sr-trash') . "</a>" : '';
 
     $update = ($at > 1 && !$row['is_project_default'])
-        ? "<a title=\"Make Active Collection\" href=\"project.php?action=makeCurrentCollection&project_id=" . $_GET['id'] . "&id=" . $row['id'] . "\">" . $row['title'] . "</a>"
+        ? "<a title=\"" . language('make_active_collection', 'Make Active Collection') . "\" href=\"project.php?action=makeCurrentCollection&project_id=" . $_GET['id'] . "&id=" . $row['id'] . "\">" . $row['title'] . "</a>"
         : $row['title'];
 
     echo "<div><span>" . $update . "</span>" . $delete . "</div>";
@@ -232,7 +241,7 @@ qq;
     foreach ($openStories as $row) {
         $createdAt = (!empty($row['created_at'])) ? formatDate($row['created_at']) : '-';
 
-        $options = buildStoryOptions($_GET['id'], $row['id']);
+        $options = buildStoryOptions($_GET['id'], $row['id'], false, $row['status']);
 
         echo "<tr>";
         echo "<td><span class=\"bubble grayBubble\">" . $row['show_id'] . "</span></td>";
@@ -313,7 +322,7 @@ qq;
             }
             $typeSelect .= '</select>';
 
-            $options = buildStoryOptions($_GET['id'], $row['id'], true);
+            $options = buildStoryOptions($_GET['id'], $row['id'], true, $row['status']);
 
             echo "<tr>";
             echo "<td>" . $label . "</td>";
@@ -334,7 +343,7 @@ qq;
 <td colspan="2">
 qq;
 
-        echo '<button type="submit">Update Stories</button> <button type="button" onClick="window.open(\'invoice.php?collection=' . $aCollection['id'] . '\')">Preview Invoice</button> <button type="button" onClick="window.location=\'invoice.php?collection=' . $aCollection['id'] . '&save=1\'">Generate & Save Invoice</button>';
+        echo '<button type="submit">' . language('update_stories', 'Update Stories') . '</button> <button type="button" onClick="window.open(\'invoice.php?collection=' . $aCollection['id'] . '\')">' . language('preview_invoice', 'Preview Invoice') . '</button> <button type="button" onClick="window.location=\'invoice.php?collection=' . $aCollection['id'] . '&save=1\'">' . language('generate_invoice', 'Generate & Save Invoice') . '</button>';
 
         echo <<<qq
         </td>
@@ -392,15 +401,20 @@ exit;
 function buildStoryOptions(
     int $projectId,
     $itemId,
-    bool $skipMoveCollection = false
+    bool $skipMoveCollection = false,
+    $skipStatusId = 0
 ): string {
     global $storyStatuses;
 
     $options = (!$skipMoveCollection)
-        ? "<a title=\"Move Collections\" href=\"project.php?action=shiftCollection&project_id=" . $projectId . "&id=" . $itemId . "\">" . putIcon('fi-sr-undo') . "</a>"
+        ? "<a title=\"" . language('move_collections', 'Move Collections') . "\" href=\"project.php?action=shiftCollection&project_id=" . $projectId . "&id=" . $itemId . "\">" . putIcon('fi-sr-undo') . "</a>"
         : '';
 
     foreach ($storyStatuses as $aStatus) {
+        if ($skipStatusId && $skipStatusId == $aStatus['id']) {
+            continue;
+        }
+
         $options .= "<a title=\"" . $aStatus['title'] . "\" href=\"project.php?action=updateStoryStatus&status=" . $aStatus['id'] . "&project_id=" . $projectId . "&id=" . $itemId . "\">" . putIcon($aStatus['emoji'], $aStatus['color']) . "</a>";
     }
 
