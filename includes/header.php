@@ -13,13 +13,15 @@ echo <<<qq
     <link rel="stylesheet" href="assets/style.css" />
     <link rel="stylesheet" href="assets/icons.css" />
     <script type="text/javascript" src="assets/jquery.js"></script>
+    <link rel="icon" type="image/png" href="assets/atos_icon.png" />
 </head>
 
 <body>
 <header>
     <div class="headerColumns">
-        <div>
-            <span><a href="index.php">ATOS</a></span>
+        <div id="logo">
+            <div id="icon"><img src="assets/atos_icon.png" style="width:14px;height:14px" alt="ASOS Icon" /></div>
+            <div id="company"><a href="index.php">ATOS</a></div>
         </div>
         <div>
 qq;
