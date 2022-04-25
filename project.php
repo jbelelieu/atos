@@ -196,7 +196,7 @@ foreach ($collectionResults as $aCollection) {
     $hours = 0;
 
     $openStories = getStoriesInCollection($aCollection['id']);
-    $otherStories = getStoriesInCollection($aCollection['id'], false, 'ended_at DESC, status ASC');
+    $otherStories = getStoriesInCollection($aCollection['id'], false, 'ended_at DESC, status ASC', true);
 
     $isProjectDefault = (bool) $aCollection['is_project_default'];
 
@@ -220,9 +220,10 @@ qq;
         <tr>
         <th width="140">ID</th>
         <th width="140">Rate Type</th>
+        <th width="42"></th>
         <th width="140">Type</th>
         <th width=>Title</th>
-        <th width="200"></th>
+        <th width="240"></th>
         </tr>
         </thead>
         <tbody>
@@ -236,6 +237,7 @@ qq;
         echo "<tr>";
         echo "<td><span class=\"bubble grayBubble\">" . $row['show_id'] . "</span></td>";
         echo "<td>" . $row['hour_title'] . "</td>";
+        echo "<td><div class=\"emoji_bump_sm\">" . putIcon($row['status_emoji'], $row['status_color']) . "</div></td>";
         echo "<td>" . $row['type_title'] . "</td>";
         echo "<td class=\"ellipsis\">" . $row['title'] . "</td>";
         echo "<td class=\"textRight\">$options<a onclick=\"return confirm('This will delete the story - are you sure?')\" href=\"project.php?action=deleteStory&project_id=" . $_GET['id'] . "&id=" . $row['id'] . "\">" . putIcon('fi-sr-trash') . "</a>
@@ -332,7 +334,7 @@ qq;
 <td colspan="2">
 qq;
 
-        echo '<button type="submit">Update Stories</button> <button type="button" onClick="window.location=\'invoice.php?collection=' . $aCollection['id'] . '\'">Preview Invoice</button> <button type="button" onClick="window.location=\'invoice.php?collection=' . $aCollection['id'] . '&save=1\'">Generate & Save Invoice</button>';
+        echo '<button type="submit">Update Stories</button> <button type="button" onClick="window.open(\'invoice.php?collection=' . $aCollection['id'] . '\')">Preview Invoice</button> <button type="button" onClick="window.location=\'invoice.php?collection=' . $aCollection['id'] . '&save=1\'">Generate & Save Invoice</button>';
 
         echo <<<qq
         </td>

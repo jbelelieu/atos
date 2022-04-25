@@ -816,6 +816,10 @@ table td.summary {
   margin-top: 10px;
 }
 
+.emoji_bump_sm {
+  margin-top: 3px;
+}
+
 #nav a {
   margin-left: 12px;
   display: inline-block;
