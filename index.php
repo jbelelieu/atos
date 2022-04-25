@@ -79,7 +79,7 @@ foreach ($clients as $aClient) {
         [
             'client' => $aClient,
             'logo' => $logo,
-            'totalClientValue' => formatMoney($totalValue),
+            'totalClientValue' => formatMoney($value['total']),
         ],
         true
     );
