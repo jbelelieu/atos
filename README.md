@@ -11,7 +11,8 @@ ATOS is a locally hosted, zero-setup application that makes invoicing against ba
 
 - **Project Management**: Track stories
 - **Invoice Generation**: Generate detailed invoices against those completed stories
-- **Estimated Taxes**: Coming soon, I'll be adding help for US-based developers around estimated taxes.
+- **Estimated Taxes**: Coming soon -- Estimated tax help for US-based developers.
+- **Language Support**: Coming soon  -- additional languages other than English.
 
 ATOS is 100% open source and free to use, licensed under the [GNU AGPLv3 License](https://www.gnu.org/licenses/agpl-3.0.en.html).
 
@@ -51,6 +52,10 @@ You can add your logo to outgoing invoices by simply replacing `logo.png` in the
 If you plan on generating and saving invoices locally (which I recommend you do), you will need to make sure the `invoices` directory is writable: `chmod 0755 invoices`.
 
 Note that invoices are saved as HTML. Most computers have reasonable "Print as PDF" options now; please use that feature to print a PDF if required. Note that ATOS hard codes styles, so changing `assets/style.css` won't affect already saved invoices.
+
+##### Notice: Language Files
+
+You can customize some of the language that isn't on templates using the `includes/language.php` file.
 
 -----
 

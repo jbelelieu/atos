@@ -2,9 +2,11 @@
 
 require "helpers.php";
 require "system.php";
+require "language.php";
 
 session_start();
 
+// DB connection
 $dbFile = 'db/' . getSetting(AsosSettings::DATABASE_FILE_NAME, 'atos.sqlite3');
 if (!file_exists($dbFile)) {
     echo "Database file not found.";
@@ -14,7 +16,7 @@ if (!file_exists($dbFile)) {
 $db = new PDO("sqlite:$dbFile");
 $db->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 
-//
+// Migration checks
 try {
     $isInstalledStmt = $db->prepare("
         SELECT name FROM sqlite_master WHERE type='table' AND name='story' 
@@ -30,6 +32,10 @@ try {
     systemError($e->getMessage());
 }
 
+// Language file
+$ATOS_LANGUAGE = (file_exists($ATOS_HOME_DIR . '/includes/language.php'))
+    ? require $ATOS_HOME_DIR . '/includes/language.php'
+    : [];
 
 /**
  * @param integer $clientId
@@ -121,18 +127,26 @@ function getProjectTotals(int $projectId)
 
 /**
  * @param integer $collectionId
- * @param boolean $getAll If set to false, only billable items will be returned.
+ * @param boolean $isOpen
  * @param string $order
+ * @param boolean $isOpen
  * @return array
  */
 function getStoriesInCollection(
     int $collectionId,
-    bool $getAll = true,
-    string $order = 'status ASC, created_at DESC'
+    bool $isOpen = true,
+    string $order = 'status ASC, created_at DESC',
+    bool $billableOnly = false
 ) {
     global $db;
 
-    $statusQuery = (!$getAll) ? 'AND story_status.is_billable_state = true' : '';
+    $statusQuery = $isOpen
+        ? ' AND story_status.is_complete_state = false'
+        : ' AND story_status.is_complete_state = true';
+
+    $statusQuery .= $billableOnly
+        ? ' AND story_status.is_billable_state = true'
+        : '';
 
     $statement = $db->prepare("
         SELECT

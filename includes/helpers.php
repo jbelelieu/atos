@@ -63,6 +63,20 @@ function formatDate(string $date, string $format = 'Y/m/d'): string
 }
 
 /**
+ * @param string $key
+ * @param string $default
+ * @return string
+ */
+function language(string $key, string $default = ''): string
+{
+    global $ATOS_LANGUAGE;
+
+    return (array_key_exists($key, $ATOS_LANGUAGE)) ? $ATOS_LANGUAGE[$key] : $default;
+
+    return $default;
+}
+
+/**
  * @param string $name
  * @param string $default
  * @return string
