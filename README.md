@@ -16,9 +16,7 @@ ATOS is a locally hosted, zero-setup application that makes invoicing against ba
 ATOS is 100% open source and free to use, licensed under the [GNU AGPLv3 License](https://www.gnu.org/licenses/agpl-3.0.en.html).
 
 
-![ATOS Screen Shot](assets/atos_screen.png)
-
-![ATOS Invoice Screen Shot](assets/atos_invoice_screen.png)
+<img alt="ATOS Screen Shot" src="https://github.com/jbelelieu/atos/blob/develop/assets/atos_screen.png?raw=true" style="width: 350px;float:left;" /> <img alt="ATOS Invoice Screen Shot" src="https://github.com/jbelelieu/atos/blob/develop/assets/atos_invoice_screen.png?raw=true" style="width: 350px;float:left;" />
 
 -----
 
