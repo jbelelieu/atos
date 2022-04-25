@@ -170,9 +170,11 @@ foreach ($collectionResults as $row) {
 
     $delete = $row['id'] > 1 ? "<a href=\"project.php?action=deleteCollection&project_id=" . $_GET['id'] . "&id=" . $row['id'] . "\">" . putIcon('fi-sr-trash') . "</a>" : '';
 
-    $update = ($row['id'] > 2) ? "<a href=\"project.php?action=makeCurrentCollection&project_id=" . $_GET['id'] . "&id=" . $row['id'] . "\">" . putIcon('fi-sr-apps-sort') . "</a>" : '';
+    $update = ($at > 1 && !$row['is_project_default'])
+        ? "<a title=\"Make Active Collection\" href=\"project.php?action=makeCurrentCollection&project_id=" . $_GET['id'] . "&id=" . $row['id'] . "\">" . $row['title'] . "</a>"
+        : $row['title'];
 
-    echo "<div><span>" . $row['title'] . "</span>" . $update . $delete . "</div>";
+    echo "<div><span>" . $update . "</span>" . $delete . "</div>";
 }
 
 echo <<<qq
@@ -411,6 +413,8 @@ function createCollection(array $data): void
 {
     global $db;
 
+    $currentCollection = getCollectionByProject($data['project_id'], 1)[0];
+
     $statement = $db->prepare('
         INSERT INTO story_collection (title, project_id, goals, ended_at)
         VALUES (:title, :project_id, :goals, :ended_at)
@@ -420,8 +424,9 @@ function createCollection(array $data): void
     $statement->bindParam(':title', $data['title']);
     $statement->bindParam(':ended_at', $data['ended_at']);
     $statement->bindParam(':goals', $data['goals']);
-
     $statement->execute();
+
+    makeCurrentCollection([ 'id' => $currentCollection['id'] ], false);
 
     redirect('project.php', $data['project_id'], 'Your collection has been created.');
 }
@@ -456,21 +461,6 @@ function createStory(array $data): void
 }
 
 /**
- * @param integer $projectId
- * @return string
- */
-function generateTicketId(int $projectId): string
-{
-    $project = getProjectById($projectId);
-
-    $totalStoriesInProject = getNextStoryNumberForProject($projectId);
-
-    $id = $project['code'] . '-' . $totalStoriesInProject;
-
-    return $project['code'] . '-' . $totalStoriesInProject;
-}
-
-/**
  * null should probably be "unorganized" but let's roll
  * the dice and assume no one's gonna delete the ID
  * from the database directly.
@@ -484,20 +474,13 @@ function deleteCollection(array $data): void
 
     $collection = getCollectionById($data['id']);
 
-    if ($collection['is_project_default'] === 1) {
+    $isDefault = (bool) $collection['is_project_default'];
+    if ($isDefault) {
         redirect('project.php', $data['project_id'], '', 'You cannot delete the "Unorganized" collection from a project.');
     }
 
     $statement = $db->prepare('
         DELETE FROM story_collection WHERE id = :id
-    ');
-    $statement->bindParam(':id', $data['id']);
-    $statement->execute();
-
-    $statement = $db->prepare('
-        UPDATE story
-        SET collection = 1
-        WHERE collection = :id
     ');
     $statement->bindParam(':id', $data['id']);
     $statement->execute();
@@ -525,15 +508,33 @@ function deleteStory(array $data): void
 }
 
 /**
+ * @param integer $projectId
+ * @return string
+ */
+function generateTicketId(int $projectId): string
+{
+    $project = getProjectById($projectId);
+
+    $totalStoriesInProject = getNextStoryNumberForProject($projectId);
+
+    $id = $project['code'] . '-' . $totalStoriesInProject;
+
+    return $project['code'] . '-' . $totalStoriesInProject;
+}
+
+/**
  * @param array $data
+ * @param bool $redirect
  * @return void
  */
-function makeCurrentCollection(array $data): void
+function makeCurrentCollection(array $data, bool $redirect = true): void
 {
     global $db;
 
     $statement = $db->prepare('
-        UPDATE story_collection SET created_at = :date WHERE id = :id
+        UPDATE story_collection
+        SET created_at = :date
+        WHERE id = :id
     ');
 
     $statement->bindParam(':id', $data['id']);
@@ -541,7 +542,9 @@ function makeCurrentCollection(array $data): void
 
     $statement->execute();
 
-    redirect('project.php', $data['project_id'], 'Now working with a new collection.');
+    if ($redirect) {
+        redirect('project.php', $data['project_id'], 'Now working with a new collection.');
+    }
 }
 
 /**
@@ -553,19 +556,15 @@ function shiftCollection(array $data): void
     global $db;
 
     $story = getStory($data['id']);
-    $currentStatus = getStoryStatusById($story['status']);
 
     // Default to Open
     if ($story['collection'] === 1) {
         $useCollection = getLatestCollectionForProject($data['project_id']);
-
         $moveTo = $useCollection['id'];
     }
-
     // Move to default collection
     else {
         $useCollection = getDefaultCollectionForProject($data['project_id']);
-
         $moveTo = $useCollection['id'];
     }
 
