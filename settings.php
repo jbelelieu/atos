@@ -52,7 +52,7 @@ echo <<<qq
                 <form action="settings.php" method="post">
                     <div>
                         <label><b>Statuses</b>&nbsp;&nbsp;Title</label>
-                        <input type="text" name="title" />
+                        <input type="text" autocomplete="off" name="title" />
                         
                         <label>Complete State?</label>
                         <input type="radio" name="is_complete_state" value="1" checked="checked" /> Yes, we can consider these stories completed.<br />
@@ -62,9 +62,17 @@ echo <<<qq
                         <input type="radio" name="is_billable_state" value="1" checked="checked" /> Yes, this status represents a billable state.<br />
                         <input type="radio" name="is_billable_state" value="0" /> No, do not bill for stories with this status.
                         
-                        <label>Emoji</label>
-                        <input type="text" name="emoji" maxlength=10 style="width:100px;" /> <button type="submit">Create</button>
-                        <p class="fieldHelp">Select any icon from <a href="https://www.flaticon.com/uicons/?weight=solid&corner=rounded" target="_blank">here</a>. Type the name ("<u>fi-sr-briefcase</u>" for example) found by clicking on the icon.</p>
+                        <div class="halfHalfColumns">
+                        <div>
+                            <label>Emoji</label>
+                            <input type="text" autocomplete="off" name="emoji" maxlength=10 style="width:200px;" />
+                            <p class="fieldHelp">Select any icon from <a href="https://www.flaticon.com/uicons/?weight=solid&corner=rounded" target="_blank">here</a>. Type the name (exp: "<u>fi-sr-briefcase</u>") found by clicking on the icon.</p>
+                        </div>
+                        <div>
+                            <label>Color</label>
+                            #<input type="color" autocomplete="off" name="color" style="width:42px;" /> <button type="submit">Create</button>
+                        </div>
+                        </div>
                     </div>
                     <input type="hidden" name="action" value="createStatus" />
                 </form>
@@ -75,10 +83,10 @@ echo <<<qq
                 <form action="settings.php" method="post">
                     <div>
                         <label><b>Rate Types</b>&nbsp;&nbsp;Title</label>
-                        <input type="text" name="title" />
+                        <input type="text" autocomplete="off" name="title" />
                         
                         <label>Rate</label>
-                        $<input type="text" name="rate" style="width:100px;" /> <button type="submit">Create</button>
+                        $<input type="text" autocomplete="off" name="rate" style="width:100px;" /> <button type="submit">Create</button>
                     </div>
                     <input type="hidden" name="action" value="createRateType" />
                 </form>
@@ -88,7 +96,7 @@ echo <<<qq
                 <form action="settings.php" method="post">
                     <div>
                         <label><b>Story Types</b>&nbsp;&nbsp;Title</label>
-                        <input type="text" name="title" style="width:60%;" /> <button type="submit">Create</button>
+                        <input type="text" autocomplete="off" name="title" style="width:60%;" /> <button type="submit">Create</button>
                     </div>
                     <input type="hidden" name="action" value="createStoryType" />
                 </form>

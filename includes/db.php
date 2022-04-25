@@ -121,17 +121,18 @@ function getProjectTotals(int $projectId)
 
 /**
  * @param integer $collectionId
- * @param boolean $isOpen
+ * @param boolean $getAll If set to false, only billable items will be returned.
+ * @param string $order
  * @return array
  */
 function getStoriesInCollection(
     int $collectionId,
-    bool $isOpen = true,
+    bool $getAll = true,
     string $order = 'status ASC, created_at DESC'
 ) {
     global $db;
 
-    $statusQuery = $isOpen ? 'story.status = 1' : 'story.status != 1';
+    $statusQuery = (!$getAll) ? 'AND story_status.is_billable_state = true' : '';
 
     $statement = $db->prepare("
         SELECT
@@ -150,7 +151,7 @@ function getStoriesInCollection(
         JOIN story_hour_type ON story.rate_type = story_hour_type.id
         WHERE
             story.collection = :collection
-            AND $statusQuery
+            $statusQuery
         ORDER BY
             $order
     ");
