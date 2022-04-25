@@ -15,41 +15,38 @@ ATOS is a locally hosted, zero-setup application that makes invoicing against ba
 
 ATOS is 100% open source and free to use, licensed under the [GNU AGPLv3 License](https://www.gnu.org/licenses/agpl-3.0.en.html).
 
-![ATOS Screen Shot](assets/atos_invoice_screen.png)
+![ATOS Screen Shot](assets/atos_invoice_screen.png | width=500)
 
 -----
 
-```
-Notice About Deploying ATOS To The Web
-
-This was always meant to be used locally. While there shouldn't be any problems deploying it, I don't recommend allowing anyone to access this who you don't fully trust. There is no concept of "users" in the platform, so anyone with access will be able to do whatever they want with your data.
-```
-
 # Setup
+
+**Notice About Deploying ATOS To The Web**: ATOS was always meant to be used locally. While there shouldn't be any problems deploying it, I don't recommend allowing anyone to access this who you don't fully trust. There is no concept of "users" in the platform, so anyone with access will be able to do whatever they want with your data.
 
 ATOS requires `PHP8+` and `SQLite3`.
 
-### Update Your Default Settings (Optional Step)
+### Download and Start
+
+- From Github, download the ZIP file for the latest release
+- Unzip it wherever you want
+- In command line, go to that directory and launch the PHP server: `php -S localhost:9001`
+- You can now access ATOS from any web browser at `http://localhost:9001`.
+
+##### Update Your Default Settings (Optional Step)
 
 Open `SystemSettings.sample.php` and update the values as needed. Optionally rename it to `SystemSettings.env.php`, otherwise ATOS will do that for you.
 
-### Start the PHP Server
-
-Once in the home directory of your project, via command line, state the PHP server: `php -S localhost:9001`
-
-You can now access ATOS from any web browser at `http://localhost:9001`.
-
-##### phpLiteAdmin Notice
+##### Notice: phpLiteAdmin
 
 For your convinience, ATOS ships with [phpLiteAdmin](https://www.phpliteadmin.org/). You can access that from `http://localhost:9001/db`.
 
 ATOS will automatically attempt to run migrations at first start up. On the off chance that migrations fail, you can use phpLiteAdmin to manually execute the contents of `db/migrations.sql`.
 
-### Your Logo
+##### Notice: Updating Your Logo
 
 You can add your logo to outgoing invoices by simply replacing `logo.png` in the main directory of the project with your actual logo.
 
-### Invoices
+##### Notice: Saving Invoices
 
 If you plan on generating and saving invoices locally (which I recommend you do), you will need to make sure the `invoices` directory is writable: `chmod 0755 invoices`.
 
