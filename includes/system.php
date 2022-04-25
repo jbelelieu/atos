@@ -1,20 +1,24 @@
 <?php
 
-$atosSettings = [
-    // What is your database file called.
-    'DATABASE_FILE_NAME' => 'pm.sqlite3',
-    
-    // How many days from issuances of the invoice should payment
-    // be due? Set to zero (0) to not have a due date.
-    'INVOICE_DUE_DATE_IN_DAYS' => 14,
+$ATOS_HOME_DIR = __DIR__ . '/..';
 
-    // What should the default collection for a new project be called?
-    'UNORGANIZED_NAME' => 'Unorganized',
-];
+try {
+    if (!file_exists($ATOS_HOME_DIR . '/SystemSettings.env.php')) {
+        $worked = @rename(
+            $ATOS_HOME_DIR . '/SystemSettings.sample.php',
+            $ATOS_HOME_DIR . '/SystemSettings.env.php'
+        );
+        if (!$worked) {
+            systemError('We could not rename <u>SystemSettings.sample.php</u> to <u>SystemSettings.env.php</u>. Please do that and try again.');
+        }
+    }
+    
+    $atosSettings = require $ATOS_HOME_DIR . '/SystemSettings.env.php';
+} catch (Exception $e) {
+    systemError($e->getMessage());
+}
 
 /**
- * Undocumented function
- *
  * @param string $key
  * @param string|null $default
  * @return string
@@ -35,7 +39,7 @@ function getSetting(AsosSettings $key, $default = null)
 
 /**
  * @param string $settingKey
- * @param [type] $default
+ * @param $default
  * @return void
  */
 function returnSetting(string $settingKey, $default = null)

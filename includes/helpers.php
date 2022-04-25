@@ -127,6 +127,18 @@ function redirect(
 }
 
 /**
+ * @param string $msg
+ * @return void
+ */
+function systemError(string $msg)
+{
+    echo <<<qq
+<div style="color:#E44B58;border-radius:3px;font-size:0.9em;line-height:1.5em;border:1px solid #E44B58;border-bottom:3px solid #E44B58;padding:24px;width:600px;margin:42px auto;font-family:arial;font-weight:bold;">$msg</div>
+qq;
+    exit;
+}
+
+/**
  * @param string $file
  * @param array $data
  * @param string $objectKey

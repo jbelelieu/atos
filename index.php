@@ -334,9 +334,9 @@ function createProject(array $data): void
 
         $db->commit();
     } catch (\PDOException $e) {
-        dd($e);
-
         $db->rollback();
+
+        systemError($e->getMessage());
     }
 
     redirect('index.php', null, 'Your project has been created; now go got get that bread.');
