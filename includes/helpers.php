@@ -89,6 +89,25 @@ function formatDate(string $date, string $format = 'Y/m/d'): string
 }
 
 /**
+ * SQLite3 and PHP don't play well with booleans, so we'll
+ * create a function to manage this better.
+ *
+ * @param $value
+ * @return boolean
+ */
+function isBool($value): bool
+{
+    $stringValue = strtolower((string) $value);
+
+    return (
+        $stringValue === '1'
+        || $stringValue === 'true'
+        || $stringValue === 'yes'
+        || $stringValue === 'y'
+    ) ? true : false;
+}
+
+/**
  * @param string $key
  * @param string $default
  * @return string

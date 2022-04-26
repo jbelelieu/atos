@@ -154,7 +154,7 @@ class StoryService extends BaseService
         $hours = 0;
         if ((int) $story['hours'] > 0) {
             $hours = $story['hours'];
-        } elseif ((bool) $status['is_billable_state']) {
+        } elseif (isBool($status['is_billable_state'])) {
             $hours = 1;
         }
     

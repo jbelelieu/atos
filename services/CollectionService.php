@@ -55,7 +55,7 @@ class CollectionService extends BaseService
     {
         $collection = getCollectionById($data['id']);
 
-        $isDefault = (bool) $collection['is_project_default'];
+        $isDefault = isBool($collection['is_project_default']);
         if ($isDefault) {
             redirect(
                 '/project',
@@ -117,7 +117,7 @@ class CollectionService extends BaseService
         $currentCollection = getCollectionById($story['collection']);
         $currentStatus = getStoryStatusById($story['status']);
 
-        $isStoryInDefaultCollection = (bool) $currentCollection['is_project_default'];
+        $isStoryInDefaultCollection = isBool($currentCollection['is_project_default']);
 
         if ($isStoryInDefaultCollection) {
             $useCollection = getLatestCollectionForProject($data['project_id']);

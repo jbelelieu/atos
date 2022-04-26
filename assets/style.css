@@ -735,6 +735,14 @@ table td.summary {
   font-weight: bold;
 }
 
+table tr.notBillable {
+  background-color: #f1f1f1;
+}
+
+table tr.notBillable input {
+  color: #666;
+}
+
 .ellipsis {
   display: block;
   max-width: 100%;

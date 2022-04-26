@@ -376,30 +376,34 @@ function getStory(int $storyId)
 }
 
 /**
+ * TODO: This is a mess and needs to be rebuilt.
+ *
  * @param integer $collectionId
  * @param boolean $isOpen
  * @param string $order
  * @param boolean $isOpen
+ * @param boolean $showCompleteNotBillable
  * @return array
  */
 function getStoriesInCollection(
     int $collectionId,
     bool $isOpen = true,
     string $order = 'status ASC, created_at DESC',
-    bool $billableOnly = false
+    bool $billableOnly = false,
+    bool $showCompleteNotBillable = false
 ) {
     global $db;
 
     $collection = getCollectionById($collectionId);
-    $isDefaultCollection = (bool) $collection['is_project_default'];
+    $isDefaultCollection = isBool($collection['is_project_default']);
 
     $statusQuery = '';
     if (!$isDefaultCollection) {
-        $statusQuery .= $isOpen
+        $statusQuery .= ($isOpen)
             ? ' AND story_status.is_complete_state = false'
             : ' AND story_status.is_complete_state = true';
 
-        $statusQuery .= $billableOnly
+        $statusQuery .= ($billableOnly && !$showCompleteNotBillable)
             ? ' AND story_status.is_billable_state = true'
             : '';
     }
@@ -412,6 +416,7 @@ function getStoriesInCollection(
             story_hour_type.rate as hour_rate,
             story_status.title as status_title,
             story_status.is_complete_state,
+            story_status.is_billable_state,
             story_status.title as status_id,
             story_status.emoji as status_emoji,
             story_status.color as status_color
