@@ -475,11 +475,8 @@ footer {
 }
 
 .holder {
-  padding: 42px 24px;
-}
-
-.holderFull {
-  padding: 42px 0;
+  width: 97%;
+  margin: 0 auto;
 }
 
 #collections div {
@@ -604,11 +601,6 @@ footer {
   border-color: #28afc9 #fff;
 }
 
-#holderFixed {
-  width: 800px;
-  margin: 0 auto;
-}
-
 #collectionsScroller {
   overflow-y: auto;
   height: 80px;
@@ -677,11 +669,18 @@ table {
     border-collapse: collapse;
 }
 
+table.allStoriesInCollection {
+  border-left: 1px solid #111;
+  border-right: 1px solid #111;
+  border-bottom: 3px solid #111;
+}
+
 table th {
-  border-bottom: 1px solid #e5e5e5;
   text-align: left;
   font-size: 85%;
-  color: #555;
+  color: #fff;
+  background-color: #111;
+  /* border-bottom: 3px solid #3fcce8; */
 }
 
 table tr:not(:last-child):not(.noBorder) {
@@ -692,10 +691,26 @@ table td.borderTop {
   border-bottom: 1px dotted #e5e5e5;
 }
 
+.collectionsTable h4 {
+  margin-bottom: 0px;
+}
+
+details summary { list-style-type: none; } /* Firefox */
+details summary::-webkit-details-marker { display: none; } /* Chrome */
+details summary::marker { display: none; }
+
+.bold { font-weight: bold; }
+
+.unorgLink {
+  font-size: 0.9em;
+  margin-left: 12px;
+  font-weight: bold;
+}
+
 table td,
 table th {
   vertical-align: top;
-  padding: 6px 16px;
+  padding: 6px 9px;
 }
 
 table td input {

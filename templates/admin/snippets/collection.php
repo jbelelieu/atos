@@ -3,21 +3,29 @@
 <details>
     <summary>
         <h4 class="bubble"><?php echo $collection['title']; ?></h4>
+        <div class="clearFix"></div>
     </summary>
+
+<?php } ?>
+
+    <h4 class="bubble">
+        <?php echo $collection['title']; ?>
+    </h4>
+
+<?php if ($isProjectDefault) { ?>
+
+    <a name="unorganized"></a>
+    <a class="unorgLink" href="#top">View Open</a>
 
 <?php } else { ?>
 
-    <h4 class="bubble"><?php echo $collection['title']; ?></h4>
-
-<?php } if (!$isProjectDefault) { ?>
-    
     <div class="clearFix"></div>
-    <h4 class="bubble noMarginTop">Open</h4>
+    <h4 class="bubble noMarginTop">Open</h4> <a class="unorgLink" href="#unorganized">View Unorganized</a>
 
 <?php } ?>
 
 <!-- Open stories table -->
-<table>
+<table class="allStoriesInCollection">
 <thead>
 <tr>
 <th width="140">ID</th>
@@ -35,8 +43,6 @@
 
 <?php if (!$isProjectDefault) { ?>
     <!-- Billable stories table -->
-    <hr />
-
     <h4 class="bubble">Billable</h4>
 
     <form
@@ -46,7 +52,7 @@
         <input type="hidden" name="action" value="updateStories" />
         <input type="hidden" name="project_id" value="<?php echo $collection['project_id']; ?>" />
 
-        <table>
+        <table class="allStoriesInCollection">
         <thead>
             <tr>
             <th width="140">ID</th>

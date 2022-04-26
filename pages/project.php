@@ -79,14 +79,27 @@ if (isset($_POST['action'])) {
  */
 
 $project = getProjectById($_GET['id']);
+if (!$project) {
+    redirect(
+        '/',
+        null,
+        null,
+        language('error_invalid_id', 'You need to provide a valid ID')
+    );
+}
+
+// Convienience feature for easier navigation.
+$_SESSION["viewingProject"] = $project['id'];
+$_SESSION["viewingProjectName"] = $project['title'];
+
 $storyStatuses = getStoryStatuses();
 $hourTypeResults = getRateTypes();
 $storyTypeResults = getStoryTypes();
-$collectionResults = getCollectionByProject($_GET['id']);
 
-// Convienience feature for easier navigation.
-$_SESSION["viewingProject"] = $_GET['id'];
-$_SESSION["viewingProjectName"] = $project['title'];
+$collectionResults = [
+ getLatestCollectionForProject($project['id']),
+ getDefaultCollectionForProject($project['id']),
+];
 
 // Story type select for the story create form.
 $storyTypeSelect = '';
@@ -106,7 +119,8 @@ foreach ($hourTypeResults as $aType) {
 $collectionSelect = '';
 $collectionArray = [];
 
-foreach ($collectionResults as $aCollection) {
+$allCollections = getCollectionByProject($project['id']);
+foreach ($allCollections as $aCollection) {
     array_push($collectionArray, $aCollection['id']);
 
     $collectionSelect .= '<option value="' . $aCollection['id'] . '">' . $aCollection['title'] . '</option>';
@@ -114,10 +128,10 @@ foreach ($collectionResults as $aCollection) {
 
 // Build the collections list.
 $collections = '';
-$totalCollections = sizeof($collectionResults);
+$totalCollections = sizeof($allCollections);
 $at = 0;
 
-foreach ($collectionResults as $row) {
+foreach ($allCollections as $row) {
     if ($at === $totalCollections) {
         continue;
     }
@@ -125,11 +139,11 @@ foreach ($collectionResults as $row) {
     $isProjectDefault = isBool($row['is_project_default']);
 
     $delete = ($row['id'] > 1)
-        ? "<a href=\"/project?action=deleteCollection&project_id=" . $_GET['id'] . "&id=" . $row['id'] . "\">" . putIcon('fi-sr-trash') . "</a>"
+        ? "<a href=\"/project?action=deleteCollection&project_id=" . $project['id'] . "&id=" . $row['id'] . "\">" . putIcon('fi-sr-trash') . "</a>"
         : '';
 
     $update = ($at > 0 && !$isProjectDefault)
-        ? "<a title=\"" . language('make_active_collection', 'Make Active Collection') . "\" href=\"/project?action=makeCurrentCollection&project_id=" . $_GET['id'] . "&id=" . $row['id'] . "\">" . $row['title'] . "</a>"
+        ? "<a title=\"" . language('make_active_collection', 'Make Active Collection') . "\" href=\"/project?action=makeCurrentCollection&project_id=" . $project['id'] . "&id=" . $row['id'] . "\">" . $row['title'] . "</a>"
         : $row['title'];
         
     $color = $at === 0 ? 'bgBlue' : 'bgGray';
@@ -170,7 +184,7 @@ foreach ($collectionResults as $aCollection) {
                     ]
                 ),
                 'options' => $storyService->buildStoryOptions(
-                    $_GET['id'],
+                    $project['id'],
                     $row['id'],
                     false,
                     $row['status'],
@@ -237,7 +251,7 @@ foreach ($collectionResults as $aCollection) {
                 'hourSelect' => $hourSelect,
                 'label' => $label,
                 'options' => $storyService->buildStoryOptions(
-                    $_GET['id'],
+                    $project['id'],
                     $row['id'],
                     false,
                     $row['status']
@@ -274,7 +288,7 @@ echo template(
         'collectionsRendered' => $collectionsRendered,
         'collectionSelect' => $collectionSelect,
         'hourTypeSelect' => $hourTypeSelect,
-        'nextId' => $storyService->generateTicketId($_GET['id']),
+        'nextId' => $storyService->generateTicketId($project['id']),
         'project' => $project,
         'storyTypeSelect' => $storyTypeSelect,
         'totalCollections' => $totalCollections,

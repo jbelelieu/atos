@@ -16,6 +16,7 @@ $pageTitle = (isset($_metaTitle)) ? $_metaTitle : 'ATOS';
 </head>
 
 <body>
+<a name="top"></a>
 <header>
     <div class="headerColumns">
         <div id="logo">
@@ -32,15 +33,16 @@ if (!empty($_GET['_error'])) {
     echo "<span class=\"error\">" . $_GET['_error'] . "</span>";
 }
 
-$lastProject = (isset($_SESSION["viewingProject"]) && !empty($_SESSION["viewingProject"]))
-    ? '<a href="/project?id=' . $_SESSION["viewingProject"] . '">Back to ' . $_SESSION["viewingProjectName"] . '</a>'
+$lastProject = (isset($_SESSION["viewingProject"]) && !empty($_SESSION["viewingProjectName"]))
+    ? '<a href="/project?id=' . $_SESSION["viewingProject"] . '">' . $_SESSION["viewingProjectName"] . '</a>'
     : '';
 ?>
     
         </div>
         <div id="nav" class="textRight">
-            $lastProject
+            <?php echo $lastProject; ?>
             <a href="/settings">Settings</a>
         <div>
     </div>
 </header>
+<div class="holder">

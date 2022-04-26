@@ -1,10 +1,10 @@
 
 <tr>
 <td>
-    <?php echo $icon; ?>
+    <?php echo $title; ?>
 </td>
 <td>
-    <?php echo $title; ?>
+    <?php echo $icon; ?>
 </td>
 <td>
     <?php echo $isBillable; ?>

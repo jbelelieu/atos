@@ -91,8 +91,9 @@ class CollectionService extends BaseService
             WHERE id = :id
         ');
 
+        $date = date('Y-m-d H:i:s');
         $statement->bindParam(':id', $data['id']);
-        $statement->bindParam(':date', date('Y-m-d H:i:s'));
+        $statement->bindParam(':date', $date);
 
         $statement->execute();
 

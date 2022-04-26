@@ -70,8 +70,8 @@
     <table>
     <thead>
     <tr>
-    <th width="42"></th>
     <th width="50%">Title</th>
+    <th width="42"></th>
     <th>Is Complete?</th>
     <th>Is Billable?</th>
     <th width="42"></th>

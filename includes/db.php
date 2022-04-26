@@ -280,11 +280,11 @@ function getProjectById(int $id)
 
     try {
         $statement = $db->prepare('
-        SELECT project.*, company.title as company_name
-        FROM project
-        JOIN company ON project.client_id = company.id
-        WHERE project.id=:id
-    ');
+            SELECT project.*, company.title as company_name
+            FROM project
+            JOIN company ON project.client_id = company.id
+            WHERE project.id=:id
+        ');
 
         $statement->bindParam(':id', $id);
 
@@ -292,12 +292,12 @@ function getProjectById(int $id)
 
         $res = $statement->fetch(PDO::FETCH_ASSOC);
         if (!$res) {
-            redirect('/', null, null, 'Something went wrong finding that project.');
+            redirect('/', null, null, 'Something went wrong finding that project (A1).');
         }
 
         return $res;
     } catch (\PDOException $e) {
-        redirect('/', null, null, 'Something went wrong finding that project.');
+        redirect('/', null, null, 'Something went wrong finding that project (A2).');
     }
 }
 
