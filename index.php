@@ -28,5 +28,4 @@ switch (strtolower($requestUri)) {
         break;
     default:
         require ATOS_HOME_DIR . '/pages/overview.php';
-
 }

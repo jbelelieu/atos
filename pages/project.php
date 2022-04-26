@@ -496,7 +496,7 @@ function updateStories(array $data): void
         $statement->execute();
     }
 
-    redirect('/project', $data['project_id'], 'Your story has been deleted.');
+    redirect('/project', $data['project_id'], 'Your stories have been updated.');
 }
 
 /**

@@ -101,24 +101,16 @@ foreach ($rateTypes as $aType) {
 qq;
 }
 
+$logoUrl = 'http://' . $_SERVER['HTTP_HOST'] . '/logo.png';
+
 $daysDue = getSetting(AsosSettings::INVOICE_DUE_DATE_IN_DAYS, 14);
 $dueDate = ($daysDue > 0) ? formatDate(date('Y-m-d H:i:s', time() + 1209600)) : '';
+
 $logo = (file_exists(ATOS_HOME_DIR . '/logo.png'))
-    ? '<div id="logoArea"><img src="logo.png" alt="' . $company['title'] . '" /></div>'
+    ? '<div id="logoArea"><img src="' . $logoUrl . '" alt="' . $company['title'] . '" /></div>'
     : '';
 
-if (!empty($_GET['save']) && $_GET['save'] === '1') {
-    $filename = cleanFileName($project['title']) . '_' . date('Ymd') . '_' . cleanFileName($collection['title']) . '.html';
-
-    file_put_contents('invoices/' . $filename, $file);
-
-    $msg = 'Saved invoice to invoices/' . $filename;
-    redirect('/project', $collection['project_id'], $msg);
-    exit;
-}
-
-// Render the entire page.
-echo template(
+$template = template(
     'invoice/invoice',
     [
         'client' => $clientCompany,
@@ -137,4 +129,17 @@ echo template(
     ],
     true
 );
+
+if (!empty($_GET['save']) && $_GET['save'] === '1') {
+    $filename = cleanFileName($project['title']) . '_' . date('Ymd') . '_' . cleanFileName($collection['title']) . '.html';
+
+    file_put_contents(ATOS_HOME_DIR . '/invoices/' . $filename, $template);
+
+    $msg = 'Saved invoice to invoices/' . $filename;
+    redirect('/project', $collection['project_id'], $msg);
+    exit;
+}
+
+// Render the entire page.
+echo $template;
 exit;
