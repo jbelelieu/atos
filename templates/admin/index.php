@@ -101,6 +101,8 @@
     <thead>
     <tr>
     <th>Title</th>
+    <th>Code</th>
+    <th>Contracted Party</th>
     <th>Client</th>
     <th width=190>Hours Billed</th>
     <th width=190>Value Billed</th>
@@ -109,7 +111,7 @@
     </thead>
     <?php echo $projects; ?>
     <tr>
-    <td colspan=2></td>
+    <td colspan=4></td>
     <td class="summary"><?php echo $totalProjectHours; ?></td>
     <td class="summary"><?php echo $totalProjectValue; ?></td>
     <td></td>

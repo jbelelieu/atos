@@ -223,10 +223,12 @@ function getProjects()
 
     $statement = $db->prepare("
         SELECT
-            project.*,
-            company.title as company_name
-        FROM project
-        JOIN company ON project.client_id = company.id
+            p.*,
+            c1.title as company_name,
+            c2.title as client_name
+        FROM project p
+        JOIN company c1 ON p.client_id = c1.id
+        JOIN company c2 ON p.company_id = c2.id
     ");
 
     $statement->execute();

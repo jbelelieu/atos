@@ -6,6 +6,12 @@
         </a>
     </td>
     <td>
+        <?php echo $project['code']; ?>
+    </td>
+    <td>
+        <?php echo $project['client_name']; ?>
+    </td>
+    <td>
         <?php echo $project['company_name']; ?>
     </td>
     <td>

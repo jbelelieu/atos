@@ -69,6 +69,17 @@ If you happen to make a new theme, please share it with the community!
 
 -----
 
+# Concepts
+
+- **Company**: every project has a company being billed (client) and a company doing the work (contracted party). In ATOS, the concepts of companies cover both, meaning that you need to add your own company (you are the contracted party), as well as all of your client's company information. Adding both together gives you the flexibility to bill out as separate entities, but keep all of your finances in one place. (See "ATOS landing page")
+- **Project**: this is a group of collections (ie stories) that you are billing against. A project can span multiple collections, invoices, etc.. You must have a project to create stories, and you need companies to create a project. (See "ATOS landing page")
+- **Collection**: stories are added to collections, and then collections are used to generate invoices. You can think of these as "sprints", but the overall goal of a collection is to combine stories together that are billable over the same period. (Select your project to view and collections)
+- **Story**: this is a generic term for any task you completed for a specific project. Stories are lumped into collections, and collections are billed out based on the story statuses within the collection. (Select your project to view and collections)
+- **Invoices**: an invoice is the final output of a collection. When you generate an invoice, any story in the story in the collection being invoiced with a status set to "billable" and "complete" will be included and billed according to the story's rate type.
+- **Rate Type**: you can bill different amounts based on what you are doing. For example, you might charge $50/hour for one service but $80/hour for another. You set this using "Rate Types". Each rate type is then assigned to a story, and that story is billed out at the appropriate rate. (See "Settings")
+- **Story Type**: this is a description way of explaining what kind of story this is. For example, you may want some stories to be coding related, while others are just meetings. In either case, both may be billable, but they are fundamentally different uses of your time. Story types simple help you differentiate between what type of work you did for that story. (See "Settings")
+- **Story Status**: this controls the "state" of the story. Each status can be consider "open" or "complete", as well as "billable" or "not billable". For example, you can set a "Rejected" status to be considered "complete" but it won't be billed to the client. (See "Settings")
+
 # Features
 
 - **Drop Dead Simple**: The point of this is to be easy to use, drop dead simple, and efficient. You shouldn't be fighting with project management tools; focus on coding.
