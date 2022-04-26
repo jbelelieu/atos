@@ -142,7 +142,7 @@ foreach ($collectionResults as $aCollection) {
 
     $hours = 0;
 
-    $isProjectDefault = (bool) $aCollection['is_project_default'];
+    $isProjectDefault = isBool($aCollection['is_project_default']);
 
     $tripFlag = ($collectionCount > 1 && !$isProjectDefault);
 
@@ -180,6 +180,7 @@ foreach ($collectionResults as $aCollection) {
         $aCollection['id'],
         false,
         'ended_at ASC, status ASC',
+        true,
         true
     );
     foreach ($otherStories as $row) {
@@ -217,6 +218,9 @@ foreach ($collectionResults as $aCollection) {
         }
         $typeSelect .= '</select>';
 
+        $isBillableState = isBool($row['is_billable_state']);
+        $class = (!$isBillableState) ? 'notBillable' : '';
+
         $renderedOtherStories .= template(
             'admin/snippets/collection_table_other_entry',
             [
@@ -231,6 +235,7 @@ foreach ($collectionResults as $aCollection) {
                     $row['status']
                 ),
                 'project' => $project,
+                'rowClass' => $class,
                 'story' => $row,
                 'typeSelect' => $typeSelect,
             ],

@@ -27,7 +27,13 @@ if (empty($_GET['collection'])) {
  *
  */
 
-$shippedStories = getStoriesInCollection($_GET['collection'], false, 'ended_at ASC');
+$shippedStories = getStoriesInCollection(
+    $_GET['collection'],
+    false,
+    'ended_at ASC',
+    true
+);
+
 if (sizeof($shippedStories) === 0) {
     systemError('There are no billable items on this invoice.');
 }
