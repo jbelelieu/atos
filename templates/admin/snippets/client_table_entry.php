@@ -4,7 +4,7 @@
 <td><?php echo $client['address']; ?></td>
 <td><?php echo $client['phone']; ?></td>
 <td><?php echo $client['email']; ?></td>
-<td><?php echo $website; ?></td>
+<td><?php echo $url; ?></td>
 <td><?php echo $totalClientValue; ?></td>
 <td class="textRight">
     <a

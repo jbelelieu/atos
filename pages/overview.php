@@ -85,8 +85,8 @@ foreach ($clients as $aClient) {
             'deleteLink' => buildLink('/', ['action' => 'deleteCompany', 'id' => $aClient['id']]),
             'logo' => $logo,
             'totalClientValue' => formatMoney($value['total']),
-            'website' => $aClient['website']
-                ? '<a href="' . $aClient['website'] . '" target="_blank">' . $aClient['website'] . '</a>'
+            'url' => $aClient['url']
+                ? '<a href="' . $aClient['url'] . '" target="_blank">' . $aClient['url'] . '</a>'
                 : '',
         ],
         true
