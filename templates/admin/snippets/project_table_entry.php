@@ -1,7 +1,7 @@
 
 <tr>
     <td>
-        <a href="/project.php?_success=Welcome+to+your+<?php echo $project['title']; ?>+project&id=<?php echo $project['id']; ?>">
+        <a href="/project?_success=Welcome+to+your+<?php echo $project['title']; ?>+project&id=<?php echo $project['id']; ?>">
             <?php echo $project['title']; ?>
         </a>
     </td>
@@ -16,9 +16,10 @@
     </td>
     <td class="textRight">
         <a
+            title="Delete"
             onclick="return confirm('This will delete the project and all associated data - are you sure?')"
-            href="index.php?action=deleteProject&id=<?php echo $project['id']; ?>">
-            <?php echo putIcon('fi-sr-trash'); ?>
+            href="<?php echo $deleteLink; ?>">
+                <?php echo putIcon('fi-sr-trash'); ?>
         </a>
     </td>
 </tr>

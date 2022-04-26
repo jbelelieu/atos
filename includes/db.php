@@ -297,12 +297,12 @@ function getProjectById(int $id)
 
         $res = $statement->fetch(PDO::FETCH_ASSOC);
         if (!$res) {
-            redirect('index.php', null, null, 'Something went wrong finding that project.');
+            redirect('/', null, null, 'Something went wrong finding that project.');
         }
 
         return $res;
     } catch (\PDOException $e) {
-        redirect('index.php', null, null, 'Something went wrong finding that project.');
+        redirect('/', null, null, 'Something went wrong finding that project.');
     }
 }
 
@@ -429,7 +429,9 @@ function getStoriesInCollection(
 
     $statement->execute();
 
-    return $statement->fetchAll(PDO::FETCH_ASSOC);
+    $items = $statement->fetchAll(PDO::FETCH_ASSOC);
+
+    return $items;
 }
 
 /**

@@ -3,7 +3,7 @@
     <div class="halfHalfColumns">
         <div>
             <div class="formBox padLess">
-                <form action="settings.php" method="post">
+                <form action="/settings" method="post">
                     <div>
                         <label><b>Statuses</b>&nbsp;&nbsp;Title</label>
                         <input type="text" required="required" autocomplete="off" name="title" />
@@ -24,7 +24,7 @@
                             </div>
                             <div>
                                 <label>Color</label>
-                                #<input type="color" value="#111111" autocomplete="off" name="color" style="width:42px;" /> <button type="submit">Create</button>
+                                <input type="color" value="#111111" autocomplete="off" name="color" style="width:42px;" /> <button type="submit">Create</button>
                             </div>
                         </div>
                     </div>
@@ -34,7 +34,7 @@
         </div>
         <div>
             <div class="formBox padLess">
-                <form action="settings.php" method="post">
+                <form action="/settings" method="post">
                     <div>
                         <label><b>Rate Types</b>&nbsp;&nbsp;Title</label>
                         <input type="text" required="required" autocomplete="off" name="title" />
@@ -53,7 +53,7 @@
 
                 <hr />
 
-                <form action="settings.php" method="post">
+                <form action="/settings" method="post">
                     <div>
                         <label><b>Story Types</b>&nbsp;&nbsp;Title</label>
                         <input type="text" required="required" autocomplete="off" name="title" style="width:60%;" /> <button type="submit">Create</button>

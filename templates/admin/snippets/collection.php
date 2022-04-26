@@ -36,7 +36,7 @@
 
     <h4 class="bubble">Billable</h4>
 
-    <form class="preventLeaving" action="project.php" method="post">
+    <form class="preventLeaving" action="/project" method="post">
     <input type="hidden" name="project_id" value="<?php echo $collection['project_id']; ?>" />
     <input type="hidden" name="action" value="updateStories" />
 
@@ -55,6 +55,16 @@
     </thead>
     <tbody>
     <?php echo $otherStories; ?>
+
+    <tr>
+    <td colspan="5" class="textRight">
+        <button type="button" onClick="window.open('invoice.php?collection=<?php echo $collection['id']; ?>')">Preview Invoice</button> <button type="button" onClick="window.location='invoice.php?collection=<?php echo $collection['id']; ?>&save=1'">Generate & Save Invoice</button>
+    </td>
+    <td><?php echo $hours; ?></td>
+    <td colspan="2">
+        <button type="submit">Update Stories</button>
+    </td>
+    </tr>
     </tbody>
     </table>
 

@@ -41,6 +41,21 @@ function adjustBrightness(string $hex, int $steps)
     return $return;
 }
 
+/**
+ * @param string $page
+ * @param string $queryString
+ * @return string
+ */
+function buildLink(string $page, array $queryString = []): string
+{
+    $url = $page;
+
+    if (!empty($queryString)) {
+        $url .= '?' . http_build_query($queryString);
+    }
+
+    return $url;
+}
 
 /**
  * @param string $input
@@ -124,14 +139,16 @@ function formatMoney($money): string
  * @param string $id
  * @param string|null $success
  * @param string|null $error
+ * @param bool $return
  * @return void
  */
 function redirect(
     string $page,
-    string $id = null,
+    $id = null,
     string $success = null,
-    string $error = null
-): void {
+    string $error = null,
+    bool $return = false
+): string {
     $query = '';
 
     $url = $page;
@@ -150,6 +167,10 @@ function redirect(
 
     if (!empty($query)) {
         $url .= '?' . $query;
+    }
+
+    if ($return) {
+        return $url;
     }
 
     header('Location: ' . $url);

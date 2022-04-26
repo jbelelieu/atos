@@ -3,7 +3,7 @@
 <div class="standardColumns border">
     <div>
         <div class="formBox padLess">
-            <form action="project.php?id=<?php echo $project['id']; ?>" method="post">
+            <form action="/project?id=<?php echo $project['id']; ?>" method="post">
                 <div class="threeColumns">
                     <div>
                     <label><b>Story</b>&nbsp;&nbsp;Collection</label>
@@ -40,7 +40,7 @@
     </div>
     <div>
         <div class="formBox padLessRight padLessTop padLessBottom">
-            <form action="project.php?id=<?php echo $project['id']; ?>" method="post">
+            <form action="/project?id=<?php echo $project['id']; ?>" method="post">
                 <div class="twoColumns">
                     <div>
                     <label><b>Collections</b>&nbsp;&nbsp;Title</label>

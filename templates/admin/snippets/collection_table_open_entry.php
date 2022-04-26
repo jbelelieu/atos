@@ -20,10 +20,10 @@
     <?php echo $story['title']; ?>
 </td>
 <td class="textRight">
-    <?php echo $options; ?>
-    <a
+    <?php echo $options; ?><a
+        title="Delete"
         onclick="return confirm('This will delete the story - are you sure?')"
-        href="project.php?action=deleteStory&project_id=<?php echo $_GET['id']; ?>&id=<?php echo $story['id']; ?>">
+        href="<?php echo $deleteLink; ?>">
         <?php echo putIcon('fi-sr-trash'); ?>
     </a>
 </td>

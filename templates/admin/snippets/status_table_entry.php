@@ -14,8 +14,9 @@
 </td>
 <td class="textRight">
     <a
+        title="Delete"
         onclick="return confirm('This will delete the status - are you sure?')"
-        href="/settings.php?action=deleteStatus&id=<?php echo $id; ?>">
+        href="<?php echo $deleteLink; ?>">
             <?php echo putIcon('fi-sr-trash'); ?>
     </a>
 </td>

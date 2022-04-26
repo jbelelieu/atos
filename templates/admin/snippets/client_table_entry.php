@@ -8,8 +8,9 @@
 <td><?php echo $totalClientValue; ?></td>
 <td class="textRight">
     <a
+        title="Delete"
         onclick="return confirm('This will delete the client - are you sure?')"
-        href="/index.php?action=deleteCompany&id=<?php echo $client['id']; ?>">
+        href="<?php echo $deleteLink; ?>">
         <?php echo putIcon('fi-sr-trash'); ?>
     </a>
 </td>

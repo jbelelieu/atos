@@ -3,7 +3,7 @@
     <div class="halfHalfColumns">
         <div>
             <div class="formBox padLess">
-                <form action="index.php" method="post">
+                <form action="/" method="post">
                     <div class="halfHalfColumns">
                         <div>
                             <label><b>Companies &amp; Clients</b>&nbsp;&nbsp;Name</label>
@@ -51,7 +51,7 @@
                     <p class="help">You can't create a project until you've created at least two companies. We recommend adding your own company first, then your first client's information. For each project you start, you'll need (a) a company you are representing (the contracted party) and (b) a company you are working for (your client).<br /><br />👈&nbsp;&nbsp;Add companies over there</p>
                 </div>
             <?php } else { ?>
-                <form action="index.php" method="post">
+                <form action="/" method="post">
                     <div class="halfHalfColumns">
                         <div>
                         <label><b>Projects</b>&nbsp;&nbsp;Contracted Party</label>
