@@ -15,11 +15,20 @@ require_once ATOS_HOME_DIR . '/services/BaseService.php';
  */
 class StoryService extends BaseService
 {
+    /**
+     * @param integer $projectId
+     * @param [type] $itemId
+     * @param boolean $skipMoveCollection
+     * @param integer $skipStatusId
+     * @param boolean $skipStatuses
+     * @return string
+     */
     public function buildStoryOptions(
         int $projectId,
         $itemId,
         bool $skipMoveCollection = false,
-        $skipStatusId = 0
+        $skipStatusId = 0,
+        bool $skipStatuses = false
     ): string {
         global $storyStatuses;
 
@@ -27,12 +36,14 @@ class StoryService extends BaseService
             ? "<a title=\"" . language('move_collections', 'Move Collections') . "\" href=\"/project?action=shiftCollection&project_id=" . $projectId . "&id=" . $itemId . "\">" . putIcon('fi-sr-undo') . "</a>"
             : '';
 
-        foreach ($storyStatuses as $aStatus) {
-            if ($skipStatusId && $skipStatusId == $aStatus['id']) {
-                continue;
-            }
+        if (!$skipStatuses) {
+            foreach ($storyStatuses as $aStatus) {
+                if ($skipStatusId && $skipStatusId == $aStatus['id']) {
+                    continue;
+                }
 
-            $options .= "<a title=\"" . $aStatus['title'] . "\" href=\"/project?action=updateStoryStatus&status=" . $aStatus['id'] . "&project_id=" . $projectId . "&id=" . $itemId . "\">" . putIcon($aStatus['emoji'], $aStatus['color']) . "</a>";
+                $options .= "<a title=\"" . $aStatus['title'] . "\" href=\"/project?action=updateStoryStatus&status=" . $aStatus['id'] . "&project_id=" . $projectId . "&id=" . $itemId . "\">" . putIcon($aStatus['emoji'], $aStatus['color']) . "</a>";
+            }
         }
 
         return $options;

@@ -103,35 +103,50 @@ class CollectionService extends BaseService
 
 
     /**
+     * Workflow for shifting is as follows:
+     * - If part of the project's default collection, set to current collection
+     * - If part of current collection and isn't in a "completed" state, shift to default collection
+     * - If part of current collection and is in a "completed" state, shift to current collection.
+     *
      * @param array $data
      * @return void
      */
     public function shiftCollection(array $data): void
     {
         $story = getStory($data['id']);
+        $currentCollection = getCollectionById($story['collection']);
+        $currentStatus = getStoryStatusById($story['status']);
 
-        // Default to Open
-        if ($story['collection'] === 1) {
+        $isStoryInDefaultCollection = (bool) $currentCollection['is_project_default'];
+
+        if ($isStoryInDefaultCollection) {
             $useCollection = getLatestCollectionForProject($data['project_id']);
-            $moveTo = $useCollection['id'];
-        }
-        // Move to default collection
-        else {
-            $useCollection = getDefaultCollectionForProject($data['project_id']);
-            $moveTo = $useCollection['id'];
+        } else {
+            $useCollection = ($currentStatus['is_complete_state'])
+                ? getLatestCollectionForProject($data['project_id'])
+                : getDefaultCollectionForProject($data['project_id']);
         }
 
-        $msg = 'Your story is now part of the "' . $useCollection['title'] . '" collection.';
+        $intHours = (int) $story['hours'];
+        $hours = ($intHours > 1) ? $intHours : 1;
 
         $statement = $this->db->prepare('
-            UPDATE story
-            SET collection = :collection
-            WHERE id = :id
+            UPDATE
+                story
+            SET
+                collection = :collection,
+                status = 1,
+                hours = :hours
+            WHERE
+                id = :id
         ');
-        $statement->bindParam(':collection', $moveTo);
+        $statement->bindParam(':hours', $hours);
+        $statement->bindParam(':collection', $useCollection['id']);
         $statement->bindParam(':id', $data['id']);
         $statement->execute();
 
+        $msg = 'Your story is now part of the "' . $useCollection['title'] . '" collection.';
+        
         redirect('/project', $data['project_id'], $msg);
     }
 }

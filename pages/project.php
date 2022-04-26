@@ -124,7 +124,7 @@ foreach ($collectionResults as $row) {
 
     $delete = $row['id'] > 1 ? "<a href=\"/project?action=deleteCollection&project_id=" . $_GET['id'] . "&id=" . $row['id'] . "\">" . putIcon('fi-sr-trash') . "</a>" : '';
 
-    $update = ($at > 1 && !$row['is_project_default'])
+    $update = ($at > 0 && !$row['is_project_default'])
         ? "<a title=\"" . language('make_active_collection', 'Make Active Collection') . "\" href=\"/project?action=makeCurrentCollection&project_id=" . $_GET['id'] . "&id=" . $row['id'] . "\">" . $row['title'] . "</a>"
         : $row['title'];
 
@@ -165,7 +165,8 @@ foreach ($collectionResults as $aCollection) {
                     $_GET['id'],
                     $row['id'],
                     false,
-                    $row['status']
+                    $row['status'],
+                    ($isProjectDefault) ? true : false
                 ),
                 'story' => $row,
             ],
@@ -184,6 +185,7 @@ foreach ($collectionResults as $aCollection) {
     foreach ($otherStories as $row) {
         $adjustedColor = adjustBrightness($row['status_color'], -10);
 
+        $endedAt = null;
         if ($row['status'] == 2) {
             $endedAt = formatDate($row['ended_at'], 'Y-m-d');
             $label = "<div class=\"bubble greenBubble\">" . $row['show_id'] . "</div>";

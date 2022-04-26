@@ -390,13 +390,19 @@ function getStoriesInCollection(
 ) {
     global $db;
 
-    $statusQuery = $isOpen
-        ? ' AND story_status.is_complete_state = false'
-        : ' AND story_status.is_complete_state = true';
+    $collection = getCollectionById($collectionId);
+    $isDefaultCollection = (bool) $collection['is_project_default'];
 
-    $statusQuery .= $billableOnly
-        ? ' AND story_status.is_billable_state = true'
-        : '';
+    $statusQuery = '';
+    if (!$isDefaultCollection) {
+        $statusQuery .= $isOpen
+            ? ' AND story_status.is_complete_state = false'
+            : ' AND story_status.is_complete_state = true';
+
+        $statusQuery .= $billableOnly
+            ? ' AND story_status.is_billable_state = true'
+            : '';
+    }
 
     $statement = $db->prepare("
         SELECT
