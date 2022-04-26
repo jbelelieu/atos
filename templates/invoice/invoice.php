@@ -3,30 +3,34 @@
 
 <head>
     <meta charset="utf-8">
-    <title>%invoice_title%</title>
+    <title><?php echo $project['title'] . ": " . $collection['title']; ?></title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <style type="text/css">
-        %css%
+        <?php echo $css; ?>
     </style>
 </head>
 
 <body>
     <div id="holderFixed">
 
-        %logo%
+        <?php echo $logo; ?>
 
         <div class="border">
             <div class="borderSection pad">
                 <div class="columns2575">
                     <div class="textRight">
                         <h4>
-                            <span class="larger">%project.title%</span>
+                            <span class="larger">
+                                <?php echo $project['title']; ?>
+                            </span>
                             <br /><br />
                             Sent On<br />
-                            %date%
-                            <br />
-                            <br />
-                            %due_date%
+                            <?php echo $sentOn; ?>
+                            <?php if (!empty($dueDate)) { ?>
+                                <br /><br />
+                                Due on<br />
+                                <?php echo $dueDate; ?>
+                            <?php } ?>
                         </h4>
                     </div>
                     <div>
@@ -37,12 +41,12 @@
                             </tr>
                             <tr>
                                 <td width="50%" valign="top">
-                                    <b>%company.title%</b><br />
-                                    %company.address%
+                                    <b><?php echo $company['title']; ?></b><br />
+                                    <?php echo $company['address']; ?>
                                 </td>
                                 <td width="50%" valign="top">
-                                    <b>%client.title%</b><br />
-                                    %client.address%
+                                    <b><?php echo $client['title']; ?></b><br />
+                                    <?php echo $client['address']; ?>
                                 </td>
                             </tr>
                         </table>
@@ -53,7 +57,9 @@
                 <div class="columns2575">
                     <div class="textRight">
                         <h4>
-                            <span class="larger">%collection.title%</span>
+                            <span class="larger">
+                                <?php echo $collection['title']; ?>
+                            </span>
                             <br /><br />
                             Invoiced &raquo;
                         </h4>
@@ -69,12 +75,14 @@
                                 </tr>
                             </thead>
                             <tbody>
-                                %rate_types%
+                                <?php echo $rateTypes; ?>
                                 <tr>
                                     <td valign="top" colspan="2"></td>
-                                    <td>%total_hours%</td>
+                                    <td>
+                                        <?php echo $totalHours; ?>
+                                    </td>
                                     <td valign="top" class="totalFocus">
-                                        %total%
+                                        <?php echo $total; ?>
                                     </td>
                                 </tr>
                             </tbody>
@@ -82,15 +90,20 @@
                     </div>
                 </div>
             </div>
-            <div class="sunk columns2575">
-                <div class="textRight">
-                    <h4>Instructions &raquo;</h4>
+
+            <?php if (!empty($client['instructions'])) { ?>
+                <div class="sunk columns2575">
+                    <div class="textRight">
+                        <h4>Instructions &raquo;</h4>
+                    </div>
+                    <div>
+                        <?php echo $client['instructions']; ?>
+                    </div>
                 </div>
-                <div>
-                    %client.instructions%
-                </div>
-            </div>
-            <div class="borderSectionTop" style="display:%display_items%">
+            <?php } ?>
+
+            <?php if ($displayStories) { ?>
+            <div class="borderSectionTop">
                 <table width="100%" style="font-size:90%;">
                     <thead>
                         <tr>
@@ -101,10 +114,11 @@
                         </tr>
                     </thead>
                     <tbody>
-                        %stories%
+                        <?php echo $stories; ?>
                     </tbody>
                 </table>
             </div>
+            <?php } ?>
         </div>
 
         <div class="invoiceFooter">This invoice was generated by <a
@@ -112,5 +126,4 @@
                 software</a>.</div>
     </div>
 </body>
-
 </html>
