@@ -21,6 +21,9 @@
                             
                             <label>Email</label>
                             <input type="text" name="email" autocomplete="off" />
+
+                            <label>Website</label>
+                            <input type="url" name="url" autocomplete="off" />
                         </div>
                         <div>
                             <div>

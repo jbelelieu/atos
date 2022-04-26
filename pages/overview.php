@@ -79,6 +79,9 @@ foreach ($clients as $aClient) {
             'deleteLink' => buildLink('/', ['action' => 'deleteCompany', 'id' => $aClient['id']]),
             'logo' => $logo,
             'totalClientValue' => formatMoney($value['total']),
+            'website' => $aClient['website']
+                ? '<a href="' . $aClient['website'] . '" target="_blank">' . $aClient['website'] . '</a>'
+                : '',
         ],
         true
     );
@@ -148,7 +151,7 @@ function createCompany(array $data): void
             phone,
             email,
             instructions,
-            website
+            url
         )
         VALUES (
             :title,
@@ -157,7 +160,7 @@ function createCompany(array $data): void
             :phone,
             :email,
             :instructions,
-            :website
+            :url
         )
     ');
 
@@ -167,7 +170,7 @@ function createCompany(array $data): void
     $statement->bindParam(':phone', $data['phone']);
     $statement->bindParam(':email', $data['email']);
     $statement->bindParam(':instructions', $data['instructions']);
-    $statement->bindParam(':website', $data['website']);
+    $statement->bindParam(':url', $data['url']);
 
     $statement->execute();
 
