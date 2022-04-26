@@ -12,8 +12,6 @@
  * @link https://github.com/jbelelieu/atos
  */
 
-require "includes/db.php";
-
 /**
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
  *
@@ -33,7 +31,7 @@ if (isset($_GET['action'])) {
             deleteStoryType($_GET);
             break;
         default:
-            redirect('settings.php', null, null, 'Unknown action');
+            redirect('/settings', null, null, 'Unknown action');
     }
 }
 
@@ -49,7 +47,7 @@ if (isset($_POST['action'])) {
             createStoryType($_POST);
             break;
         default:
-            redirect('settings.php', null, null, 'Unknown action');
+            redirect('/settings', null, null, 'Unknown action');
     }
 }
 
@@ -68,7 +66,16 @@ $renderedStoryTypes = '';
 foreach ($storyTypes as $aStoryType) {
     $renderedStoryTypes .= template(
         'admin/snippets/story_type_table_entry',
-        $aStoryType,
+        [
+            ...$aStoryType,
+            'deleteLink' => buildLink(
+                '/settings',
+                [
+                    'action' => 'deleteStoryType',
+                    'id' => $aStoryType['id'],
+                ]
+            ),
+        ],
         true
     );
 }
@@ -79,6 +86,13 @@ foreach ($rateTypes as $aRate) {
         'admin/snippets/rate_table_entry',
         [
             ...$aRate,
+            'deleteLink' => buildLink(
+                '/settings',
+                [
+                    'action' => 'deleteRate',
+                    'id' => $aRate['id'],
+                ]
+            ),
             'rate' => formatMoney($aRate['rate']),
         ],
         true
@@ -94,6 +108,13 @@ foreach ($statuses as $aStatus) {
         'admin/snippets/status_table_entry',
         [
             ...$aStatus,
+            'deleteLink' => buildLink(
+                '/settings',
+                [
+                    'action' => 'deleteStatus',
+                    'id' => $aStatus['id'],
+                ]
+            ),
             'icon' => putIcon($aStatus['emoji'], $aStatus['color']),
             'isBillable' => $billable,
             'isComplete' => $state,
@@ -106,6 +127,7 @@ foreach ($statuses as $aStatus) {
 echo template(
     'admin/settings',
     [
+        '_metaTitle' => 'Settings (ATOS)',
         'renderedRateTypes' => $renderedRateTypes,
         'renderedStatuses' => $renderedStatuses,
         'renderedStoryTypes' => $renderedStoryTypes,
@@ -148,7 +170,7 @@ function createRateType(array $data): void
 
     $statement->execute();
 
-    redirect('settings.php', null, 'Wow, making the big bucks now are we?');
+    redirect('/settings', null, 'Wow, making the big bucks now are we?');
 }
 
 /**
@@ -183,7 +205,7 @@ function createStatus(array $data): void
     $statement->bindParam(':color', $data['color']);
     $statement->execute();
 
-    redirect('settings.php', null, 'Your new status has been created.');
+    redirect('/settings', null, 'Your new status has been created.');
 }
 
 /**
@@ -206,7 +228,7 @@ function createStoryType(array $data): void
     $statement->bindParam(':title', $data['title']);
     $statement->execute();
 
-    redirect('settings.php', null, 'Your new story type has been created.');
+    redirect('/settings', null, 'Your new story type has been created.');
 }
 
 
@@ -219,7 +241,7 @@ function deleteRate(array $data): void
     global $db;
 
     if ($data['id'] === 1) {
-        redirect('settings.php', null, null, 'You cannot delete your base rate.');
+        redirect('/settings', null, null, 'You cannot delete your base rate.');
     }
 
     $statement = $db->prepare('
@@ -238,7 +260,7 @@ function deleteRate(array $data): void
 
     $statement->execute();
 
-    redirect('settings.php', null, 'We deleted that rate type. All stories that were covered by that have been set to your base rate.');
+    redirect('/settings', null, 'We deleted that rate type. All stories that were covered by that have been set to your base rate.');
 }
 
 /**
@@ -250,12 +272,12 @@ function deleteStatus(array $data): void
     global $db;
 
     if ($data['id'] <= 4) {
-        redirect('settings.php', null, null, 'You cannot delete the default statuses.');
+        redirect('/settings', null, null, 'You cannot delete the default statuses.');
     }
 
     $statusType = getStoryStatusById($data['id']);
     if (!$statusType) {
-        redirect('settings.php', null, null, 'Status does not exist.');
+        redirect('/settings', null, null, 'Status does not exist.');
     }
 
     $revertedTo = $statusType['is_complete_state'] ? 2 : 1;
@@ -277,7 +299,7 @@ function deleteStatus(array $data): void
     $statement->bindParam(':revert_to', $revertedTo);
     $statement->execute();
 
-    redirect('settings.php', null, 'We deleted that story status. All stories that were set to that status have been reverted to the "' . $revertedToName . '" status.');
+    redirect('/settings', null, 'We deleted that story status. All stories that were set to that status have been reverted to the "' . $revertedToName . '" status.');
 }
 
 /**
@@ -289,7 +311,7 @@ function deleteStoryType(array $data): void
     global $db;
 
     if ($data['id'] === 1) {
-        redirect('settings.php', null, null, 'You cannot delete the "Story" type.');
+        redirect('/settings', null, null, 'You cannot delete the "Story" type.');
     }
 
     $statement = $db->prepare('
@@ -307,5 +329,5 @@ function deleteStoryType(array $data): void
     $statement->bindParam(':old_type', $data['id']);
     $statement->execute();
 
-    redirect('settings.php', null, 'We deleted that story type. All stories that were of that type have been reverted to the standard "Story" type.');
+    redirect('/settings', null, 'We deleted that story type. All stories that were of that type have been reverted to the standard "Story" type.');
 }

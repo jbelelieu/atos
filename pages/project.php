@@ -11,11 +11,9 @@
  * @link https://github.com/jbelelieu/atos
  */
 
-require "includes/db.php";
-
 if (empty($_GET['id'])) {
     redirect(
-        'index.php',
+        '/',
         null,
         null,
         language('error_invalid_id', 'You need to provide a valid ID')
@@ -47,7 +45,7 @@ if (isset($_GET['action'])) {
             shiftCollection($_GET);
             break;
         default:
-            redirect('project.php', $_GET['id'], null, 'Unknown action');
+            redirect('/project', $_GET['id'], null, 'Unknown action');
     }
 }
 
@@ -63,7 +61,7 @@ if (isset($_POST['action'])) {
             updateStories($_POST);
             break;
         default:
-            redirect('project.php', $_GET['id'], null, 'Unknown action');
+            redirect('/project', $_GET['id'], null, 'Unknown action');
     }
 }
 
@@ -113,6 +111,7 @@ $collections = '';
 $totalCollections = sizeof($collectionResults);
 $at = 0;
 
+// TODO: standard linking
 foreach ($collectionResults as $row) {
     $at++;
 
@@ -120,10 +119,10 @@ foreach ($collectionResults as $row) {
         continue;
     }
 
-    $delete = $row['id'] > 1 ? "<a href=\"project.php?action=deleteCollection&project_id=" . $_GET['id'] . "&id=" . $row['id'] . "\">" . putIcon('fi-sr-trash') . "</a>" : '';
+    $delete = $row['id'] > 1 ? "<a href=\"/project?action=deleteCollection&project_id=" . $_GET['id'] . "&id=" . $row['id'] . "\">" . putIcon('fi-sr-trash') . "</a>" : '';
 
     $update = ($at > 1 && !$row['is_project_default'])
-        ? "<a title=\"" . language('make_active_collection', 'Make Active Collection') . "\" href=\"project.php?action=makeCurrentCollection&project_id=" . $_GET['id'] . "&id=" . $row['id'] . "\">" . $row['title'] . "</a>"
+        ? "<a title=\"" . language('make_active_collection', 'Make Active Collection') . "\" href=\"/project?action=makeCurrentCollection&project_id=" . $_GET['id'] . "&id=" . $row['id'] . "\">" . $row['title'] . "</a>"
         : $row['title'];
 
     $collections .= "<div><span>" . $update . "</span>" . $delete . "</div>";
@@ -148,8 +147,16 @@ foreach ($collectionResults as $aCollection) {
         $renderedOpenStories .= template(
             'admin/snippets/collection_table_open_entry',
             [
-                'story' => $row,
+                'deleteLink' => buildLink(
+                    '/project',
+                    [
+                        'action' => 'deleteStory',
+                        'id' => $row['id'],
+                        'project_id' => $project['id'],
+                    ]
+                ),
                 'options' => buildStoryOptions($_GET['id'], $row['id'], false, $row['status']),
+                'story' => $row,
             ],
             true
         );
@@ -200,7 +207,7 @@ foreach ($collectionResults as $aCollection) {
             'admin/snippets/collection_table_other_entry',
             [
                 'endedAt' => $endedAt,
-                'hours' => $hours,
+                'hours' => $row['hours'],
                 'hourSelect' => $hourSelect,
                 'label' => $label,
                 'options' => buildStoryOptions($_GET['id'], $row['id'], false, $row['status']),
@@ -216,6 +223,7 @@ foreach ($collectionResults as $aCollection) {
         'admin/snippets/collection',
         [
             'collection' => $aCollection,
+            'hours' => $hours,
             'isProjectDefault' => $isProjectDefault,
             'openStories' => $renderedOpenStories,
             'otherStories' => $renderedOtherStories,
@@ -229,6 +237,7 @@ foreach ($collectionResults as $aCollection) {
 echo template(
     'admin/projects',
     [
+        '_metaTitle' => $project['title'] . ' (ATOS)',
         'collections' => $collections,
         'collectionsRendered' => $collectionsRendered,
         'collectionSelect' => $collectionSelect,
@@ -257,7 +266,7 @@ function buildStoryOptions(
     global $storyStatuses;
 
     $options = (!$skipMoveCollection)
-        ? "<a title=\"" . language('move_collections', 'Move Collections') . "\" href=\"project.php?action=shiftCollection&project_id=" . $projectId . "&id=" . $itemId . "\">" . putIcon('fi-sr-undo') . "</a>"
+        ? "<a title=\"" . language('move_collections', 'Move Collections') . "\" href=\"/project?action=shiftCollection&project_id=" . $projectId . "&id=" . $itemId . "\">" . putIcon('fi-sr-undo') . "</a>"
         : '';
 
     foreach ($storyStatuses as $aStatus) {
@@ -265,7 +274,7 @@ function buildStoryOptions(
             continue;
         }
 
-        $options .= "<a title=\"" . $aStatus['title'] . "\" href=\"project.php?action=updateStoryStatus&status=" . $aStatus['id'] . "&project_id=" . $projectId . "&id=" . $itemId . "\">" . putIcon($aStatus['emoji'], $aStatus['color']) . "</a>";
+        $options .= "<a title=\"" . $aStatus['title'] . "\" href=\"/project?action=updateStoryStatus&status=" . $aStatus['id'] . "&project_id=" . $projectId . "&id=" . $itemId . "\">" . putIcon($aStatus['emoji'], $aStatus['color']) . "</a>";
     }
 
     return $options;
@@ -294,7 +303,7 @@ function createCollection(array $data): void
 
     makeCurrentCollection([ 'id' => $currentCollection['id'] ], false);
 
-    redirect('project.php', $data['project_id'], 'Your collection has been created.');
+    redirect('/project', $data['project_id'], 'Your collection has been created.');
 }
 
 /**
@@ -323,7 +332,7 @@ function createStory(array $data): void
 
     $statement->execute();
 
-    redirect('project.php', $data['project_id'], 'Your new story has been created as ' . $id);
+    redirect('/project', $data['project_id'], 'Your new story has been created as ' . $id);
 }
 
 /**
@@ -342,7 +351,12 @@ function deleteCollection(array $data): void
 
     $isDefault = (bool) $collection['is_project_default'];
     if ($isDefault) {
-        redirect('project.php', $data['project_id'], '', 'You cannot delete the "Unorganized" collection from a project.');
+        redirect(
+            '/project',
+            $data['project_id'],
+            '',
+            'You cannot delete the "Unorganized" collection from a project.'
+        );
     }
 
     $statement = $db->prepare('
@@ -351,7 +365,11 @@ function deleteCollection(array $data): void
     $statement->bindParam(':id', $data['id']);
     $statement->execute();
 
-    redirect('project.php', $data['project_id'], 'Your collection has been deleted.');
+    redirect(
+        '/project',
+        $data['project_id'],
+        'Your collection has been deleted.'
+    );
 }
 
 /**
@@ -370,7 +388,7 @@ function deleteStory(array $data): void
 
     $statement->execute();
 
-    redirect('project.php', $data['project_id'], 'Your story has been deleted.');
+    redirect('/project', $data['project_id'], 'Your story has been deleted.');
 }
 
 /**
@@ -409,7 +427,7 @@ function makeCurrentCollection(array $data, bool $redirect = true): void
     $statement->execute();
 
     if ($redirect) {
-        redirect('project.php', $data['project_id'], 'Now working with a new collection.');
+        redirect('/project', $data['project_id'], 'Now working with a new collection.');
     }
 }
 
@@ -445,7 +463,7 @@ function shiftCollection(array $data): void
     $statement->bindParam(':id', $data['id']);
     $statement->execute();
 
-    redirect('project.php', $data['project_id'], $msg);
+    redirect('/project', $data['project_id'], $msg);
 }
 
 /**
@@ -478,7 +496,7 @@ function updateStories(array $data): void
         $statement->execute();
     }
 
-    redirect('project.php', $data['project_id'], 'Your story has been deleted.');
+    redirect('/project', $data['project_id'], 'Your story has been deleted.');
 }
 
 /**
@@ -490,7 +508,7 @@ function updateStoryStatus(array $data): void
     global $db;
 
     if (!isset($data['status']) || empty($data['status'])) {
-        redirect('project.php', $data['project_id'], null, 'Invalid status received.');
+        redirect('/project', $data['project_id'], null, 'Invalid status received.');
     }
 
     $status = getStoryStatusById($data['status']);
@@ -518,7 +536,7 @@ function updateStoryStatus(array $data): void
     $status = getStoryStatusById($data['status']);
 
     redirect(
-        'project.php',
+        '/project',
         $data['project_id'],
         'Your status of your story has been changed to "' . $status['title'] . '".'
     );
