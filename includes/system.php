@@ -15,17 +15,17 @@ define('ATOS_HOME_DIR', __DIR__ . '/..');
 
 // Try to load the system settings.
 try {
-    if (!file_exists(ATOS_HOME_DIR . '/SystemSettings.env.php')) {
+    if (!file_exists(ATOS_HOME_DIR . '/settings.env.php')) {
         $worked = @rename(
-            ATOS_HOME_DIR . '/SystemSettings.sample.php',
-            ATOS_HOME_DIR . '/SystemSettings.env.php'
+            ATOS_HOME_DIR . '/settings.sample.php',
+            ATOS_HOME_DIR . '/settings.env.php'
         );
         if (!$worked) {
-            systemError('We could not rename <u>SystemSettings.sample.php</u> to <u>SystemSettings.env.php</u>. Please do that and try again.');
+            systemError('We could not rename <u>settings.sample.php</u> to <u>settings.env.php</u>. Please do that and try again.');
         }
     }
     
-    $atosSettings = require ATOS_HOME_DIR . '/SystemSettings.env.php';
+    $atosSettings = require ATOS_HOME_DIR . '/settings.env.php';
 } catch (Exception $e) {
     systemError($e->getMessage());
 }

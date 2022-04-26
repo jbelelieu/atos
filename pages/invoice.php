@@ -101,12 +101,12 @@ foreach ($rateTypes as $aType) {
 qq;
 }
 
-$logoUrl = 'http://' . $_SERVER['HTTP_HOST'] . '/logo.png';
+$logoUrl = 'http://' . $_SERVER['HTTP_HOST'] . '/assets/logo.png';
 
 $daysDue = getSetting(AsosSettings::INVOICE_DUE_DATE_IN_DAYS, 14);
 $dueDate = ($daysDue > 0) ? formatDate(date('Y-m-d H:i:s', time() + 1209600)) : '';
 
-$logo = (file_exists(ATOS_HOME_DIR . '/logo.png'))
+$logo = (file_exists(ATOS_HOME_DIR . '/assets/logo.png'))
     ? '<div id="logoArea"><img src="' . $logoUrl . '" alt="' . $company['title'] . '" /></div>'
     : '';
 

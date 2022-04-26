@@ -35,7 +35,7 @@ ATOS requires `PHP8+` and `SQLite3`.
 
 ##### Update Your Default Settings (Optional Step)
 
-Open `SystemSettings.sample.php` and update the values as needed. Optionally rename it to `SystemSettings.env.php`, otherwise ATOS will do that for you.
+Open `settings.sample.php` and update the values as needed. Optionally rename it to `settings.env.php`, otherwise ATOS will do that for you.
 
 ##### Notice: phpLiteAdmin
 
@@ -45,7 +45,7 @@ ATOS will automatically attempt to run migrations at first start up. On the off 
 
 ##### Notice: Updating Your Logo
 
-You can add your logo to outgoing invoices by simply replacing `logo.png` in the main directory of the project with your actual logo.
+You can add your logo to outgoing invoices by simply replacing `assets/logo.png` in the main directory of the project with your actual logo.
 
 ##### Notice: Saving Invoices
 

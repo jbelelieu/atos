@@ -11,6 +11,11 @@
  * @link https://github.com/jbelelieu/atos
  */
 
+session_start();
+
+require "includes/helpers.php";
+require "includes/system.php";
+require "includes/language.php";
 require "includes/db.php";
 
 $rUri = explode('?', $_SERVER['REQUEST_URI']);

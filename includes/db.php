@@ -12,12 +12,6 @@
  * @link https://github.com/jbelelieu/atos
  */
 
-require "helpers.php";
-require "system.php";
-require "language.php";
-
-session_start();
-
 // Connect to the database.
 $dbFile = 'db/' . getSetting(AsosSettings::DATABASE_FILE_NAME, 'atos.sqlite3');
 if (!file_exists($dbFile)) {
