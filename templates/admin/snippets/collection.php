@@ -32,7 +32,7 @@
     <input type="hidden" name="action" value="updateStories" />
     <input type="hidden" name="project_id" value="<?php echo $collection['project_id']; ?>" />
 
-    <table class="allStoriesInCollection">
+    <table class="allStoriesInCollection unorganized">
     <thead>
     <tr>
     <th width="140">ID</th>
@@ -85,7 +85,7 @@
             <td colspan="5" class="textRight">
                 <button type="button" onClick="window.open('/invoice?collection=<?php echo $collection['id']; ?>')">Preview Invoice</button> <button type="button" onClick="window.location='/invoice?collection=<?php echo $collection['id']; ?>&save=1'">Generate & Save Invoice</button>
             </td>
-            <td><?php echo $hours; ?></td>
+            <td class="bold"><?php echo $hours; ?></td>
             <td colspan="2">
                 <button type="submit">Update Stories</button>
             </td>

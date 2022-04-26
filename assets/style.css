@@ -683,8 +683,12 @@ table th {
   background-color: #111;
 }
 
-table tr:not(:last-child):not(.noBorder) {
+table tr:not(.noBorder) {
   border-bottom: 1px dotted #e5e5e5;
+}
+
+table tr:nth-last-child(-n+3) {
+  border-bottom: none !important;
 }
 
 table td.borderTop {
@@ -693,6 +697,10 @@ table td.borderTop {
 
 .collectionsTable h4 {
   margin-bottom: 0px;
+}
+
+table.unorganized {
+  background-color: #f9f9f9;
 }
 
 details summary { list-style-type: none; } /* Firefox */

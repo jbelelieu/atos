@@ -91,6 +91,10 @@ If you happen to make a new theme, please share it with the community!
 - **Rate Types**: Each story can be assigned it's own billable rate. This means that you can offer different hourly rates for different types of services, such as standard coding vs devops rates.
 - **Flexible Stories**: Use the story tool to manage your entire project, or copy and paste story IDs and titles directly from your client's JIRA (for example) and use ATOS to track and bill hours against known stories.
 
+# Tips and Tricks
+
+- Status messages: success and error message will appear in the topbar right of the ATOS logo.
+
 # FAQ
 
 **What stories get places on invoices?**
@@ -119,4 +123,4 @@ While I love Javascript frameworks like React and use them extensively, no, I ha
 - Story notes
 - Project turn-over to-do lists that can be generated and sent to clients much like invoices
 - Basic estimated tax help for American freelancers
-
+- Bulk actions on stories
