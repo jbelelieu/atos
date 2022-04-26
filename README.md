@@ -1,6 +1,6 @@
 ![ATOS Logo](assets/atos_logo.png)
 
-**Built by freelancer 🙋‍♂️, for freelancers 🕺 🤷 💃🏾.**
+**Built by freelancer 🙋‍♂️, for freelancers 🕺 🤷 💃🏾 .**
 
 Whether you're selling time-based sprints, or simply tracking time worked, ATOS will allow you to manage multiple projects for multiple clients at once, while generating beautiful invoices for you in the process.
 
@@ -11,7 +11,8 @@ ATOS is a locally hosted, zero-setup application that makes invoicing against ba
 
 - **Project Management**: Track stories
 - **Invoice Generation**: Generate detailed invoices against those completed stories
-- **Estimated Taxes**: Coming soon, I'll be adding help for US-based developers around estimated taxes.
+- **Estimated Taxes**: Coming soon -- Estimated tax help for US-based developers.
+- **Language Support**: Coming soon  -- additional languages other than English.
 
 ATOS is 100% open source and free to use, licensed under the [GNU AGPLv3 License](https://www.gnu.org/licenses/agpl-3.0.en.html).
 
@@ -21,38 +22,63 @@ ATOS is 100% open source and free to use, licensed under the [GNU AGPLv3 License
 
 # Setup
 
-**Notice About Deploying ATOS To The Web**: ATOS was always meant to be used locally. While there shouldn't be any problems deploying it, I don't recommend allowing anyone to access this who you don't fully trust. There is no concept of "users" in the platform, so anyone with access will be able to do whatever they want with your data.
-
 ATOS requires `PHP8+` and `SQLite3`.
+
+**Notice About Deploying ATOS To The Web**: ATOS was always meant to be used locally. While there shouldn't be any problems deploying it, I don't recommend allowing anyone to access it who you don't trust. There is no concept of "users" in the platform, so anyone with access to the platform will be able to do whatever they want with your data.
 
 ### Download and Start
 
-- From Github, download the ZIP file for the latest release
-- Unzip it wherever you want
-- In command line, go to that directory and launch the PHP server: `php -S localhost:9001`
+- From Github, download the [latest release ZIP file](https://github.com/jbelelieu/atos/releases)
+- Unzip it wherever you want on your local machine
+- From the command line, go to the ATOS directory and launch the PHP server: `php -S localhost:9001`
 - You can now access ATOS from any web browser at `http://localhost:9001`.
 
-##### Update Your Default Settings (Optional Step)
+#### Update Your Default Settings (Optional Step)
 
-Open `SystemSettings.sample.php` and update the values as needed. Optionally rename it to `SystemSettings.env.php`, otherwise ATOS will do that for you.
+Open `settings.sample.php` and update the values as needed. Optionally rename it to `settings.env.php`, otherwise ATOS will do that for you.
 
-##### Notice: phpLiteAdmin
+#### Notice: phpLiteAdmin
 
 For your convinience, ATOS ships with [phpLiteAdmin](https://www.phpliteadmin.org/). You can access that from `http://localhost:9001/db`.
 
 ATOS will automatically attempt to run migrations at first start up. On the off chance that migrations fail, you can use phpLiteAdmin to manually execute the contents of `db/migrations.sql`.
 
-##### Notice: Updating Your Logo
+#### Notice: Updating Your Logo
 
-You can add your logo to outgoing invoices by simply replacing `logo.png` in the main directory of the project with your actual logo.
+You can add your logo to outgoing invoices by simply replacing `assets/logo.png` in the main directory of the project with your actual logo.
 
-##### Notice: Saving Invoices
+#### Notice: Saving Invoices
 
 If you plan on generating and saving invoices locally (which I recommend you do), you will need to make sure the `invoices` directory is writable: `chmod 0755 invoices`.
 
 Note that invoices are saved as HTML. Most computers have reasonable "Print as PDF" options now; please use that feature to print a PDF if required. Note that ATOS hard codes styles, so changing `assets/style.css` won't affect already saved invoices.
 
+#### Notice: Language Files
+
+You can customize some of the language that isn't on templates using the `includes/language.php` file.
+
+If you happen to translate the application, please share it with the community!
+
+#### Notice: Templates Files
+
+You certainly don't need to, but if you want to, feel free to thinker with all of the templates in the `templates` folder.
+
+Please see the docs for a list of available variables for each template.
+
+If you happen to make a new theme, please share it with the community!
+
 -----
+
+# Concepts
+
+- **Company**: every project has a company being billed (client) and a company doing the work (contracted party). In ATOS, the concepts of companies cover both, meaning that you need to add your own company (you are the contracted party), as well as all of your client's company information. Adding both together gives you the flexibility to bill out as separate entities, but keep all of your finances in one place. (See "ATOS landing page")
+- **Project**: this is a group of collections (ie stories) that you are billing against. A project can span multiple collections, invoices, etc.. You must have a project to create stories, and you need companies to create a project. (See "ATOS landing page")
+- **Collection**: stories are added to collections, and then collections are used to generate invoices. You can think of these as "sprints", but the overall goal of a collection is to combine stories together that are billable over the same period. (Select your project to view and collections)
+- **Story**: this is a generic term for any task you completed for a specific project. Stories are lumped into collections, and collections are billed out based on the story statuses within the collection. (Select your project to view and collections)
+- **Invoices**: an invoice is the final output of a collection. When you generate an invoice, any story in the story in the collection being invoiced with a status set to "billable" and "complete" will be included and billed according to the story's rate type.
+- **Rate Type**: you can bill different amounts based on what you are doing. For example, you might charge $50/hour for one service but $80/hour for another. You set this using "Rate Types". Each rate type is then assigned to a story, and that story is billed out at the appropriate rate. (See "Settings")
+- **Story Type**: this is a description way of explaining what kind of story this is. For example, you may want some stories to be coding related, while others are just meetings. In either case, both may be billable, but they are fundamentally different uses of your time. Story types simple help you differentiate between what type of work you did for that story. (See "Settings")
+- **Story Status**: this controls the "state" of the story. Each status can be consider "open" or "complete", as well as "billable" or "not billable". For example, you can set a "Rejected" status to be considered "complete" but it won't be billed to the client. (See "Settings")
 
 # Features
 
@@ -68,9 +94,22 @@ Note that invoices are saved as HTML. Most computers have reasonable "Print as P
 # FAQ
 
 **What stories get places on invoices?**
+
 All stories set to a "Closed" state. If you don't want something appearing on an invoice, either bump it back to the default collection or into an "Open" state
 
-# Special Thank You
+**Are you planning on modernizes the code?**
+
+I'm aware this isn't the most presentable code, and I promise if the project takes off, I'll clean it up and implement more advanced templating engines, etc..
+
+**Do you plan on making a more dynamic frontend for ATOS?**
+
+While I love Javascript frameworks like React and use them extensively, no, I have no plans of transitioning away from PHP rendering at this time. It's drop dead simple this way, and I want to introduce as little complexity as possible.
+
+**Will future versions remain compatible with the beta?**
+
+100%, no question. I used this personally, and I can't lose years of data for an upgrade. Your data won't becoming obsolete and you won't need to re-import anything with future versions.
+
+# Special Thank Yous
 
 - The fine folks over at [phpLiteAdmin](https://www.phpliteadmin.org/) for the SQLite3 manager.
 - The artists over at [flaticon](https://flaticon.com/) for their CSS icon set.

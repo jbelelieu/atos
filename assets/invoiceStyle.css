@@ -17,7 +17,7 @@ html {
  */
 
 html {
-  line-height: 1.3em;
+  line-height: 1.2em;
   -webkit-text-size-adjust: 100%; /* 2 */
   box-sizing: border-box;
 }
@@ -535,15 +535,11 @@ h4 {
     padding: 0;
     text-transform: uppercase;
     line-height: 1.3em;
-    color: #666;
+    color: #777;
 }
 
 .larger {
     font-size: 120%;
-}
-
-.sunk h4 {
-    color: #999;
 }
 
 .sunk p:first-child {
@@ -551,7 +547,8 @@ h4 {
     margin-top: -2px;
 }
 
-.sunk p:last-child {
+.sunk p:last-child,
+.sunk ul {
     padding-bottom: 0px;
     margin-bottom: 0px;
 }
@@ -631,6 +628,7 @@ table td.shipped {
 
 .totalFocus {
   font-size: 1.2em;
+  font-weight: bold;
 }
 
 table td.closed {
@@ -645,7 +643,7 @@ table td.complete {
 
 table td.dateHeader {
   font-weight: bold;
-  font-size: 110%;
+  /* font-size: 90%; */
 }
 
 table td.summary {

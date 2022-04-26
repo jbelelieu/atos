@@ -85,7 +85,7 @@ INSERT INTO story_type (id, title) VALUES (1, 'Story'), (2, 'Chore'), (3, 'Meeti
 -- The primary items should not be removed and need
 -- to remain in this order!
 INSERT INTO story_status (id, title, emoji, color, is_complete_state, is_billable_state) VALUES
-(1, 'Open', 'fi-sr-list-check', '#111111', false, false),
+(1, 'Open', 'fi-sr-document', '#111111', false, false),
 (2, 'Complete', 'fi-sr-checkbox', '#47F43E', true, true),
 (3, 'Shipped', 'fi-sr-rocket-lunch', '#3fcce8', true, true),
 (4, 'Closed', 'fi-sr-cross-circle', '#b82a36', true, false),
