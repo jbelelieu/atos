@@ -36,8 +36,8 @@ CREATE TABLE `story_type` (
 CREATE TABLE `story_status` (
   `id` INTEGER PRIMARY KEY AUTOINCREMENT,
   `title` varchar(255),
-  `is_complete_state` boolean DEFAULT false,
-  `is_billable_state` boolean DEFAULT false,
+  `is_complete_state` boolean DEFAULT 0,
+  `is_billable_state` boolean DEFAULT 0,
   `color` varchar(10),
   `emoji` varchar(10)
 );
@@ -47,7 +47,7 @@ CREATE TABLE `story_note` (
   `story_id` INTEGER,
   `created_at` timestamp DEFAULT CURRENT_TIMESTAMP,
   `resolved_at` timestamp,
-  `is_resolved` boolean DEFAULT false,
+  `is_resolved` boolean DEFAULT 0,
   `note` text,
   CONSTRAINT fk_story_id FOREIGN KEY(story_id) REFERENCES story(id) ON DELETE CASCADE
 );
@@ -58,7 +58,7 @@ CREATE TABLE `story_collection` (
   `ended_at` timestamp,
   `project_id` INTEGER,
   `title` varchar(255),
-  `is_project_default` BOOLEAN default false,
+  `is_project_default` BOOLEAN default 0,
   `goals` text,
   CONSTRAINT fk_project_id FOREIGN KEY(project_id) REFERENCES project(id) ON DELETE CASCADE
 );
@@ -85,11 +85,11 @@ INSERT INTO story_type (id, title) VALUES (1, 'Story'), (2, 'Chore'), (3, 'Meeti
 -- The primary items should not be removed and need
 -- to remain in this order!
 INSERT INTO story_status (id, title, emoji, color, is_complete_state, is_billable_state) VALUES
-(1, 'Open', 'fi-sr-document', '#111111', false, false),
-(2, 'Complete', 'fi-sr-checkbox', '#47F43E', true, true),
-(3, 'Shipped', 'fi-sr-rocket-lunch', '#3fcce8', true, true),
-(4, 'Closed', 'fi-sr-cross-circle', '#b82a36', true, false),
-(5, 'Superseded', 'fi-sr-time-fast', '#f1f1f1', true, false);
+(1, 'Open', 'fi-sr-document', '#111111', false, 0),
+(2, 'Complete', 'fi-sr-checkbox', '#47F43E', true, 1),
+(3, 'Shipped', 'fi-sr-rocket-lunch', '#3fcce8', true, 1),
+(4, 'Closed', 'fi-sr-cross-circle', '#b82a36', true, 0),
+(5, 'Superseded', 'fi-sr-time-fast', '#f1f1f1', true, 0);
 
 -- This is in dollar cents, so $50 = 5000.
 INSERT INTO story_hour_type (id, title, rate) VALUES (1, 'Standard Rate', '5000');
