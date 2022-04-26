@@ -1,3 +1,5 @@
+
+
 ![ATOS Logo](assets/atos_logo.png)
 
 **Built by freelancer 🙋‍♂️, for freelancers 🕺 🤷 💃🏾 .**
@@ -9,7 +11,7 @@ Whether you're selling time-based sprints, or simply tracking time worked, ATOS 
 
 ATOS is a locally hosted, zero-setup application that makes invoicing against backlogs drop-dead simple. It does:
 
-- **Project Management**: Track stories
+- **Project Management**: Track stories against known backlogs (or use it as an independent PM tool)
 - **Invoice Generation**: Generate detailed invoices against those completed stories
 
 ATOS is 100% open source and free to use, licensed under the [GNU AGPLv3 License](https://www.gnu.org/licenses/agpl-3.0.en.html).
@@ -18,9 +20,25 @@ ATOS is 100% open source and free to use, licensed under the [GNU AGPLv3 License
 
 -----
 
+- [Setup](#setup)
+    - [Download and Start](#download-and-start)
+      - [Update Your Default Settings (Optional Step)](#update-your-default-settings-optional-step)
+      - [Notice: Updating Your Logo](#notice-updating-your-logo)
+      - [Notice: Saving Invoices](#notice-saving-invoices)
+      - [Notice: Language Files](#notice-language-files)
+      - [Notice: Templates Files](#notice-templates-files)
+      - [Notice: PHP 8.1 Requirement](#notice-php-81-requirement)
+      - [Notice: phpLiteAdmin](#notice-phpliteadmin)
+- [Concepts](#concepts)
+- [Features](#features)
+- [Tips and Tricks](#tips-and-tricks)
+- [FAQ](#faq)
+- [Special Thank You!](#special-thank-you)
+- [Roadmap](#roadmap)
+
 # Setup
 
-ATOS requires `PHP8+` and `SQLite3`.
+ATOS requires `PHP 8.1+` and `SQLite3`.
 
 **Notice About Deploying ATOS To The Web**: ATOS was always meant to be used locally. While there shouldn't be any problems deploying it, I don't recommend allowing anyone to access it who you don't trust. There is no concept of "users" in the platform, so anyone with access to the platform will be able to do whatever they want with your data.
 
@@ -34,12 +52,6 @@ ATOS requires `PHP8+` and `SQLite3`.
 #### Update Your Default Settings (Optional Step)
 
 Open `settings.sample.php` and update the values as needed. Optionally rename it to `settings.env.php`, otherwise ATOS will do that for you.
-
-#### Notice: phpLiteAdmin
-
-For your convinience, ATOS ships with [phpLiteAdmin](https://www.phpliteadmin.org/). You can access that from `http://localhost:9001/db`.
-
-ATOS will automatically attempt to run migrations at first start up. On the off chance that migrations fail, you can use phpLiteAdmin to manually execute the contents of `db/migrations.sql`.
 
 #### Notice: Updating Your Logo
 
@@ -64,6 +76,19 @@ You certainly don't need to, but if you want to, feel free to thinker with all o
 Please see the docs for a list of available variables for each template.
 
 If you happen to make a new theme, please share it with the community!
+
+#### Notice: PHP 8.1 Requirement
+
+This does require PHP 8.1+. While I thought about making it backwards compatible, some of the PHP 8.1+ features were too good to pass up. If you need to install PHP 8.1+ (brew should provider the latest version):
+
+- On Mac: `brew update && brew install php && brew link php`
+  - To update an existing version of PHP: `brew update && brew upgrade php && brew link --overwrite --force php`
+
+#### Notice: phpLiteAdmin
+
+For your convinience, ATOS ships with [phpLiteAdmin](https://www.phpliteadmin.org/). You can access that from `http://localhost:9001/db`.
+
+ATOS will automatically attempt to run migrations at first start up. On the off chance that migrations fail, you can use phpLiteAdmin to manually execute the contents of `db/migrations.sql`.
 
 -----
 
@@ -118,6 +143,10 @@ While I love Javascript frameworks like React and use them extensively, no, I ha
 
 100%, no question. I used this personally, and I can't lose years of data for an upgrade. Your data won't becoming obsolete and you won't need to re-import anything with future versions.
 
+**Why isn't this using modern PHP tools like Composer?**
+
+The goal was always a zero-dependency application that can be setup in seconds. By adding complexity in the form of package managers and the such, it adds extra steps I don't want to put people through. In thoery, assuming you have PHP8 installed locally, all you have to do is unzip the latest release and start the PHP server. I intend to keep it that way: simplicity is poetry in code!
+
 # Special Thank You!
 
 - The fine folks over at [phpLiteAdmin](https://www.phpliteadmin.org/) for the SQLite3 manager.
@@ -125,6 +154,7 @@ While I love Javascript frameworks like React and use them extensively, no, I ha
 
 # Roadmap
 
+- Editing of companies, projects, rates, types, and statuses
 - Story notes
 - Project turn-over to-do lists that can be generated and sent to clients much like invoices
 - Basic estimated tax help for American freelancers
