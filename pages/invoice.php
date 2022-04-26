@@ -1,5 +1,10 @@
 <?php
 
+use services\CollectionService;
+use services\CompanyService;
+use services\ProjectService;
+use services\SettingService;
+
 /**
  * ATOS: "Built by freelancer 🙋‍♂️, for freelancers 🕺 🤷 💃🏾 "
  *
@@ -20,6 +25,11 @@ if (empty($_GET['collection'])) {
     );
 }
 
+$companyService = new CompanyService();
+$collectionService = new CollectionService();
+$projectService = new ProjectService();
+$settingService = new SettingService();
+
 /**
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
  *
@@ -27,7 +37,7 @@ if (empty($_GET['collection'])) {
  *
  */
 
-$shippedStories = getStoriesInCollection(
+$shippedStories = $collectionService->getStoriesInCollection(
     $_GET['collection'],
     false,
     'ended_at ASC',
@@ -42,11 +52,11 @@ $settingListType = getSetting(AsosSettings::INVOICE_ORDER_BY_DATE_COMPLETED, 'li
 
 $hoursByRateType = [];
 
-$rateTypes = getRateTypes();
-$collection = getCollectionById($_GET['collection']);
-$project = getProjectById($collection['project_id']);
-$company = getCompanyById($project['company_id']);
-$clientCompany = getCompanyById($project['client_id']);
+$rateTypes = $settingService->getRateTypes();
+$collection = $collectionService->getCollectionById($_GET['collection']);
+$project = $projectService->getProjectById($collection['project_id']);
+$company = $companyService->getCompanyById($project['company_id']);
+$clientCompany = $companyService->getCompanyById($project['client_id']);
 
 $invoiceCompletedString = language('completed_on', 'Tasks completed on');
 $lastDate = null;
@@ -85,7 +95,9 @@ foreach ($shippedStories as $aStory) {
 // Build rate types table
 $grandTotal = 0;
 $ratesHtml = '';
-$rateTypes = getRateTypes();
+
+$rateTypes = $settingService->getRateTypes();
+
 foreach ($rateTypes as $aType) {
     $dollarRate = formatMoney($aType['rate']);
     $hours = $hoursByRateType[$aType['id']];

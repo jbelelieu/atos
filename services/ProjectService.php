@@ -1,6 +1,10 @@
 <?php
 
-require_once ATOS_HOME_DIR . '/services/BaseService.php';
+namespace services;
+
+use services\BaseService;
+
+// require_once ATOS_HOME_DIR . '/services/BaseService.php';
 
 /**
  * ATOS: "Built by freelancer 🙋‍♂️, for freelancers 🕺 🤷 💃🏾 "
@@ -61,7 +65,7 @@ class ProjectService extends BaseService
             ');
 
             $statement->bindParam(':project_id', $lastProjectId);
-            $statement->bindParam(':title', getSetting(AsosSettings::UNORGANIZED_NAME, 'Unorganized'));
+            $statement->bindParam(':title', getSetting(\AsosSettings::UNORGANIZED_NAME, 'Unorganized'));
             $statement->execute();
 
             $this->db->commit();
@@ -91,5 +95,87 @@ class ProjectService extends BaseService
         $statement->execute();
 
         redirect('/', null, 'That company has been deleted. Bye forever, I guess.');
+    }
+
+    /**
+     * @return array
+     */
+    public function getProjects()
+    {
+        $statement = $this->db->prepare("
+            SELECT
+                p.*,
+                c1.title as company_name,
+                c2.title as client_name
+            FROM project p
+            JOIN company c1 ON p.client_id = c1.id
+            JOIN company c2 ON p.company_id = c2.id
+        ");
+
+        $statement->execute();
+
+        return $statement->fetchAll();
+    }
+
+    /**
+     * @param int $id
+     * @return array
+     */
+    public function getProjectById(int $id)
+    {
+        try {
+            $statement = $this->db->prepare('
+                SELECT project.*, company.title as company_name
+                FROM project
+                JOIN company ON project.client_id = company.id
+                WHERE project.id=:id
+            ');
+
+            $statement->bindParam(':id', $id);
+
+            $statement->execute();
+
+            $res = $statement->fetch();
+            if (!$res) {
+                redirect('/', null, null, 'Something went wrong finding that project (A1).');
+            }
+
+            return $res;
+        } catch (\PDOException $e) {
+            redirect('/', null, null, 'Something went wrong finding that project (A2).');
+        }
+    }
+
+    /**
+     * @param integer $projectId
+     * @return array
+     */
+    public function getProjectTotals(int $projectId)
+    {
+        $statement = $this->db->prepare("
+            SELECT
+                COALESCE(SUM(story.hours), 0) as hours,
+                COALESCE(SUM(story.hours * story_hour_type.rate), 0) as total
+            FROM
+                project
+            JOIN
+                story_collection
+                ON project.id = story_collection.project_id
+            JOIN
+                story
+                ON story_collection.id = story.collection
+            JOIN
+                story_hour_type
+                ON story_hour_type.id = story.rate_type
+            WHERE
+                project.id = :project_id
+                AND story.status != 1;
+        ");
+
+        $statement->bindParam(':project_id', $projectId);
+
+        $statement->execute();
+
+        return $statement->fetch();
     }
 }

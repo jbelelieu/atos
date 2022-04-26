@@ -1,7 +1,7 @@
 <?php
 
-require_once ATOS_HOME_DIR . '/services/CompanyService.php';
-require_once ATOS_HOME_DIR . '/services/ProjectService.php';
+use services\CompanyService;
+use services\ProjectService;
 
 /**
  * ATOS: "Built by freelancer 🙋‍♂️, for freelancers 🕺 🤷 💃🏾 "
@@ -57,7 +57,7 @@ if (isset($_POST['action'])) {
  *
  */
 
-$clients = getCompanies();
+$clients = $companyService->getCompanies();
 
 // The client select dropdown
 $clientSelect = '<option value=""></option>';
@@ -70,7 +70,7 @@ $totalValue = 0;
 $renderedClients = '';
 
 foreach ($clients as $aClient) {
-    $value = getCompanyTotals($aClient['id']);
+    $value = $companyService->getCompanyTotals($aClient['id']);
 
     $totalValue += $value['total'];
 
@@ -94,7 +94,7 @@ foreach ($clients as $aClient) {
 }
 
 // Build the projects table.
-$projects = getProjects();
+$projects = $projectService->getProjects();
 
 $totalProjectValue = 0;
 $totalProjectHours = 0;
@@ -102,7 +102,7 @@ $renderedProjects = '';
 
 // Project table
 foreach ($projects as $aProject) {
-    $value = getProjectTotals($aProject['id']);
+    $value = $projectService->getProjectTotals($aProject['id']);
 
     $totalProjectValue += $value['total'];
     $totalProjectHours += $value['hours'];

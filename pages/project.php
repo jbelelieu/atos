@@ -1,7 +1,9 @@
 <?php
 
-require_once ATOS_HOME_DIR . '/services/CollectionService.php';
-require_once ATOS_HOME_DIR . '/services/StoryService.php';
+use services\CollectionService;
+use services\ProjectService;
+use services\SettingService;
+use services\StoryService;
 
 /**
  * ATOS: "Built by freelancer 🙋‍♂️, for freelancers 🕺 🤷 💃🏾 "
@@ -31,6 +33,8 @@ if (empty($_GET['id'])) {
  */
 
 $collectionService = new CollectionService();
+$settingService = new SettingService();
+$projectService = new ProjectService();
 $storyService = new StoryService();
 
 if (isset($_GET['action'])) {
@@ -78,7 +82,7 @@ if (isset($_POST['action'])) {
  *
  */
 
-$project = getProjectById($_GET['id']);
+$project = $projectService->getProjectById($_GET['id']);
 if (!$project) {
     redirect(
         '/',
@@ -92,13 +96,13 @@ if (!$project) {
 $_SESSION["viewingProject"] = $project['id'];
 $_SESSION["viewingProjectName"] = $project['title'];
 
-$storyStatuses = getStoryStatuses();
-$hourTypeResults = getRateTypes();
-$storyTypeResults = getStoryTypes();
+$storyStatuses = $settingService->getStoryStatuses();
+$hourTypeResults = $settingService->getRateTypes();
+$storyTypeResults = $settingService->getStoryTypes();
 
 $collectionResults = [
- getLatestCollectionForProject($project['id']),
- getDefaultCollectionForProject($project['id']),
+ $collectionService->getLatestCollectionForProject($project['id']),
+ $collectionService->getDefaultCollectionForProject($project['id']),
 ];
 
 // Story type select for the story create form.
@@ -118,7 +122,7 @@ foreach ($hourTypeResults as $aType) {
 $collectionSelect = '';
 $collectionArray = [];
 
-$allCollections = getCollectionByProject($project['id']);
+$allCollections = $collectionService->getCollectionByProject($project['id']);
 foreach ($allCollections as $aCollection) {
     array_push($collectionArray, $aCollection['id']);
 
@@ -137,8 +141,8 @@ foreach ($allCollections as $row) {
 
     $isProjectDefault = isBool($row['is_project_default']);
 
-    $delete = ($row['id'] > 1)
-        ? "<a href=\"/project?action=deleteCollection&project_id=" . $project['id'] . "&id=" . $row['id'] . "\">" . putIcon('fi-sr-trash') . "</a>"
+    $delete = (!$isProjectDefault)
+        ? "<a onclick=\"return confirm('Are you sure you want to delete this collection?')\" href=\"/project?action=deleteCollection&project_id=" . $project['id'] . "&id=" . $row['id'] . "\">" . putIcon('fi-sr-trash') . "</a>"
         : '';
 
     $update = ($at > 0 && !$isProjectDefault)
@@ -169,7 +173,7 @@ foreach ($collectionResults as $aCollection) {
 
     // Open stories for this collection
     $renderedOpenStories = '';
-    $openStories = getStoriesInCollection($aCollection['id']);
+    $openStories = $collectionService->getStoriesInCollection($aCollection['id']);
     foreach ($openStories as $row) {
         $renderedOpenStories .= template(
             'admin/snippets/collection_table_open_entry',
@@ -182,7 +186,7 @@ foreach ($collectionResults as $aCollection) {
                         'project_id' => $project['id'],
                     ]
                 ),
-                'hourSelect' => buildHourSelect(
+                'hourSelect' => $settingService->buildHourSelect(
                     $row['id'],
                     $row['rate_type'],
                     $hourTypeResults
@@ -195,7 +199,7 @@ foreach ($collectionResults as $aCollection) {
                     ($isProjectDefault) ? true : false
                 ),
                 'story' => $row,
-                'typeSelect' => buildTypeSelect(
+                'typeSelect' => $settingService->buildTypeSelect(
                     $row['id'],
                     $row['type'],
                     $storyTypeResults
@@ -207,7 +211,7 @@ foreach ($collectionResults as $aCollection) {
 
     // Billable stories for this collection
     $renderedOtherStories = '';
-    $otherStories = getStoriesInCollection(
+    $otherStories = $collectionService->getStoriesInCollection(
         $aCollection['id'],
         false,
         'ended_at ASC, status ASC',
@@ -242,7 +246,7 @@ foreach ($collectionResults as $aCollection) {
             [
                 'endedAt' => $endedAt,
                 'hours' => $row['hours'],
-                'hourSelect' => buildHourSelect($row['id'], $row['hour_rate'], $hourTypeResults),
+                'hourSelect' => $settingService->buildHourSelect($row['id'], $row['hour_rate'], $hourTypeResults),
                 'label' => $label,
                 'options' => $storyService->buildStoryOptions(
                     $project['id'],
@@ -253,7 +257,7 @@ foreach ($collectionResults as $aCollection) {
                 'project' => $project,
                 'rowClass' => $class,
                 'story' => $row,
-                'typeSelect' => buildTypeSelect($row['type'], $row['type'], $storyTypeResults),
+                'typeSelect' => $settingService->buildTypeSelect($row['type'], $row['type'], $storyTypeResults),
             ],
             true
         );
@@ -290,38 +294,3 @@ echo template(
     ]
 );
 exit;
-
-
-function buildHourSelect($itemId, $selected, array $inputResults = []): string
-{
-    $hourTypeResults = (!empty($inputResults)) ? $inputResults : getRateTypes();
-
-    $hourSelect = '<select name="story[' . $itemId . '][rate_type]">';
-
-    foreach ($hourTypeResults as $aType) {
-        $hourSelect .= ($aType['id'] === $selected)
-        ? '<option value="' . $aType['id'] . '" selected="selected">' . $aType['title'] . '</option>'
-        : '<option value="' . $aType['id'] . '">' . $aType['title'] . '</option>';
-    }
-
-    $hourSelect .= '</select>';
-
-    return $hourSelect;
-}
-
-function buildTypeSelect($itemId, $selected, array $inputResults = []): string
-{
-    $storyTypeResults = (!empty($inputResults)) ? $inputResults : getStoryTypes();
-
-    $typeSelect = '<select name="story[' . $itemId . '][type]">';
-
-    foreach ($storyTypeResults as $aStoryType) {
-        $typeSelect .= ($aStoryType['id'] === $selected)
-        ? '<option value="' . $aStoryType['id'] . '" selected="selected">' . $aStoryType['title'] . '</option>'
-        : '<option value="' . $aStoryType['id'] . '">' . $aStoryType['title'] . '</option>';
-    }
-
-    $typeSelect .= '</select>';
-
-    return $typeSelect;
-}

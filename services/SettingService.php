@@ -1,6 +1,10 @@
 <?php
 
-require_once ATOS_HOME_DIR . '/services/BaseService.php';
+namespace services;
+
+use services\BaseService;
+
+// require_once ATOS_HOME_DIR . '/services/BaseService.php';
 
 /**
  * ATOS: "Built by freelancer 🙋‍♂️, for freelancers 🕺 🤷 💃🏾 "
@@ -15,6 +19,58 @@ require_once ATOS_HOME_DIR . '/services/BaseService.php';
  */
 class SettingService extends BaseService
 {
+    /**
+     * @param [type] $itemId
+     * @param [type] $selected
+     * @param array $inputResults
+     * @return string
+     */
+    public function buildHourSelect(
+        $itemId,
+        $selected,
+        array $inputResults = []
+    ): string {
+        $hourTypeResults = (!empty($inputResults)) ? $inputResults : $this->getRateTypes();
+
+        $hourSelect = '<select name="story[' . $itemId . '][rate_type]">';
+
+        foreach ($hourTypeResults as $aType) {
+            $hourSelect .= ($aType['id'] === $selected)
+        ? '<option value="' . $aType['id'] . '" selected="selected">' . $aType['title'] . '</option>'
+        : '<option value="' . $aType['id'] . '">' . $aType['title'] . '</option>';
+        }
+
+        $hourSelect .= '</select>';
+
+        return $hourSelect;
+    }
+
+    /**
+     * @param [type] $itemId
+     * @param [type] $selected
+     * @param array $inputResults
+     * @return string
+     */
+    public function buildTypeSelect(
+        $itemId,
+        $selected,
+        array $inputResults = []
+    ): string {
+        $storyTypeResults = (!empty($inputResults)) ? $inputResults : $this->getStoryTypes();
+
+        $typeSelect = '<select name="story[' . $itemId . '][type]">';
+
+        foreach ($storyTypeResults as $aStoryType) {
+            $typeSelect .= ($aStoryType['id'] === $selected)
+        ? '<option value="' . $aStoryType['id'] . '" selected="selected">' . $aStoryType['title'] . '</option>'
+        : '<option value="' . $aStoryType['id'] . '">' . $aStoryType['title'] . '</option>';
+        }
+
+        $typeSelect .= '</select>';
+
+        return $typeSelect;
+    }
+
     /**
      * @param array $data
      * @return void
@@ -136,7 +192,7 @@ class SettingService extends BaseService
             redirect('/settings', null, null, 'You cannot delete the default statuses.');
         }
 
-        $statusType = getStoryStatusById($data['id']);
+        $statusType = $this->getStoryStatusById($data['id']);
         if (!$statusType) {
             redirect('/settings', null, null, 'Status does not exist.');
         }
@@ -189,5 +245,68 @@ class SettingService extends BaseService
         $statement->execute();
 
         redirect('/settings', null, 'We deleted that story type. All stories that were of that type have been reverted to the standard "Story" type.');
+    }
+
+    /**
+     * @return array
+     */
+    public function getRateTypes()
+    {
+        $statement = $this->db->prepare("
+            SELECT *
+            FROM story_hour_type
+            ORDER BY title DESC
+        ");
+
+        $statement->execute();
+
+        return $statement->fetchAll();
+    }
+
+    /**
+     * @return array
+     */
+    public function getStoryStatuses()
+    {
+        $statement = $this->db->prepare("
+            SELECT * FROM story_status
+        ");
+
+        $statement->execute();
+
+        return $statement->fetchAll();
+    }
+
+    /**
+     * @param integer $storyStatusId
+     * @return array
+     */
+    public function getStoryStatusById(int $storyStatusId)
+    {
+        $statement = $this->db->prepare("
+            SELECT *
+            FROM story_status
+            WHERE id = :id
+        ");
+
+        $statement->bindParam(':id', $storyStatusId);
+
+        $statement->execute();
+
+        return $statement->fetch();
+    }
+
+    /**
+     * @return array
+     */
+    public function getStoryTypes()
+    {
+        $statement = $this->db->prepare("
+            SELECT * FROM story_type
+        ");
+
+        $statement->execute();
+
+        return $statement->fetchAll();
     }
 }

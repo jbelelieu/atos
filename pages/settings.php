@@ -1,6 +1,6 @@
 <?php
 
-require_once ATOS_HOME_DIR . '/services/SettingService.php';
+use services\SettingService;
 
 /**
  * ATOS: "Built by freelancer 🙋‍♂️, for freelancers 🕺 🤷 💃🏾 "
@@ -62,9 +62,9 @@ if (isset($_POST['action'])) {
  *
  */
 
-$statuses = getStoryStatuses();
-$rateTypes = getRateTypes();
-$storyTypes = getStoryTypes();
+$statuses = $settingService->getStoryStatuses();
+$rateTypes = $settingService->getRateTypes();
+$storyTypes = $settingService->getStoryTypes();
 
 $renderedStoryTypes = '';
 foreach ($storyTypes as $aStoryType) {

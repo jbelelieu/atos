@@ -481,15 +481,16 @@ footer {
 
 #collections div {
   margin-top: 4px;
+  line-height: 24px;
 }
 
 #collections span {
-  margin-right: 14px;
+  margin-right: 10px;
 }
 
 #collections a {
-  margin-right: 6px;
   color: #111;
+  display: inline-block;
 }
 
 .border {
