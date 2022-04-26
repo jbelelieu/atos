@@ -528,7 +528,7 @@ footer {
 
 .collectionsTable h3 {
   background-color: #28afc9;
-  color: #111;
+  color: #fff;
 }
 
 .collectionsTable h4 {
@@ -680,7 +680,6 @@ table th {
   font-size: 85%;
   color: #fff;
   background-color: #111;
-  /* border-bottom: 3px solid #3fcce8; */
 }
 
 table tr:not(:last-child):not(.noBorder) {

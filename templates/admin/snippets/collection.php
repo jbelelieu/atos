@@ -25,21 +25,35 @@
 <?php } ?>
 
 <!-- Open stories table -->
-<table class="allStoriesInCollection">
-<thead>
-<tr>
-<th width="140">ID</th>
-<th width="140">Rate Type</th>
-<th width="42"></th>
-<th width="140">Type</th>
-<th width=>Title</th>
-<th width="240"></th>
-</tr>
-</thead>
-<tbody>
-    <?php echo $openStories; ?>
-</tbody>
-</table>
+<form
+    class="preventLeaving"
+    action="/project?id=<?php echo $collection['project_id']; ?>"
+    method="post">
+    <input type="hidden" name="action" value="updateStories" />
+    <input type="hidden" name="project_id" value="<?php echo $collection['project_id']; ?>" />
+
+    <table class="allStoriesInCollection">
+    <thead>
+    <tr>
+    <th width="140">ID</th>
+    <th width="140">Rate Type</th>
+    <th width="140">Type</th>
+    <th width="42"></th>
+    <th width=>Title</th>
+    <th width="240"></th>
+    </tr>
+    </thead>
+    <tbody>
+        <?php echo $openStories; ?>
+        <tr>
+        <td colspan="4" class="textRight"></td>
+        <td colspan="2">
+            <button type="submit">Update Stories</button>
+        </td>
+        </tr>
+    </tbody>
+    </table>
+</form>
 
 <?php if (!$isProjectDefault) { ?>
     <!-- Billable stories table -->

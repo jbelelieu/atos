@@ -114,6 +114,15 @@ class StoryService extends BaseService
     public function updateStories(array $data): void
     {
         foreach ($data['story'] as $storyId => $aStory) {
+            // Must have a title
+            if (empty($aStory['title'])) {
+                continue;
+            }
+
+            // Default to existing, overwrite anything incoming...
+            $currentStory = getStory($storyId);
+            $aStory = array_merge($currentStory, $aStory);
+
             $statement = $this->db->prepare('
                 UPDATE
                     story
@@ -128,8 +137,8 @@ class StoryService extends BaseService
             ');
             $statement->bindParam(':ended_at', $aStory['ended_at']);
             $statement->bindParam(':hours', $aStory['hours']);
-            $statement->bindParam(':type', $aStory['types']);
-            $statement->bindParam(':rate_type', $aStory['rates']);
+            $statement->bindParam(':type', $aStory['type']);
+            $statement->bindParam(':rate_type', $aStory['rate_type']);
             $statement->bindParam(':title', $aStory['title']);
             $statement->bindParam(':id', $storyId);
             $statement->execute();

@@ -68,28 +68,18 @@
         <?php echo $collectionsRendered; ?>
     </div>
 </div>
-<script type="text/javascript">
-    /**
-     * Prevents accidentally going back and losing unsaved changes.
-     */
-    $('.preventLeaving').data('serialize',$('#form').serialize());
 
-    $(window).bind('keydown', function(event) {
-    if (event.ctrlKey || event.metaKey) {
-        switch (String.fromCharCode(event.which).toLowerCase()) {
-        case 's':
-            event.preventDefault();
-            alert('ctrl-s');
-            break;
-        case 'f':
-            event.preventDefault();
-            alert('ctrl-f');
-            break;
-        case 'g':
-            event.preventDefault();
-            alert('ctrl-g');
-            break;
+<script type="text/javascript">
+    // Warns the user if they try to leave a page that
+    // has unsaved form changes. Simply add the "preventLeaving"
+    // class to any form to make this work.
+    $('.preventLeaving').data('serialize', $('.preventLeaving').serialize());
+
+    $(window).bind('beforeunload', function(e) {
+        if ($('.preventLeaving').serialize() != $('.preventLeaving').data('serialize')) {
+            return true;
+        } else {
+            e = null;
         }
-    }
-}
+    });
 </script>
