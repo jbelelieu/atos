@@ -21,7 +21,9 @@ class CollectionService extends BaseService
      */
     public function createCollection(array $data): void
     {
-        $currentCollection = getCollectionByProject($data['project_id'], 1)[0];
+        $collections = getCollectionByProject($data['project_id'], 1);
+
+        $currentCollection = $collections[0];
 
         $statement = $this->db->prepare('
             INSERT INTO story_collection (title, project_id, goals, ended_at)
@@ -34,7 +36,9 @@ class CollectionService extends BaseService
         $statement->bindParam(':goals', $data['goals']);
         $statement->execute();
 
-        $this->makeCurrentCollection([ 'id' => $currentCollection['id'] ], false);
+        if (sizeof($collections) > 1) {
+            $this->makeCurrentCollection([ 'id' => $currentCollection['id'] ], false);
+        }
 
         redirect('/project', $data['project_id'], 'Your collection has been created.');
     }

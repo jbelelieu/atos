@@ -117,10 +117,7 @@ $collections = '';
 $totalCollections = sizeof($collectionResults);
 $at = 0;
 
-// TODO: standard linking
 foreach ($collectionResults as $row) {
-    $at++;
-
     if ($at === $totalCollections) {
         continue;
     }
@@ -132,6 +129,8 @@ foreach ($collectionResults as $row) {
         : $row['title'];
 
     $collections .= "<div><span>" . $update . "</span>" . $delete . "</div>";
+
+    $at++;
 }
 
 // Render the collections, split between open, billable, and unorganized.
@@ -145,8 +144,9 @@ foreach ($collectionResults as $aCollection) {
 
     $isProjectDefault = (bool) $aCollection['is_project_default'];
 
-    $tripFlag = $collectionCount > 1 && !$isProjectDefault;
+    $tripFlag = ($collectionCount > 1 && !$isProjectDefault);
 
+    // Open stories for this collection
     $renderedOpenStories = '';
     $openStories = getStoriesInCollection($aCollection['id']);
     foreach ($openStories as $row) {
@@ -173,6 +173,7 @@ foreach ($collectionResults as $aCollection) {
         );
     }
 
+    // Billable stories for this collection
     $renderedOtherStories = '';
     $otherStories = getStoriesInCollection(
         $aCollection['id'],
