@@ -58,11 +58,13 @@ foreach ($shippedStories as $aStory) {
     $dateDelivered = formatDate($aStory['ended_at'], 'Y/m/d');
 
     if ($lastDate !== $dateDelivered && $settingListType === 'by_date') {
-        $storyHtml .= <<<qq
-    <tr class="borderTop">
-    <td colspan=3 class="dateHeader">$invoiceCompletedString$dateDelivered</td>
-    </tr>
-qq;
+        $storyHtml .= template(
+            'invoice/snippets/story_table_completed_header_entry',
+            [
+                'dateDelivered' => $dateDelivered,
+            ],
+            true
+        );
 
         $lastDate = $dateDelivered;
         $dayHours = 0;
@@ -71,14 +73,7 @@ qq;
     $dayHours += (int) $aStory['hours'];
     $totalHours += (int) $aStory['hours'];
 
-    $storyHtml .= <<<qq
-<tr class="noBorder">
-<td valign="top" class="tb-stories-id">$aStory[show_id]</td>
-<td valign="top" width=400 class="tb-stories-title ellipsis">$aStory[title]</td>
-<td valign="top" class="tb-stories-hour_tile">$aStory[hour_title]</td>
-<td valign="top" class="tb-stories-hours">$aStory[hours]</td>
-</tr>
-qq;
+    $storyHtml .= template('invoice/snippets/story_table_entry', $aStory, true);
 }
 
 // Build rate types table
@@ -87,33 +82,25 @@ $ratesHtml = '';
 $rateTypes = getRateTypes();
 foreach ($rateTypes as $aType) {
     $dollarRate = formatMoney($aType['rate']);
-
     $hours = $hoursByRateType[$aType['id']];
-
     $subtotal = $hours * $aType['rate'];
-
     $grandTotal += $subtotal;
-
     $subtotal = formatMoney($subtotal);
 
-    $ratesHtml .= <<<qq
-<tr>
-<td valign="top">$aType[title]</td>
-<td valign="top">$dollarRate/hour</td>
-<td valign="top">$hours</td>
-<td valign="top">$subtotal</td>
-</tr>
-qq;
+    $ratesHtml .= template(
+        'invoice/snippets/rates_table_entry',
+        [
+            ...$aType,
+            'dollarRate' => $dollarRate,
+            'hours' => $hours,
+            'subtotal' => $subtotal,
+        ],
+        true
+    );
 }
 
 $logoUrl = 'http://' . $_SERVER['HTTP_HOST'] . '/assets/logo.png';
-
 $daysDue = getSetting(AsosSettings::INVOICE_DUE_DATE_IN_DAYS, 14);
-$dueDate = ($daysDue > 0) ? formatDate(date('Y-m-d H:i:s', time() + 1209600)) : '';
-
-$logo = (file_exists(ATOS_HOME_DIR . '/assets/logo.png'))
-    ? '<div id="logoArea"><img src="' . $logoUrl . '" alt="' . $company['title'] . '" /></div>'
-    : '';
 
 $template = template(
     'invoice/invoice',
@@ -123,8 +110,10 @@ $template = template(
         'company' => $company,
         'css' => file_get_contents('assets/invoiceStyle.css'),
         'displayStories' => ($settingListType === 'none') ? false : true,
-        'dueDate' => $dueDate,
-        'logo' => $logo,
+        'dueDate' => ($daysDue > 0) ? formatDate(date('Y-m-d H:i:s', time() + 1209600)) : '',
+        'logo' => (file_exists(ATOS_HOME_DIR . '/assets/logo.png'))
+            ? '<div id="logoArea"><img src="' . $logoUrl . '" alt="' . $company['title'] . '" /></div>'
+            : '',
         'project' => $project,
         'rateTypes' => $ratesHtml,
         'sentOn' => formatDate(date('Y-m-d H:i:s')),
