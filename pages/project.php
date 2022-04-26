@@ -122,13 +122,21 @@ foreach ($collectionResults as $row) {
         continue;
     }
 
-    $delete = $row['id'] > 1 ? "<a href=\"/project?action=deleteCollection&project_id=" . $_GET['id'] . "&id=" . $row['id'] . "\">" . putIcon('fi-sr-trash') . "</a>" : '';
+    $isProjectDefault = isBool($row['is_project_default']);
 
-    $update = ($at > 0 && !$row['is_project_default'])
+    $delete = ($row['id'] > 1)
+        ? "<a href=\"/project?action=deleteCollection&project_id=" . $_GET['id'] . "&id=" . $row['id'] . "\">" . putIcon('fi-sr-trash') . "</a>"
+        : '';
+
+    $update = ($at > 0 && !$isProjectDefault)
         ? "<a title=\"" . language('make_active_collection', 'Make Active Collection') . "\" href=\"/project?action=makeCurrentCollection&project_id=" . $_GET['id'] . "&id=" . $row['id'] . "\">" . $row['title'] . "</a>"
         : $row['title'];
+        
+    $color = $at === 0 ? 'bgBlue' : 'bgGray';
 
-    $collections .= "<div><span>" . $update . "</span>" . $delete . "</div>";
+    $collections .= "<div class=\"bubble marginRightLess $color\">";
+    $collections .= "<span>" . $update . "</span>" . $delete;
+    $collections .= "</div>";
 
     $at++;
 }

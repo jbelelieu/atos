@@ -1,6 +1,6 @@
 <div class="collectionsTable">
 
-<div class="standardColumns border">
+<div class="projectTopColumns border">
     <div>
         <div class="formBox padLess">
             <form action="/project?id=<?php echo $project['id']; ?>" method="post">
@@ -63,7 +63,7 @@
 </div>
 
 <div class="storyTable">
-    <div>
+    <div class="storyTableHeader">
         <h3 class="bubble blueBubble">Project <?php echo $project['title']; ?></h3>
         <?php echo $collectionsRendered; ?>
     </div>

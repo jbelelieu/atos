@@ -1,16 +1,19 @@
 <?php if ($tripFlag) { ?>
+
 <details>
     <summary>
         <h4 class="bubble"><?php echo $collection['title']; ?></h4>
     </summary>
+
 <?php } else { ?>
-<h4 class="bubble">
-    <?php echo $collection['title']; ?>
-</h4>
-<?php } ?>
-<?php if (!$isProjectDefault) { ?>
+
+    <h4 class="bubble"><?php echo $collection['title']; ?></h4>
+
+<?php } if (!$isProjectDefault) { ?>
+    
     <div class="clearFix"></div>
-    <h4 class="bubble noMarginTop">Open Stories</h4>
+    <h4 class="bubble noMarginTop">Open</h4>
+
 <?php } ?>
 
 <!-- Open stories table -->
