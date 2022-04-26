@@ -13,10 +13,9 @@
  */
 
 // Connect to the database.
-$dbFile = 'db/' . getSetting(AsosSettings::DATABASE_FILE_NAME, 'atos.sqlite3');
+$dbFile = ATOS_HOME_DIR . '/db/' . getSetting(AsosSettings::DATABASE_FILE_NAME, 'atos.sqlite3');
 if (!file_exists($dbFile)) {
-    echo "Database file not found.";
-    exit;
+    systemError('Database file not found.');
 }
 $db = new PDO("sqlite:$dbFile");
 $db->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);

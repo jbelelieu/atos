@@ -28,7 +28,7 @@ ATOS requires `PHP8+` and `SQLite3`.
 
 ### Download and Start
 
-- From Github, download the ZIP file for the latest release
+- From Github, download the [latest release ZIP file](https://github.com/jbelelieu/atos/releases)
 - Unzip it wherever you want on your local machine
 - From the command line, go to the ATOS directory and launch the PHP server: `php -S localhost:9001`
 - You can now access ATOS from any web browser at `http://localhost:9001`.

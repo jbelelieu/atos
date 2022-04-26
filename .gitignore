@@ -1,5 +1,5 @@
 .DS_Store
 .internal
 .env
-SystemSettings.env.php
+settings.env.php
 db/castlamp.sqlite3
