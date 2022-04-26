@@ -11,9 +11,21 @@
  * @link https://github.com/jbelelieu/atos
  */
 
-session_start();
+/**
+ * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
+ *
+ *   Load the app
+ *
+ */
 
 require "includes/system.php";
+
+/**
+ * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
+ *
+ *   Basic routing
+ *
+ */
 
 $rUri = explode('?', $_SERVER['REQUEST_URI']);
 $requestUri = $rUri['0'];
@@ -27,6 +39,9 @@ switch (strtolower($requestUri)) {
         break;
     case '/settings':
         require ATOS_HOME_DIR . '/pages/settings.php';
+        break;
+    case '/story':
+        require ATOS_HOME_DIR . '/pages/story.php';
         break;
     default:
         require ATOS_HOME_DIR . '/pages/overview.php';

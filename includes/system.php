@@ -11,6 +11,8 @@
  * @link https://github.com/jbelelieu/atos
  */
 
+session_start();
+
 /**
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
  *

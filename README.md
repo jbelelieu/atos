@@ -11,8 +11,6 @@ ATOS is a locally hosted, zero-setup application that makes invoicing against ba
 
 - **Project Management**: Track stories
 - **Invoice Generation**: Generate detailed invoices against those completed stories
-- **Estimated Taxes**: Coming soon -- Estimated tax help for US-based developers.
-- **Language Support**: Coming soon  -- additional languages other than English.
 
 ATOS is 100% open source and free to use, licensed under the [GNU AGPLv3 License](https://www.gnu.org/licenses/agpl-3.0.en.html).
 
@@ -93,9 +91,16 @@ If you happen to make a new theme, please share it with the community!
 
 # Tips and Tricks
 
-- Status messages: success and error message will appear in the topbar right of the ATOS logo.
+- **Status messages**: Success and error message will appear in the topbar right of the ATOS logo.
+- **Last known project navigation**: When you navigate away from a story, a convience link will appear in the top right corner.
 
 # FAQ
+
+**Is this meant to be a replacement for JIRA or Pivotal Tracker?**
+
+While it could very well be, the idea was more that most client projects will already have their own project management tools. The goal here is to track everything you did for the client against their own backlogs, and then bill out accordingly, with references to known ticket IDs.
+
+However, I've also used this quite effectively to manage projects that didn't have a backlog. Do what works best for you!
 
 **What stories get places on invoices?**
 
@@ -113,7 +118,7 @@ While I love Javascript frameworks like React and use them extensively, no, I ha
 
 100%, no question. I used this personally, and I can't lose years of data for an upgrade. Your data won't becoming obsolete and you won't need to re-import anything with future versions.
 
-# Special Thank Yous
+# Special Thank You!
 
 - The fine folks over at [phpLiteAdmin](https://www.phpliteadmin.org/) for the SQLite3 manager.
 - The artists over at [flaticon](https://flaticon.com/) for their CSS icon set.
@@ -124,3 +129,5 @@ While I love Javascript frameworks like React and use them extensively, no, I ha
 - Project turn-over to-do lists that can be generated and sent to clients much like invoices
 - Basic estimated tax help for American freelancers
 - Bulk actions on stories
+- Expanded language support and language packs
+- Various themes
