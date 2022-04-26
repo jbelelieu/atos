@@ -1,5 +1,8 @@
 <?php
 
+require_once ATOS_HOME_DIR . '/services/CompanyService.php';
+require_once ATOS_HOME_DIR . '/services/ProjectService.php';
+
 /**
  * ATOS: "Built by freelancer 🙋‍♂️, for freelancers 🕺 🤷 💃🏾 "
  *
@@ -18,13 +21,16 @@
  *
  */
 
+$companyService = new CompanyService();
+$projectService = new ProjectService();
+
 if (isset($_GET['action'])) {
     switch ($_GET['action']) {
         case 'deleteCompany':
-            deleteCompany($_GET);
+            $companyService->deleteCompany($_GET);
             break;
         case 'deleteProject':
-            deleteProject($_GET);
+            $projectService->deleteProject($_GET);
             break;
         default:
             redirect('/', null, null, 'Unknown action');
@@ -33,11 +39,11 @@ if (isset($_GET['action'])) {
 
 if (isset($_POST['action'])) {
     switch ($_POST['action']) {
-        case 'createProject':
-            createProject($_POST);
-            break;
         case 'createCompany':
-            createCompany($_POST);
+            $companyService->createCompany($_POST);
+            break;
+        case 'createProject':
+            $projectService->createProject($_POST);
             break;
         default:
             redirect('/', null, null, 'Unknown action');
@@ -127,153 +133,3 @@ echo template(
     ]
 );
 exit;
-
-/**
- * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
- *
- *   Functions
- *
- */
-
-/**
- * @param array $data
- * @return void
- */
-function createCompany(array $data): void
-{
-    global $db;
-
-    $statement = $db->prepare('
-        INSERT INTO company (
-            title,
-            logo_url,
-            address,
-            phone,
-            email,
-            instructions,
-            url
-        )
-        VALUES (
-            :title,
-            :logo_url,
-            :address,
-            :phone,
-            :email,
-            :instructions,
-            :url
-        )
-    ');
-
-    $statement->bindParam(':title', $data['title']);
-    $statement->bindParam(':logo_url', $data['logo_url']);
-    $statement->bindParam(':address', $data['address']);
-    $statement->bindParam(':phone', $data['phone']);
-    $statement->bindParam(':email', $data['email']);
-    $statement->bindParam(':instructions', $data['instructions']);
-    $statement->bindParam(':url', $data['url']);
-
-    $statement->execute();
-
-    redirect('/', null, 'The "' . $data['title'] . '" company has been created.');
-}
-
-/**
- * @param array $data
- * @return void
- */
-function createProject(array $data): void
-{
-    global $db;
-
-    try {
-        $db->beginTransaction();
-
-        $statement = $db->prepare('
-        INSERT INTO project (
-            company_id,
-            client_id,
-            title,
-            code
-        )
-        VALUES (
-            :company_id,
-            :client_id,
-            :title,
-            :code
-        )
-    ');
-
-        $statement->bindParam(':company_id', $data['company_id']);
-        $statement->bindParam(':client_id', $data['client_id']);
-        $statement->bindParam(':title', $data['title']);
-        $statement->bindParam(':code', $data['code']);
-        $statement->execute();
-
-        $lastProjectId = $db->lastInsertId();
-
-        $statement = $db->prepare('
-            INSERT INTO story_collection (
-                project_id,
-                title,
-                is_project_default
-            )
-            VALUES (
-                :project_id,
-                :title,
-                true
-            )
-        ');
-
-        $statement->bindParam(':project_id', $lastProjectId);
-        $statement->bindParam(':title', getSetting(AsosSettings::UNORGANIZED_NAME, 'Unorganized'));
-        $statement->execute();
-
-        $db->commit();
-    } catch (\PDOException $e) {
-        $db->rollback();
-
-        systemError($e->getMessage());
-    }
-
-    redirect('/', null, 'Your project has been created; now go got get that bread.');
-}
-
-/**
- * @param array $data
- * @return void
- */
-function deleteCompany(array $data): void
-{
-    global $db;
-
-    $statement = $db->prepare('
-        DELETE FROM company
-        WHERE id = :id
-    ');
-
-    $statement->bindParam(':id', $data['id']);
-
-    $statement->execute();
-
-    redirect('/', null, 'That company has been deleted. Bye forever, I guess.');
-}
-
-/**
- * @param array $data
- * @return void
- */
-function deleteProject(array $data): void
-{
-    global $db;
-
-    $statement = $db->prepare('
-        DELETE FROM project
-        WHERE id = :id
-    ');
-
-    $statement->bindParam(':id', $data['id']);
-
-    $statement->execute();
-
-    redirect('/', null, 'That company has been deleted. Bye forever, I guess.');
-}

@@ -13,9 +13,6 @@
                                 autocomplete="off"
                                 name="title" />
                             
-                            <label>Logo URL</label>
-                            <input type="text" name="logo_url" autocomplete="off" />
-                            
                             <label>Phone</label>
                             <input type="text" name="phone" autocomplete="off" />
                             
@@ -23,19 +20,35 @@
                             <input type="text" name="email" autocomplete="off" />
 
                             <label>Website</label>
-                            <input type="url" name="url" autocomplete="off" />
+                            <input
+                                type="url"
+                                name="url"
+                                autocomplete="off"
+                                placeholder="https://www.companysite.com" />
+
+                            <label>Logo URL</label>
+                            <input
+                                type="url"
+                                name="logo_url"
+                                autocomplete="off"
+                                placeholder="https://www.companysite.com/logo.png" />
                         </div>
                         <div>
                             <div>
-                            <label>Address (html ok)</label>
-                            <textarea name="address" autocomplete="off"></textarea>
+                            <label>Address (html ok; line breaks auto-added)</label>
+                            <textarea
+                                placeholder="123 Sesame St&#10;Unit 911&#10;New York, NY, 11111"
+                                name="address"
+                                autocomplete="off"></textarea>
                             </div>
 
                             <div>
-                            <label>Instructions (html ok)</label>
+                            <label>Instructions (html ok; line breaks auto-added)</label>
                             <textarea
+                                placeholder="Please send payments to Chase Bank.&#10;&#10;<ul>&#10;<li>Account number: 9188273647</li>&#10;<li>Routing number: 123456789</li>&#10;</ul>"
                                 name="address"
-                                autocomplete="off"></textarea>
+                                autocomplete="off"
+                                style="height:165px;"></textarea>
                             </div>
                         </div>
                     </div>

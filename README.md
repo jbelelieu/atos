@@ -113,3 +113,10 @@ While I love Javascript frameworks like React and use them extensively, no, I ha
 
 - The fine folks over at [phpLiteAdmin](https://www.phpliteadmin.org/) for the SQLite3 manager.
 - The artists over at [flaticon](https://flaticon.com/) for their CSS icon set.
+
+# Roadmap
+
+- Story notes
+- Project turn-over to-do lists that can be generated and sent to clients much like invoices
+- Basic estimated tax help for American freelancers
+
