@@ -27,6 +27,11 @@ if (empty($_GET['collection'])) {
  *
  */
 
+$shippedStories = getStoriesInCollection($_GET['collection'], false, 'ended_at ASC');
+if (sizeof($shippedStories) === 0) {
+    systemError('There are no billable items on this invoice.');
+}
+
 $settingListType = getSetting(AsosSettings::INVOICE_ORDER_BY_DATE_COMPLETED, 'list');
 
 $hoursByRateType = [];
@@ -42,7 +47,7 @@ $lastDate = null;
 $storyHtml = '';
 $dayHours = 0;
 $totalHours = 0;
-$shippedStories = getStoriesInCollection($_GET['collection'], false, 'ended_at ASC');
+
 foreach ($shippedStories as $aStory) {
     if (!array_key_exists($aStory['rate_type'], $hoursByRateType)) {
         $hoursByRateType[$aStory['rate_type']] = 0;
