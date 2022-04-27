@@ -40,8 +40,11 @@ switch (strtolower($requestUri)) {
     case '/settings':
         require ATOS_HOME_DIR . '/pages/settings.php';
         break;
-    case '/story':
-        require ATOS_HOME_DIR . '/pages/story.php';
+    // case '/story':
+    //     require ATOS_HOME_DIR . '/pages/story.php';
+    //     break;
+    case '/tax':
+        require ATOS_HOME_DIR . '/pages/tax.php';
         break;
     default:
         require ATOS_HOME_DIR . '/pages/overview.php';
