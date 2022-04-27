@@ -25,7 +25,7 @@ class UsaNy
     
     const YEAR = 2022;
 
-    public function headOfHousehold(): array
+    public function head_of_household(): array
     {
         return [
             '4' => 12800,
@@ -41,12 +41,12 @@ class UsaNy
         ];
     }
 
-    public function marriedIndividual(): array
+    public function married_individual(): array
     {
         return $this->single;
     }
 
-    public function marriedJoint(): array
+    public function married_joint(): array
     {
         return [
             '4' => 17150,
@@ -62,9 +62,9 @@ class UsaNy
         ];
     }
 
-    public function qualifiedWidower(): array
+    public function qualified_widower(): array
     {
-        return $this->marriedJoint();
+        return $this->married_joint();
     }
 
     public function single(): array

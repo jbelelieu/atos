@@ -1,15 +1,23 @@
 
 <div class="collectionsTable">
 
-    <div class="border pad">
-    <h1 style="margin: 0;">
+    <div class="border attentionTop pad">
+    <h1 style="margin:0px;">
         <?php echo $displayType; ?>
     </h1>
-    <p style="margin-bottom: 0;">
+    <p>
         <?php echo $attentionMessage; ?>
     </p>
     </div>
+
+    <nav class="marginTop">
+        <a href="/tax" class="bold">&laquo; Back to Tax Overview</a>
+        <a href="#d0">Tax Breakdown & Averages</a>
+        <a href="#d1">Regional Tax Burdens</a>
+        <a href="#d2">Deducations & Adjustments</a>
+    </nav>
     
+    <a name="d0"></a>
     <div class="halfHalfColumns">
         <div>
             <h4>Tax Breakdown</h4>
@@ -81,6 +89,7 @@
         </div>
     </div>
 
+    <a name="d1"></a>
     <form action="/tax/render" method="post">
     <input type="hidden" name="action" value="createEstimatedPayments" />
     <input type="hidden" name="year" value="<?php echo $year; ?>" />
@@ -165,7 +174,7 @@
         </div>
     </form>
     
-
+    <a name="d2"></a>
     <div class="halfHalfColumns">
         <div class="">
             <form action="/tax/render" method="post">

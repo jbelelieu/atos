@@ -89,6 +89,12 @@ CREATE TABLE `invoice` (
   `payment_order` INTEGER
 );
 
+CREATE TABLE `tax` (
+  `id` INTEGER PRIMARY KEY AUTOINCREMENT,
+  `year` INTEGER,
+  `strategies` TEXT
+);
+
 CREATE TABLE `tax_payment` (
   `id` INTEGER PRIMARY KEY AUTOINCREMENT,
   `created_at` timestamp DEFAULT CURRENT_TIMESTAMP,

@@ -24,18 +24,6 @@ use services\BaseService;
 class TaxService extends BaseService
 {
     /**
-     * This would be set by tax year and maps to that array key
-     * within the tax file.
-     *
-     * @return void
-     */
-    public function getTaxStrategy()
-    {
-        // TODO: Grab from DB.
-        return 'single';
-    }
-
-    /**
      * @param array $brackets
      * @param integer $taxableIncome
      * @return void
@@ -305,7 +293,50 @@ class TaxService extends BaseService
      * @param integer $year
      * @return array
      */
-    public function getTaxDeductions(int $year): array
+    public function getTax(int $year)
+    {
+        $statement = $this->db->prepare("
+            SELECT *
+            FROM tax
+            WHERE year = :year
+        ");
+        $statement->bindParam(':year', $year);
+        $statement->execute();
+
+        $data = $statement->fetch();
+
+        if ($data) {
+            $data['strategies'] = json_decode($data['strategies'], true);
+        }
+
+        return $data;
+    }
+
+    /**
+     * @return array
+     */
+    public function getTaxes()
+    {
+        $statement = $this->db->prepare("
+            SELECT *
+            FROM tax
+            ORDER BY year DESC
+        ");
+        $statement->execute();
+
+        $taxes = $statement->fetchAll();
+        foreach ($taxes as &$tax) {
+            $tax['strategies'] = json_decode($tax['strategies'], true);
+        }
+
+        return $taxes;
+    }
+
+    /**
+     * @param integer $year
+     * @return array
+     */
+    public function getTaxDeductions(int $year)
     {
         $statement = $this->db->prepare("
             SELECT *
@@ -323,7 +354,7 @@ class TaxService extends BaseService
      * @param integer $year
      * @return array
      */
-    public function getTaxAdjustments(int $year): array
+    public function getTaxAdjustments(int $year)
     {
         $statement = $this->db->prepare("
             SELECT *
@@ -403,17 +434,21 @@ class TaxService extends BaseService
     }
 
     /**
-     * TODO: We would grab this from the DB based on
-     *       known tax regions (used submitted) per year.
-     *
-     * @return array
+     * @param array $data
+     * @return void
      */
-    public function getTaxRegions(int $year): array
+    public function setupTaxes(array $data)
     {
-        return [
-            'Usa' => 'single',
-            'UsaNy' => 'single',
-            'UsaNyNyc' => 'single',
-        ];
+        $year = (empty($data['year'])) ? date('Y') : $data['year'];
+
+        $statement = $this->db->prepare('
+            INSERT INTO tax (year, strategies)
+            VALUES (:year, :strategies)
+        ');
+        $statement->bindParam(':year', $year);
+        $statement->bindParam(':strategies', json_encode($data['strategies']));
+        $statement->execute();
+
+        redirect("/tax", null, 'Your taxes for ' . $year . ' are ready to go!');
     }
 }

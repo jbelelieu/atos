@@ -76,19 +76,17 @@ $year = (!empty($_GET['year'])) ? $_GET['year'] : date('Y');
 // Attention message
 $attentionMessage = '';
 if ($overrideEstimatedTotal) {
-    $displayType = 'Income Projection Display';
+    $displayType = 'Taxes ' . $year . ': Fixed Income Projection Estimate';
 
-    $attentionMessage = 'This is a hypothetical situation whereby you gain a fixed income of ' . formatMoney($overrideEstimatedTotal * 100);
-}
+    $attentionMessage = 'This attempts to project your tax burden for the year assuming that your total income for the year will be ' . formatMoney($overrideEstimatedTotal * 100) . '.';
+} elseif ($doProjectedEstimate) {
+    $displayType = 'Taxes ' . $year . ': Projected Estimate';
 
-if ($doProjectedEstimate) {
-    $displayType = 'Projected Estimate Display';
-
-    $attentionMessage = 'This is an estimate, your income may change. This should only be used as a rough guide.';
+    $attentionMessage = 'This is an estimate based on your current daily average income projected through the end of the year.<br /><br /><b>Important:</b> Any additional income will change these numbers, giving you a larger tax burden. If you have a good idea of what you will make this year, try a "Fixed Income Projection" estimate instead.';
 } else {
-    $displayType = 'As of Today Display';
+    $displayType = 'Taxes ' . $year . ': Actual Current Estimate';
 
-    $attentionMessage = 'This is not accurate! It bases your tax burden on your current income to date this year, not your actual income, which will most likely be more, therefore your tax burden will be larger. If you have a good idea of where you think your income will be, you can use the fixed income estimation tool.';
+    $attentionMessage = 'This is only valid if your income remains the same for the rest of the year.<br /><br /><b>Important:</b> Any additional income will change these numbers, giving you a larger tax burden. If you have a good idea of what you will make this year, try a "Fixed Income Projection" estimate instead.';
 }
 
 if (!file_exists(ATOS_HOME_DIR . '/includes/tax/' . $year)) {
@@ -98,10 +96,11 @@ if (!file_exists(ATOS_HOME_DIR . '/includes/tax/' . $year)) {
 $tax = 0;
 
 // Get a list of regions we are paying taxes in.
-$taxRegions = $taxService->getTaxRegions($year);
-if (empty($taxRegions)) {
+$taxYes = $taxService->getTax($year);
+if (empty($taxYes)) {
     redirect('/tax', null, null, 'No known tax regions for this year.');
 }
+$taxRegions = $taxYes['strategies'];
 
 // Get our base income and set as initial taxable income.
 $baseIncome = $taxService->getTotalBaseIncomeByYear($year);
@@ -173,7 +172,7 @@ foreach ($taxRegions as $aRegion => $regionalStrategy) {
 
     $finalData[$aRegion] = [
         'results' => $taxResults,
-        'filingStrategy' => ucwords($filingStrategy),
+        'filingStrategy' => snakeToEnglish($filingStrategy),
         '_class' => $taxClass,
     ];
 

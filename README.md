@@ -33,7 +33,7 @@ ATOS is 100% open source and free to use, licensed under the [GNU AGPLv3 License
       - [Notice: phpLiteAdmin](#notice-phpliteadmin)
 - [Concepts](#concepts)
 - [Features](#features)
-- [Tips and Tricks](#tips-and-tricks)
+- [UX Tips And Tricks](#ux-tips-and-tricks)
 - [FAQ](#faq)
       - [Is this meant to be a replacement for JIRA or Pivotal Tracker?](#is-this-meant-to-be-a-replacement-for-jira-or-pivotal-tracker)
       - [What stories get places on invoices?](#what-stories-get-places-on-invoices)
@@ -43,6 +43,7 @@ ATOS is 100% open source and free to use, licensed under the [GNU AGPLv3 License
       - [How should I handle non-payment of a collection?](#how-should-i-handle-non-payment-of-a-collection)
       - [How do I reconcile what I billed and what I got paid?](#how-do-i-reconcile-what-i-billed-and-what-i-got-paid)
         - [What's the easiest way to import part data?](#whats-the-easiest-way-to-import-part-data)
+        - [How do I setup a fixed-rate invoice?](#how-do-i-setup-a-fixed-rate-invoice)
         - [What if I change my rates?](#what-if-i-change-my-rates)
 - [Contributing](#contributing)
     - [How to Contribute](#how-to-contribute)
@@ -118,19 +119,25 @@ ATOS will automatically attempt to run migrations at first start up. On the off 
 - **Rate Type**: you can bill different amounts based on what you are doing. For example, you might charge $50/hour for one service but $80/hour for another. You set this using "Rate Types". Each rate type is then assigned to a story, and that story is billed out at the appropriate rate. (See "Settings")
 - **Story Type**: this is a description way of explaining what kind of story this is. For example, you may want some stories to be coding related, while others are just meetings. In either case, both may be billable, but they are fundamentally different uses of your time. Story types simple help you differentiate between what type of work you did for that story. (See "Settings")
 - **Story Status**: this controls the "state" of the story. Each status can be consider "open" or "complete", as well as "billable" or "not billable". For example, you can set a "Rejected" status to be considered "complete" but it won't be billed to the client. (See "Settings")
+- **Taxes**: 
+- **Tax Deduction**: 
+- **Tax Adjustment**: 
 
 # Features
 
 - **Drop Dead Simple**: The point of this is to be easy to use, drop dead simple, and efficient. You shouldn't be fighting with project management tools; focus on coding.
 - **All Your Projects In One Spot**: Manage as many projects as you wish, each with their own collections, stories, etc..
 - **Bill Different Projects As Different Entities**: Set up multiple company profiles, for yourself and your clients. Each project is assigned a contracted party, as well as the client company, allowing you flexiblity to offer services as different entities.
+- **Help with your taxes**: create custom strategies (single, married, etc.), set up regions you have tax burdens in (federal, state, city, etc.), input deductions/adjustments, and voila! ATOS will crunch some numbers to estimate how much you'll own and what your estimated payments should be.
 - **Invoicable Story Collections**: Create a collection of stories descrbing one billable period, and automatically generate detailed invoices breaking down your work, the rates for each service, and more.
 - **Beautiful Invoices**: Generate beautiful, dynamic, and customizable invoices with one click of the mouse! Everything is template based, allowing you easy access to edit the look and feel of the templates you generate.
 - **Story Types**: The application allows you to create as many story types as you wish. Defaults are the standard `Story` and `Chore` types.
 - **Rate Types**: Each story can be assigned it's own billable rate. This means that you can offer different hourly rates for different types of services, such as standard coding vs devops rates.
 - **Flexible Stories**: Use the story tool to manage your entire project, or copy and paste story IDs and titles directly from your client's JIRA (for example) and use ATOS to track and bill hours against known stories.
 
-# Tips and Tricks
+# UX Tips And Tricks
+
+The UX was designed to be as simple and minimalist as possible. This isn't some generic Web 2.0 SaaS product; it's an internal tool for freelancers and contractors who need to focus on their work, not their tooling.
 
 - **Status messages**: Success and error message will appear in the topbar right of the ATOS logo.
 - **Last known project navigation**: When you navigate away from a story, a convience link will appear in the top right corner.
@@ -176,14 +183,20 @@ If a client only paid a fraction of an invoice, you have some options:
 
 ##### What's the easiest way to import part data?
 
-While there isn't a CSV importer at this time, you have some options:
+While there isn't a CSV importer at this time, you can create collections and bill out the exact amounts that you received against a single story (ie, you don't have to re-enter every task you've ever done). This gives you the benefit of accurate tax data.
 
-- You can manually create a collection for each invoice you've already sent to a client for a project. At that point:
-  - If this is for tax reasons, simply create a story at a rate and hour combo that matches what you billed out previously. For example, if you billed out $10,000 last month and you charge $100/hour, you can create a story in that collection that set to your correct billing rate, then 
+See the "fixed-rate invoice" question for more details.
+
+##### How do I setup a fixed-rate invoice?
+
+- Create a new rate type with the exact amount of the invoice,
+- Create a collection within the project you want to bill a fixed amount for,
+- Create a single story with the new rate type,
+- Set that story to any billable status
 
 ##### What if I change my rates?
 
-Always, always, always create a new rate type (this is why we don't allow deletion of rates). Changing existing rates will result in old tax data being invalidated!
+Always, always, always create a new rate type! Changing existing rates will result in old tax data being invalidated. "Delete" the old rate (it isn't actually deleted, just hidden since we need that for accurate calculations), and create a new rate with the same name + updated hourly.
 
 # Contributing
 
@@ -213,11 +226,8 @@ Some ways you can contribute include:
 - Story notes
 - Project turn-over to-do lists that can be generated and sent to clients much like invoices
 - Basic estimated tax help for American freelancers
+  - Automate grabbing regions from github and auto creating
   - Save generated tax burden page
-  - add deduction
-  - add adjustment
-  - Input est taxes payments sent already (recommended paid VS actual paid categories)
-    - Deficit tracking
   - Select your tax strategies
   - Reminders of est taxes being due
 - Bulk actions on stories

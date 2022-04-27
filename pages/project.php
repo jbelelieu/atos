@@ -97,7 +97,7 @@ $_SESSION["viewingProject"] = $project['id'];
 $_SESSION["viewingProjectName"] = $project['title'];
 
 $storyStatuses = $settingService->getStoryStatuses();
-$hourTypeResults = $settingService->getRateTypes();
+$hourTypeResults = $settingService->getRateTypes(true);
 $storyTypeResults = $settingService->getStoryTypes();
 
 $collectionResults = [

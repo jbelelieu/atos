@@ -203,6 +203,24 @@ function redirect(
 }
 
 /**
+ * @param string $name
+ * @return string
+ */
+function snakeToEnglish(string $name): string
+{
+    return ucwords(str_replace('_', ' ', $name));
+}
+
+/**
+ * @param string $name
+ * @return string
+ */
+function camelToEnglish(string $name): string
+{
+    return snakeToEnglish(strtolower(preg_replace('/(?<!^)[A-Z]/', '_$0', $name)));
+}
+
+/**
  * @param string $templateName
  * @param array $args
  * @param bool $skipHeaderFooter

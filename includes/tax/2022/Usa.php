@@ -25,7 +25,7 @@ class Usa
     
     const YEAR = 2022;
 
-    public function headOfHousehold(): array
+    public function head_of_household(): array
     {
         return [
             10 => 14200,
@@ -38,7 +38,7 @@ class Usa
         ];
     }
 
-    public function marriedJoint(): array
+    public function married_joint(): array
     {
         return [
                 10 => 20550,
@@ -51,7 +51,7 @@ class Usa
         ];
     }
 
-    public function marriedIndividual(): array
+    public function married_individual(): array
     {
         return [
             10 => 9950,
