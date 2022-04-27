@@ -40,7 +40,7 @@ class TaxService extends BaseService
      * @param integer $taxableIncome
      * @return void
      */
-    public function calculateTax(array $brackets, int $taxableIncome): array
+    public function calculateTax(array $brackets, $taxableIncome): array
     {
         $tax = 0;
         $lastKnownCeiling = 0;
@@ -77,7 +77,8 @@ class TaxService extends BaseService
         }
 
         return [
-            'tax' => round($tax),
+            'tax' => $tax,
+            '_tax' => formatMoney($tax * 100),
             'taxedAt' => $taxedAt,
             'taxableIncome' => $taxableIncome,
         ];
@@ -89,6 +90,7 @@ class TaxService extends BaseService
      */
     public function getAdditionalTaxBurdens(int $year)
     {
+        // TODO
         $additionMock = [
             [
                 'isReduction' => true,
@@ -97,6 +99,7 @@ class TaxService extends BaseService
                 'title' => 'Capital Gains',
             ],
         ];
+        //
 
         $additionalTax = 0;
 
@@ -109,13 +112,14 @@ class TaxService extends BaseService
 
             $data[] = [
                 ...$anAddition,
-                'adjustment' => $amount,
+                '_amount' => formatMoney($anAddition['amount'] * 100),
+                'adjustment' => formatMoney($amount * 100),
             ];
         }
 
         return [
-            'adjustment' => $additionalTax,
-            'data' => $additionMock,
+            'adjustment' => floatval($additionalTax),
+            'data' => $data,
         ];
     }
 
@@ -125,6 +129,7 @@ class TaxService extends BaseService
      */
     public function getDeductions(int $year)
     {
+        // TODO
         $deductionMock = [
             [
                 'isReduction' => true,
@@ -134,11 +139,12 @@ class TaxService extends BaseService
             ],
             // [
             //     'isReduction' => true,
-            //     'amount' => 9000,
+            //     'amount' => 51000,
             //     'percent' => 100,
             //     'title' => 'SEP IRA Contribution',
             // ]
         ];
+        //
 
         $adjustments = 0;
 
@@ -151,7 +157,7 @@ class TaxService extends BaseService
             
             $data[] = [
                 ...$aDeduction,
-                'adjustment' => $amount,
+                'adjustment' => formatMoney($amount * 100),
             ];
         }
 
@@ -208,9 +214,9 @@ class TaxService extends BaseService
     public function getTaxRegions(int $year): array
     {
         return [
-            'Usa',
-            'UsaNy',
-            'UsaNyNyc',
+            'Usa' => 'single',
+            'UsaNy' => 'single',
+            'UsaNyNyc' => 'single',
         ];
     }
 }
