@@ -84,8 +84,9 @@ CREATE TABLE `tax_payments` (
   `id` INTEGER PRIMARY KEY AUTOINCREMENT,
   `created_at` timestamp DEFAULT CURRENT_TIMESTAMP,
   `amount` varchar(255),
-  `strategy` varchar(255),
-  `year` INTEGER
+  `year` INTEGER,
+  `region` varchar(255),
+  `payment_order` INTEGER
 );
 
 

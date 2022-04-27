@@ -15,6 +15,39 @@ use services\TaxService;
  * @link https://github.com/jbelelieu/atos
  */
 
+
+/**
+ * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
+ *
+ *   Actions
+ *
+ */
+
+$taxService = new TaxService();
+
+if (isset($_POST['action'])) {
+    switch ($_POST['action']) {
+        case 'createDeduction':
+            $taxService->createDeduction($_POST);
+            break;
+        case 'createAdjustment':
+            $taxService->createAdjustment($_POST);
+            break;
+        case 'createEstimatedPayments':
+            $taxService->createEstimatedPayments($_POST);
+            break;
+        default:
+            redirect('/tax', null, null, 'Unknown action');
+    }
+}
+
+/**
+ * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
+ *
+ *   Down and Dirty
+ *
+ */
+
 // true will project total income for the year
 $doProjectedEstimate = (!empty($_GET['estimate'])) && $_GET['estimate'] === 'true'
     ? true
@@ -30,12 +63,18 @@ $year = (!empty($_GET['year'])) ? $_GET['year'] : date('Y');
 // Attention message
 $attentionMessage = '';
 if ($overrideEstimatedTotal) {
+    $displayType = 'Income Projection Display';
+
     $attentionMessage = 'This is a hypothetical situation whereby you gain a fixed income of ' . formatMoney($overrideEstimatedTotal * 100);
 }
 
 if ($doProjectedEstimate) {
+    $displayType = 'Projected Estimate Display';
+
     $attentionMessage = 'This is an estimate, your income may change. This should only be used as a rough guide.';
 } else {
+    $displayType = 'As of Today Display';
+
     $attentionMessage = 'This is not accurate! It bases your tax burden on your current income to date this year, not your actual income, which will most likely be more, therefore your tax burden will be larger. If you have a good idea of where you think your income will be, you can use the fixed income estimation tool.';
 }
 
@@ -44,8 +83,6 @@ if (!file_exists(ATOS_HOME_DIR . '/includes/tax/' . $year)) {
 }
 
 $tax = 0;
-
-$taxService = new TaxService();
 
 // Get a list of regions we are paying taxes in.
 $taxRegions = $taxService->getTaxRegions($year);
@@ -151,7 +188,8 @@ foreach ($finalData as $region => $aTaxRegionBurden) {
         $schedule[$aDate] = [
             'date' => formatDate($aDate),
             'amount' => formatMoney($quarterly * 100),
-            'daysUntil' => ($daysUntil <= 0) ? putIcon('fi-sr-check') : $daysUntil,
+            // 'daysUntil' => ($daysUntil <= 0) ? putIcon('fi-sr-check') : $daysUntil,
+            'daysUntil' => ($daysUntil <= 0) ? '-' : $daysUntil,
         ];
     }
 
@@ -171,7 +209,31 @@ $averageMonthlyTax = $tax / 12;
 $preTaxDailyAverage = $baseIncome / 365;
 $preTaxMonthlyAverage = $baseIncome / 12;
 
+$estimatedTaxes = [];
+$known = $taxService->getEstimatedPaymentsForYear($year);
+$thisRegionTotal = 0;
+$lastRegion = null;
+foreach ($known as $payment) {
+    if (!array_key_exists($payment['region'], $estimatedTaxes)) {
+        $estimatedTaxes[$payment['region']] = [];
+    }
+    $estimatedTaxes[$payment['region']][] = $payment;
+}
+
+$regionTotals = [];
+foreach ($estimatedTaxes as $region => $payments) {
+    $total = 0;
+    foreach ($payments as $aPayment) {
+        $total += $aPayment['amount'];
+    }
+    $regionTotals[$region] = formatMoney($total * 100);
+}
+
 $changes = [
+    'year' => $year,
+    'displayType' => $displayType,
+    'estimatedTaxes' => $estimatedTaxes,
+    'regionTotals' => $regionTotals,
     'attentionMessage' => $attentionMessage,
     'dayNumber' => $dayInTheYear,
     'estimateMode' => $doProjectedEstimate,

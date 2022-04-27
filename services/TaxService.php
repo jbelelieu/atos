@@ -84,6 +84,78 @@ class TaxService extends BaseService
         ];
     }
 
+
+    public function createDeduction(array $data)
+    {
+    }
+
+    public function createAdjustment(array $data)
+    {
+    }
+    
+    public function createEstimatedPayments(array $data)
+    {
+        // Delete all entries for this year
+        $statement = $this->db->prepare('
+            DELETE FROM tax_payments
+            WHERE year = :year
+        ');
+        $statement->bindParam(':year', $data['year']);
+        $statement->execute();
+
+        // Recreate updated entires
+        $mainKey = 0;
+        foreach ($data['region'] as $regionKey => $paymentOrder) {
+            $secondKey = 0;
+            foreach ($paymentOrder as $anOrder => $anOrderAmount) {
+                $statement = $this->db->prepare('
+                    INSERT INTO tax_payments (created_at, amount, year, region, payment_order)
+                    VALUES (:created_at, :amount, :year, :region, :payment_order)
+                ');
+                $statement->bindParam(':created_at', $data['dates'][$regionKey][$secondKey]);
+                $statement->bindParam(':amount', $anOrderAmount);
+                $statement->bindParam(':year', $data['year']);
+                $statement->bindParam(':region', $regionKey);
+                $statement->bindParam(':payment_order', $anOrder);
+                $statement->execute();
+
+                $secondKey++;
+            }
+
+            $mainKey++;
+        }
+
+        redirect(
+            "/tax/render",
+            null,
+            'Your estimated taxes have been updated.',
+            null,
+            false,
+            [
+                'year' => $data['year'],
+                'estimate' => $data['estimate'],
+                'income' => $data['income'],
+            ]
+        );
+    }
+
+    /**
+     * @return array
+     */
+    public function getEstimatedPaymentsForYear(int $year)
+    {
+        $statement = $this->db->prepare("
+            SELECT *
+            FROM tax_payments
+            WHERE year = :year
+            ORDER BY region ASC, payment_order ASC
+        ");
+        $statement->bindParam(':year', $year);
+        $statement->execute();
+
+        return $statement->fetchAll();
+    }
+    
     /**
      * @param integer $year
      * @return void

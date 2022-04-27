@@ -159,6 +159,7 @@ function formatMoney($money): string
  * @param string|null $success
  * @param string|null $error
  * @param bool $return
+ * @param array $queryString
  * @return void
  */
 function redirect(
@@ -166,7 +167,8 @@ function redirect(
     $id = null,
     string $success = null,
     string $error = null,
-    bool $return = false
+    bool $return = false,
+    array $queryString = []
 ): string {
     $query = '';
 
@@ -182,6 +184,10 @@ function redirect(
 
     if ($error) {
         $query .= '&_error=' . urlencode($error);
+    }
+
+    foreach ($queryString as $key => $value) {
+        $query .= "&" . $key . "=" . $value;
     }
 
     if (!empty($query)) {

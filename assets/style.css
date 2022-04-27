@@ -746,6 +746,10 @@ button {
   line-height: 1;
 }
 
+input.paid {
+  border: 2px solid #3fcce8 !important;
+}
+
 .noMarginTop {
   margin-top: 0px;
 }

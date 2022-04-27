@@ -1,9 +1,14 @@
 
 <div class="collectionsTable">
 
-    <p class="attention border">
+    <div class="border pad">
+    <h1 style="margin: 0;">
+        <?php echo $displayType; ?>
+    </h1>
+    <p style="margin-bottom: 0;">
         <?php echo $attentionMessage; ?>
     </p>
+    </div>
     
     <div class="halfHalfColumns">
         <div>
@@ -78,9 +83,12 @@
 
     <form action="/tax/render" method="post">
     <input type="hidden" name="action" value="createEstimatedPayments" />
-    <input type="hidden" name="year" value="<?php echo $_GET['year']; ?>" />
+    <input type="hidden" name="year" value="<?php echo $year; ?>" />
     <input type="hidden" name="income" value="<?php echo empty($_GET['income']) ? '' : $_GET['income']; ?>" />
-    <input type="hidden" name="estimate" value="<?php echo empty($_GET['estimate']) ? '' : $_GET['estimate']; ?>" />
+    <input
+        type="hidden"
+        name="estimate"
+        value="<?php echo empty($_GET['estimate']) ? '' : $_GET['estimate']; ?>" />
         
         <div class="halfHalfColumns">
             <?php foreach ($taxes['regions'] as $region => $details) { ?>
@@ -105,28 +113,51 @@
                         <tr>
                             <td class="listLeft"></td>
                             <td class="bold"><?php echo $details['results']['_tax']; ?></td>
-                            <td class="bold">$ACTUAL_HERE</td>
+                            <td class="bold"><?php echo $regionTotals[$region]; ?></td>
                         </tr>
                         <?php
+                        $up = 0;
                         foreach ($details['recommendations']['schedule'] as $date => $details) {
-                            ?>
+                            $thisRegion = $estimatedTaxes[$region];
+                            if (array_key_exists($up, $thisRegion)) {
+                                $useDate =  $estimatedTaxes[$region][$up]['created_at'];
+                                $useAmount = $estimatedTaxes[$region][$up]['amount'];
+                            } else {
+                                $useDate =  $date;
+                                $useAmount =  0;
+                            }
+                            $addClass = $useAmount > 0 ? 'paid' : ''; ?>
                         <tr>
                             <td class="listLeft">
-                                <?php echo $details['date']; ?>
+                                <input
+                                    type="date"
+                                    class="<?php echo $addClass; ?>"
+                                    name="dates[<?php echo $region; ?>][<?php echo $up; ?>]"
+                                    value="<?php echo $useDate; ?>"
+                                    style="width:120px;" />
+
+
+                                <!-- <?php echo $details['date']; ?> -->
                                 <p class="fieldHelp">Days until due: <?php echo $details['daysUntil']; ?></p>
                             </td>
                             <td><?php echo $details['amount']; ?></td>
                             <td>
-                                $<input type="text" name="" value="0" style="width:120px;" />
+                                $<input
+                                    type="number"
+                                    name="region[<?php echo $region; ?>][<?php echo $up; ?>]"
+                                    value="<?php echo $estimatedTaxes[$region][$up]['amount'] ?>"
+                                    style="width:120px;" />
                             </td>
                         </tr>
                         <?php
+                        $up++;
                         } ?>
                     </tbody>
                 </table>
             </div>
 
-            <?php } ?>
+            <?php
+} ?>
         </div>
 
         <div class="textCenter">
@@ -139,7 +170,7 @@
         <div class="">
             <form action="/tax/render" method="post">
             <input type="hidden" name="action" value="createDeduction" />
-            <input type="hidden" name="year" value="<?php echo $_GET['year']; ?>" />
+            <input type="hidden" name="year" value="<?php echo $year; ?>" />
             <input type="hidden" name="income" value="<?php echo empty($_GET['income']) ? '' : $_GET['income']; ?>" />
             <input type="hidden" name="estimate" value="<?php echo empty($_GET['estimate']) ? '' : $_GET['estimate']; ?>" />
 
@@ -183,7 +214,7 @@
         <div class="">
             <form action="/tax/render" method="post">
             <input type="hidden" name="action" value="createAdjustment" />
-            <input type="hidden" name="year" value="<?php echo $_GET['year']; ?>" />
+            <input type="hidden" name="year" value="<?php echo $year; ?>" />
             <input type="hidden" name="income" value="<?php echo empty($_GET['income']) ? '' : $_GET['income']; ?>" />
             <input type="hidden" name="estimate" value="<?php echo empty($_GET['estimate']) ? '' : $_GET['estimate']; ?>" />
 
