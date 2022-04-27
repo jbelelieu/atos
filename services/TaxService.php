@@ -93,7 +93,6 @@ class TaxService extends BaseService
         // TODO
         $additionMock = [
             [
-                'isReduction' => true,
                 'amount' => 3000,
                 'percent' => 15,
                 'title' => 'Capital Gains',
@@ -132,13 +131,11 @@ class TaxService extends BaseService
         // TODO
         $deductionMock = [
             [
-                'isReduction' => true,
                 'amount' => 12950,
                 'percent' => 100,
                 'title' => 'Standard Deduction',
             ],
             // [
-            //     'isReduction' => true,
             //     'amount' => 51000,
             //     'percent' => 100,
             //     'title' => 'SEP IRA Contribution',

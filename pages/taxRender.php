@@ -27,6 +27,18 @@ $overrideEstimatedTotal = (!empty($_GET['income'])) && $_GET['income'] > 0
 
 $year = (!empty($_GET['year'])) ? $_GET['year'] : date('Y');
 
+// Attention message
+$attentionMessage = '';
+if ($overrideEstimatedTotal) {
+    $attentionMessage = 'This is a hypothetical situation whereby you gain a fixed income of ' . formatMoney($overrideEstimatedTotal * 100);
+}
+
+if ($doProjectedEstimate) {
+    $attentionMessage = 'This is an estimate, your income may change. This should only be used as a rough guide.';
+} else {
+    $attentionMessage = 'This is not accurate! It bases your tax burden on your current income to date this year, not your actual income, which will most likely be more, therefore your tax burden will be larger. If you have a good idea of where you think your income will be, you can use the fixed income estimation tool.';
+}
+
 if (!file_exists(ATOS_HOME_DIR . '/includes/tax/' . $year)) {
     redirect('/tax', null, null, 'No tax strategies found for the submitted year: ' . $year);
 }
@@ -160,6 +172,7 @@ $preTaxDailyAverage = $baseIncome / 365;
 $preTaxMonthlyAverage = $baseIncome / 12;
 
 $changes = [
+    'attentionMessage' => $attentionMessage,
     'dayNumber' => $dayInTheYear,
     'estimateMode' => $doProjectedEstimate,
     'averages' => [

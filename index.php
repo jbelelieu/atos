@@ -47,7 +47,7 @@ switch (strtolower($requestUri)) {
         require ATOS_HOME_DIR . '/pages/taxes.php';
         break;
     case '/tax/render':
-        require ATOS_HOME_DIR . '/pages/tax.php';
+        require ATOS_HOME_DIR . '/pages/taxRender.php';
         break;
     default:
         require ATOS_HOME_DIR . '/pages/overview.php';

@@ -73,13 +73,13 @@
     // Warns the user if they try to leave a page that
     // has unsaved form changes. Simply add the "preventLeaving"
     // class to any form to make this work.
-    $('.preventLeaving').data('serialize', $('.preventLeaving').serialize());
+    // $('.preventLeaving').data('serialize', $('.preventLeaving').serialize());
 
-    $(window).bind('beforeunload', function(e) {
-        if ($('.preventLeaving').serialize() != $('.preventLeaving').data('serialize')) {
-            return true;
-        } else {
-            e = null;
-        }
-    });
+    // $(window).bind('beforeunload', function(e) {
+    //     if ($('.preventLeaving').serialize() != $('.preventLeaving').data('serialize')) {
+    //         return true;
+    //     } else {
+    //         e = null;
+    //     }
+    // });
 </script>

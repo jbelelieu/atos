@@ -158,6 +158,10 @@ The goal was always a zero-dependency application that can be setup in seconds. 
 - Story notes
 - Project turn-over to-do lists that can be generated and sent to clients much like invoices
 - Basic estimated tax help for American freelancers
+  - Input est taxes payments sent already (recommended paid VS actual paid categories)
+    - Deficit tracking
+  - Select your tax strategies
+  - Reminders of est taxes being due
 - Bulk actions on stories
 - Expanded language support and language packs
 - Various themes

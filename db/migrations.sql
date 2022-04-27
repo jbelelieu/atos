@@ -80,6 +80,16 @@ CREATE TABLE `story` (
   CONSTRAINT fk_rate_type FOREIGN KEY(rate_type) REFERENCES story_hour_type(id)
 );
 
+CREATE TABLE `tax_payments` (
+  `id` INTEGER PRIMARY KEY AUTOINCREMENT,
+  `created_at` timestamp DEFAULT CURRENT_TIMESTAMP,
+  `amount` varchar(255),
+  `strategy` varchar(255),
+  `year` INTEGER
+);
+
+
+
 INSERT INTO story_type (id, title) VALUES (1, 'Story'), (2, 'Chore'), (3, 'Meeting');
 
 -- The primary items should not be removed and need

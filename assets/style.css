@@ -519,6 +519,7 @@ footer {
 #collections div {
   margin-top: 4px;
   line-height: 24px;
+  padding: 2px 4px 2px 9px;
 }
 
 #collections span {
@@ -528,6 +529,13 @@ footer {
 #collections a {
   color: #111;
   display: inline-block;
+}
+
+p.attention {
+  background-color: #28afc9;
+  padding: 12px;
+  text-align: center;
+  border-radius: 9px;
 }
 
 .border {
@@ -734,7 +742,8 @@ button {
   font-size: 0.8em;
   color: #b1b1b1;
   padding: 0;
-  margin: 0 0 4px 0;
+  margin: 3px 0 4px 0;
+  line-height: 1;
 }
 
 .noMarginTop {

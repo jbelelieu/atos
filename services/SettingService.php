@@ -36,8 +36,8 @@ class SettingService extends BaseService
 
         foreach ($hourTypeResults as $aType) {
             $hourSelect .= ($aType['id'] === $selected)
-        ? '<option value="' . $aType['id'] . '" selected="selected">' . $aType['title'] . '</option>'
-        : '<option value="' . $aType['id'] . '">' . $aType['title'] . '</option>';
+                ? '<option value="' . $aType['id'] . '" selected="selected">' . $aType['title'] . '</option>'
+                : '<option value="' . $aType['id'] . '">' . $aType['title'] . '</option>';
         }
 
         $hourSelect .= '</select>';
@@ -261,6 +261,23 @@ class SettingService extends BaseService
         $statement->execute();
 
         return $statement->fetchAll();
+    }
+    /**
+     * @return array
+     */
+    public function getRateTypeById(int $id)
+    {
+        $statement = $this->db->prepare("
+            SELECT *
+            FROM story_hour_type
+            WHERE id = :id
+        ");
+
+        $statement->bindParam(':id', $id);
+
+        $statement->execute();
+
+        return $statement->fetch();
     }
 
     /**

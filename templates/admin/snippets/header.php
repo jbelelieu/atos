@@ -41,6 +41,7 @@ $lastProject = (isset($_SESSION["viewingProject"]) && !empty($_SESSION["viewingP
         </div>
         <div id="nav" class="textRight">
             <?php echo $lastProject; ?>
+            <a href="/tax">Taxes</a>
             <a href="/settings">Settings</a>
         <div>
     </div>

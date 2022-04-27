@@ -122,7 +122,7 @@ foreach ($hourTypeResults as $aType) {
 $collectionSelect = '';
 $collectionArray = [];
 
-$allCollections = $collectionService->getCollectionByProject($project['id']);
+$allCollections = $collectionService->getCollectionByProject($project['id'], 10);
 foreach ($allCollections as $aCollection) {
     array_push($collectionArray, $aCollection['id']);
 
@@ -246,7 +246,11 @@ foreach ($collectionResults as $aCollection) {
             [
                 'endedAt' => $endedAt,
                 'hours' => $row['hours'],
-                'hourSelect' => $settingService->buildHourSelect($row['id'], $row['hour_rate'], $hourTypeResults),
+                'hourSelect' => $settingService->buildHourSelect(
+                    $row['id'],
+                    $row['rate_type'],
+                    $hourTypeResults
+                ),
                 'label' => $label,
                 'options' => $storyService->buildStoryOptions(
                     $project['id'],
