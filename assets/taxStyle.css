@@ -459,6 +459,10 @@ footer span {
     line-height: 14px;
 }
 
+.bold {
+    font-weight: bold;
+}
+
 footer {
     margin-top: 64px;
     padding: 9px;
@@ -475,10 +479,38 @@ footer {
     padding: 42px 0;
 }
 
+.weak {
+    color: #999;
+    margin-top: 4px;
+    font-size: 0.85em;
+    line-height: 1.3em;
+}
+
+p.deAdHeading {
+    margin-top: 0px !important;
+}
+
+input.paid {
+    border: 2px solid #3fcce8 !important;
+    background-color: #dbf9ff;
+}
+
+.gray {
+    color: #999;
+}
+
 .border {
     border: 1px solid #e5e5e5;
     border-bottom: 3px solid #e5e5e5;
     border-radius: 0px 0px 9px 9px;
+}
+
+.borderRight {
+    border-right: 1px solid #f1f1f1;
+}
+
+.borderLeft {
+    border-left: 1px solid #f1f1f1;
 }
 
 .borderSectionTop {
@@ -563,6 +595,10 @@ footer {
     background-color: #E44B58;
 }
 
+.red {
+    color: #E44B58;
+}
+
 .redBubble:before {
     border-color: #b82a36 #fff;
 }
@@ -583,7 +619,7 @@ footer {
 .sunk {
     background-color: #f9f9f9;
     border-top: 1px solid #e5e5e5;
-    padding: 24px;
+    /* padding: 24px; */
     border-bottom: 1px solid #e5e5e5;
     line-height: 1.3em;
     font-size: 0.95em;
@@ -611,6 +647,10 @@ h4 {
 .sunk ul {
     padding-bottom: 0px;
     margin-bottom: 0px;
+}
+
+.marginTop {
+    margin-top: 42px;
 }
 
 .columns2575 {
@@ -642,8 +682,14 @@ h4 {
 
 /*  */
 
-.columns2575 table:first-child {
-    margin-top: -10px;
+.columns2575 table:first-child,
+.columns2575 p:first-child {
+    margin: -10px 0 0 0;
+}
+
+.columns2575 table:last-child,
+.columns2575 p:last-child {
+    margin-bottom: 0px;
 }
 
 table {
@@ -753,6 +799,45 @@ table td.summary {
 .invoiceFooter a {
     color: #e5e5e5;
     text-decoration: underline;
+}
+
+.attentionTop {
+    /* border-left: 3px solid #3fcce8;
+    border-right: 3px solid #3fcce8;
+    border-bottom: 6px solid #3fcce8; */
+    background-color: #dbf9ff;
+}
+
+/* 
+.attentionTop a {
+    color: #111;
+    text-decoration: underline;
+    font-weight: bold;
+}
+
+.attentionTop p {
+    margin-bottom: 0px;
+    font-size: 0.95em;
+    line-height: 1.3em;
+} */
+nav a,
+nav span {
+    display: inline-block;
+    padding: 0;
+    font-size: 0.9em;
+    color: #999;
+}
+
+nav.strong a {
+    font-size: 1.0em;
+    padding: 0;
+    color: #3fcce8;
+}
+
+nav a:not(:last-child):after,
+nav.strong a:not(:last-child):after {
+    margin: 0 8px;
+    content: '•'
 }
 
 /*  */

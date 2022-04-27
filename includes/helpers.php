@@ -160,6 +160,7 @@ function formatMoney($money): string
  * @param string|null $error
  * @param bool $return
  * @param array $queryString
+ * @param string $hash
  * @return void
  */
 function redirect(
@@ -168,7 +169,8 @@ function redirect(
     string $success = null,
     string $error = null,
     bool $return = false,
-    array $queryString = []
+    array $queryString = [],
+    string $hash = null
 ): string {
     $query = '';
 
@@ -192,6 +194,10 @@ function redirect(
 
     if (!empty($query)) {
         $url .= '?' . $query;
+    }
+
+    if ($hash) {
+        $url .= '#' . $hash;
     }
 
     if ($return) {

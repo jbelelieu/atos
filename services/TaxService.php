@@ -99,7 +99,8 @@ class TaxService extends BaseService
                 'year' => $year,
                 'estimate' => $data['estimate'],
                 'income' => $data['income'],
-            ]
+            ],
+            'deductions'
         );
     }
 
@@ -132,7 +133,8 @@ class TaxService extends BaseService
                 'year' => $year,
                 'estimate' => $data['estimate'],
                 'income' => $data['income'],
-            ]
+            ],
+            'adjustments'
         );
     }
     
@@ -213,7 +215,8 @@ class TaxService extends BaseService
                 'year' => $year,
                 'estimate' => $data['estimate'],
                 'income' => $data['income'],
-            ]
+            ],
+            'adjustments'
         );
     }
 
@@ -292,7 +295,8 @@ class TaxService extends BaseService
                 'year' => $year,
                 'estimate' => $data['estimate'],
                 'income' => $data['income'],
-            ]
+            ],
+            'deductions'
         );
     }
 

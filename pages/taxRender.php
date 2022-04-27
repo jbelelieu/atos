@@ -78,7 +78,7 @@ $attentionMessage = '';
 if ($overrideEstimatedTotal) {
     $displayType = 'Taxes ' . $year . ': Fixed Income Projection Estimate';
 
-    $attentionMessage = 'This attempts to project your tax burden for the year assuming that your total income for the year will be ' . formatMoney($overrideEstimatedTotal * 100) . '.';
+    $attentionMessage = 'This is an estimate based on a hypothetical year-end income.<br /><br />This attempts to project your tax burden for the year assuming that your total income for the year will be ' . formatMoney($overrideEstimatedTotal * 100) . '.';
 } elseif ($doProjectedEstimate) {
     $displayType = 'Taxes ' . $year . ': Projected Estimate';
 
@@ -245,7 +245,13 @@ $queryString = '&year=' . $year;
 $queryString .= (!empty($_GET['income'])) ? '&income=' . $_GET['income'] : '';
 $queryString .= (!empty($_GET['estimate'])) ? '&estimate=' . $_GET['estimate'] : '';
 
+$logoUrl = 'http://' . $_SERVER['HTTP_HOST'] . '/assets/logo.png';
+
 $changes = [
+    'logo' => (file_exists(ATOS_HOME_DIR . '/assets/logo.png'))
+        ? '<div id="logoArea"><img src="' . $logoUrl . '" /></div>'
+        : '',
+    'css' => file_get_contents('assets/taxStyle.css'),
     'queryString' => $queryString,
     'year' => $year,
     'displayType' => $displayType,
@@ -296,4 +302,4 @@ $changes = [
 
 // dd($changes);
 
-echo template('tax/estimate', $changes);
+echo template('tax/estimate', $changes, true);

@@ -940,7 +940,7 @@ nav.strong a {
 nav a:not(:last-child):after,
 nav.strong a:not(:last-child):after {
   margin: 0 8px;
-  content: '|'
+  content: '•'
 }
 
 .bgRed {

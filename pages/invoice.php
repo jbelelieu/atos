@@ -131,12 +131,12 @@ $template = template(
         'client' => $clientCompany,
         'collection' => $collection,
         'company' => $company,
-        'css' => file_get_contents('assets/invoiceStyle.css'),
         'displayStories' => ($settingListType === 'none') ? false : true,
         'dueDate' => ($daysDue > 0) ? formatDate(date('Y-m-d H:i:s', time() + 1209600)) : '',
         'logo' => (file_exists(ATOS_HOME_DIR . '/assets/logo.png'))
             ? '<div id="logoArea"><img src="' . $logoUrl . '" alt="' . $company['title'] . '" /></div>'
             : '',
+        'css' => file_get_contents('assets/invoiceStyle.css'),
         'project' => $project,
         'rateTypes' => $ratesHtml,
         'sentOn' => formatDate(date('Y-m-d H:i:s')),
