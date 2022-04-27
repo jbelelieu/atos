@@ -34,6 +34,16 @@ if (isset($_POST['action'])) {
     }
 }
 
+if (isset($_GET['action'])) {
+    switch ($_GET['action']) {
+        case 'deleteYear':
+            $taxService->deleteYear(intval($_GET['year']));
+            exit;
+        default:
+            redirect('/project', $_GET['id'], null, 'Unknown action');
+    }
+}
+
 /**
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
  *
@@ -46,44 +56,43 @@ $year = (!empty($_GET['year']) && is_numeric($_GET['year'])) ? $_GET['year'] : d
 $taxesThisYear = $taxService->getTax($year);
 $taxes = $taxService->getTaxes();
 
-$moduleDir = ATOS_HOME_DIR . '/modules/tax/';
-$taxBurdenRegionDir = $moduleDir . $year;
+$namespace = '\modules\tax';
+$moduleDir = ATOS_HOME_DIR . '/modules/tax/Y' . $year;
 
 $strategies = [];
-if (file_exists($taxBurdenRegionDir)) {
-    foreach (scandir($taxBurdenRegionDir) as $file) {
+if (file_exists($moduleDir)) {
+    foreach (scandir($moduleDir) as $file) {
         if ($file === '..' || $file === '.') {
             continue;
         }
         $exp = explode('.', $file);
         $className = $exp[0];
 
-        require_once $taxBurdenRegionDir . '/' . $file;
-        $class = new $className();
-        // $methods = get_class_methods($class);
+        $combine = $namespace . '\\Y' . $year . '\\' . $className;
+        $class = new $combine();
  
         $strategies[$className] = [
             'title' => $className,
+            'region' => $class::REGION,
             'strategies' => get_class_methods($class),
-            // '_class' => $class,
         ];
     }
 }
 
 foreach ($taxes as &$aTaxYear) {
     foreach ($aTaxYear['strategies'] as $key => $strat) {
-        require_once $moduleDir . '/' . $aTaxYear['year'] . '/' . $key . '.php';
-        $class = new $key();
+        $combine = $namespace . '\\Y' . $aTaxYear['year'] . '\\' . $key;
+        $class = new $combine();
 
         $aTaxYear[$key] = [
             'status' => $strat,
-            '_class' => new $key(),
+            '_class' => new $class(),
         ];
     }
 }
 
 $changes = [
-    'taxBurdenRegionDir' => 'modules/tax/' . $year,
+    'taxBurdenRegionDir' => 'modules/tax/Y' . $year,
     'strategies' => $strategies,
     'strategiesFound' => (sizeof($strategies) === 0) ? false : true,
     'taxesThisYear' => $taxesThisYear,

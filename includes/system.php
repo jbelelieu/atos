@@ -16,16 +16,6 @@ session_start();
 /**
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
  *
- *   System constants
- *
- */
-
-define('ATOS_HOME_DIR', __DIR__ . '/..');
-
-
-/**
- * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
- *
  *   Helper components and shared functionality
  *
  */

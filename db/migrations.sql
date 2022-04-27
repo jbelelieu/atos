@@ -90,8 +90,7 @@ CREATE TABLE `invoice` (
 );
 
 CREATE TABLE `tax` (
-  `id` INTEGER PRIMARY KEY AUTOINCREMENT,
-  `year` INTEGER,
+  `year` INTEGER PRIMARY KEY,
   `strategies` TEXT
 );
 
@@ -101,7 +100,8 @@ CREATE TABLE `tax_payment` (
   `amount` varchar(255),
   `year` INTEGER,
   `region` varchar(255),
-  `payment_order` INTEGER
+  `payment_order` INTEGER,
+  CONSTRAINT fk_tax_p_year FOREIGN KEY(year) REFERENCES tax(year) ON DELETE CASCADE
 );
 
 CREATE TABLE `tax_deduction` (
@@ -109,7 +109,8 @@ CREATE TABLE `tax_deduction` (
   `created_at` timestamp DEFAULT CURRENT_TIMESTAMP,
   `year` INTEGER,
   `title` varchar(255),
-  `amount` INTEGER
+  `amount` INTEGER,
+  CONSTRAINT fk_tax_d_year FOREIGN KEY(year) REFERENCES tax(year) ON DELETE CASCADE
 );
 
 CREATE TABLE `tax_adjustment` (
@@ -118,7 +119,8 @@ CREATE TABLE `tax_adjustment` (
   `year` INTEGER,
   `title` varchar(255),
   `taxable_percent` INTEGER,
-  `taxable_amount` INTEGER
+  `taxable_amount` INTEGER,
+  CONSTRAINT fk_tax_a_year FOREIGN KEY(year) REFERENCES tax(year) ON DELETE CASCADE
 );
 
 INSERT INTO story_type (id, title) VALUES (1, 'Story'), (2, 'Chore'), (3, 'Meeting');

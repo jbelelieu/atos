@@ -38,7 +38,7 @@
             <?php foreach ($strategies as $aStrategy) { ?>
                 <tr>
                     <td width="300" class="textRight">
-                        <?php echo $aStrategy['_class']::REGION; ?>
+                        <?php echo camelToEnglish($aStrategy['region']); ?>
                     </td>
                     <td>
                         <select style="width:200px;" name="strategies[<?php echo $aStrategy['title']; ?>]">
@@ -102,7 +102,8 @@
                 <td>
                     <?php foreach ($aTaxYear['strategies'] as $region => $strategy) { ?>
                         <b><?php echo $aTaxYear[$region]['_class']::REGION; ?>:</b> <?php echo snakeToEnglish($strategy); ?><br />
-                    <?php } ?>
+                    <?php
+    } ?>
                 </td>
                 <td>
                     <nav class="strong" style="margin-bottom:12px;">
@@ -124,7 +125,7 @@
                         <a
                             title="Delete"
                             onclick="return confirm('This will delete the status - are you sure?')"
-                            href="<?php echo $deleteLink; ?>">
+                            href="/tax?action=deleteYear&year=<?php echo $aTaxYear['year']; ?>">
                                 <?php echo putIcon('fi-sr-trash'); ?>
                         </a>
                     </div>

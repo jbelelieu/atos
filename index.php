@@ -18,6 +18,8 @@
  *
  */
 
+define('ATOS_HOME_DIR', __DIR__);
+
 require "includes/system.php";
 
 /**

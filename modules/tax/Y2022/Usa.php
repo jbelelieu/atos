@@ -1,5 +1,7 @@
 <?php
 
+namespace modules\tax\Y2022;
+
 /**
  * ATOS: "Built by freelancer 🙋‍♂️, for freelancers 🕺 🤷 💃🏾 "
  *
@@ -21,7 +23,7 @@ class Usa
         '2023-01-17',
     ];
 
-    const REGION = 'USA Federal';
+    const REGION = 'Usa Federal';
     
     const YEAR = 2022;
 

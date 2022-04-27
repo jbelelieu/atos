@@ -89,7 +89,7 @@ if ($overrideEstimatedTotal) {
     $attentionMessage = 'This is only valid if your income remains the same for the rest of the year.<br /><br /><b>Important:</b> Any additional income will change these numbers, giving you a larger tax burden. If you have a good idea of what you will make this year, try a "Fixed Income Projection" estimate instead.';
 }
 
-if (!file_exists(ATOS_HOME_DIR . '/modules/tax/' . $year)) {
+if (!file_exists(ATOS_HOME_DIR . '/modules/tax/Y' . $year)) {
     redirect('/tax', null, null, 'No tax strategies found for the submitted year: ' . $year);
 }
 
@@ -104,9 +104,9 @@ $taxRegions = $taxYes['strategies'];
 
 // Get our base income and set as initial taxable income.
 $baseIncome = $taxService->getTotalBaseIncomeByYear($year);
-if ($baseIncome <= 0) {
-    redirect('/tax', null, null, 'No known income for the year in question.');
-}
+// if ($baseIncome <= 0) {
+//     redirect('/tax', null, null, 'No known income for the year in question.');
+// }
 
 $dayInTheYear = (int) date('z') + 1;
 
@@ -157,11 +157,11 @@ $taxOnBaseIncome = 0;
 foreach ($taxRegions as $aRegion => $regionalStrategy) {
     $filingStrategy = $regionalStrategy;
 
-    $loadfile = ATOS_HOME_DIR . '/modules/tax/' . $year . '/' . $aRegion . '.php';
+    $loadfile = ATOS_HOME_DIR . '/modules/tax/Y' . $year . '/' . $aRegion . '.php';
 
-    require_once $loadfile;
+    $combine = 'modules\tax\Y' . $year . '\\' . $aRegion;
 
-    $taxClass = new $aRegion();
+    $taxClass = new $combine();
     if (!method_exists($taxClass, $filingStrategy)) {
         systemError('The tax strategy you are using, ' . $filingStrategy . ', does not exist in one of your tax files: ' . $loadfile);
     }
@@ -188,7 +188,7 @@ foreach ($finalData as $region => $aTaxRegionBurden) {
 
     $totalPaymentsRequired = sizeof($estTaxes);
 
-    $percent = intval($aTaxRegionBurden['results']['tax']) / $tax;
+    $percent = $tax > 0 ? intval($aTaxRegionBurden['results']['tax']) / $tax : 0;
 
     $quarterly = intval($aTaxRegionBurden['results']['tax']) / intval($totalPaymentsRequired);
 
@@ -285,7 +285,7 @@ $changes = [
     ],
     'taxes' => [
         'totalTax' => formatMoney($tax * 100),
-        'effectiveRate' => round($tax / $taxableIncome, 2) * 100,
+        'effectiveRate' => $taxableIncome > 0 ? round($tax / $taxableIncome, 2) * 100 : 0,
         'regions' => $finalData,
     ],
     '_raw' => [

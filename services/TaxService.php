@@ -136,6 +136,10 @@ class TaxService extends BaseService
         );
     }
     
+    /**
+     * @param array $data
+     * @return void
+     */
     public function createEstimatedPayments(array $data)
     {
         $year = (empty($data['year'])) ? date('Y') : $data['year'];
@@ -211,6 +215,56 @@ class TaxService extends BaseService
                 'income' => $data['income'],
             ]
         );
+    }
+
+    /**
+     * @param int $year
+     * @param bool $skipRedirect
+     * @return void
+     */
+    public function deleteYear(int $year, bool $skipRedirect = false)
+    {
+        try {
+            $this->db->beginTransaction();
+
+            $statement = $this->db->prepare('
+                DELETE FROM tax
+                WHERE year = :year
+            ');
+            $statement->bindParam(':year', $year);
+            $statement->execute();
+
+            $statement = $this->db->prepare('
+                DELETE FROM tax_adjustment
+                WHERE year = :year
+            ');
+            $statement->bindParam(':year', $year);
+            $statement->execute();
+
+            $statement = $this->db->prepare('
+                DELETE FROM tax_deduction
+                WHERE year = :year
+            ');
+            $statement->bindParam(':year', $year);
+            $statement->execute();
+
+            $statement = $this->db->prepare('
+                DELETE FROM tax_payment
+                WHERE year = :year
+            ');
+            $statement->bindParam(':year', $year);
+            $statement->execute();
+        
+            $this->db->commit();
+
+            if (!$skipRedirect) {
+                redirect("/tax", null, 'Tax year deleted.');
+            }
+        } catch (\PDOException $e) {
+            $this->db->rollBack();
+
+            systemError($e->getMessage());
+        }
     }
 
     /**
@@ -441,14 +495,60 @@ class TaxService extends BaseService
     {
         $year = (empty($data['year'])) ? date('Y') : $data['year'];
 
-        $statement = $this->db->prepare('
-            INSERT INTO tax (year, strategies)
-            VALUES (:year, :strategies)
-        ');
-        $statement->bindParam(':year', $year);
-        $statement->bindParam(':strategies', json_encode($data['strategies']));
-        $statement->execute();
+        $this->deleteYear($year, true);
 
-        redirect("/tax", null, 'Your taxes for ' . $year . ' are ready to go!');
+        try {
+            $this->db->beginTransaction();
+
+            $statement = $this->db->prepare('
+                INSERT INTO tax (year, strategies)
+                VALUES (:year, :strategies)
+            ');
+            $statement->bindParam(':year', $year);
+            $statement->bindParam(':strategies', json_encode($data['strategies']));
+            $statement->execute();
+
+            foreach ($data['strategies'] as $region => $aStrategy) {
+                $combine = 'modules\tax\Y' . $year . '\\' . $region;
+                $class = new $combine();
+
+                $up = 0;
+                foreach ($class::ESTIMATED_TAXES_DUE as $date) {
+                    $statement = $this->db->prepare('
+                        INSERT INTO tax_payment (
+                            created_at,
+                            amount,
+                            year,
+                            region,
+                            payment_order
+                        )
+                        VALUES (
+                            :created_at,
+                            0,
+                            :year,
+                            :region,
+                            :payment_order
+                        )
+                    ');
+
+                    $statement->bindParam(':created_at', $date);
+                    $statement->bindParam(':year', $year);
+                    $statement->bindParam(':region', $region);
+                    $statement->bindParam(':payment_order', $up);
+
+                    $statement->execute();
+
+                    $up++;
+                }
+            }
+
+            $this->db->commit();
+
+            redirect("/tax", null, 'Your taxes for ' . $year . ' are ready to go!');
+        } catch (\PDOException $e) {
+            $this->db->rollBack();
+
+            systemError($e->getMessage());
+        }
     }
 }

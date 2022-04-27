@@ -197,6 +197,8 @@ While there isn't a CSV importer at this time, you can create collections and bi
 
 See the "fixed-rate invoice" question for more details.
 
+**Important**: Make sure you set the "completed on" date to the correct year the work was done on, otherwise it will be creditted to the current year.
+
 ### How do I setup a fixed-rate invoice?
 
 - Create a new rate type with the exact amount of the invoice,

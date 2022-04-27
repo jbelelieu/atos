@@ -65,12 +65,12 @@ class ProjectService extends BaseService
             ');
 
             $statement->bindParam(':project_id', $lastProjectId);
-            $statement->bindParam(':title', getSetting(\AsosSettings::UNORGANIZED_NAME, 'Unorganized'));
+            $statement->bindParam(':title', getSetting(\AtosSettings::UNORGANIZED_NAME, 'Unorganized'));
             $statement->execute();
 
             $this->db->commit();
         } catch (\PDOException $e) {
-            $this->db->rollback();
+            $this->db->rollBack();
 
             systemError($e->getMessage());
         }

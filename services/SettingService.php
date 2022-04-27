@@ -80,11 +80,13 @@ class SettingService extends BaseService
         $statement = $this->db->prepare('
             INSERT INTO story_hour_type (
                 title,
-                rate
+                rate,
+                is_hidden
             )
             VALUES (
                 :title,
-                :rate
+                :rate,
+                0
             )
         ');
 
@@ -243,15 +245,17 @@ class SettingService extends BaseService
      * @param boolean $hideDeleted
      * @return array
      */
-    public function getRateTypes($hideDeleted = false): array
-    {
-        $where = $hideDeleted ? 'WHERE is_hidden = false' : 'WHERE is_hidden = true';
+    public function getRateTypes(
+        $hideDeleted = false
+    ): array {
+        $where = $hideDeleted ? 'WHERE is_hidden = false' : '';
 
         $statement = $this->db->prepare("
             SELECT *
             FROM story_hour_type
             $where
             ORDER BY
+                is_hidden ASC,
                 title DESC
         ");
 
