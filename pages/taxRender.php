@@ -89,7 +89,7 @@ if ($overrideEstimatedTotal) {
     $attentionMessage = 'This is only valid if your income remains the same for the rest of the year.<br /><br /><b>Important:</b> Any additional income will change these numbers, giving you a larger tax burden. If you have a good idea of what you will make this year, try a "Fixed Income Projection" estimate instead.';
 }
 
-if (!file_exists(ATOS_HOME_DIR . '/includes/tax/' . $year)) {
+if (!file_exists(ATOS_HOME_DIR . '/modules/tax/' . $year)) {
     redirect('/tax', null, null, 'No tax strategies found for the submitted year: ' . $year);
 }
 
@@ -157,7 +157,7 @@ $taxOnBaseIncome = 0;
 foreach ($taxRegions as $aRegion => $regionalStrategy) {
     $filingStrategy = $regionalStrategy;
 
-    $loadfile = ATOS_HOME_DIR . '/includes/tax/' . $year . '/' . $aRegion . '.php';
+    $loadfile = ATOS_HOME_DIR . '/modules/tax/' . $year . '/' . $aRegion . '.php';
 
     require_once $loadfile;
 

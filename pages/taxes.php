@@ -46,7 +46,8 @@ $year = (!empty($_GET['year']) && is_numeric($_GET['year'])) ? $_GET['year'] : d
 $taxesThisYear = $taxService->getTax($year);
 $taxes = $taxService->getTaxes();
 
-$taxBurdenRegionDir = ATOS_HOME_DIR . '/includes/tax/' . $year;
+$moduleDir = ATOS_HOME_DIR . '/modules/tax/';
+$taxBurdenRegionDir = $moduleDir . $year;
 
 $strategies = [];
 if (file_exists($taxBurdenRegionDir)) {
@@ -57,20 +58,32 @@ if (file_exists($taxBurdenRegionDir)) {
         $exp = explode('.', $file);
         $className = $exp[0];
 
-        require $taxBurdenRegionDir . '/' . $file;
+        require_once $taxBurdenRegionDir . '/' . $file;
         $class = new $className();
-        $methods = get_class_methods($class);
+        // $methods = get_class_methods($class);
  
         $strategies[$className] = [
             'title' => $className,
-            'strategies' => $methods,
-            '_class' => $class,
+            'strategies' => get_class_methods($class),
+            // '_class' => $class,
+        ];
+    }
+}
+
+foreach ($taxes as &$aTaxYear) {
+    foreach ($aTaxYear['strategies'] as $key => $strat) {
+        require_once $moduleDir . '/' . $aTaxYear['year'] . '/' . $key . '.php';
+        $class = new $key();
+
+        $aTaxYear[$key] = [
+            'status' => $strat,
+            '_class' => new $key(),
         ];
     }
 }
 
 $changes = [
-    'taxBurdenRegionDir' => 'includes/tax/' . $year,
+    'taxBurdenRegionDir' => 'modules/tax/' . $year,
     'strategies' => $strategies,
     'strategiesFound' => (sizeof($strategies) === 0) ? false : true,
     'taxesThisYear' => $taxesThisYear,

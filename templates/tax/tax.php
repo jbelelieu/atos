@@ -11,22 +11,24 @@
     if (!$strategiesFound) {
         ?>
 
-        <h1>No Regional Tax Burdens Found</h1>
-        <p>If looks like you haven't loaded up any regional tax files.</p>
+        <hr />
+        <h1 class="marginTop">No Regional Tax Files Found</h1>
+        <p>If looks like you haven't loaded up any regional tax files yet for <?php echo $year; ?>.</p>
         <ul>
             <li>
                 Head over to the <a href="https://github.com/jbelelieu/atos_modules/taxFiles
-" target="_blank">ATOS modules</a> repo and download the regions that you owe money in. For example, if you live in New York City, you'll want "Usa", "UsaNy", and "UsaNyNyc".
+" target="_blank">ATOS modules</a> repo and download the regions that you owe money in.<br />For example, if you live in New York City, you'll want "tax-files/<?php echo $year; ?>/Usa.php", "tax-files/<?php echo $year; ?>UsaNy.php", and "tax-files/<?php echo $year; ?>UsaNyNyc.php".
             </li>
             <li>
-                Place the files in the "<?php echo $taxBurdenRegionDir; ?>"" directory.
+                Save the files to the "<?php echo $taxBurdenRegionDir; ?>" directory and reload this page.
             </li>
         </ul>
 
-        <p>Can't find your regions? No problem, you can create your own and contribute back to the community! The project docs will explain how to do this.</p>
+        <p><b>Can't find your regions?</b><br />Why not contribute back to the community by creating the tax files for your regions? The project docs will explain how to do this.</p>
 
     <?php
     } else { ?>
+        <hr />
         <form action="/tax" method="post">
         <h1>We've found some tax files!</h1>
         <p>It looks like you'll be filing in these regions. Please tell me your filing status for each:</p>
@@ -67,7 +69,19 @@
 <?php } ?>
 
 
-<h1>Tax Years</h1>
+<div class="halfHalfColumns" style="position:relative;">
+    <div>
+        <h4 class="">Tax Years</h4>
+    </div>
+    <div class="textRight">
+        <div style="position: absolute; right: 0; bottom: 12px;">
+            <form action="/tax" method="get">
+                <span>Go To Tax Year:</span> <input type="number" name="year" placeholder="2022" style="width:80px;" /> <button type="submit">Go</button>
+            </form>
+        </div>
+    </div>
+</div>
+
 <table>
     <thead>
         <tr>
@@ -87,7 +101,7 @@
                 </td>
                 <td>
                     <?php foreach ($aTaxYear['strategies'] as $region => $strategy) { ?>
-                        <b><?php echo $strategies[$region]['_class']::REGION; ?>:</b> <?php echo snakeToEnglish($strategy); ?><br />
+                        <b><?php echo $aTaxYear[$region]['_class']::REGION; ?>:</b> <?php echo snakeToEnglish($strategy); ?><br />
                     <?php } ?>
                 </td>
                 <td>
