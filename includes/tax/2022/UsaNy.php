@@ -14,7 +14,15 @@
 
 class UsaNy
 {
+    const ESTIMATED_TAXES_DUE = [
+        '2022-04-18',
+        '2022-06-15',
+        '2022-09-15',
+        '2023-01-17',
+    ];
+
     const REGION = 'New York State';
+    
     const YEAR = 2022;
 
     public function headOfHousehold(): array
