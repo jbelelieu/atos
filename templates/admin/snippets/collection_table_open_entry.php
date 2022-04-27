@@ -1,7 +1,7 @@
 
 <tr>
 <td>
-    <span class="bubble grayBubble">
+    <span class="ticketId">
         <?php echo $story['show_id']; ?>
     </span>
 </td>

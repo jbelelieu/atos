@@ -1,7 +1,9 @@
 
 <tr class="<?php echo $rowClass; ?>">
     <td>
-        <?php echo $label; ?>
+        <span class="ticketId">
+        <?php echo $story['show_id']; ?>
+</span>
     </td>
     <td>
         <?php echo $hourSelect; ?>

@@ -72,7 +72,7 @@ if (isset($_POST['action'])) {
  */
 
 $statuses = $settingService->getStoryStatuses();
-$rateTypes = $settingService->getRateTypes(true);
+$rateTypes = $settingService->getRateTypes();
 $storyTypes = $settingService->getStoryTypes();
 
 $renderedStoryTypes = '';

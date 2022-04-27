@@ -1,4 +1,3 @@
-</div>
 
 <footer>
     <span>
@@ -16,6 +15,16 @@
         </a>
     </span>
 </footer>
+
+<script>
+function toggleDiv(id, onText, offText) {
+    if (document.getElementById(id).style.display === 'block') {
+        document.getElementById(id).style.display = 'none';
+    } else {
+        document.getElementById(id).style.display = 'block';
+    }
+}
+</script>
 
 </body>
 </html>

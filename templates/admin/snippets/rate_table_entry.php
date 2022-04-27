@@ -1,5 +1,7 @@
 
-<tr>
+<tr class="<?php if ($is_hidden) {
+    echo "notLive";
+} ?>">
 <td>
     <input
         type="text"
@@ -9,8 +11,8 @@
         style="width:100%;" />
 </td>
 <td>
-    $<?php echo $rate; ?><input
-        type="hidden"
+    $<input
+        type="number"
         min=0
         name="item[<?php echo $id; ?>][rate]"
         value="<?php echo $rate; ?>"

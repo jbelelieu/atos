@@ -122,7 +122,7 @@ foreach ($hourTypeResults as $aType) {
 $collectionSelect = '';
 $collectionArray = [];
 
-$allCollections = $collectionService->getCollectionByProject($project['id'], 10);
+$allCollections = $collectionService->getCollectionByProject($project['id'], 99999999);
 foreach ($allCollections as $aCollection) {
     array_push($collectionArray, $aCollection['id']);
 
@@ -142,17 +142,17 @@ foreach ($allCollections as $row) {
     $isProjectDefault = isBool($row['is_project_default']);
 
     $delete = (!$isProjectDefault)
-        ? "<a onclick=\"return confirm('Are you sure you want to delete this collection?')\" href=\"/project?action=deleteCollection&project_id=" . $project['id'] . "&id=" . $row['id'] . "\">" . putIcon('fi-sr-trash') . "</a>"
+        ? "<span class=\"delete\"><a onclick=\"return confirm('Are you sure you want to delete this collection?')\" href=\"/project?action=deleteCollection&project_id=" . $project['id'] . "&id=" . $row['id'] . "\">" . putIcon('fi-sr-trash') . "</a></span>"
         : '';
 
     $update = ($at > 0 && !$isProjectDefault)
         ? "<a title=\"" . language('make_active_collection', 'Make Active Collection') . "\" href=\"/project?action=makeCurrentCollection&project_id=" . $project['id'] . "&id=" . $row['id'] . "\">" . $row['title'] . "</a>"
         : $row['title'];
         
-    $color = $at === 0 ? 'bgBlue' : 'bgGray';
+    $active = $at === 0 ? 'active' : '';
 
-    $collections .= "<div class=\"bubble marginRightLess $color\">";
-    $collections .= "<span>" . $update . "</span>" . $delete;
+    $collections .= "<div class=\"collectionEntry $active\">";
+    $collections .= "<span class=\"title\">" . $update . "</span>" . $delete;
     $collections .= "</div>";
 
     $at++;
@@ -288,6 +288,7 @@ echo template(
     [
         '_metaTitle' => $project['title'] . ' (ATOS)',
         'collections' => $collections,
+        'allCollections' => $allCollections,
         'collectionsRendered' => $collectionsRendered,
         'collectionSelect' => $collectionSelect,
         'hourTypeSelect' => $hourTypeSelect,

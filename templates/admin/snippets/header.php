@@ -20,7 +20,7 @@ $pageTitle = (isset($_metaTitle)) ? $_metaTitle : 'ATOS';
 <header>
     <div class="headerColumns">
         <div id="logo">
-            <div id="icon"><img src="/assets/atos_icon.png" style="width:14px;height:14px" alt="ASOS Icon" /></div>
+            <div id="icon"><a href="/"><img src="/assets/atos_icon.png" style="width:14px;height:14px" alt="ASOS Icon" /></a></div>
             <div id="company"><a href="/">ATOS</a></div>
         </div>
         <div>
@@ -46,4 +46,3 @@ $lastProject = (isset($_SESSION["viewingProject"]) && !empty($_SESSION["viewingP
         <div>
     </div>
 </header>
-<div class="holder">

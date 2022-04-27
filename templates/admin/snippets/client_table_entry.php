@@ -4,7 +4,11 @@
 <td><?php echo $client['address']; ?></td>
 <td><?php echo $client['phone']; ?></td>
 <td><?php echo $client['email']; ?></td>
-<td><?php echo $url; ?></td>
+<td>
+    <?php if ($url) { ?>
+    <a href="<?php echo $url; ?>" target="_blank"><?php echo putIcon('fi-sr-link'); ?></a>
+    <?php } ?>
+</td>
 <td><?php echo $totalClientValue; ?></td>
 <td class="textRight">
     <a
