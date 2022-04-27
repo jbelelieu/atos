@@ -150,9 +150,9 @@ $template = template(
 if (!empty($_GET['save']) && $_GET['save'] === '1') {
     $filename = cleanFileName($project['title']) . '_' . date('Ymd') . '_' . cleanFileName($collection['title']) . '.html';
 
-    file_put_contents(ATOS_HOME_DIR . '/invoices/' . $filename, $template);
+    file_put_contents(ATOS_HOME_DIR . '/_generated/' . $filename, $template);
 
-    $msg = 'Saved invoice to invoices/' . $filename;
+    $msg = 'Saved invoice to: _generated/' . $filename;
     redirect('/project', $collection['project_id'], $msg);
     exit;
 }

@@ -761,6 +761,10 @@ table {
   border-collapse: collapse;
 }
 
+table tbody>tr:last-child {
+  border-bottom: none !important;
+}
+
 table.allStoriesInCollection {
   border-left: 1px solid #111;
   border-right: 1px solid #111;
@@ -778,12 +782,16 @@ table tr:not(.noBorder) {
   border-bottom: 1px dotted #e5e5e5;
 }
 
-/* table tr:nth-last-child(-n+3) {
-  border-bottom: none !important;
-} */
-
 table td.borderTop {
   border-bottom: 1px dotted #e5e5e5;
+}
+
+.underTableSubmit {
+  padding-left: 9px;
+}
+
+.underTableSubmit button {
+  margin-top: 8px;
 }
 
 .collectionsTable h4 {
@@ -919,6 +927,7 @@ table tr.notBillable input {
 
 .weak {
   color: #666;
+  font-size: 0.9em;
 }
 
 .error,
