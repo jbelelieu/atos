@@ -183,7 +183,6 @@ class StoryService extends BaseService
     public function updateStories(array $data): void
     {
         foreach ($data['story'] as $storyId => $aStory) {
-            // Must have a title
             if (empty($aStory['title'])) {
                 continue;
             }
@@ -204,10 +203,15 @@ class StoryService extends BaseService
                 WHERE
                     id = :id
             ');
+
+            $hours = (int) $aStory['hours'];
+            $type = (int) $aStory['type'];
+            $rateType = (int) $aStory['rate_type'];
+
             $statement->bindParam(':ended_at', $aStory['ended_at']);
-            $statement->bindParam(':hours', $aStory['hours']);
-            $statement->bindParam(':type', $aStory['type']);
-            $statement->bindParam(':rate_type', $aStory['rate_type']);
+            $statement->bindParam(':hours', $hours);
+            $statement->bindParam(':type', $type);
+            $statement->bindParam(':rate_type', $rateType);
             $statement->bindParam(':title', $aStory['title']);
             $statement->bindParam(':id', $storyId);
             $statement->execute();

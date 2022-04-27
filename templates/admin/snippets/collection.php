@@ -57,7 +57,7 @@
 
 <?php if (!$isProjectDefault) { ?>
     <!-- Billable stories table -->
-    <h4 class="bubble">Billable</h4>
+    <h4 class="bubble">Completed &amp; Billable</h4>
 
     <form
         class="preventLeaving"

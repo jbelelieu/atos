@@ -48,7 +48,7 @@ if (sizeof($shippedStories) === 0) {
     systemError('There are no billable items on this invoice.');
 }
 
-$settingListType = getSetting(AsosSettings::INVOICE_ORDER_BY_DATE_COMPLETED, 'list');
+$settingListType = getSetting(\AtosSettings::INVOICE_ORDER_BY_DATE_COMPLETED, 'list');
 
 $hoursByRateType = [];
 
@@ -63,10 +63,15 @@ $lastDate = null;
 $storyHtml = '';
 $dayHours = 0;
 $totalHours = 0;
+$knownRateTypes = [];
 
 foreach ($shippedStories as $aStory) {
     if (!array_key_exists($aStory['rate_type'], $hoursByRateType)) {
         $hoursByRateType[$aStory['rate_type']] = 0;
+    }
+
+    if (!in_array($aStory['rate_type'], $knownRateTypes)) {
+        $knownRateTypes[] = $aStory['rate_type'];
     }
 
     $hoursByRateType[$aStory['rate_type']] = $hoursByRateType[$aStory['rate_type']] + $aStory['hours'];
@@ -96,9 +101,9 @@ foreach ($shippedStories as $aStory) {
 $grandTotal = 0;
 $ratesHtml = '';
 
-$rateTypes = $settingService->getRateTypes();
+foreach ($knownRateTypes as $aRateType) {
+    $aType = $settingService->getRateTypeById($aRateType);
 
-foreach ($rateTypes as $aType) {
     $dollarRate = formatMoney($aType['rate']);
     $hours = $hoursByRateType[$aType['id']];
     $subtotal = $hours * $aType['rate'];
@@ -118,7 +123,7 @@ foreach ($rateTypes as $aType) {
 }
 
 $logoUrl = 'http://' . $_SERVER['HTTP_HOST'] . '/assets/logo.png';
-$daysDue = getSetting(AsosSettings::INVOICE_DUE_DATE_IN_DAYS, 14);
+$daysDue = getSetting(\AtosSettings::INVOICE_DUE_DATE_IN_DAYS, 14);
 
 $template = template(
     'invoice/invoice',
@@ -145,9 +150,9 @@ $template = template(
 if (!empty($_GET['save']) && $_GET['save'] === '1') {
     $filename = cleanFileName($project['title']) . '_' . date('Ymd') . '_' . cleanFileName($collection['title']) . '.html';
 
-    file_put_contents(ATOS_HOME_DIR . '/invoices/' . $filename, $template);
+    file_put_contents(ATOS_HOME_DIR . '/_generated/' . $filename, $template);
 
-    $msg = 'Saved invoice to invoices/' . $filename;
+    $msg = 'Saved invoice to: _generated/' . $filename;
     redirect('/project', $collection['project_id'], $msg);
     exit;
 }

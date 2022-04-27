@@ -11,9 +11,10 @@ Whether you're selling time-based sprints, or simply tracking time worked, ATOS 
 
 ATOS is a locally hosted, zero-setup application that makes invoicing against backlogs drop-dead simple. It does:
 
-- **Project Management**: Track stories against known backlogs (or use it as an independent PM tool)
-- **Invoice Generation**: Generate detailed invoices against those completed stories
-
+- **Project Management**: Track stories against known backlogs (or use it as an independent PM tool).
+- **Invoice Generation**: Generate detailed invoices against those completed stories.
+- **Taxes**: Estimate your tax burden for the year using customizable tax files for various regions, whether it be at the national (federal), regional (state), or municipal levels (city).
+  
 ATOS is 100% open source and free to use, licensed under the [GNU AGPLv3 License](https://www.gnu.org/licenses/agpl-3.0.en.html).
 
 <img alt="ATOS Screen Shot" src="https://github.com/jbelelieu/atos/blob/develop/assets/atos_screen.png?raw=true" style="width: 400px;float:left;" /> <img alt="ATOS Invoice Screen Shot" src="https://github.com/jbelelieu/atos/blob/develop/assets/atos_invoice_screen.png?raw=true" style="width: 400px;float:left;" />
@@ -23,8 +24,9 @@ ATOS is 100% open source and free to use, licensed under the [GNU AGPLv3 License
 - [Setup](#setup)
     - [Download and Start](#download-and-start)
       - [Update Your Default Settings (Optional Step)](#update-your-default-settings-optional-step)
+      - [Notice: Deploying ATOS To The Web**](#notice-deploying-atos-to-the-web)
       - [Notice: Updating Your Logo](#notice-updating-your-logo)
-      - [Notice: Saving Invoices](#notice-saving-invoices)
+      - [Notice: Saving Invoices and Tax Overviews](#notice-saving-invoices-and-tax-overviews)
       - [Notice: Language Files](#notice-language-files)
       - [Notice: Templates Files](#notice-templates-files)
       - [Notice: PHP 8.1 Requirement](#notice-php-81-requirement)
@@ -33,14 +35,24 @@ ATOS is 100% open source and free to use, licensed under the [GNU AGPLv3 License
 - [Features](#features)
 - [Tips and Tricks](#tips-and-tricks)
 - [FAQ](#faq)
-- [Special Thank You!](#special-thank-you)
+      - [Is this meant to be a replacement for JIRA or Pivotal Tracker?](#is-this-meant-to-be-a-replacement-for-jira-or-pivotal-tracker)
+      - [What stories get places on invoices?](#what-stories-get-places-on-invoices)
+      - [Do you plan on making a more dynamic frontend for ATOS?](#do-you-plan-on-making-a-more-dynamic-frontend-for-atos)
+      - [Will future versions remain compatible with the beta?](#will-future-versions-remain-compatible-with-the-beta)
+      - [Why isn't this using modern PHP tools like Composer?](#why-isnt-this-using-modern-php-tools-like-composer)
+      - [How should I handle non-payment of a collection?](#how-should-i-handle-non-payment-of-a-collection)
+      - [How do I reconcile what I billed and what I got paid?](#how-do-i-reconcile-what-i-billed-and-what-i-got-paid)
+        - [What's the easiest way to import part data?](#whats-the-easiest-way-to-import-part-data)
+        - [What if I change my rates?](#what-if-i-change-my-rates)
+- [Contributing](#contributing)
+    - [How to Contribute](#how-to-contribute)
+    - [Special Thank You](#special-thank-you)
 - [Roadmap](#roadmap)
 
 # Setup
 
 ATOS requires `PHP 8.1+` and `SQLite3`.
 
-**Notice About Deploying ATOS To The Web**: ATOS was always meant to be used locally. While there shouldn't be any problems deploying it, I don't recommend allowing anyone to access it who you don't trust. There is no concept of "users" in the platform, so anyone with access to the platform will be able to do whatever they want with your data.
 
 ### Download and Start
 
@@ -53,15 +65,19 @@ ATOS requires `PHP 8.1+` and `SQLite3`.
 
 Open `settings.sample.php` and update the values as needed. Optionally rename it to `settings.env.php`, otherwise ATOS will do that for you.
 
+#### Notice: Deploying ATOS To The Web**
+
+ATOS was always meant to be used locally. While there shouldn't be any problems deploying it, I don't recommend allowing anyone to access it who you don't trust. There is no concept of "users" in the platform, so anyone with access to the platform will be able to do whatever they want with your data.
+
 #### Notice: Updating Your Logo
 
 You can add your logo to outgoing invoices by simply replacing `assets/logo.png` in the main directory of the project with your actual logo.
 
-#### Notice: Saving Invoices
+#### Notice: Saving Invoices and Tax Overviews
 
-If you plan on generating and saving invoices locally (which I recommend you do), you will need to make sure the `invoices` directory is writable: `chmod 0755 invoices`.
+If you plan on generating and saving invoices/taxes locally (which I recommend you do), you will need to make sure the `_generated` directory is writable: `chmod 0755 _generated`.
 
-Note that invoices are saved as HTML. Most computers have reasonable "Print as PDF" options now; please use that feature to print a PDF if required. Note that ATOS hard codes styles, so changing `assets/style.css` won't affect already saved invoices.
+Note that invoices/taxes are saved as HTML. Most computers have reasonable `Print as PDF` options now; please use that feature to print a PDF if required. Note that ATOS hard codes styles, so changing `assets/invoiceStyle.css` or `assets/taxStyle.css` won't affect already saved invoices.
 
 #### Notice: Language Files
 
@@ -121,33 +137,72 @@ ATOS will automatically attempt to run migrations at first start up. On the off 
 
 # FAQ
 
-**Is this meant to be a replacement for JIRA or Pivotal Tracker?**
+#### Is this meant to be a replacement for JIRA or Pivotal Tracker?
 
 While it could very well be, the idea was more that most client projects will already have their own project management tools. The goal here is to track everything you did for the client against their own backlogs, and then bill out accordingly, with references to known ticket IDs.
 
 However, I've also used this quite effectively to manage projects that didn't have a backlog. Do what works best for you!
 
-**What stories get places on invoices?**
+#### What stories get places on invoices?
 
-All stories set to a "Closed" state. If you don't want something appearing on an invoice, either bump it back to the default collection or into an "Open" state
+The status's status controls whether it appears on invoices, specifically whether you marked it as a "billable" state.
 
-**Are you planning on modernizes the code?**
+Note that you can have stories with a "complete" status that won't appear in the "Open" state, but at the same time won't appear on invoices. This gives you the flexibility to maintain an accurate backlog (not every task on a project is billable) while still getting paid for billable work!
 
-I'm aware this isn't the most presentable code, and I promise if the project takes off, I'll clean it up and implement more advanced templating engines, etc..
-
-**Do you plan on making a more dynamic frontend for ATOS?**
+#### Do you plan on making a more dynamic frontend for ATOS?
 
 While I love Javascript frameworks like React and use them extensively, no, I have no plans of transitioning away from PHP rendering at this time. It's drop dead simple this way, and I want to introduce as little complexity as possible.
 
-**Will future versions remain compatible with the beta?**
+#### Will future versions remain compatible with the beta?
 
-100%, no question. I used this personally, and I can't lose years of data for an upgrade. Your data won't becoming obsolete and you won't need to re-import anything with future versions.
+100%, without question. I use this personally, and I can't lose years of data for an upgrade. Your data won't become obsolete and you won't need to re-import anything with future versions.
 
-**Why isn't this using modern PHP tools like Composer?**
+#### Why isn't this using modern PHP tools like Composer?
 
-The goal was always a zero-dependency application that can be setup in seconds. By adding complexity in the form of package managers and the such, it adds extra steps I don't want to put people through. In thoery, assuming you have PHP8 installed locally, all you have to do is unzip the latest release and start the PHP server. I intend to keep it that way: simplicity is poetry in code!
+The goal was always a zero-dependency application that can be setup in seconds. Sqlite3 allows for easy bsckups and makes your data highly portable. By adding complexity in the form of package managers and the such, it adds extra steps I don't want to put people through.
 
-# Special Thank You!
+In thoery, assuming you have PHP 8.1 installed locally, all you have to do is unzip the latest release and start the PHP server. I intend to keep it that way: *simplicity is poetry in code!*
+
+#### How should I handle non-payment of a collection?
+
+If a client doesn't end up paying, you should set the the story to the `Unpaid` status. This will tell the program that you completed the work, but that it was never billed.
+
+#### How do I reconcile what I billed and what I got paid?
+
+If a client only paid a fraction of an invoice, you have some options:
+
+- Change the story's hours: you can alter the collection, changing the hours billed to `0`,
+- Change your tax burdens: if your goal is more accurate tax reporting, you can add a deduction at for the difference between what you billed and what you were paid. For example, if you were owed were `$10,000` and only got paid `$6,000`, within your tax information for that year, a `$4,000` deduction effectively fixes your actual income since deductions come directly out of your billed amount for the year.
+
+##### What's the easiest way to import part data?
+
+While there isn't a CSV importer at this time, you have some options:
+
+- You can manually create a collection for each invoice you've already sent to a client for a project. At that point:
+  - If this is for tax reasons, simply create a story at a rate and hour combo that matches what you billed out previously. For example, if you billed out $10,000 last month and you charge $100/hour, you can create a story in that collection that set to your correct billing rate, then 
+
+##### What if I change my rates?
+
+Always, always, always create a new rate type (this is why we don't allow deletion of rates). Changing existing rates will result in old tax data being invalidated!
+
+# Contributing
+
+### How to Contribute
+
+Simply create a PR against the `develop` branch of the primary repo or the modules repo. If your contribution is added to the platform, I'll add your name under the "Special Thank You" section below.
+
+Some ways you can contribute include:
+
+- Donate to support additional development
+- Build features for the core platform
+- Translate the application into a new language or dialect
+- Create yearly tax files: create one for your regional burdens and share with the world!
+- Theming
+  - Dashboard themes (no heavy javascript-based solutions)
+  - Invoice themes
+  - Tax overview themes
+
+### Special Thank You
 
 - The fine folks over at [phpLiteAdmin](https://www.phpliteadmin.org/) for the SQLite3 manager.
 - The artists over at [flaticon](https://flaticon.com/) for their CSS icon set.
@@ -158,6 +213,14 @@ The goal was always a zero-dependency application that can be setup in seconds. 
 - Story notes
 - Project turn-over to-do lists that can be generated and sent to clients much like invoices
 - Basic estimated tax help for American freelancers
+  - Save generated tax burden page
+  - add deduction
+  - add adjustment
+  - Input est taxes payments sent already (recommended paid VS actual paid categories)
+    - Deficit tracking
+  - Select your tax strategies
+  - Reminders of est taxes being due
 - Bulk actions on stories
 - Expanded language support and language packs
 - Various themes
+- List invoice / tax directory contents
