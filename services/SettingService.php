@@ -30,7 +30,7 @@ class SettingService extends BaseService
         $selected,
         array $inputResults = []
     ): string {
-        $hourTypeResults = (!empty($inputResults)) ? $inputResults : $this->getRateTypes();
+        $hourTypeResults = (!empty($inputResults)) ? $inputResults : $this->getRateTypes(true);
 
         $hourSelect = '<select name="story[' . $itemId . '][rate_type]">';
 
@@ -164,22 +164,14 @@ class SettingService extends BaseService
         }
 
         $statement = $this->db->prepare('
-            DELETE FROM story_hour_type
+            UPDATE story_hour_type
+            SET is_hidden = true
             WHERE id = :id
         ');
         $statement->bindParam(':id', $data['id']);
         $statement->execute();
 
-        $statement = $this->db->prepare('
-            UPDATE story
-            SET rate_type = 1
-            WHERE rate_type IS NULL OR rate_type = :old_type
-        ');
-        $statement->bindParam(':old_type', $data['id']);
-
-        $statement->execute();
-
-        redirect('/settings', null, 'We deleted that rate type. All stories that were covered by that have been set to your base rate.');
+        redirect('/settings', null, 'We hid that rate, but we kept a record of it for booking reasons.');
     }
 
     /**
@@ -188,7 +180,7 @@ class SettingService extends BaseService
      */
     public function deleteStatus(array $data): void
     {
-        if ($data['id'] <= 4) {
+        if ($data['id'] <= 5) {
             redirect('/settings', null, null, 'You cannot delete the default statuses.');
         }
 
@@ -248,14 +240,19 @@ class SettingService extends BaseService
     }
 
     /**
+     * @param boolean $hideDeleted
      * @return array
      */
-    public function getRateTypes()
+    public function getRateTypes($hideDeleted = false): array
     {
+        $where = $hideDeleted ? 'WHERE is_hidden = false' : 'WHERE is_hidden = true';
+
         $statement = $this->db->prepare("
             SELECT *
             FROM story_hour_type
-            ORDER BY title DESC
+            $where
+            ORDER BY
+                title DESC
         ");
 
         $statement->execute();
@@ -325,5 +322,55 @@ class SettingService extends BaseService
         $statement->execute();
 
         return $statement->fetchAll();
+    }
+
+    /**
+     * @param array $data
+     * @return void
+     */
+    public function updateRates(array $data)
+    {
+        foreach ($data['item'] as $itemId => $details) {
+            if (empty($details['title'])) {
+                continue;
+            }
+
+            $statement = $this->db->prepare('
+                UPDATE
+                    story_hour_type
+                SET
+                    title = :title
+                WHERE
+                    id = :id
+            ');
+
+            $statement->bindParam(':title', $details['title']);
+
+            $statement->execute();
+        }
+
+        redirect('/settings', null, 'Updated your rates!');
+    }
+    
+    /**
+     * @param array $data
+     * @return void
+     */
+    public function updateStatuses(array $data)
+    {
+        dd($data);
+
+        redirect('/settings', null, 'Updated');
+    }
+
+    /**
+     * @param array $data
+     * @return void
+     */
+    public function updateTypes(array $data)
+    {
+        dd($data);
+
+        redirect('/settings', null, 'Updated');
     }
 }

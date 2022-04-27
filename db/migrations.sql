@@ -25,6 +25,7 @@ CREATE TABLE `project` (
 CREATE TABLE `story_hour_type` (
   `id` INTEGER PRIMARY KEY AUTOINCREMENT,
   `title` varchar(255),
+  `is_hidden` boolean DEFAULT 0,
   `rate` INTEGER COMMENT 'In dollar cents, $150 = 15000'
 );
 
@@ -80,6 +81,14 @@ CREATE TABLE `story` (
   CONSTRAINT fk_rate_type FOREIGN KEY(rate_type) REFERENCES story_hour_type(id)
 );
 
+CREATE TABLE `invoice` (
+  `id` INTEGER PRIMARY KEY AUTOINCREMENT,
+  `created_at` timestamp DEFAULT CURRENT_TIMESTAMP,
+  `year` INTEGER,
+  `region` varchar(255),
+  `payment_order` INTEGER
+);
+
 CREATE TABLE `tax_payments` (
   `id` INTEGER PRIMARY KEY AUTOINCREMENT,
   `created_at` timestamp DEFAULT CURRENT_TIMESTAMP,
@@ -100,8 +109,8 @@ INSERT INTO story_status (id, title, emoji, color, is_complete_state, is_billabl
 (2, 'Complete', 'fi-sr-checkbox', '#47F43E', true, 1),
 (3, 'Shipped', 'fi-sr-rocket-lunch', '#3fcce8', true, 1),
 (4, 'Closed', 'fi-sr-cross-circle', '#b82a36', true, 0),
-(5, 'Superseded', 'fi-sr-time-fast', '#f1f1f1', true, 0);
+(5, 'Unpaid', 'fi-sr-time-fast', '#e1e1e1', true, 0);
 
 -- This is in dollar cents, so $50 = 5000.
-INSERT INTO story_hour_type (id, title, rate) VALUES (1, 'Standard Rate', '5000');
+INSERT INTO story_hour_type (id, title, rate, is_hidden) VALUES (1, 'Standard Rate', '5000', 0);
 

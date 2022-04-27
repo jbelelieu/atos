@@ -50,6 +50,15 @@ if (isset($_POST['action'])) {
         case 'createStoryType':
             $settingService->createStoryType($_POST);
             break;
+        case 'updateRates':
+            $settingService->updateRates($_POST);
+            break;
+        case 'updateStatuses':
+            $settingService->updateStatuses($_POST);
+            break;
+        case 'updateTypes':
+            $settingService->updateTypes($_POST);
+            break;
         default:
             redirect('/settings', null, null, 'Unknown action');
     }
@@ -63,7 +72,7 @@ if (isset($_POST['action'])) {
  */
 
 $statuses = $settingService->getStoryStatuses();
-$rateTypes = $settingService->getRateTypes();
+$rateTypes = $settingService->getRateTypes(true);
 $storyTypes = $settingService->getStoryTypes();
 
 $renderedStoryTypes = '';
@@ -97,7 +106,7 @@ foreach ($rateTypes as $aRate) {
                     'id' => $aRate['id'],
                 ]
             ),
-            'rate' => formatMoney($aRate['rate']),
+            'rate' => $aRate['rate'] / 100,
         ],
         true
     );

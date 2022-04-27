@@ -1,10 +1,21 @@
 
 <tr>
 <td>
-    <?php echo $title; ?>
+    <input
+        type="text"
+        name="item[<?php echo $id; ?>][title]"
+        value="<?php echo $title; ?>"
+        required="required"
+        style="width:100%;" />
 </td>
 <td>
-    <?php echo $rate; ?>
+    $<?php echo $rate; ?><input
+        type="hidden"
+        min=0
+        name="item[<?php echo $id; ?>][rate]"
+        value="<?php echo $rate; ?>"
+        required="required"
+        style="width:100px;" />
 </td>
 <td class="textRight">
     <a
