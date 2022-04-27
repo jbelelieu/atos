@@ -3,7 +3,7 @@
 
 <head>
     <meta charset="utf-8">
-    <title><?php echo $project['title'] . ": " . $collection['title']; ?></title>
+    <title>Tax Estimate: <?php echo $displayType; ?> (ATOS)</title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <style type="text/css">
         <?php echo $css; ?>
