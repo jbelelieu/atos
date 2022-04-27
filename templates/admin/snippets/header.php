@@ -11,7 +11,7 @@ $pageTitle = (isset($_metaTitle)) ? $_metaTitle : 'ATOS';
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="stylesheet" href="/assets/style.css" />
     <link rel="stylesheet" href="/assets/icons.css" />
-    <script type="text/javascript" src="/assets/jquery.js"></script>
+    <!-- <script type="text/javascript" src="/assets/jquery.js"></script> -->
     <link rel="icon" type="image/png" href="/assets/atos_icon.png" />
 </head>
 

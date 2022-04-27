@@ -25,6 +25,19 @@ use services\TaxService;
 
 $taxService = new TaxService();
 
+if (isset($_GET['action'])) {
+    switch ($_GET['action']) {
+        case 'deleteAdjustment':
+            $taxService->deleteAdjustment($_GET);
+            break;
+        case 'deleteDeduction':
+            $taxService->deleteDeduction($_GET);
+            break;
+        default:
+            redirect('/tax', null, null, 'Unknown action');
+    }
+}
+
 if (isset($_POST['action'])) {
     switch ($_POST['action']) {
         case 'createDeduction':
@@ -229,7 +242,12 @@ foreach ($estimatedTaxes as $region => $payments) {
     $regionTotals[$region] = formatMoney($total * 100);
 }
 
+$queryString = '&year=' . $year;
+$queryString .= (!empty($_GET['income'])) ? '&income=' . $_GET['income'] : '';
+$queryString .= (!empty($_GET['estimate'])) ? '&estimate=' . $_GET['estimate'] : '';
+
 $changes = [
+    'queryString' => $queryString,
     'year' => $year,
     'displayType' => $displayType,
     'estimatedTaxes' => $estimatedTaxes,

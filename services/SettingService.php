@@ -344,6 +344,7 @@ class SettingService extends BaseService
                     id = :id
             ');
 
+            $statement->bindParam(':id', $itemId);
             $statement->bindParam(':title', $details['title']);
 
             $statement->execute();
@@ -358,9 +359,37 @@ class SettingService extends BaseService
      */
     public function updateStatuses(array $data)
     {
-        dd($data);
+        foreach ($data['item'] as $itemId => $details) {
+            if (empty($details['title'])) {
+                continue;
+            }
 
-        redirect('/settings', null, 'Updated');
+            $currentStatus = $this->getStoryStatusById($itemId);
+            $status = array_merge($currentStatus, $details);
+
+            $statement = $this->db->prepare('
+                UPDATE
+                    story_status
+                SET
+                    title = :title,
+                    is_complete_state = :is_complete_state,
+                    emoji = :emoji,
+                    color = :color,
+                    is_billable_state = :is_billable_state
+                WHERE
+                    id = :id
+            ');
+
+            $statement->bindParam(':id', $itemId);
+            $statement->bindParam(':title', $status['title']);
+            $statement->bindParam(':is_complete_state', $status['is_complete_state']);
+            $statement->bindParam(':is_billable_state', $status['is_billable_state']);
+            $statement->bindParam(':color', $status['color']);
+            $statement->bindParam(':emoji', $status['emoji']);
+            $statement->execute();
+        }
+
+        redirect('/settings', null, 'Updated your statues!');
     }
 
     /**
@@ -369,8 +398,26 @@ class SettingService extends BaseService
      */
     public function updateTypes(array $data)
     {
-        dd($data);
+        foreach ($data['item'] as $itemId => $details) {
+            if (empty($details['title'])) {
+                continue;
+            }
 
-        redirect('/settings', null, 'Updated');
+            $statement = $this->db->prepare('
+                UPDATE
+                    story_type
+                SET
+                    title = :title
+                WHERE
+                    id = :id
+            ');
+
+            $statement->bindParam(':id', $itemId);
+            $statement->bindParam(':title', $details['title']);
+
+            $statement->execute();
+        }
+
+        redirect('/settings', null, 'Updated your story types!');
     }
 }

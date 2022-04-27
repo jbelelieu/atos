@@ -23,7 +23,7 @@
                 </thead>
                 <tbody>
                     <tr>
-                        <td class="listLeft">Base Income</td>
+                        <td class="listLeft">Billed</td>
                         <td><?php echo $income['baseIncome']; ?></td>
                     </tr>
                     <tr>
@@ -181,19 +181,27 @@
                         <th width="230"></th>
                         <th></th>
                         <th></th>
+                        <th></th>
                     </tr>
                 </thead>
                 <tbody>
                     <tr>
-                        <td class="listLeft"></td>
+                        <td class="textRight weak">Total</td>
                         <td class="bold"><?php echo $income['deductions']; ?></td>
                         <td></td>
                     </tr>
                     <?php foreach ($_raw['deductions'] as $aDeduction) { ?>
                     <tr>
-                        <td class="listLeft"><?php echo $aDeduction['title']; ?></td>
+                        <td class="textRight"><?php echo $aDeduction['title']; ?></td>
                         <td><?php echo $aDeduction['adjustment']; ?></td>
-                        <td></td>
+                        <td>
+                            <a
+                                title="Delete"
+                                onclick="return confirm('This will delete the deduction - are you sure?')"
+                                href="/tax/render?action=deleteDeduction&id=<?php echo $aDeduction['id'] . $queryString; ?>">
+                                <?php echo putIcon('fi-sr-trash'); ?>
+                            </a>
+                        </td>
                     </tr>
                     <?php } ?>
                     <tr>
@@ -205,6 +213,7 @@
                             $<input type="number" name="amount" autocomplete="off" placeholder="12950" required="required" style="width:100px" /> <button type="submit">Add</button>
                             <p class="fieldHelp">Amount of the deduction. This will be removed from your base income.</p>
                         </td>
+                        <td></td>
                         <td></td>
                     </tr>
                 </tbody>
@@ -225,37 +234,63 @@
                         <th width="230"></th>
                         <th></th>
                         <th></th>
+                        <th></th>
                     </tr>
                 </thead>
                 <tbody>
                     <tr>
-                        <td class="listLeft"></td>
+                        <td class="textRight weak">Total</td>
                         <td class="bold"><?php echo $income['additionalTaxBurdens']; ?></td>
                     </tr>
                     <?php foreach ($_raw['taxBurdens'] as $aBurden) { ?>
                     <tr>
-                        <td class="listLeft">
+                        <td class="textRight">
                             <?php echo $aBurden['title']; ?>
                         </td>
                         <td>
                             <?php echo $aBurden['adjustment']; ?>
                         </td>
                         <td class="weak">
-                            <?php echo $aBurden['percent']; ?>% on <?php echo $aBurden['_amount']; ?>
+                            <?php echo $aBurden['taxable_percent']; ?>% on <?php echo $aBurden['_amount']; ?>
+                        </td>
+                        <td>
+                            <a
+                                title="Delete"
+                                onclick="return confirm('This will delete the adjustment - are you sure?')"
+                                href="/tax/render?action=deleteAdjustment&id=<?php echo $aBurden['id'] . $queryString; ?>">
+                                <?php echo putIcon('fi-sr-trash'); ?>
+                            </a>
                         </td>
                     </tr>
                     <?php } ?>
                     <tr>
                         <td class="listLeft">
-                            <input type="text" name="title" placeholder="Capital Gains" autocomplete="off" required="required" style="" />
+                            <input
+                                type="text"
+                                name="title"
+                                placeholder="Capital Gains"
+                                autocomplete="off"
+                                required="required" />
                             <p class="fieldHelp">Name of the adjustment</p>
                         </td>
                         <td>
-                            $<input type="number" name="amount" autocomplete="off" required="required" style="width:100px" />
+                            $<input
+                                type="number"
+                                name="taxable_amount"
+                                autocomplete="off"
+                                required="required"
+                                style="width:100px" />
                             <p class="fieldHelp">Enter the full amount being taxed.</p>
                         </td>
                         <td>
-                            <input type="number" max=100 min=0 autocomplete="off" name="percent" required="required" style="width:70px;" />% <button type="submit">Add</button>
+                            <input
+                                type="number"
+                                max=100
+                                min=0
+                                autocomplete="off"
+                                name="taxable_percent"
+                                required="required"
+                                style="width:70px;" />% <button type="submit">Add</button>
                             <p class="fieldHelp">Percent taxable of the full amount entered to the left.</p>
                         </td>
                     </tr>

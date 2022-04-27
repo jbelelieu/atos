@@ -114,9 +114,6 @@ foreach ($rateTypes as $aRate) {
 
 $renderedStatuses = '';
 foreach ($statuses as $aStatus) {
-    $state = $aStatus['is_complete_state'] ? 'Yes' : 'No';
-    $billable = $aStatus['is_billable_state'] ? 'Yes' : 'No';
-
     $renderedStatuses .= template(
         'admin/snippets/status_table_entry',
         [
@@ -129,8 +126,8 @@ foreach ($statuses as $aStatus) {
                 ]
             ),
             'icon' => putIcon($aStatus['emoji'], $aStatus['color']),
-            'isBillable' => $billable,
-            'isComplete' => $state,
+            'isBillable' => isBool($aStatus['is_billable_state']),
+            'isComplete' => isBool($aStatus['is_complete_state']),
         ],
         true
     );

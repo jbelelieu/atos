@@ -84,23 +84,80 @@ class TaxService extends BaseService
         ];
     }
 
-
+    /**
+     * @param array $data
+     * @return void
+     */
     public function createDeduction(array $data)
     {
+        $year = (empty($data['year'])) ? date('Y') : $data['year'];
+
+        $statement = $this->db->prepare('
+            INSERT INTO tax_deduction (year, title, amount)
+            VALUES (:year, :title, :amount)
+        ');
+        $statement->bindParam(':year', $year);
+        $statement->bindParam(':title', $data['title']);
+        $statement->bindParam(':amount', $data['amount']);
+        $statement->execute();
+
+        redirect(
+            "/tax/render",
+            null,
+            'Your deduction has been added.',
+            null,
+            false,
+            [
+                'year' => $year,
+                'estimate' => $data['estimate'],
+                'income' => $data['income'],
+            ]
+        );
     }
 
+    /**
+     * @param array $data
+     * @return void
+     */
     public function createAdjustment(array $data)
     {
+        $year = (empty($data['year'])) ? date('Y') : $data['year'];
+
+        $statement = $this->db->prepare('
+            INSERT INTO tax_adjustment (year, title, taxable_percent, taxable_amount)
+            VALUES (:year, :title, :taxable_percent, :taxable_amount)
+        ');
+        $statement->bindParam(':year', $year);
+        $statement->bindParam(':title', $data['title']);
+        $statement->bindParam(':taxable_percent', $data['taxable_percent']);
+        $statement->bindParam(':taxable_amount', $data['taxable_amount']);
+
+        $statement->execute();
+
+        redirect(
+            "/tax/render",
+            null,
+            'Your adjustment has been added.',
+            null,
+            false,
+            [
+                'year' => $year,
+                'estimate' => $data['estimate'],
+                'income' => $data['income'],
+            ]
+        );
     }
     
     public function createEstimatedPayments(array $data)
     {
+        $year = (empty($data['year'])) ? date('Y') : $data['year'];
+
         // Delete all entries for this year
         $statement = $this->db->prepare('
-            DELETE FROM tax_payments
+            DELETE FROM tax_payment
             WHERE year = :year
         ');
-        $statement->bindParam(':year', $data['year']);
+        $statement->bindParam(':year', $year);
         $statement->execute();
 
         // Recreate updated entires
@@ -109,12 +166,12 @@ class TaxService extends BaseService
             $secondKey = 0;
             foreach ($paymentOrder as $anOrder => $anOrderAmount) {
                 $statement = $this->db->prepare('
-                    INSERT INTO tax_payments (created_at, amount, year, region, payment_order)
+                    INSERT INTO tax_payment (created_at, amount, year, region, payment_order)
                     VALUES (:created_at, :amount, :year, :region, :payment_order)
                 ');
                 $statement->bindParam(':created_at', $data['dates'][$regionKey][$secondKey]);
                 $statement->bindParam(':amount', $anOrderAmount);
-                $statement->bindParam(':year', $data['year']);
+                $statement->bindParam(':year', $year);
                 $statement->bindParam(':region', $regionKey);
                 $statement->bindParam(':payment_order', $anOrder);
                 $statement->execute();
@@ -132,7 +189,65 @@ class TaxService extends BaseService
             null,
             false,
             [
-                'year' => $data['year'],
+                'year' => $year,
+                'estimate' => $data['estimate'],
+                'income' => $data['income'],
+            ]
+        );
+    }
+
+    /**
+     * @param array $data
+     * @return void
+     */
+    public function deleteAdjustment(array $data)
+    {
+        $year = (empty($data['year'])) ? date('Y') : $data['year'];
+
+        $statement = $this->db->prepare('
+            DELETE FROM tax_adjustment
+            WHERE id = :id
+        ');
+        $statement->bindParam(':id', $data['id']);
+        $statement->execute();
+
+        redirect(
+            "/tax/render",
+            null,
+            'Adjustment deleted, very nice!',
+            null,
+            false,
+            [
+                'year' => $year,
+                'estimate' => $data['estimate'],
+                'income' => $data['income'],
+            ]
+        );
+    }
+
+    /**
+     * @param array $data
+     * @return void
+     */
+    public function deleteDeduction(array $data)
+    {
+        $year = (empty($data['year'])) ? date('Y') : $data['year'];
+
+        $statement = $this->db->prepare('
+            DELETE FROM tax_deduction
+            WHERE id = :id
+        ');
+        $statement->bindParam(':id', $data['id']);
+        $statement->execute();
+
+        redirect(
+            "/tax/render",
+            null,
+            'Deduction deleted; I hope you have some other ones...',
+            null,
+            false,
+            [
+                'year' => $year,
                 'estimate' => $data['estimate'],
                 'income' => $data['income'],
             ]
@@ -146,7 +261,7 @@ class TaxService extends BaseService
     {
         $statement = $this->db->prepare("
             SELECT *
-            FROM tax_payments
+            FROM tax_payment
             WHERE year = :year
             ORDER BY region ASC, payment_order ASC
         ");
@@ -162,28 +277,20 @@ class TaxService extends BaseService
      */
     public function getAdditionalTaxBurdens(int $year)
     {
-        // TODO
-        $additionMock = [
-            [
-                'amount' => 3000,
-                'percent' => 15,
-                'title' => 'Capital Gains',
-            ],
-        ];
-        //
+        $adjustments = $this->getTaxAdjustments($year);
 
         $additionalTax = 0;
 
         $data = [];
 
-        foreach ($additionMock as $anAddition) {
-            $amount = $anAddition['amount'] * ($anAddition['percent'] / 100);
+        foreach ($adjustments as $anAddition) {
+            $amount = $anAddition['taxable_amount'] * ($anAddition['taxable_percent'] / 100);
 
             $additionalTax += $amount;
 
             $data[] = [
                 ...$anAddition,
-                '_amount' => formatMoney($anAddition['amount'] * 100),
+                '_amount' => formatMoney($anAddition['taxable_amount'] * 100),
                 'adjustment' => formatMoney($amount * 100),
             ];
         }
@@ -196,37 +303,58 @@ class TaxService extends BaseService
 
     /**
      * @param integer $year
+     * @return array
+     */
+    public function getTaxDeductions(int $year): array
+    {
+        $statement = $this->db->prepare("
+            SELECT *
+            FROM tax_deduction
+            WHERE year = :year
+            ORDER BY title ASC
+        ");
+        $statement->bindParam(':year', $year);
+        $statement->execute();
+
+        return $statement->fetchAll();
+    }
+
+    /**
+     * @param integer $year
+     * @return array
+     */
+    public function getTaxAdjustments(int $year): array
+    {
+        $statement = $this->db->prepare("
+            SELECT *
+            FROM tax_adjustment
+            WHERE year = :year
+            ORDER BY title ASC
+        ");
+        $statement->bindParam(':year', $year);
+        $statement->execute();
+
+        return $statement->fetchAll();
+    }
+
+    /**
+     * @param integer $year
      * @return void
      */
     public function getDeductions(int $year)
     {
-        // TODO
-        $deductionMock = [
-            [
-                'amount' => 12950,
-                'percent' => 100,
-                'title' => 'Standard Deduction',
-            ],
-            // [
-            //     'amount' => 51000,
-            //     'percent' => 100,
-            //     'title' => 'SEP IRA Contribution',
-            // ]
-        ];
-        //
+        $deductions = $this->getTaxDeductions($year);
 
         $adjustments = 0;
 
         $data = [];
 
-        foreach ($deductionMock as $aDeduction) {
-            $amount = $aDeduction['amount'] * ($aDeduction['percent'] / 100);
-
-            $adjustments += $amount;
+        foreach ($deductions as $aDeduction) {
+            $adjustments += $aDeduction['amount'];
             
             $data[] = [
                 ...$aDeduction,
-                'adjustment' => formatMoney($amount * 100),
+                'adjustment' => formatMoney($aDeduction['amount'] * 100),
             ];
         }
 
