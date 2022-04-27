@@ -21,6 +21,11 @@ ATOS is 100% open source and free to use, licensed under the [GNU AGPLv3 License
 
 -----
 
+# Modules Repo
+
+You can find all themes, tax files, and language packs over at the [ATOS Modules](https://github.com/jbelelieu/atos_modules) repo.
+
+- [Modules Repo](#modules-repo)
 - [Setup](#setup)
     - [Download and Start](#download-and-start)
       - [Update Your Default Settings (Optional Step)](#update-your-default-settings-optional-step)
@@ -35,16 +40,16 @@ ATOS is 100% open source and free to use, licensed under the [GNU AGPLv3 License
 - [Features](#features)
 - [UX Tips And Tricks](#ux-tips-and-tricks)
 - [FAQ](#faq)
-      - [Is this meant to be a replacement for JIRA or Pivotal Tracker?](#is-this-meant-to-be-a-replacement-for-jira-or-pivotal-tracker)
-      - [What stories get places on invoices?](#what-stories-get-places-on-invoices)
-      - [Do you plan on making a more dynamic frontend for ATOS?](#do-you-plan-on-making-a-more-dynamic-frontend-for-atos)
-      - [Will future versions remain compatible with the beta?](#will-future-versions-remain-compatible-with-the-beta)
-      - [Why isn't this using modern PHP tools like Composer?](#why-isnt-this-using-modern-php-tools-like-composer)
-      - [How should I handle non-payment of a collection?](#how-should-i-handle-non-payment-of-a-collection)
-      - [How do I reconcile what I billed and what I got paid?](#how-do-i-reconcile-what-i-billed-and-what-i-got-paid)
-        - [What's the easiest way to import part data?](#whats-the-easiest-way-to-import-part-data)
-        - [How do I setup a fixed-rate invoice?](#how-do-i-setup-a-fixed-rate-invoice)
-        - [What if I change my rates?](#what-if-i-change-my-rates)
+    - [Is this meant to be a replacement for JIRA or Pivotal Tracker?](#is-this-meant-to-be-a-replacement-for-jira-or-pivotal-tracker)
+    - [What stories get places on invoices?](#what-stories-get-places-on-invoices)
+    - [Do you plan on making a more dynamic frontend for ATOS?](#do-you-plan-on-making-a-more-dynamic-frontend-for-atos)
+    - [Will future versions remain compatible with the beta?](#will-future-versions-remain-compatible-with-the-beta)
+    - [Why isn't this using modern PHP tools like Composer?](#why-isnt-this-using-modern-php-tools-like-composer)
+    - [How should I handle non-payment of a collection?](#how-should-i-handle-non-payment-of-a-collection)
+    - [How do I reconcile what I billed and what I got paid?](#how-do-i-reconcile-what-i-billed-and-what-i-got-paid)
+    - [What's the easiest way to import part data?](#whats-the-easiest-way-to-import-part-data)
+    - [How do I setup a fixed-rate invoice?](#how-do-i-setup-a-fixed-rate-invoice)
+    - [What if I change my rates?](#what-if-i-change-my-rates)
 - [Contributing](#contributing)
     - [How to Contribute](#how-to-contribute)
     - [Special Thank You](#special-thank-you)
@@ -144,57 +149,57 @@ The UX was designed to be as simple and minimalist as possible. This isn't some 
 
 # FAQ
 
-#### Is this meant to be a replacement for JIRA or Pivotal Tracker?
+### Is this meant to be a replacement for JIRA or Pivotal Tracker?
 
 While it could very well be, the idea was more that most client projects will already have their own project management tools. The goal here is to track everything you did for the client against their own backlogs, and then bill out accordingly, with references to known ticket IDs.
 
 However, I've also used this quite effectively to manage projects that didn't have a backlog. Do what works best for you!
 
-#### What stories get places on invoices?
+### What stories get places on invoices?
 
 The status's status controls whether it appears on invoices, specifically whether you marked it as a "billable" state.
 
 Note that you can have stories with a "complete" status that won't appear in the "Open" state, but at the same time won't appear on invoices. This gives you the flexibility to maintain an accurate backlog (not every task on a project is billable) while still getting paid for billable work!
 
-#### Do you plan on making a more dynamic frontend for ATOS?
+### Do you plan on making a more dynamic frontend for ATOS?
 
 While I love Javascript frameworks like React and use them extensively, no, I have no plans of transitioning away from PHP rendering at this time. It's drop dead simple this way, and I want to introduce as little complexity as possible.
 
-#### Will future versions remain compatible with the beta?
+### Will future versions remain compatible with the beta?
 
 100%, without question. I use this personally, and I can't lose years of data for an upgrade. Your data won't become obsolete and you won't need to re-import anything with future versions.
 
-#### Why isn't this using modern PHP tools like Composer?
+### Why isn't this using modern PHP tools like Composer?
 
 The goal was always a zero-dependency application that can be setup in seconds. Sqlite3 allows for easy bsckups and makes your data highly portable. By adding complexity in the form of package managers and the such, it adds extra steps I don't want to put people through.
 
 In thoery, assuming you have PHP 8.1 installed locally, all you have to do is unzip the latest release and start the PHP server. I intend to keep it that way: *simplicity is poetry in code!*
 
-#### How should I handle non-payment of a collection?
+### How should I handle non-payment of a collection?
 
 If a client doesn't end up paying, you should set the the story to the `Unpaid` status. This will tell the program that you completed the work, but that it was never billed.
 
-#### How do I reconcile what I billed and what I got paid?
+### How do I reconcile what I billed and what I got paid?
 
 If a client only paid a fraction of an invoice, you have some options:
 
 - Change the story's hours: you can alter the collection, changing the hours billed to `0`,
 - Change your tax burdens: if your goal is more accurate tax reporting, you can add a deduction at for the difference between what you billed and what you were paid. For example, if you were owed were `$10,000` and only got paid `$6,000`, within your tax information for that year, a `$4,000` deduction effectively fixes your actual income since deductions come directly out of your billed amount for the year.
 
-##### What's the easiest way to import part data?
+### What's the easiest way to import part data?
 
 While there isn't a CSV importer at this time, you can create collections and bill out the exact amounts that you received against a single story (ie, you don't have to re-enter every task you've ever done). This gives you the benefit of accurate tax data.
 
 See the "fixed-rate invoice" question for more details.
 
-##### How do I setup a fixed-rate invoice?
+### How do I setup a fixed-rate invoice?
 
 - Create a new rate type with the exact amount of the invoice,
 - Create a collection within the project you want to bill a fixed amount for,
 - Create a single story with the new rate type,
 - Set that story to any billable status
 
-##### What if I change my rates?
+### What if I change my rates?
 
 Always, always, always create a new rate type! Changing existing rates will result in old tax data being invalidated. "Delete" the old rate (it isn't actually deleted, just hidden since we need that for accurate calculations), and create a new rate with the same name + updated hourly.
 
