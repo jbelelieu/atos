@@ -5,6 +5,7 @@
 <button type="button" onclick="toggleDiv('createStory')" class="a">Create Story</button>
 
 <div id="createStory" class="sunk hide">
+    <h4>Create a Story</h4>
     <form action="/project?id=<?php echo $project['id']; ?>" method="post">
         <div class="threeColumns">
             <div>

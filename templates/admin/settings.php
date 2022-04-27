@@ -5,6 +5,7 @@
 <button type="button" onclick="toggleDiv('createStatus')" class="a">Create</button>
 
 <div id="createStatus" class="sunk hide">
+    <h4>Create a Status</h4>
     <form action="/settings" method="post">
         <div>
             <label>Title</label>
@@ -60,6 +61,7 @@
 <button type="button" onclick="toggleDiv('createRate')" class="a">Create</button>
 
 <div id="createRate" class="sunk hide">
+    <h4>Create a Rate Type</h4>
     <form action="/settings" method="post">
     <input type="hidden" name="action" value="createRateType" />
         <div class="columns6535">
@@ -110,6 +112,7 @@
 <button type="button" onclick="toggleDiv('createType')" class="a">Create</button>
 
 <div id="createType" class="sunk hide">
+    <h4>Create a Story Type</h4>
     <form action="/settings" method="post">
         <label>Title</label>
         <input

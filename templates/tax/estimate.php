@@ -12,7 +12,7 @@
 
 <body>
     <div id="holderFixed">
-        <?php echo $logo; ?>
+        <a href="/tax"><?php echo $logo; ?></a>
 
         <div class="textCenter" style="padding-bottom:12px;">
             <nav class="marginTop">
@@ -216,7 +216,7 @@
                                 <tbody>
                                     <?php foreach ($_raw['deductions'] as $aDeduction) { ?>
                                     <tr>
-                                        <td class="textRight">
+                                        <td>
                                             <?php echo $aDeduction['title']; ?>
                                         </td>
                                         <td>
@@ -285,7 +285,7 @@
                             <tbody>
                                 <?php foreach ($_raw['taxBurdens'] as $aBurden) { ?>
                                 <tr>
-                                    <td class="textRight">
+                                    <td>
                                         <p class="deAdHeading">
                                             <?php echo $aBurden['title']; ?>
                                         </p>
