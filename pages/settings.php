@@ -1,6 +1,6 @@
 <?php
 
-require_once ATOS_HOME_DIR . '/services/SettingService.php';
+use services\SettingService;
 
 /**
  * ATOS: "Built by freelancer 🙋‍♂️, for freelancers 🕺 🤷 💃🏾 "
@@ -50,6 +50,15 @@ if (isset($_POST['action'])) {
         case 'createStoryType':
             $settingService->createStoryType($_POST);
             break;
+        case 'updateRates':
+            $settingService->updateRates($_POST);
+            break;
+        case 'updateStatuses':
+            $settingService->updateStatuses($_POST);
+            break;
+        case 'updateTypes':
+            $settingService->updateTypes($_POST);
+            break;
         default:
             redirect('/settings', null, null, 'Unknown action');
     }
@@ -62,9 +71,9 @@ if (isset($_POST['action'])) {
  *
  */
 
-$statuses = getStoryStatuses();
-$rateTypes = getRateTypes();
-$storyTypes = getStoryTypes();
+$statuses = $settingService->getStoryStatuses();
+$rateTypes = $settingService->getRateTypes();
+$storyTypes = $settingService->getStoryTypes();
 
 $renderedStoryTypes = '';
 foreach ($storyTypes as $aStoryType) {
@@ -97,7 +106,7 @@ foreach ($rateTypes as $aRate) {
                     'id' => $aRate['id'],
                 ]
             ),
-            'rate' => formatMoney($aRate['rate']),
+            'rate' => $aRate['rate'] / 100,
         ],
         true
     );
@@ -105,9 +114,6 @@ foreach ($rateTypes as $aRate) {
 
 $renderedStatuses = '';
 foreach ($statuses as $aStatus) {
-    $state = $aStatus['is_complete_state'] ? 'Yes' : 'No';
-    $billable = $aStatus['is_billable_state'] ? 'Yes' : 'No';
-
     $renderedStatuses .= template(
         'admin/snippets/status_table_entry',
         [
@@ -120,8 +126,8 @@ foreach ($statuses as $aStatus) {
                 ]
             ),
             'icon' => putIcon($aStatus['emoji'], $aStatus['color']),
-            'isBillable' => $billable,
-            'isComplete' => $state,
+            'isBillable' => isBool($aStatus['is_billable_state']),
+            'isComplete' => isBool($aStatus['is_complete_state']),
         ],
         true
     );

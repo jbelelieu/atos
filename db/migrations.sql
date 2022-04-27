@@ -25,6 +25,7 @@ CREATE TABLE `project` (
 CREATE TABLE `story_hour_type` (
   `id` INTEGER PRIMARY KEY AUTOINCREMENT,
   `title` varchar(255),
+  `is_hidden` boolean DEFAULT 0,
   `rate` INTEGER COMMENT 'In dollar cents, $150 = 15000'
 );
 
@@ -80,17 +81,59 @@ CREATE TABLE `story` (
   CONSTRAINT fk_rate_type FOREIGN KEY(rate_type) REFERENCES story_hour_type(id)
 );
 
+CREATE TABLE `invoice` (
+  `id` INTEGER PRIMARY KEY AUTOINCREMENT,
+  `created_at` timestamp DEFAULT CURRENT_TIMESTAMP,
+  `year` INTEGER,
+  `region` varchar(255),
+  `payment_order` INTEGER
+);
+
+CREATE TABLE `tax` (
+  `year` INTEGER PRIMARY KEY,
+  `strategies` TEXT
+);
+
+CREATE TABLE `tax_payment` (
+  `id` INTEGER PRIMARY KEY AUTOINCREMENT,
+  `created_at` timestamp DEFAULT CURRENT_TIMESTAMP,
+  `amount` varchar(255),
+  `year` INTEGER,
+  `region` varchar(255),
+  `payment_order` INTEGER,
+  CONSTRAINT fk_tax_p_year FOREIGN KEY(year) REFERENCES tax(year) ON DELETE CASCADE
+);
+
+CREATE TABLE `tax_deduction` (
+  `id` INTEGER PRIMARY KEY AUTOINCREMENT,
+  `created_at` timestamp DEFAULT CURRENT_TIMESTAMP,
+  `year` INTEGER,
+  `title` varchar(255),
+  `amount` INTEGER,
+  CONSTRAINT fk_tax_d_year FOREIGN KEY(year) REFERENCES tax(year) ON DELETE CASCADE
+);
+
+CREATE TABLE `tax_adjustment` (
+  `id` INTEGER PRIMARY KEY AUTOINCREMENT,
+  `created_at` timestamp DEFAULT CURRENT_TIMESTAMP,
+  `year` INTEGER,
+  `title` varchar(255),
+  `taxable_percent` INTEGER,
+  `taxable_amount` INTEGER,
+  CONSTRAINT fk_tax_a_year FOREIGN KEY(year) REFERENCES tax(year) ON DELETE CASCADE
+);
+
 INSERT INTO story_type (id, title) VALUES (1, 'Story'), (2, 'Chore'), (3, 'Meeting');
 
 -- The primary items should not be removed and need
 -- to remain in this order!
 INSERT INTO story_status (id, title, emoji, color, is_complete_state, is_billable_state) VALUES
-(1, 'Open', 'fi-sr-document', '#111111', false, 0),
-(2, 'Complete', 'fi-sr-checkbox', '#47F43E', true, 1),
-(3, 'Shipped', 'fi-sr-rocket-lunch', '#3fcce8', true, 1),
-(4, 'Closed', 'fi-sr-cross-circle', '#b82a36', true, 0),
-(5, 'Superseded', 'fi-sr-time-fast', '#f1f1f1', true, 0);
+(1, 'Open', 'fi-sr-document', '#111111', 0, 0),
+(2, 'Complete', 'fi-sr-checkbox', '#47F43E', 1, 1),
+(3, 'Shipped', 'fi-sr-rocket-lunch', '#3fcce8', 1, 1),
+(4, 'Closed', 'fi-sr-cross-circle', '#b82a36', 1, 0),
+(5, 'Unpaid', 'fi-sr-time-fast', '#e1e1e1', 1, 0);
 
 -- This is in dollar cents, so $50 = 5000.
-INSERT INTO story_hour_type (id, title, rate) VALUES (1, 'Standard Rate', '5000');
+INSERT INTO story_hour_type (id, title, rate, is_hidden) VALUES (1, 'Standard Rate', '5000', 0);
 

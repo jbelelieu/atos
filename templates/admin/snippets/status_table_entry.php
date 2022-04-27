@@ -1,23 +1,45 @@
-
 <tr>
 <td>
-    <?php echo $icon; ?>
+    <input
+        type="text"
+        name="item[<?php echo $id; ?>][title]"
+        value="<?php echo $title; ?>"
+        required="required"
+        style="width:100%;" />
 </td>
 <td>
-    <?php echo $title; ?>
+    <div class="emoji_bump textCenter">
+        <?php echo $icon; ?>
+    </div>
 </td>
 <td>
-    <?php echo $isBillable; ?>
+    <select name="item[<?php echo $id; ?>][is_complete_state]">
+        <option value="0" <?php if (!$isComplete) {
+    echo 'selected=selected';
+} ?>>No</option>
+        <option value="1" <?php if ($isComplete) {
+    echo 'selected=selected';
+} ?>>Yes</option>
+    </select>
 </td>
 <td>
-    <?php echo $isComplete; ?>
+    <select name="item[<?php echo $id; ?>][is_billable_state]">
+        <option value="0" <?php if (!$isBillable) {
+    echo 'selected=selected';
+} ?>>No</option>
+        <option value="1" <?php if ($isBillable) {
+    echo 'selected=selected';
+} ?>>Yes</option>
+    </select>
 </td>
 <td class="textRight">
-    <a
-        title="Delete"
-        onclick="return confirm('This will delete the status - are you sure?')"
-        href="<?php echo $deleteLink; ?>">
-            <?php echo putIcon('fi-sr-trash'); ?>
-    </a>
+    <div class="emoji_bump">
+        <a
+            title="Delete"
+            onclick="return confirm('This will delete the status - are you sure?')"
+            href="<?php echo $deleteLink; ?>">
+                <?php echo putIcon('fi-sr-trash'); ?>
+        </a>
+    </div>
 </td>
 </tr>

@@ -1,6 +1,10 @@
 <?php
 
-require_once ATOS_HOME_DIR . '/services/BaseService.php';
+namespace services;
+
+use services\BaseService;
+
+// require_once ATOS_HOME_DIR . '/services/BaseService.php';
 
 /**
  * ATOS: "Built by freelancer 🙋‍♂️, for freelancers 🕺 🤷 💃🏾 "
@@ -71,5 +75,71 @@ class CompanyService extends BaseService
         $statement->execute();
 
         redirect('/', null, 'That company has been deleted. Bye forever, I guess.');
+    }
+
+    /**
+     * @return array
+     */
+    public function getCompanies()
+    {
+        $statement = $this->db->prepare("
+            SELECT *
+            FROM company
+        ");
+
+        $statement->execute();
+
+        return $statement->fetchAll();
+    }
+    
+    /**
+     * @return array
+     */
+    public function getCompanyById(int $companyId)
+    {
+        $statement = $this->db->prepare("
+            SELECT *
+            FROM company
+            WHERE id = :id
+        ");
+
+        $statement->bindParam(':id', $companyId);
+
+        $statement->execute();
+
+        return $statement->fetch();
+    }
+
+    /**
+     * @param integer $clientId
+     * @return array
+     */
+    public function getCompanyTotals(int $clientId)
+    {
+        $statement = $this->db->prepare("
+            SELECT
+                COALESCE(SUM(story.hours), 0) as hours,
+                COALESCE(SUM(story.hours * story_hour_type.rate), 0) as total
+            FROM
+                project
+            JOIN
+                story_collection
+                ON project.id = story_collection.project_id
+            JOIN
+                story
+                ON story_collection.id = story.collection
+            JOIN
+                story_hour_type
+                ON story_hour_type.id = story.rate_type
+            WHERE
+                client_id = :client_id
+                AND story.status != 1;
+        ");
+
+        $statement->bindParam(':client_id', $clientId);
+
+        $statement->execute();
+
+        return $statement->fetch();
     }
 }

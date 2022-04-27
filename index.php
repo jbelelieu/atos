@@ -11,12 +11,23 @@
  * @link https://github.com/jbelelieu/atos
  */
 
-session_start();
+/**
+ * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
+ *
+ *   Load the app
+ *
+ */
 
-require "includes/helpers.php";
+define('ATOS_HOME_DIR', __DIR__);
+
 require "includes/system.php";
-require "includes/language.php";
-require "includes/db.php";
+
+/**
+ * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
+ *
+ *   Basic routing
+ *
+ */
 
 $rUri = explode('?', $_SERVER['REQUEST_URI']);
 $requestUri = $rUri['0'];
@@ -30,6 +41,15 @@ switch (strtolower($requestUri)) {
         break;
     case '/settings':
         require ATOS_HOME_DIR . '/pages/settings.php';
+        break;
+    // case '/story':
+    //     require ATOS_HOME_DIR . '/pages/story.php';
+    //     break;
+    case '/tax':
+        require ATOS_HOME_DIR . '/pages/taxes.php';
+        break;
+    case '/tax/render':
+        require ATOS_HOME_DIR . '/pages/taxRender.php';
         break;
     default:
         require ATOS_HOME_DIR . '/pages/overview.php';

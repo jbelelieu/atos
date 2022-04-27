@@ -1,6 +1,10 @@
 <?php
 
-require_once ATOS_HOME_DIR . '/services/BaseService.php';
+namespace services;
+
+use services\BaseService;
+
+// require_once ATOS_HOME_DIR . '/services/BaseService.php';
 
 /**
  * ATOS: "Built by freelancer 🙋‍♂️, for freelancers 🕺 🤷 💃🏾 "
@@ -16,6 +20,58 @@ require_once ATOS_HOME_DIR . '/services/BaseService.php';
 class SettingService extends BaseService
 {
     /**
+     * @param [type] $itemId
+     * @param [type] $selected
+     * @param array $inputResults
+     * @return string
+     */
+    public function buildHourSelect(
+        $itemId,
+        $selected,
+        array $inputResults = []
+    ): string {
+        $hourTypeResults = (!empty($inputResults)) ? $inputResults : $this->getRateTypes(true);
+
+        $hourSelect = '<select name="story[' . $itemId . '][rate_type]">';
+
+        foreach ($hourTypeResults as $aType) {
+            $hourSelect .= ($aType['id'] === $selected)
+                ? '<option value="' . $aType['id'] . '" selected="selected">' . $aType['title'] . '</option>'
+                : '<option value="' . $aType['id'] . '">' . $aType['title'] . '</option>';
+        }
+
+        $hourSelect .= '</select>';
+
+        return $hourSelect;
+    }
+
+    /**
+     * @param [type] $itemId
+     * @param [type] $selected
+     * @param array $inputResults
+     * @return string
+     */
+    public function buildTypeSelect(
+        $itemId,
+        $selected,
+        array $inputResults = []
+    ): string {
+        $storyTypeResults = (!empty($inputResults)) ? $inputResults : $this->getStoryTypes();
+
+        $typeSelect = '<select name="story[' . $itemId . '][type]">';
+
+        foreach ($storyTypeResults as $aStoryType) {
+            $typeSelect .= ($aStoryType['id'] === $selected)
+        ? '<option value="' . $aStoryType['id'] . '" selected="selected">' . $aStoryType['title'] . '</option>'
+        : '<option value="' . $aStoryType['id'] . '">' . $aStoryType['title'] . '</option>';
+        }
+
+        $typeSelect .= '</select>';
+
+        return $typeSelect;
+    }
+
+    /**
      * @param array $data
      * @return void
      */
@@ -24,11 +80,13 @@ class SettingService extends BaseService
         $statement = $this->db->prepare('
             INSERT INTO story_hour_type (
                 title,
-                rate
+                rate,
+                is_hidden
             )
             VALUES (
                 :title,
-                :rate
+                :rate,
+                0
             )
         ');
 
@@ -108,22 +166,14 @@ class SettingService extends BaseService
         }
 
         $statement = $this->db->prepare('
-            DELETE FROM story_hour_type
+            UPDATE story_hour_type
+            SET is_hidden = true
             WHERE id = :id
         ');
         $statement->bindParam(':id', $data['id']);
         $statement->execute();
 
-        $statement = $this->db->prepare('
-            UPDATE story
-            SET rate_type = 1
-            WHERE rate_type IS NULL OR rate_type = :old_type
-        ');
-        $statement->bindParam(':old_type', $data['id']);
-
-        $statement->execute();
-
-        redirect('/settings', null, 'We deleted that rate type. All stories that were covered by that have been set to your base rate.');
+        redirect('/settings', null, 'We hid that rate, but we kept a record of it for booking reasons.');
     }
 
     /**
@@ -132,11 +182,11 @@ class SettingService extends BaseService
      */
     public function deleteStatus(array $data): void
     {
-        if ($data['id'] <= 4) {
+        if ($data['id'] <= 5) {
             redirect('/settings', null, null, 'You cannot delete the default statuses.');
         }
 
-        $statusType = getStoryStatusById($data['id']);
+        $statusType = $this->getStoryStatusById($data['id']);
         if (!$statusType) {
             redirect('/settings', null, null, 'Status does not exist.');
         }
@@ -189,5 +239,189 @@ class SettingService extends BaseService
         $statement->execute();
 
         redirect('/settings', null, 'We deleted that story type. All stories that were of that type have been reverted to the standard "Story" type.');
+    }
+
+    /**
+     * @param boolean $hideDeleted
+     * @return array
+     */
+    public function getRateTypes(
+        $hideDeleted = false
+    ): array {
+        $where = $hideDeleted ? 'WHERE is_hidden = false' : '';
+
+        $statement = $this->db->prepare("
+            SELECT *
+            FROM story_hour_type
+            $where
+            ORDER BY
+                is_hidden ASC,
+                title DESC
+        ");
+
+        $statement->execute();
+
+        return $statement->fetchAll();
+    }
+    /**
+     * @return array
+     */
+    public function getRateTypeById(int $id)
+    {
+        $statement = $this->db->prepare("
+            SELECT *
+            FROM story_hour_type
+            WHERE id = :id
+        ");
+
+        $statement->bindParam(':id', $id);
+
+        $statement->execute();
+
+        return $statement->fetch();
+    }
+
+    /**
+     * @return array
+     */
+    public function getStoryStatuses()
+    {
+        $statement = $this->db->prepare("
+            SELECT * FROM story_status
+        ");
+
+        $statement->execute();
+
+        return $statement->fetchAll();
+    }
+
+    /**
+     * @param integer $storyStatusId
+     * @return array
+     */
+    public function getStoryStatusById(int $storyStatusId)
+    {
+        $statement = $this->db->prepare("
+            SELECT *
+            FROM story_status
+            WHERE id = :id
+        ");
+
+        $statement->bindParam(':id', $storyStatusId);
+
+        $statement->execute();
+
+        return $statement->fetch();
+    }
+
+    /**
+     * @return array
+     */
+    public function getStoryTypes()
+    {
+        $statement = $this->db->prepare("
+            SELECT * FROM story_type
+        ");
+
+        $statement->execute();
+
+        return $statement->fetchAll();
+    }
+
+    /**
+     * @param array $data
+     * @return void
+     */
+    public function updateRates(array $data)
+    {
+        foreach ($data['item'] as $itemId => $details) {
+            if (empty($details['title'])) {
+                continue;
+            }
+
+            $statement = $this->db->prepare('
+                UPDATE
+                    story_hour_type
+                SET
+                    title = :title
+                WHERE
+                    id = :id
+            ');
+
+            $statement->bindParam(':id', $itemId);
+            $statement->bindParam(':title', $details['title']);
+
+            $statement->execute();
+        }
+
+        redirect('/settings', null, 'Updated your rates!');
+    }
+    
+    /**
+     * @param array $data
+     * @return void
+     */
+    public function updateStatuses(array $data)
+    {
+        foreach ($data['item'] as $itemId => $details) {
+            if (empty($details['title'])) {
+                continue;
+            }
+
+            $currentStatus = $this->getStoryStatusById($itemId);
+            $status = array_merge($currentStatus, $details);
+
+            $statement = $this->db->prepare('
+                UPDATE
+                    story_status
+                SET
+                    title = :title,
+                    is_complete_state = :is_complete_state,
+                    emoji = :emoji,
+                    color = :color,
+                    is_billable_state = :is_billable_state
+                WHERE
+                    id = :id
+            ');
+
+            $statement->bindParam(':id', $itemId);
+            $statement->bindParam(':title', $status['title']);
+            $statement->bindParam(':is_complete_state', $status['is_complete_state']);
+            $statement->bindParam(':is_billable_state', $status['is_billable_state']);
+            $statement->bindParam(':color', $status['color']);
+            $statement->bindParam(':emoji', $status['emoji']);
+            $statement->execute();
+        }
+
+        redirect('/settings', null, 'Updated your statues!');
+    }
+
+    /**
+     * @param array $data
+     * @return void
+     */
+    public function updateTypes(array $data)
+    {
+        foreach ($data['item'] as $itemId => $details) {
+            if (empty($details['title'])) {
+                continue;
+            }
+
+            $statement = $this->db->prepare('
+                UPDATE
+                    story_type
+                SET
+                    title = :title
+                WHERE
+                    id = :id
+            ');
+
+            $statement->bindParam(':id', $itemId);
+            $statement->bindParam(':title', $details['title']);
+
+            $statement->execute();
+        }
+
+        redirect('/settings', null, 'Updated your story types!');
     }
 }

@@ -1,5 +1,7 @@
 <?php
 
+namespace services;
+
 /**
  * ATOS: "Built by freelancer 🙋‍♂️, for freelancers 🕺 🤷 💃🏾 "
  *
@@ -17,6 +19,7 @@ class BaseService
 
     public function __construct()
     {
+        // TODO: inject this in here
         global $db;
 
         $this->db = $db;

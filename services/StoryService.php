@@ -1,6 +1,10 @@
 <?php
 
-require_once ATOS_HOME_DIR . '/services/BaseService.php';
+namespace services;
+
+use services\BaseService;
+use services\ProjectService;
+use services\SettingService;
 
 /**
  * ATOS: "Built by freelancer 🙋‍♂️, for freelancers 🕺 🤷 💃🏾 "
@@ -15,6 +19,17 @@ require_once ATOS_HOME_DIR . '/services/BaseService.php';
  */
 class StoryService extends BaseService
 {
+    private $projectService;
+    private $settingService;
+
+    public function __construct()
+    {
+        parent::__construct();
+
+        $this->projectService = new ProjectService();
+        $this->settingService = new SettingService();
+    }
+
     /**
      * @param integer $projectId
      * @param [type] $itemId
@@ -30,6 +45,7 @@ class StoryService extends BaseService
         $skipStatusId = 0,
         bool $skipStatuses = false
     ): string {
+        // TODO: oof
         global $storyStatuses;
 
         $options = (!$skipMoveCollection)
@@ -99,14 +115,67 @@ class StoryService extends BaseService
      */
     public function generateTicketId(int $projectId): string
     {
-        $project = getProjectById($projectId);
+        $project = $this->projectService->getProjectById($projectId);
 
-        $totalStoriesInProject = getNextStoryNumberForProject($projectId);
+        $totalStoriesInProject = $this->getNextStoryNumberForProject($projectId);
 
         $id = $project['code'] . '-' . $totalStoriesInProject;
 
         return $project['code'] . '-' . $totalStoriesInProject;
     }
+
+    /**
+     * @param integer $storyId
+     * @return array
+     */
+    public function getStory(int $storyId)
+    {
+        $statement = $this->db->prepare('
+            SELECT *
+            FROM story
+            WHERE id = :id
+        ');
+
+        $statement->bindParam(':id', $storyId);
+
+        $statement->execute();
+
+        return $statement->fetch();
+    }
+
+    /**
+     * @param integer $id
+     * @return int
+     */
+    public function getNextStoryNumberForProject(int $id): int
+    {
+        try {
+            $statement = $this->db->prepare('
+                SELECT story.show_id
+                FROM story
+                JOIN story_collection ON story.collection = story_collection.id
+                WHERE story_collection.project_id = :id
+                ORDER BY story.id DESC
+            ');
+
+            $statement->bindParam(':id', $id);
+
+            $statement->execute();
+
+            $results = $statement->fetch();
+
+            if (!$results) {
+                return 1;
+            }
+        
+            $count = explode('-', $results['show_id']);
+            
+            return (int) $count[1] + 1;
+        } catch (\Exception $e) {
+            return 1;
+        }
+    }
+
     /**
      * @param array $data
      * @return void
@@ -114,6 +183,14 @@ class StoryService extends BaseService
     public function updateStories(array $data): void
     {
         foreach ($data['story'] as $storyId => $aStory) {
+            if (empty($aStory['title'])) {
+                continue;
+            }
+
+            // Default to existing, overwrite anything incoming...
+            $currentStory = $this->getStory($storyId);
+            $aStory = array_merge($currentStory, $aStory);
+
             $statement = $this->db->prepare('
                 UPDATE
                     story
@@ -126,10 +203,15 @@ class StoryService extends BaseService
                 WHERE
                     id = :id
             ');
+
+            $hours = (int) $aStory['hours'];
+            $type = (int) $aStory['type'];
+            $rateType = (int) $aStory['rate_type'];
+
             $statement->bindParam(':ended_at', $aStory['ended_at']);
-            $statement->bindParam(':hours', $aStory['hours']);
-            $statement->bindParam(':type', $aStory['types']);
-            $statement->bindParam(':rate_type', $aStory['rates']);
+            $statement->bindParam(':hours', $hours);
+            $statement->bindParam(':type', $type);
+            $statement->bindParam(':rate_type', $rateType);
             $statement->bindParam(':title', $aStory['title']);
             $statement->bindParam(':id', $storyId);
             $statement->execute();
@@ -148,8 +230,8 @@ class StoryService extends BaseService
             redirect('/project', $data['project_id'], null, 'Invalid status received.');
         }
 
-        $status = getStoryStatusById($data['status']);
-        $story = getStory($data['id']);
+        $status = $this->settingService->getStoryStatusById($data['status']);
+        $story = $this->getStory($data['id']);
 
         $hours = 0;
         if ((int) $story['hours'] > 0) {
@@ -170,7 +252,7 @@ class StoryService extends BaseService
         $statement->bindParam(':ended_at', date('Y-m-d H:i:s'));
         $statement->execute();
 
-        $status = getStoryStatusById($data['status']);
+        $status = $this->settingService->getStoryStatusById($data['status']);
 
         redirect(
             '/project',

@@ -1,5 +1,10 @@
 <?php
 
+use services\CollectionService;
+use services\CompanyService;
+use services\ProjectService;
+use services\SettingService;
+
 /**
  * ATOS: "Built by freelancer 🙋‍♂️, for freelancers 🕺 🤷 💃🏾 "
  *
@@ -20,6 +25,11 @@ if (empty($_GET['collection'])) {
     );
 }
 
+$companyService = new CompanyService();
+$collectionService = new CollectionService();
+$projectService = new ProjectService();
+$settingService = new SettingService();
+
 /**
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
  *
@@ -27,7 +37,7 @@ if (empty($_GET['collection'])) {
  *
  */
 
-$shippedStories = getStoriesInCollection(
+$shippedStories = $collectionService->getStoriesInCollection(
     $_GET['collection'],
     false,
     'ended_at ASC',
@@ -38,25 +48,30 @@ if (sizeof($shippedStories) === 0) {
     systemError('There are no billable items on this invoice.');
 }
 
-$settingListType = getSetting(AsosSettings::INVOICE_ORDER_BY_DATE_COMPLETED, 'list');
+$settingListType = getSetting(\AtosSettings::INVOICE_ORDER_BY_DATE_COMPLETED, 'list');
 
 $hoursByRateType = [];
 
-$rateTypes = getRateTypes();
-$collection = getCollectionById($_GET['collection']);
-$project = getProjectById($collection['project_id']);
-$company = getCompanyById($project['company_id']);
-$clientCompany = getCompanyById($project['client_id']);
+$rateTypes = $settingService->getRateTypes();
+$collection = $collectionService->getCollectionById($_GET['collection']);
+$project = $projectService->getProjectById($collection['project_id']);
+$company = $companyService->getCompanyById($project['company_id']);
+$clientCompany = $companyService->getCompanyById($project['client_id']);
 
 $invoiceCompletedString = language('completed_on', 'Tasks completed on');
 $lastDate = null;
 $storyHtml = '';
 $dayHours = 0;
 $totalHours = 0;
+$knownRateTypes = [];
 
 foreach ($shippedStories as $aStory) {
     if (!array_key_exists($aStory['rate_type'], $hoursByRateType)) {
         $hoursByRateType[$aStory['rate_type']] = 0;
+    }
+
+    if (!in_array($aStory['rate_type'], $knownRateTypes)) {
+        $knownRateTypes[] = $aStory['rate_type'];
     }
 
     $hoursByRateType[$aStory['rate_type']] = $hoursByRateType[$aStory['rate_type']] + $aStory['hours'];
@@ -85,8 +100,10 @@ foreach ($shippedStories as $aStory) {
 // Build rate types table
 $grandTotal = 0;
 $ratesHtml = '';
-$rateTypes = getRateTypes();
-foreach ($rateTypes as $aType) {
+
+foreach ($knownRateTypes as $aRateType) {
+    $aType = $settingService->getRateTypeById($aRateType);
+
     $dollarRate = formatMoney($aType['rate']);
     $hours = $hoursByRateType[$aType['id']];
     $subtotal = $hours * $aType['rate'];
@@ -106,7 +123,7 @@ foreach ($rateTypes as $aType) {
 }
 
 $logoUrl = 'http://' . $_SERVER['HTTP_HOST'] . '/assets/logo.png';
-$daysDue = getSetting(AsosSettings::INVOICE_DUE_DATE_IN_DAYS, 14);
+$daysDue = getSetting(\AtosSettings::INVOICE_DUE_DATE_IN_DAYS, 14);
 
 $template = template(
     'invoice/invoice',
@@ -114,12 +131,12 @@ $template = template(
         'client' => $clientCompany,
         'collection' => $collection,
         'company' => $company,
-        'css' => file_get_contents('assets/invoiceStyle.css'),
         'displayStories' => ($settingListType === 'none') ? false : true,
         'dueDate' => ($daysDue > 0) ? formatDate(date('Y-m-d H:i:s', time() + 1209600)) : '',
         'logo' => (file_exists(ATOS_HOME_DIR . '/assets/logo.png'))
             ? '<div id="logoArea"><img src="' . $logoUrl . '" alt="' . $company['title'] . '" /></div>'
             : '',
+        'css' => file_get_contents('assets/invoiceStyle.css'),
         'project' => $project,
         'rateTypes' => $ratesHtml,
         'sentOn' => formatDate(date('Y-m-d H:i:s')),
@@ -133,9 +150,9 @@ $template = template(
 if (!empty($_GET['save']) && $_GET['save'] === '1') {
     $filename = cleanFileName($project['title']) . '_' . date('Ymd') . '_' . cleanFileName($collection['title']) . '.html';
 
-    file_put_contents(ATOS_HOME_DIR . '/invoices/' . $filename, $template);
+    file_put_contents(ATOS_HOME_DIR . '/_generated/' . $filename, $template);
 
-    $msg = 'Saved invoice to invoices/' . $filename;
+    $msg = 'Saved invoice to: _generated/' . $filename;
     redirect('/project', $collection['project_id'], $msg);
     exit;
 }

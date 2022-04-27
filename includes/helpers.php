@@ -141,7 +141,7 @@ function putIcon(
 
     $color = ltrim($useColor, '#');
 
-    return '<i style="color:#' . $useColor . ';" class="iconColor fi '. $finalUse . '"></i>';
+    return '<i style="color:#' . $color . ';" class="iconColor fi '. $finalUse . '"></i>';
 }
 
 /**
@@ -159,6 +159,8 @@ function formatMoney($money): string
  * @param string|null $success
  * @param string|null $error
  * @param bool $return
+ * @param array $queryString
+ * @param string $hash
  * @return void
  */
 function redirect(
@@ -166,7 +168,9 @@ function redirect(
     $id = null,
     string $success = null,
     string $error = null,
-    bool $return = false
+    bool $return = false,
+    array $queryString = [],
+    string $hash = null
 ): string {
     $query = '';
 
@@ -184,8 +188,16 @@ function redirect(
         $query .= '&_error=' . urlencode($error);
     }
 
+    foreach ($queryString as $key => $value) {
+        $query .= "&" . $key . "=" . $value;
+    }
+
     if (!empty($query)) {
         $url .= '?' . $query;
+    }
+
+    if ($hash) {
+        $url .= '#' . $hash;
     }
 
     if ($return) {
@@ -194,6 +206,24 @@ function redirect(
 
     header('Location: ' . $url);
     exit;
+}
+
+/**
+ * @param string $name
+ * @return string
+ */
+function snakeToEnglish(string $name): string
+{
+    return ucwords(str_replace('_', ' ', $name));
+}
+
+/**
+ * @param string $name
+ * @return string
+ */
+function camelToEnglish(string $name): string
+{
+    return snakeToEnglish(strtolower(preg_replace('/(?<!^)[A-Z]/', '_$0', $name)));
 }
 
 /**
