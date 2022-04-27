@@ -21,11 +21,6 @@ ATOS is 100% open source and free to use, licensed under the [GNU AGPLv3 License
 
 -----
 
-# Modules Repo
-
-You can find all themes, tax files, and language packs over at the [ATOS Modules](https://github.com/jbelelieu/atos_modules) repo.
-
-- [Modules Repo](#modules-repo)
 - [Setup](#setup)
     - [Download and Start](#download-and-start)
       - [Update Your Default Settings (Optional Step)](#update-your-default-settings-optional-step)
@@ -36,6 +31,7 @@ You can find all themes, tax files, and language packs over at the [ATOS Modules
       - [Notice: Templates Files](#notice-templates-files)
       - [Notice: PHP 8.1 Requirement](#notice-php-81-requirement)
       - [Notice: phpLiteAdmin](#notice-phpliteadmin)
+- [Modules](#modules)
 - [Concepts](#concepts)
 - [Features](#features)
 - [UX Tips And Tricks](#ux-tips-and-tricks)
@@ -50,6 +46,8 @@ You can find all themes, tax files, and language packs over at the [ATOS Modules
     - [What's the easiest way to import part data?](#whats-the-easiest-way-to-import-part-data)
     - [How do I setup a fixed-rate invoice?](#how-do-i-setup-a-fixed-rate-invoice)
     - [What if I change my rates?](#what-if-i-change-my-rates)
+- [Disclaimer](#disclaimer)
+    - [ATOS Tax Numbers Are Good-Faith Estimates Only!](#atos-tax-numbers-are-good-faith-estimates-only)
 - [Contributing](#contributing)
     - [How to Contribute](#how-to-contribute)
     - [Special Thank You](#special-thank-you)
@@ -58,7 +56,6 @@ You can find all themes, tax files, and language packs over at the [ATOS Modules
 # Setup
 
 ATOS requires `PHP 8.1+` and `SQLite3`.
-
 
 ### Download and Start
 
@@ -111,6 +108,12 @@ This does require PHP 8.1+. While I thought about making it backwards compatible
 For your convinience, ATOS ships with [phpLiteAdmin](https://www.phpliteadmin.org/). You can access that from `http://localhost:9001/db`.
 
 ATOS will automatically attempt to run migrations at first start up. On the off chance that migrations fail, you can use phpLiteAdmin to manually execute the contents of `db/migrations.sql`.
+
+-----
+
+# Modules
+
+You can find all themes, tax files, and language packs over at the [ATOS Modules](https://github.com/jbelelieu/atos_modules) repo.
 
 -----
 
@@ -202,6 +205,16 @@ See the "fixed-rate invoice" question for more details.
 ### What if I change my rates?
 
 Always, always, always create a new rate type! Changing existing rates will result in old tax data being invalidated. "Delete" the old rate (it isn't actually deleted, just hidden since we need that for accurate calculations), and create a new rate with the same name + updated hourly.
+
+----
+
+# Disclaimer
+
+### ATOS Tax Numbers Are Good-Faith Estimates Only!
+
+ATOS is not a substitute for real tax software or the advice of a financial professional. All tax estimates are good faith estimates, but I can't make any guarantees of accuracy.
+
+----
 
 # Contributing
 
