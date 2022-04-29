@@ -11,7 +11,7 @@
     </span>
     <span>
         <a href="https://github.com/jbelelieu/atos" target="_blank">
-            <img src="assets/atos_icon.png" style="width:14px;height:14px" alt="ASOS Icon" />
+            <img src="assets/screens/atos_icon.png" style="width:14px;height:14px" alt="ASOS Icon" />
         </a>
     </span>
 </footer>

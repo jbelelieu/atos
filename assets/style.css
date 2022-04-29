@@ -902,7 +902,7 @@ button:hover:not(.createNew) {
 }
 
 .headerColumns {
-    grid-template-columns: 100px 1fr 300px;
+    grid-template-columns: 100px 1fr 500px;
 }
 
 .columns2575 {

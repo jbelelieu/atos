@@ -25,6 +25,7 @@
 
 <!-- Open stories table -->
 <form
+    id="open-table"
     class="preventLeaving"
     action="/project?id=<?php echo $collection['project_id']; ?>"
     method="post">
@@ -37,7 +38,7 @@
     <th width="80">ID</th>
     <th width="140">Rate Type</th>
     <th width="140">Type</th>
-    <th width="42"></th>
+    <th width="32"></th>
     <th width=>Title</th>
     <th width="130"></th>
     </tr>
@@ -60,6 +61,7 @@
     <h5 class="bubble">Completed &amp; Billable</h5>
 
     <form
+        id="billable-table"
         class="preventLeaving"
         action="/project?id=<?php echo $collection['project_id']; ?>"
         method="post">
@@ -72,7 +74,7 @@
             <th width="80">ID</th>
             <th width="180">Rate Type</th>
             <th width="150">Type</th>
-            <th width="42"></th>
+            <th width="32"></th>
             <th width="120">Completed</th>
             <th width="75">Hours</th>
             <th width=>Title</th>
@@ -102,16 +104,6 @@
 <?php } ?>
 
 <script type="text/javascript">
-    // Warns the user if they try to leave a page that
-    // has unsaved form changes. Simply add the "preventLeaving"
-    // class to any form to make this work.
-    $('#').data('serialize', $('.preventLeaving').serialize());
-
-    // $(window).bind('beforeunload', function(e) {
-    //     if ($('.preventLeaving').serialize() != $('.preventLeaving').data('serialize')) {
-    //         return true;
-    //     } else {
-    //         e = null;
-    //     }
-    // });
+    preventUnloadBasedOnFormChanges('open-table');
+    preventUnloadBasedOnFormChanges('billable-table');
 </script>
