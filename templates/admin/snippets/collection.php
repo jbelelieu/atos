@@ -7,6 +7,8 @@
 <?php } ?>
 
 
+<hr />
+
 <h2 style="margin-bottom: 24px;">
     <?php echo $collection['title']; ?>
 </h2>
@@ -58,6 +60,8 @@
 <?php if (!$isProjectDefault) { ?>
 <div class="" style="margin-top: 12px;">
     <!-- Billable stories table -->
+
+    <hr class="lighter" />
     <h5>Completed &amp; Billable</h5>
 
     <form

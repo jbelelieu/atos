@@ -122,7 +122,7 @@ function putIcon(
 
     $color = ltrim($useColor, '#');
 
-    return '<i style="color:#' . $color . ';" class="iconColor fi '. $finalUse . '"></i>';
+    return '<i style="color:#' . $color . ';" class="iconColor fi '. $finalUse . '">o</i>';
 }
 
 /**

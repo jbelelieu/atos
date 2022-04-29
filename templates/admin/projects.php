@@ -11,17 +11,20 @@
         <input type="hidden" name="project_id" value="<?php echo $project['id']; ?>" />
         <input type="hidden" name="action" value="createCollection" />
     </form>
+
+    <hr />
+
     <h2>Project <?php echo $project['title']; ?></h2>
     <button type="button" onclick="toggleDiv('createHandOFf')" class="a">Generate Report</button>
 
-    <div id="createHandOFf" class="sunk border pad hide">
+    <div id="createHandOFf" class="sunk border pad hide bg">
         <form action="/project/report" method="get">
         <input type="hidden" name="project_id" value="<?php echo $project['id']; ?>" />
 
         <div class="freeColumns">
             <div>
             <label>Title</label>
-            <input type="text" name="title" autocomplete="off" required="required" placeholder="Project Hand Off Checklist" />
+            <input type="text" name="title" autocomplete="off" placeholder="Project Hand Off Checklist" />
             </div>
 
             <div>
@@ -52,7 +55,7 @@
             <?php } ?>
             </div>
 
-            <div>
+            <div class="emoji_bump">
                 <button type="submit">Generate</button>
             </div>
         </div>

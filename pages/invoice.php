@@ -133,7 +133,7 @@ $template = template(
         'displayStories' => ($settingListType === 'none') ? false : true,
         'dueDate' => ($daysDue > 0) ? formatDate(date('Y-m-d H:i:s', time() + 1209600)) : '',
         'logo' => logo($company['title']),
-        'css' => file_get_contents('assets/invoiceStyle.css'),
+        'css' => file_get_contents('assets/alternatve_view.css'),
         'project' => $project,
         'rateTypes' => $ratesHtml,
         'sentOn' => formatDate(date('Y-m-d H:i:s')),

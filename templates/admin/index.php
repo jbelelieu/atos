@@ -1,6 +1,7 @@
 
 <div class="holder">
 
+    <hr />
     <h2 class="sectionHeader">Projects</h2>
 
 <?php if ($totalClients < 2) { ?>
@@ -10,9 +11,9 @@
 <?php } else { ?>
     <button type="button" onclick="toggleDiv('createProject')" class="a">Create Project</button>
 
-    <div class="sunk hide" id="createProject">
+    <div class="sunk hide border pad" id="createProject">
         <form action="/" method="post">
-            <div class="halfHalfColumns pullUp">
+            <div class="halfHalfColumns">
                 <div>
                 <label><b>Projects</b>&nbsp;&nbsp;Contracted Party</label>
                 <select required="required" name="company_id"><?php echo $clientSelect; ?></select>
@@ -75,6 +76,9 @@
     </table>
 <?php } ?>
 
+
+    <hr />
+
     <h2 class="sectionHeader">Companies &amp; Clients</h2>
     <button type="button" onclick="toggleDiv('createClient')" class="a">Create Project</button>
     
@@ -83,8 +87,8 @@
         You currently don't have any companies in the system. Please start by adding your own company in below, and then add a client company to begin creating projects.
     </p>
 <?php } else { ?>
-
-<div class="sunk <?php if ($totalClients < 2) {
+    
+<div class="sunk border pad <?php if ($totalClients < 2) {
     echo "show";
 } else {
     echo "hide";
