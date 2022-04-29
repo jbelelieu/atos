@@ -1,9 +1,7 @@
 
 <tr class="<?php echo $rowClass; ?>">
     <td>
-        <span class="ticketId">
-        <?php echo $story['show_id']; ?>
-</span>
+        <?php echo $label; ?>
     </td>
     <td>
         <?php echo $hourSelect; ?>
@@ -40,7 +38,11 @@
     </td>
     <td class="textRight">
         <div class="emoji_bump">
-            <?php echo $options; ?>
+            <?php echo $options; ?><a
+            title="Delete"
+            onclick="return confirm('This will delete the task - are you sure?')"
+            href="<?php echo $deleteLink; ?>">
+            <?php echo putIcon('fi-sr-trash'); ?>
         </div>
     </td>
 </tr>

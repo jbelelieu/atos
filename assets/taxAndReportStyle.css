@@ -479,6 +479,14 @@ footer {
     padding: 42px 0;
 }
 
+.reportLeft {
+    line-height: 1.3em;
+    margin: 24px 0;
+    padding: 0;
+    font-size: 1.2em;
+    text-align: center;
+}
+
 .weak {
     color: #999;
     margin-top: 4px;

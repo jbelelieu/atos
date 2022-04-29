@@ -245,13 +245,9 @@ $queryString = '&year=' . $year;
 $queryString .= (!empty($_GET['income'])) ? '&income=' . $_GET['income'] : '';
 $queryString .= (!empty($_GET['estimate'])) ? '&estimate=' . $_GET['estimate'] : '';
 
-$logoUrl = 'http://' . $_SERVER['HTTP_HOST'] . '/assets/logo.png';
-
 $changes = [
-    'logo' => (file_exists(ATOS_HOME_DIR . '/assets/logo.png'))
-        ? '<div id="logoArea"><img src="' . $logoUrl . '" /></div>'
-        : '',
-    'css' => file_get_contents('assets/taxStyle.css'),
+    'logo' => logo(),
+    'css' => file_get_contents('assets/taxAndReportStyle.css'),
     'queryString' => $queryString,
     'year' => $year,
     'displayType' => $displayType,
@@ -302,4 +298,17 @@ $changes = [
 
 // dd($changes);
 
-echo template('tax/estimate', $changes, true);
+$template = template('tax/estimate', $changes, true);
+
+if (!empty($_GET['save']) && $_GET['save'] === '1') {
+    $filename = 'tax-' . $year . '-' . date('Ymd') . '.html';
+
+    file_put_contents(ATOS_HOME_DIR . '/_generated/' . $filename, $template);
+
+    $msg = 'Saved tax estimate to: _generated/' . $filename;
+    redirect('/tax', null, $msg);
+    exit;
+}
+
+echo $template;
+exit;

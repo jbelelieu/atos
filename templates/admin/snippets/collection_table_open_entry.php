@@ -27,7 +27,7 @@
     <div class="emoji_bump">
         <?php echo $options; ?><a
             title="Delete"
-            onclick="return confirm('This will delete the story - are you sure?')"
+            onclick="return confirm('This will delete the task - are you sure?')"
             href="<?php echo $deleteLink; ?>">
             <?php echo putIcon('fi-sr-trash'); ?>
         </a>

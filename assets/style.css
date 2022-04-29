@@ -490,15 +490,15 @@ header a {
     left: 21px;
     font-weight: bold;
     top: 0;
-    line-height: 32px;
+    line-height: 40px;
 }
 
 #icon {
     position: absolute;
     left: 0;
     top: 0;
-    height: 32px;
-    width: 32px;
+    height: 40px;
+    width: 40px;
 }
 
 #icon img {
@@ -542,6 +542,15 @@ input.paid {
     border: 1px solid #e5e5e5;
     border-bottom: 3px solid #e5e5e5;
     border-radius: 0px 0px 9px 9px;
+}
+
+.borderContainer h2:first-child {
+    margin-top: 0;
+    padding-top: 0;
+}
+
+.borderTop {
+    border-top: 1px solid #f1f1f1;
 }
 
 .borderRight {
@@ -657,6 +666,28 @@ h4.sectionHeader {
     border-color: #28afc9 #fff;
 } */
 
+.projectId {
+    /* border-radius: 12px; */
+    /* padding: 3px 12px; */
+    /* display: inline-block; */
+    font-weight: bold;
+    line-height: 30px;
+}
+
+.handOff input,
+.handOff select,
+.handoff {
+    /* background-color: #f1f1f1; */
+    color: #999;
+}
+
+.notBillable input,
+.notBillable select,
+.notBillable {
+    /* background-color: #f1f1f1; */
+    color: #ccc;
+}
+
 .notLive input {
     color: #e5e5e5;
 }
@@ -752,6 +783,7 @@ button.a {
     margin-left: 12px;
     color: #3fcce8;
     padding: 0px;
+    font-weight: bold;
     background-color: #fff !important;
 }
 
@@ -848,8 +880,10 @@ button:hover:not(.createNew) {
 .projectTopColumns,
 .twoColumns,
 .threeColumns,
+.freeColumns,
 .headerColumns,
 .halfHalfColumns,
+.fourColumns,
 .columns2575,
 .columns6535,
 .columns7525 {
@@ -857,6 +891,12 @@ button:hover:not(.createNew) {
     grid-template-rows: 1fr;
     grid-column-gap: 10px;
     grid-row-gap: 0px;
+}
+
+.freeColumns {
+    grid-template-columns: auto auto auto auto auto auto;
+    display: inline-grid;
+    grid-column-gap: 24px;
 }
 
 .projectTopColumns {
@@ -891,8 +931,12 @@ button:hover:not(.createNew) {
     grid-template-columns: repeat(3, 1fr);
 }
 
+.fourColumns {
+    grid-template-columns: repeat(4, 1fr);
+}
+
 .headerColumns {
-    grid-template-columns: 100px 1fr 300px;
+    grid-template-columns: 100px 220px 1fr;
 }
 
 .columns2575 {

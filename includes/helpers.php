@@ -1,5 +1,7 @@
 <?php
 
+use services\ProjectService;
+
 /**
  * ATOS: "Built by freelancer 🙋‍♂️, for freelancers 🕺 🤷 💃🏾 "
  *
@@ -10,36 +12,6 @@
  * @license AGPL-3.0 License
  * @link https://github.com/jbelelieu/atos
  */
-
-/**
- * @link https://stackoverflow.com/users/1034002/torkil-johnsen
- * @param [type] $hex
- * @param [type] $steps
- * @return void
- */
-function adjustBrightness(string $hex, int $steps)
-{
-    // Steps should be between -255 and 255. Negative = darker, positive = lighter
-    $steps = max(-255, min(255, $steps));
-
-    // Normalize into a six character long hex string
-    $hex = str_replace('#', '', $hex);
-    if (strlen($hex) == 3) {
-        $hex = str_repeat(substr($hex, 0, 1), 2).str_repeat(substr($hex, 1, 1), 2).str_repeat(substr($hex, 2, 1), 2);
-    }
-
-    // Split into three parts: R, G and B
-    $color_parts = str_split($hex, 2);
-    $return = '#';
-
-    foreach ($color_parts as $color) {
-        $color   = hexdec($color); // Convert to decimal
-        $color   = max(0, min(255, $color + $steps)); // Adjust color
-        $return .= str_pad(dechex($color), 2, '0', STR_PAD_LEFT); // Make two char hex code
-    }
-
-    return $return;
-}
 
 /**
  * @param string $page
@@ -55,6 +27,15 @@ function buildLink(string $page, array $queryString = []): string
     }
 
     return $url;
+}
+
+/**
+ * @param string $name
+ * @return string
+ */
+function camelToEnglish(string $name): string
+{
+    return snakeToEnglish(strtolower(preg_replace('/(?<!^)[A-Z]/', '_$0', $name)));
 }
 
 /**
@@ -154,6 +135,17 @@ function formatMoney($money): string
 }
 
 /**
+ * @param string $altText
+ * @return string
+ */
+function logo(string $altText = ''): string
+{
+    return (file_exists(ATOS_HOME_DIR . '/assets/logo.png'))
+        ? '<div id="logoArea"><img src="/assets/logo.png" alt="' . $altText . '" /></div>'
+        : '';
+}
+
+/**
  * @param string $page
  * @param string $id
  * @param string|null $success
@@ -218,15 +210,6 @@ function snakeToEnglish(string $name): string
 }
 
 /**
- * @param string $name
- * @return string
- */
-function camelToEnglish(string $name): string
-{
-    return snakeToEnglish(strtolower(preg_replace('/(?<!^)[A-Z]/', '_$0', $name)));
-}
-
-/**
  * @param string $templateName
  * @param array $args
  * @param bool $skipHeaderFooter
@@ -239,10 +222,12 @@ function template(
 ) {
     $path = ATOS_HOME_DIR . '/templates/' . $templateName . '.php';
     if (!file_exists($path)) {
-        systemError('You are trying to load a template that does not exist');
+        systemError('You are trying to load a template that does not exist: ' . $path);
     }
 
     extract($args);
+
+    $allProjects = (new ProjectService())->getProjects();
 
     ob_start();
     
@@ -267,7 +252,7 @@ function template(
 function systemError(string $msg)
 {
     echo <<<qq
-<div style="color:#E44B58;border-radius:3px;font-size:0.9em;line-height:1.5em;border:1px solid #E44B58;border-bottom:3px solid #E44B58;padding:24px;width:600px;margin:42px auto;font-family:arial;font-weight:bold;">$msg</div>
+<div style="color:#E44B58;border-radius:3px;font-size:0.9em;line-height:1.5em;border:1px solid #E44B58;border-bottom:3px solid #E44B58;padding:24px;width:800px;margin:42px auto;font-family:arial;font-weight:bold;">$msg</div>
 qq;
     exit;
 }

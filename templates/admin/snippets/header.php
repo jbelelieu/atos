@@ -11,8 +11,8 @@ $pageTitle = (isset($_metaTitle)) ? $_metaTitle : 'ATOS';
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="stylesheet" href="/assets/style.css" />
     <link rel="stylesheet" href="/assets/icons.css" />
-    <!-- <script type="text/javascript" src="/assets/jquery.js"></script> -->
-    <link rel="icon" type="image/png" href="/assets/atos_icon.png" />
+    <link rel="icon" type="image/png" href="/assets/screens/atos_icon.png" />
+    <script src="/assets/main.js"></script>
 </head>
 
 <body>
@@ -20,27 +20,48 @@ $pageTitle = (isset($_metaTitle)) ? $_metaTitle : 'ATOS';
 <header>
     <div class="headerColumns">
         <div id="logo">
-            <div id="icon"><a href="/"><img src="/assets/atos_icon.png" style="width:14px;height:14px" alt="ASOS Icon" /></a></div>
+            <div id="icon"><a href="/"><img src="/assets/screens/atos_icon.png" style="width:14px;height:14px" alt="ASOS Icon" /></a></div>
             <div id="company"><a href="/">ATOS</a></div>
         </div>
         <div>
-
-<?php
-if (!empty($_GET['_success'])) {
-    echo "<span class=\"success\">" . $_GET['_success'] . "</span>";
-}
-if (!empty($_GET['_error'])) {
-    echo "<span class=\"error\">" . $_GET['_error'] . "</span>";
-}
-
-$lastProject = (isset($_SESSION["viewingProject"]) && !empty($_SESSION["viewingProjectName"]))
-    ? '<a href="/project?id=' . $_SESSION["viewingProject"] . '">' . $_SESSION["viewingProjectName"] . '</a>'
-    : '';
-?>
-    
+            <form action="/search" method="get">
+            <input type="text" autocomplete="off" name="query" required="required" placeholder="Search tasks" />
+            </form>
         </div>
+
+        <?php
+        $lastProjectId = isset($_SESSION["viewingProject"]) ? $_SESSION["viewingProject"] : null;
+        $lastProjectLink = $lastProjectId
+            ? '<a href="/project?id=' . $lastProjectId . '">' . $_SESSION["viewingProjectName"] . '</a>'
+            : '<a href="/project">Projects</a>';
+        ?>
+        
         <div id="nav" class="textRight">
-            <?php echo $lastProject; ?>
+            <?php if (is_array($allProjects) && sizeof($allProjects) > 0) { ?>
+            <span>
+                <select style="width: 150px;" name="projectDropdown" onChange="redirectBasedOnFormValue(this)">
+                    <?php
+                    foreach ($allProjects as $aProject) {
+                        $buildLink = buildLink(
+                            '/project',
+                            [
+                                'id' => $aProject['id'],
+                                "_success" => "Switched to project " . $aProject['title'],
+                            ]
+                        );
+
+                        $selected = ($aProject['id'] === (int) $lastProjectId)
+                            ? 'selected=selected'
+                            : '';
+
+                        echo "<option " .  $selected . "
+                            value=\"" . $buildLink . "\">" . $aProject['title'] . "</option>";
+                    } ?>
+                    <option value=""<?php echo (!$lastProjectId) ? 'selected=selected' : ''; ?>>Projects</option>
+                </select>
+            </span>
+            <?php } ?>
+            <?php echo $lastProjectLink; ?>
             <a href="/tax">Taxes</a>
             <a href="/settings">Settings</a>
         <div>
