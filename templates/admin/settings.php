@@ -25,8 +25,8 @@
                     <div>
                         <label>Emoji</label>
                         <input type="text" 
-                    placeholder="fi-sr-briefcase" autocomplete="off" name="emoji" maxlength=10 style="width:200px;" />
-                        <p class="fieldHelp">Select any icon from <a href="https://www.flaticon.com/uicons/?weight=solid&corner=rounded" target="_blank">here</a>.</p>
+                    placeholder="addons" placeholder="addons" autocomplete="off" name="emoji" maxlength=10 style="width:200px;" />
+                        <p class="fieldHelp">Select any icon from <a href="https://icofont.com/icons" target="_blank">here</a>.</p>
                     </div>
                     <div>
                         <label>Color</label>

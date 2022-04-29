@@ -50,7 +50,7 @@ $template = template(
         'company' => $company,
         'stories' => $results,
         'logo' => logo(),
-        'css' => file_get_contents('assets/taxAndReportStyle.css'),
+        'css' => file_get_contents('assets/alternatve_view.css'),
     ],
     true
 );

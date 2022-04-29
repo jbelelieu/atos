@@ -128,12 +128,11 @@ INSERT INTO story_type (id, title) VALUES (1, 'Task'), (2, 'Chore'), (3, 'Meetin
 -- The primary items should not be removed and need
 -- to remain in this order!
 INSERT INTO story_status (id, title, emoji, color, is_complete_state, is_billable_state) VALUES
-(1, 'Open', 'fi-sr-document', '#111111', 0, 0),
-(2, 'Complete', 'fi-sr-checkbox', '#47F43E', 1, 1),
-(3, 'Shipped', 'fi-sr-rocket-lunch', '#3fcce8', 1, 0),
-(4, 'Closed', 'fi-sr-cross-circle', '#b82a36', 1, 0),
-(5, 'Unpaid', 'fi-sr-time-fast', '#e1e1e1', 1, 0);
+(1, 'Open', 'folder-open', '#111111', 0, 0),
+(2, 'Complete', 'money', '#47F43E', 1, 1),
+(3, 'Shipped', 'checked', '#3fcce8', 1, 0),
+(4, 'Closed', 'close-circled', '#b82a36', 1, 0),
+(5, 'Unpaid', 'broken', '#ccc', 1, 0);
 
 -- This is in dollar cents, so $50 = 5000.
 INSERT INTO story_hour_type (id, title, rate, is_hidden) VALUES (1, 'Standard Rate', '5000', 0);
-

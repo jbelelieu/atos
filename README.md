@@ -231,8 +231,8 @@ Some ways you can contribute include:
 
 ### Special Thank You
 
-- The fine folks over at [phpLiteAdmin](https://www.phpliteadmin.org/) for the SQLite3 manager.
-- The artists over at [flaticon](https://flaticon.com/) for their CSS icon set.
+- The fine folks over at [phpLiteAdmin](https://www.phpliteadmin.org/).
+- The artists over at [Icofont](https://icofont.com/).
 
 # Roadmap
 

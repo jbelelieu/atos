@@ -661,22 +661,18 @@ h4 {
     margin-top: 42px;
 }
 
-.columns2575 {
-    display: grid;
-    grid-template-columns: 190px 1fr;
-    grid-template-rows: 1fr;
-    grid-column-gap: 40px;
-    grid-row-gap: 0px;
+.marginTopLess {
+    margin-top: 24px;
 }
 
 #logoArea {
     text-align: center;
-    margin-bottom: 42px;
+    margin-bottom: 24px;
 }
 
 #logoArea img {
-    max-height: 100px;
-    max-width: 200px;
+    max-height: 80px;
+    max-width: 150px;
     width: auto;
     height: auto;
 }
@@ -690,8 +686,23 @@ h4 {
 
 /*  */
 
-.columns2575 table:first-child,
-.columns2575 p:first-child {
+.columns5050 {
+    display: grid;
+    grid-template-rows: 1fr;
+    grid-column-gap: 40px;
+    grid-row-gap: 0px;
+    grid-template-columns: 1fr 1fr;
+}
+
+.columns2575 {
+    display: grid;
+    grid-template-rows: 1fr;
+    grid-column-gap: 40px;
+    grid-row-gap: 0px;
+    grid-template-columns: 190px 1fr;
+}
+
+.columns2575 table:first-child {
     margin: -10px 0 0 0;
 }
 
@@ -699,6 +710,8 @@ h4 {
 .columns2575 p:last-child {
     margin-bottom: 0px;
 }
+
+/*  */
 
 table {
     width: 100%;
@@ -816,6 +829,10 @@ table td.summary {
     background-color: #dbf9ff;
 }
 
+.attentionTop p:first-child {
+    margin-top: 0;
+}
+
 /* 
 .attentionTop a {
     color: #111;
@@ -849,5 +866,11 @@ nav.strong a:not(:last-child):after {
 }
 
 /*  */
+
+@media print {
+    .noprint {
+        display: none;
+    }
+}
 
 @media only screen and (max-device-width: 700px) {}

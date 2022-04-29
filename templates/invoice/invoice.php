@@ -15,6 +15,13 @@
 
         <?php echo $logo; ?>
 
+        <!-- <div class=" noprint" style="padding-bottom:12px;">
+            <nav class="marginTop columns5050">
+                <div><a href="/invoice">Back to Dashboard</a></div>
+                <div class="textRight"><a class="blue bold" href="/invoice?collection=<?php echo $collection['id']; ?>&save=1">Save Invoice</a></div>
+            </nav>
+        </div> -->
+
         <div class="border">
             <div class="borderSection pad">
                 <div class="columns2575">
@@ -92,7 +99,7 @@
             </div>
 
             <?php if (!empty($client['instructions'])) { ?>
-                <div class="sunk columns2575">
+                <div class="sunk columns2575 pad">
                     <div class="textRight">
                         <h4>Instructions &raquo;</h4>
                     </div>

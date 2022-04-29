@@ -29,7 +29,7 @@
             title="Delete"
             onclick="return confirm('This will delete the task - are you sure?')"
             href="<?php echo $deleteLink; ?>">
-            <?php echo putIcon('fi-sr-trash'); ?>
+            <?php echo putIcon('icofont-delete'); ?>
         </a>
     </div>
 </td>

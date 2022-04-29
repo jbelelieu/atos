@@ -1,11 +1,11 @@
 
 <div id="holderFixed" class="border">
 
-<div class="borderContainer pad">
+<div class="borderAlterTop">
 
 <?php if (empty($taxesThisYear)) { ?>
 
-    <div class="highlight">
+    <div class="highlightFixed">
     <h2>Setup your <?php echo $year; ?> taxes!</h2>
 
     <p>It looks like you haven't set up your taxes for the year in question. Let's get that started so that you can start estimating your payments.</p>
@@ -69,15 +69,21 @@
 </div>
 <?php } ?>
 
-<h2>Tax Years</h2>
-<button type="button" onclick="toggleDiv('switchYears')" class="a">Switch Years</button>
+<div class="pad">
 
-<div id="switchYears" class="sunk hide">
-    <form action="/tax" method="get">
-        <label>Year</label>
-        <input type="number" name="year" value="<?php echo date('Y'); ?>" style="width:120px;" /> <button type="submit">Go</button>
-    </form>
+<div class="halfHalfColumns">
+    <div>
+    <h2 class="noMarginTop">Tax Years</h2>
+    </div>
+    <div class="textRight">
+        <div class="">
+            <form action="/tax" method="get">
+                <input type="number" name="year" value="<?php echo (isset($_GET['year'])) ? $_GET['year'] : date('Y'); ?>" style="width:120px;" /> <button type="submit">Go</button>
+            </form>
+        </div>
+    </div>
 </div>
+
 
 <table>
     <thead>
@@ -123,7 +129,7 @@
                             title="Delete"
                             onclick="return confirm('This will delete the status - are you sure?')"
                             href="/tax?action=deleteYear&year=<?php echo $aTaxYear['year']; ?>">
-                                <?php echo putIcon('fi-sr-trash'); ?>
+                                <?php echo putIcon('icofont-delete'); ?>
                         </a>
                     </div>
                 </td>
@@ -133,5 +139,6 @@
     </tbody>
 </table>
 
+</div>
 </div>
 </div>

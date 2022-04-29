@@ -25,7 +25,7 @@
             title="Delete"
             onclick="return confirm('This will delete the project and all associated data - are you sure?')"
             href="<?php echo $deleteLink; ?>">
-                <?php echo putIcon('fi-sr-trash'); ?>
+                <?php echo putIcon('icofont-delete'); ?>
         </a>
     </td>
 </tr>

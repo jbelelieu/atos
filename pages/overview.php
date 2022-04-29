@@ -128,6 +128,7 @@ echo template(
         'totalProjectHours' => $totalProjectHours,
         'totalProjectValue' => formatMoney($totalProjectValue),
         'totalClientValue' => formatMoney($totalValue),
+        'totalProjects' => sizeof($projects),
     ]
 );
 exit;

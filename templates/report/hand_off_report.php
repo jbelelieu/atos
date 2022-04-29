@@ -15,13 +15,13 @@
 
         <?php echo $logo; ?>
             
-        <h2 class="reportLeft">
+        <h3>
             <?php if ($title) { ?>
                 <?php echo $title; ?>
             <?php } else { ?>
                 <?php echo $project['title']; ?>
             <?php } ?>
-        </h2>
+        </h3>
         
         <div class="border">
             <div class="borderSection pad">

@@ -119,7 +119,7 @@ foreach ($allCollections as $row) {
     $isProjectDefault = isBool($row['is_project_default']);
 
     $delete = (!$isProjectDefault)
-        ? "<span class=\"delete\"><a onclick=\"return confirm('Are you sure you want to delete this collection?')\" href=\"/project?action=deleteCollection&project_id=" . $project['id'] . "&id=" . $row['id'] . "\">" . putIcon('fi-sr-trash') . "</a></span>"
+        ? "<span class=\"delete\"><a onclick=\"return confirm('Are you sure you want to delete this collection?')\" href=\"/project?action=deleteCollection&project_id=" . $project['id'] . "&id=" . $row['id'] . "\">" . putIcon('icofont-delete') . "</a></span>"
         : '';
 
     $update = ($at > 0 && !$isProjectDefault)
@@ -138,6 +138,7 @@ foreach ($allCollections as $row) {
 // Render the collections, split between open, billable, and unorganized.
 $collectionsRendered = '';
 $collectionCount = 0;
+$totalTasks = 0;
 
 foreach ($collectionResults as $aCollection) {
     $collectionCount++;
@@ -152,6 +153,8 @@ foreach ($collectionResults as $aCollection) {
     $renderedOpenStories = '';
     $openStories = $collectionService->getStoriesInCollection($aCollection['id']);
     foreach ($openStories as $row) {
+        $totalTasks++;
+
         $label = getLabel($row);
 
         $renderedOpenStories .= template(
@@ -199,6 +202,8 @@ foreach ($collectionResults as $aCollection) {
         true
     );
     foreach ($otherStories as $row) {
+        $totalTasks++;
+    
         $endedAt = ($row['status'] == 2 || $row['status'] == 4)
             ? formatDate($row['ended_at'], 'Y-m-d')
             : null;
@@ -282,6 +287,8 @@ echo template(
         'collectionsRendered' => $collectionsRendered,
         'nextId' => $storyService->generateTicketId($project['id']),
         'project' => $project,
+        'totalCollections' => sizeof($allCollections),
+        'totalTasks' => $totalTasks,
         'hourTypes' => $hourTypeResults,
         'storyStatuses' => $storyStatuses,
         'storyTypes' => $storyTypeResults,

@@ -10,7 +10,7 @@ $pageTitle = (isset($_metaTitle)) ? $_metaTitle : 'ATOS';
     <title><?php echo $pageTitle; ?></title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="stylesheet" href="/assets/style.css" />
-    <link rel="stylesheet" href="/assets/icons.css" />
+    <link rel="stylesheet" href="/assets/icofont.min.css" />
     <link rel="icon" type="image/png" href="/assets/screens/atos_icon.png" />
     <script src="/assets/main.js"></script>
 </head>

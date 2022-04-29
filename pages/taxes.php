@@ -102,4 +102,4 @@ $changes = [
 
 // dd($changes);
 
-echo template('tax/tax', $changes);
+echo template('admin/tax', $changes);

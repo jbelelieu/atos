@@ -14,7 +14,7 @@
     <div id="holderFixed">
         <a href="/tax"><?php echo $logo; ?></a>
 
-        <div class="textCenter" style="padding-bottom:12px;">
+        <div class="textCenter noprint" style="padding-bottom:12px;">
             <nav class="marginTop">
                 <a class="blue bold" href="/tax/render?<?php echo $queryString; ?>&save=1">Save Estimate</a>
                 <a href="#d0">Tax Breakdown</a>
@@ -33,6 +33,9 @@
                         <h4>
                             <span class="larger">
                                 <?php echo $displayType; ?>
+                                <br /><br />
+                                Generated on<br />
+                                <?php echo formatDate(date('Y-m-d H:i:s')); ?>
                             </span>
                         </h4>
                     </div>
@@ -78,7 +81,7 @@
                                         <td><?php echo $income['additionalTaxBurdens']; ?></td>
                                     </tr>
                                     <tr>
-                                        <td class="listLeft">Total Taxes Due</td>
+                                        <td class="listLeft">Estimated Taxes Due</td>
                                         <td class="bold"><?php echo $taxes['totalTax']; ?></td>
                                     </tr>
                                     <tr>

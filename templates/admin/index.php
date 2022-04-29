@@ -1,6 +1,7 @@
 
 <div class="holder">
 
+    <hr />
     <h2 class="sectionHeader">Projects</h2>
 
 <?php if ($totalClients < 2) { ?>
@@ -10,9 +11,13 @@
 <?php } else { ?>
     <button type="button" onclick="toggleDiv('createProject')" class="a">Create Project</button>
 
-    <div class="sunk hide" id="createProject">
+    <div class="sunk <?php if ($totalProjects === 0) {
+    echo "show";
+} else {
+    echo "hide";
+} ?> border pad bg" id="createProject">
         <form action="/" method="post">
-            <div class="halfHalfColumns pullUp">
+            <div class="halfHalfColumns">
                 <div>
                 <label><b>Projects</b>&nbsp;&nbsp;Contracted Party</label>
                 <select required="required" name="company_id"><?php echo $clientSelect; ?></select>
@@ -75,6 +80,9 @@
     </table>
 <?php } ?>
 
+
+    <hr />
+
     <h2 class="sectionHeader">Companies &amp; Clients</h2>
     <button type="button" onclick="toggleDiv('createClient')" class="a">Create Project</button>
     
@@ -82,9 +90,9 @@
     <p class="highlight">
         You currently don't have any companies in the system. Please start by adding your own company in below, and then add a client company to begin creating projects.
     </p>
-<?php } else { ?>
-
-<div class="sunk <?php if ($totalClients < 2) {
+<?php } ?>
+    
+<div class="sunk border bg pad <?php if ($totalClients < 2) {
     echo "show";
 } else {
     echo "hide";
@@ -152,24 +160,17 @@
 <th>Logo</th>
 <th>Title</th>
 <th>Address</th>
-<th><?php echo putIcon('fi-sr-smartphone'); ?></th>
-<th><?php echo putIcon('fi-sr-envelope'); ?></th>
-<th><?php echo putIcon('fi-sr-link'); ?></th>
+<th><?php echo putIcon('icofont-phone'); ?></th>
+<th><?php echo putIcon('icofont-email'); ?></th>
+<th><?php echo putIcon('icofont-link'); ?></th>
 <th>Billed</th>
 <th width="42"></th>
 </tr>
 </thead>
 <?php echo $clients; ?>
 <tr>
-<td colspan=6>
-    <button
-    type="button"
-    id="createClient-button"
-    onClick="toggleDiv('createClient', 'Cancel', 'Create New')"
-    class="createNew">Create</button>
-</td>
+<td colspan=6></td>
 <td class="summary"><?php echo $totalClientValue; ?></td>
 <td></td>
 </tr>
 </table>
-<?php } ?>

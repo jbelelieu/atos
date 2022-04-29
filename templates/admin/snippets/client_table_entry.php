@@ -6,7 +6,7 @@
 <td><?php echo $client['email']; ?></td>
 <td>
     <?php if ($url) { ?>
-    <a href="<?php echo $url; ?>" target="_blank"><?php echo putIcon('fi-sr-link'); ?></a>
+    <a href="<?php echo $url; ?>" target="_blank"><?php echo putIcon('icofont-link'); ?></a>
     <?php } ?>
 </td>
 <td><?php echo $totalClientValue; ?></td>
@@ -15,7 +15,7 @@
         title="Delete"
         onclick="return confirm('This will delete the client and all associated data, including projects, collections, and stories. Are you sure?')"
         href="<?php echo $deleteLink; ?>">
-        <?php echo putIcon('fi-sr-trash'); ?>
+        <?php echo putIcon('icofont-delete'); ?>
     </a>
 </td>
 </tr>

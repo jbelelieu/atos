@@ -110,19 +110,14 @@ function language(string $key, string $default = ''): string
 function putIcon(
     string $name,
     string $color = '#111',
-    string $default = 'fi-sr-circle'
+    string $default = 'icofont-question-circle'
 ): string {
     $useColor = empty($color) ? '#111' : $color;
-    $useDefault = empty($default) ? 'fi-sr-circle' : $default;
-    $explode = explode(' ', $name);
-    
-    $usePart = ($explode['0'] === 'fi') ? $explode[1] : $explode[0];
-
-    $finalUse = (substr($usePart, 0, 3) === 'fi-') ? $usePart : $useDefault;
-
+    // $useDefault = empty($default) ? 'icofont-question-circle' : $default;
+    $finalUse = (substr($name, 0, 7) === 'icofont') ? $name : 'icofont-' . $name;
     $color = ltrim($useColor, '#');
 
-    return '<i style="color:#' . $color . ';" class="iconColor fi '. $finalUse . '"></i>';
+    return '<div class="iconHolder"><i style="color: #' . $color . ';" class="'. $finalUse . '"></i></div>';
 }
 
 /**

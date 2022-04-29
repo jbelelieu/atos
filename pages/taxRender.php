@@ -200,7 +200,7 @@ foreach ($finalData as $region => $aTaxRegionBurden) {
         $schedule[$aDate] = [
             'date' => formatDate($aDate),
             'amount' => formatMoney($quarterly * 100),
-            // 'daysUntil' => ($daysUntil <= 0) ? putIcon('fi-sr-check') : $daysUntil,
+            // 'daysUntil' => ($daysUntil <= 0) ? putIcon('icofont-check') : $daysUntil,
             'daysUntil' => ($daysUntil <= 0) ? '-' : $daysUntil,
         ];
     }
@@ -247,7 +247,7 @@ $queryString .= (!empty($_GET['estimate'])) ? '&estimate=' . $_GET['estimate'] :
 
 $changes = [
     'logo' => logo(),
-    'css' => file_get_contents('assets/taxAndReportStyle.css'),
+    'css' => file_get_contents('assets/alternatve_view.css'),
     'queryString' => $queryString,
     'year' => $year,
     'displayType' => $displayType,
