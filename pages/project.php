@@ -204,7 +204,7 @@ foreach ($collectionResults as $aCollection) {
     foreach ($otherStories as $row) {
         $totalTasks++;
     
-        $endedAt = ($row['status'] == 2 || $row['status'] == 4)
+        $endedAt = ($row['is_complete_state'] || $row['is_billable_state'])
             ? formatDate($row['ended_at'], 'Y-m-d')
             : null;
 
@@ -214,7 +214,7 @@ foreach ($collectionResults as $aCollection) {
 
         $class = '';
         $class .= (!isBool($row['is_billable_state'])) ? ' notBillable' : '';
-        $class .= ($row['status'] == 3) ? ' handOff' : '';
+        // $class .= ($row['status'] == 3) ? ' handOff' : '';
 
         $renderedOtherStories .= template(
             'admin/snippets/collection_table_other_entry',
@@ -302,5 +302,5 @@ exit;
  */
 function getLabel(array  $row): string
 {
-    return "<div class=\"projectId\" style=\"color:" . $row['status_color'] . "\">" . $row['show_id'] . "</div>";
+    return "<div class=\"projectId\" style=\"background-color:" . $row['status_color'] . "\">" . $row['show_id'] . "</div>";
 }

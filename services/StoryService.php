@@ -240,6 +240,8 @@ class StoryService extends BaseService
         } elseif (isBool($status['is_billable_state'])) {
             $hours = 1;
         }
+
+        $endedAt = $story['ended_at'] ? $story['ended_at'] : date('Y-m-d H:i:s');
     
         $statement = $this->db->prepare('
             UPDATE story
@@ -250,7 +252,7 @@ class StoryService extends BaseService
         $statement->bindParam(':status', $data['status']);
         $statement->bindParam(':hours', $hours);
         $statement->bindParam(':id', $data['id']);
-        $statement->bindParam(':ended_at', date('Y-m-d H:i:s'));
+        $statement->bindParam(':ended_at', $endedAt);
         $statement->execute();
 
         $status = $this->settingService->getStoryStatusById($data['status']);
