@@ -101,7 +101,7 @@ class CollectionService extends BaseService
         redirect(
             '/project',
             $data['project_id'],
-            'Your collection has been deleted.'
+            'Your collection has been deleted. All stories in that collection have been moved to your default collection for the project.'
         );
     }
         

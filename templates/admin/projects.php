@@ -63,6 +63,8 @@
 
             <div class="emoji_bump">
                 <button type="submit">Generate</button>
+                <br /><br />
+                <input type="checkbox" name="save" value="1" /> Save as file
             </div>
         </div>
 

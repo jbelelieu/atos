@@ -43,13 +43,14 @@ class StoryService extends BaseService
         $itemId,
         bool $skipMoveCollection = false,
         $skipStatusId = 0,
-        bool $skipStatuses = false
+        bool $skipStatuses = false,
+        string $helpText = 'Move Collections'
     ): string {
         // TODO: oof
         global $storyStatuses;
 
         $options = (!$skipMoveCollection)
-            ? "<a title=\"" . language('move_collections', 'Move Collections') . "\" href=\"/project?action=shiftCollection&project_id=" . $projectId . "&id=" . $itemId . "\">" . putIcon('icofont-box') . "</a>"
+            ? "<a title=\"" . language('move_collections', $helpText) . "\" href=\"/project?action=shiftCollection&project_id=" . $projectId . "&id=" . $itemId . "\">" . putIcon('icofont-box') . "</a>"
             : '';
 
         if (!$skipStatuses) {

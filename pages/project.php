@@ -155,6 +155,8 @@ foreach ($collectionResults as $aCollection) {
     foreach ($openStories as $row) {
         $totalTasks++;
 
+        $row['title'] = htmlspecialchars($row['title']);
+
         $label = getLabel($row);
 
         $renderedOpenStories .= template(
@@ -212,9 +214,9 @@ foreach ($collectionResults as $aCollection) {
 
         $hours += (int) $row['hours'];
 
-        $class = '';
-        $class .= (!isBool($row['is_billable_state'])) ? ' notBillable' : '';
-        // $class .= ($row['status'] == 3) ? ' handOff' : '';
+        $class = (!isBool($row['is_billable_state'])) ? ' notBillable' : '';
+
+        $row['title'] = htmlspecialchars($row['title']);
 
         $renderedOtherStories .= template(
             'admin/snippets/collection_table_other_entry',
@@ -274,7 +276,7 @@ foreach (scandir(ATOS_HOME_DIR . '/templates/report') as $file) {
 
     $exp = explode('.', $file);
 
-    $allTemplates[$exp[0]] = snakeToEnglish($file);
+    $allTemplates[$exp[0]] = snakeToEnglish($exp[0]);
 }
 
 echo template(

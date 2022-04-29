@@ -28,9 +28,7 @@
         <?php echo $options; ?><a
             title="Delete"
             onclick="return confirm('This will delete the task - are you sure?')"
-            href="<?php echo $deleteLink; ?>">
-            <?php echo putIcon('icofont-delete'); ?>
-        </a>
+            href="<?php echo $deleteLink; ?>"><?php echo putIcon('icofont-delete'); ?></a>
     </div>
 </td>
 </tr>

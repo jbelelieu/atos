@@ -179,7 +179,9 @@ class ProjectService extends BaseService
                 story_hour_type.title as rateTypeTitle,
                 story_hour_type.rate as rate,
                 story_status.title as statusTitle,
-                story_type.title as typeTitle
+                story_type.title as typeTitle,
+                story_status.is_complete_state isComplete,
+                story_status.is_billable_state isBillable
             FROM story
             JOIN story_collection on story_collection.id = story.collection
             JOIN story_hour_type on story_hour_type.id = story.rate_type
