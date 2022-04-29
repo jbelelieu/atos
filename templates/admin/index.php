@@ -11,7 +11,11 @@
 <?php } else { ?>
     <button type="button" onclick="toggleDiv('createProject')" class="a">Create Project</button>
 
-    <div class="sunk hide border pad" id="createProject">
+    <div class="sunk <?php if ($totalProjects === 0) {
+    echo "show";
+} else {
+    echo "hide";
+} ?> border pad bg" id="createProject">
         <form action="/" method="post">
             <div class="halfHalfColumns">
                 <div>
@@ -86,9 +90,9 @@
     <p class="highlight">
         You currently don't have any companies in the system. Please start by adding your own company in below, and then add a client company to begin creating projects.
     </p>
-<?php } else { ?>
+<?php } ?>
     
-<div class="sunk border pad <?php if ($totalClients < 2) {
+<div class="sunk border bg pad <?php if ($totalClients < 2) {
     echo "show";
 } else {
     echo "hide";
@@ -176,4 +180,3 @@
 <td></td>
 </tr>
 </table>
-<?php } ?>

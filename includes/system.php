@@ -145,7 +145,7 @@ try {
     $installed = $isInstalledStmt->fetch();
 
     if (!$installed || empty($installed['name'])) {
-        $migrations = file_get_contents('./db/migrations.sql');
+        $migrations = file_get_contents(ATOS_HOME_DIR . '/db/migrations.sql');
         $db->exec($migrations);
     }
 } catch (\Exception $e) {
