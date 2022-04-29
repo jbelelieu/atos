@@ -147,6 +147,54 @@ class ProjectService extends BaseService
     }
 
     /**
+     * @param array $types
+     * @param array $status
+     * @return void
+     */
+    public function getStoriesByFilters(int $projectId, array $types = [], array $statuses = [])
+    {
+        $bind = [];
+
+        $placeholders = '';
+        foreach ($types as $aType => $x) {
+            $bind[] = $aType;
+            $placeholders .= ',?';
+        }
+        $whereType = (sizeof($types) > 0)
+            ? ' AND story.type IN (' . ltrim($placeholders, ',') . ')'
+            : '';
+
+        $placeholders = '';
+        foreach ($statuses as $aStatus => $x) {
+            $bind[] = $aStatus;
+            $placeholders .= ',?';
+        }
+        $whereStatus = (sizeof($statuses) > 0)
+            ? ' AND story.status IN (' . ltrim($placeholders, ',') . ')'
+            : '';
+
+        $statement = $this->db->prepare("
+            SELECT
+                story.*,
+                story_hour_type.title as rateTypeTitle,
+                story_hour_type.rate as rate,
+                story_status.title as statusTitle,
+                story_type.title as typeTitle
+            FROM story
+            JOIN story_collection on story_collection.id = story.collection
+            JOIN story_hour_type on story_hour_type.id = story.rate_type
+            JOIN story_status on story_status.id = story.status
+            JOIN story_type on story_type.id = story.type
+            WHERE story_collection.project_id = ?
+            $whereType$whereStatus
+            ORDER BY type ASC
+        ");
+
+        $statement->execute([$projectId, ...$bind]);
+
+        return $statement->fetchAll();
+    }
+    /**
      * @param integer $projectId
      * @return array
      */

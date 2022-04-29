@@ -666,6 +666,28 @@ h4.sectionHeader {
     border-color: #28afc9 #fff;
 } */
 
+.projectId {
+    /* border-radius: 12px; */
+    /* padding: 3px 12px; */
+    /* display: inline-block; */
+    font-weight: bold;
+    line-height: 30px;
+}
+
+.handOff input,
+.handOff select,
+.handoff {
+    /* background-color: #f1f1f1; */
+    color: #999;
+}
+
+.notBillable input,
+.notBillable select,
+.notBillable {
+    /* background-color: #f1f1f1; */
+    color: #ccc;
+}
+
 .notLive input {
     color: #e5e5e5;
 }
@@ -858,8 +880,10 @@ button:hover:not(.createNew) {
 .projectTopColumns,
 .twoColumns,
 .threeColumns,
+.freeColumns,
 .headerColumns,
 .halfHalfColumns,
+.fourColumns,
 .columns2575,
 .columns6535,
 .columns7525 {
@@ -867,6 +891,12 @@ button:hover:not(.createNew) {
     grid-template-rows: 1fr;
     grid-column-gap: 10px;
     grid-row-gap: 0px;
+}
+
+.freeColumns {
+    grid-template-columns: auto auto auto auto auto auto;
+    display: inline-grid;
+    grid-column-gap: 24px;
 }
 
 .projectTopColumns {
@@ -899,6 +929,10 @@ button:hover:not(.createNew) {
 
 .threeColumns {
     grid-template-columns: repeat(3, 1fr);
+}
+
+.fourColumns {
+    grid-template-columns: repeat(4, 1fr);
 }
 
 .headerColumns {

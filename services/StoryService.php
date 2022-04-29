@@ -77,7 +77,7 @@ class StoryService extends BaseService
 
         $statement = $this->db->prepare('
             INSERT INTO story (show_id, due_at, title, collection, rate_type, type, status)
-            VALUES (:show_id, :due_at, :title, :collection, :rate_type, :type, 1)
+            VALUES (:show_id, :due_at, :title, :collection, :rate_type, :type, :status)
         ');
 
         $statement->bindParam(':show_id', $id);
@@ -86,6 +86,7 @@ class StoryService extends BaseService
         $statement->bindParam(':collection', $data['collection']);
         $statement->bindParam(':rate_type', $data['rate_type']);
         $statement->bindParam(':type', $data['type']);
+        $statement->bindParam(':status', $data['status']);
 
         $statement->execute();
 

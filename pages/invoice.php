@@ -122,7 +122,6 @@ foreach ($knownRateTypes as $aRateType) {
     );
 }
 
-$logoUrl = 'http://' . $_SERVER['HTTP_HOST'] . '/assets/logo.png';
 $daysDue = getSetting(\AtosSettings::INVOICE_DUE_DATE_IN_DAYS, 14);
 
 $template = template(
@@ -133,9 +132,7 @@ $template = template(
         'company' => $company,
         'displayStories' => ($settingListType === 'none') ? false : true,
         'dueDate' => ($daysDue > 0) ? formatDate(date('Y-m-d H:i:s', time() + 1209600)) : '',
-        'logo' => (file_exists(ATOS_HOME_DIR . '/assets/logo.png'))
-            ? '<div id="logoArea"><img src="' . $logoUrl . '" alt="' . $company['title'] . '" /></div>'
-            : '',
+        'logo' => logo($company['title']),
         'css' => file_get_contents('assets/invoiceStyle.css'),
         'project' => $project,
         'rateTypes' => $ratesHtml,

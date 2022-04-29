@@ -34,14 +34,18 @@ if (!empty($_GET['_error'])) {
 }
 
 $lastProjectId = isset($_SESSION["viewingProject"]) ? $_SESSION["viewingProject"] : null;
+$lastProjectLink = $lastProjectId
+    ? '<a href="/project?id=' . $lastProjectId . '">' . $_SESSION["viewingProjectName"] . '</a>'
+    : '<a href="/project">Projects</a>';
 ?>
     
         </div>
         <div id="nav" class="textRight">
+            <?php if (is_array($allProjects) && sizeof($allProjects) > 0) { ?>
             <span>
                 <select style="width: 150px;" name="projectDropdown" onChange="redirectBasedOnFormValue(this)">
                     <?php
-                    foreach ($projects as $aProject) {
+                    foreach ($allProjects as $aProject) {
                         $buildLink = buildLink(
                             '/project',
                             [
@@ -56,11 +60,12 @@ $lastProjectId = isset($_SESSION["viewingProject"]) ? $_SESSION["viewingProject"
 
                         echo "<option " .  $selected . "
                             value=\"" . $buildLink . "\">" . $aProject['title'] . "</option>";
-                    }
-                    ?>
+                    } ?>
                     <option value=""<?php echo (!$lastProjectId) ? 'selected=selected' : ''; ?>>Projects</option>
                 </select>
             </span>
+            <?php } ?>
+            <?php echo $lastProjectLink; ?>
             <a href="/tax">Taxes</a>
             <a href="/settings">Settings</a>
         <div>

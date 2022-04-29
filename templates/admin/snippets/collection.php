@@ -58,7 +58,7 @@
 <?php if (!$isProjectDefault) { ?>
 <div class="" style="margin-top: 12px;">
     <!-- Billable stories table -->
-    <h5 class="bubble">Completed &amp; Billable</h5>
+    <h5>Completed &amp; Billable</h5>
 
     <form
         id="billable-table"
@@ -95,8 +95,7 @@
         </tbody>
         </table>
     </form>
-
-
+</div>
 <?php } ?>
 
 <?php if ($tripFlag) { ?>

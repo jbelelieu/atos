@@ -2,25 +2,93 @@
 <div class="holder">
 
     <h2>Project <?php echo $project['title']; ?></h2>
-    <button type="button" onclick="toggleDiv('createStory')" class="a">Create Task</button>
+    <button type="button" onclick="toggleDiv('createHandOFf')" class="a">Genereate Project Hand Off Report</button>
 
-    <div id="createStory" class="sunk hide">
+    <div id="createHandOFf" class="sunk hide">
+        <h4>Create a Hand Off Report</h4>
+        <form action="/project/handoff" method="get">
+        <input type="hidden" name="project_id" value="<?php echo $project['id']; ?>" />
+
+        <div class="freeColumns">
+            <div>
+            <label>Title</label>
+            <input type="text" name="title" />
+            </div>
+
+            <div>
+            <label>Message (html ok)</label>
+            <textarea name="message"></textarea>
+            </div>
+
+            <div>
+            <label>Template</label>
+            <select name="template">
+                <?php foreach ($templates as $aTemplate => $cleanName) { ?>
+                    <option value="<?php echo $aTemplate; ?>"><?php echo $cleanName; ?></option>
+                <?php } ?>
+            </select>
+            </div>
+
+            <div>
+            <label>Include Statuses</label>
+            <?php foreach ($storyStatuses as $anItem) { ?>
+                <input type="checkbox" name="status[<?php echo $anItem['id']; ?>]" value="1" /> <?php echo $anItem['title']; ?><br />
+            <?php } ?>
+            </div>
+
+            <div>
+            <label>Include Types</label>
+            <?php foreach ($storyTypes as $anItem) { ?>
+                <input type="checkbox" name="type[<?php echo $anItem['id']; ?>]" value="1" /> <?php echo $anItem['title']; ?><br />
+            <?php } ?>
+            </div>
+
+            <div>
+                <button type="submit">Generate</button>
+            </div>
+        </div>
+
+        </form>
+    </div>
+
+    <div id="createStory" class="sunk">
         <h4>Create a Task</h4>
         <form action="/project?id=<?php echo $project['id']; ?>" method="post">
-            <div class="threeColumns">
+            <div class="fourColumns">
                 <div>
-                <label>Collection</label>
-                <select name="collection"><?php echo $collectionSelect; ?></select>
+                    <label>Collection</label>
+                    <select name="collection">
+                        <?php foreach ($allCollections as $anItem) { ?>
+                            <option value="<?php echo $anItem['id']; ?>"><?php echo $anItem['title']; ?></option>
+                        <?php } ?>
+                    </select>
                 </div>
 
                 <div>
-                <label>Type</label>
-                <select name="type"><?php echo $storyTypeSelect; ?></select>
+                    <label>Type</label>
+                    <select name="type">
+                        <?php foreach ($storyTypes as $anItem) { ?>
+                            <option value="<?php echo $anItem['id']; ?>"><?php echo $anItem['title']; ?></option>
+                        <?php } ?>
+                    </select>
                 </div>
 
                 <div>
-                <label>Rate Type</label>
-                <select name="rate_type"><?php echo $hourTypeSelect; ?></select>
+                    <label>Rate Type</label>
+                    <select name="rate_type">
+                        <?php foreach ($hourTypes as $anItem) { ?>
+                            <option value="<?php echo $anItem['id']; ?>"><?php echo $anItem['title']; ?></option>
+                        <?php } ?>
+                    </select>
+                </div>
+
+                <div>
+                    <label>Status</label>
+                    <select name="status">
+                        <?php foreach ($storyStatuses as $anItem) { ?>
+                            <option value="<?php echo $anItem['id']; ?>"><?php echo $anItem['title']; ?></option>
+                        <?php } ?>
+                    </select>
                 </div>
             </div>
 
@@ -31,8 +99,8 @@
                 </div>
 
                 <div>
-                <label>Description</label>
-                <input type="text" name="title" required="required" autocomplete="off" style="width:80%;" /> <button type="submit">Create</button>
+                    <label>Description</label>
+                    <input type="text" name="title" required="required" autocomplete="off" style="width:80%;" /> <button type="submit">Create</button>
                 </div>
             </div>
 
@@ -55,5 +123,8 @@
     </form>
 
     <?php echo $collectionsRendered; ?>
-    
 </div>
+
+<script type="text/javascript">
+    preventUnloadBasedOnFormChanges('handoff-table');
+</script>

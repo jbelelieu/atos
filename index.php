@@ -39,6 +39,9 @@ switch (strtolower($requestUri)) {
     case '/project':
         require ATOS_HOME_DIR . '/pages/project.php';
         break;
+    case '/project/handoff':
+        require ATOS_HOME_DIR . '/pages/projectHandoff.php';
+        break;
     case '/settings':
         require ATOS_HOME_DIR . '/pages/settings.php';
         break;

@@ -105,32 +105,9 @@ $collectionResults = [
  $collectionService->getDefaultCollectionForProject($project['id']),
 ];
 
-// Story type select for the story create form.
-$storyTypeSelect = '';
-
-foreach ($storyTypeResults as $aType) {
-    $storyTypeSelect .= '<option value="' . $aType['id'] . '">' . $aType['title'] . '</option>';
-}
-
-// Rate type select for the story create form.
-$hourTypeSelect = '';
-foreach ($hourTypeResults as $aType) {
-    $hourTypeSelect .= '<option value="' . $aType['id'] . '">' . $aType['title'] . ' (' . formatMoney($aType['rate']) . ')</option>';
-}
-
-// Build the collections dropdown for the story create form.
-$collectionSelect = '';
-$collectionArray = [];
-
-$allCollections = $collectionService->getCollectionByProject($project['id'], 99999999);
-foreach ($allCollections as $aCollection) {
-    array_push($collectionArray, $aCollection['id']);
-
-    $collectionSelect .= '<option value="' . $aCollection['id'] . '">' . $aCollection['title'] . '</option>';
-}
-
 // Build the collections list.
 $collections = '';
+$allCollections = $collectionService->getCollectionByProject($project['id']);
 $totalCollections = sizeof($allCollections);
 $at = 0;
 
@@ -175,6 +152,8 @@ foreach ($collectionResults as $aCollection) {
     $renderedOpenStories = '';
     $openStories = $collectionService->getStoriesInCollection($aCollection['id']);
     foreach ($openStories as $row) {
+        $label = getLabel($row);
+
         $renderedOpenStories .= template(
             'admin/snippets/collection_table_open_entry',
             [
@@ -186,6 +165,7 @@ foreach ($collectionResults as $aCollection) {
                         'project_id' => $project['id'],
                     ]
                 ),
+                'label' => $label,
                 'hourSelect' => $settingService->buildHourSelect(
                     $row['id'],
                     $row['rate_type'],
@@ -219,31 +199,29 @@ foreach ($collectionResults as $aCollection) {
         true
     );
     foreach ($otherStories as $row) {
-        $adjustedColor = adjustBrightness($row['status_color'], -10);
+        $endedAt = ($row['status'] == 2 || $row['status'] == 4)
+            ? formatDate($row['ended_at'], 'Y-m-d')
+            : null;
 
-        $endedAt = null;
-        if ($row['status'] == 2) {
-            $endedAt = formatDate($row['ended_at'], 'Y-m-d');
-            $label = "<div class=\"bubble greenBubble\">" . $row['show_id'] . "</div>";
-        } elseif ($row['status'] == 4) {
-            $endedAt = formatDate($row['ended_at'], 'Y-m-d');
-            $label = "<div class=\"bubble redBubble\">" . $row['show_id'] . "</div>";
-        } elseif ($row['status'] == 3) {
-            $endedAt = formatDate($row['ended_at'], 'Y-m-d');
-            $label = "<div class=\"bubble blueBubble\">" . $row['show_id'] . "</div>";
-        } else {
-            $label = "<div class=\"bubble \" style=\"background-color:" . $row['status_color'] . "\">" . $row['show_id'] . "</div>";
-        }
+        $label = getLabel($row);
 
         $hours += (int) $row['hours'];
 
-        $isBillableState = isBool($row['is_billable_state']);
-
-        $class = (!$isBillableState) ? 'notBillable' : '';
+        $class = '';
+        $class .= (!isBool($row['is_billable_state'])) ? ' notBillable' : '';
+        $class .= ($row['status'] == 3) ? ' handOff' : '';
 
         $renderedOtherStories .= template(
             'admin/snippets/collection_table_other_entry',
             [
+                'deleteLink' => buildLink(
+                    '/project',
+                    [
+                        'action' => 'deleteStory',
+                        'id' => $row['id'],
+                        'project_id' => $project['id'],
+                    ]
+                ),
                 'endedAt' => $endedAt,
                 'hours' => $row['hours'],
                 'hourSelect' => $settingService->buildHourSelect(
@@ -261,7 +239,7 @@ foreach ($collectionResults as $aCollection) {
                 'project' => $project,
                 'rowClass' => $class,
                 'story' => $row,
-                'typeSelect' => $settingService->buildTypeSelect($row['type'], $row['type'], $storyTypeResults),
+                'typeSelect' => $settingService->buildTypeSelect($row['id'], $row['type'], $storyTypeResults),
             ],
             true
         );
@@ -282,20 +260,40 @@ foreach ($collectionResults as $aCollection) {
     );
 }
 
-// Render the entire page.
+
+$allTemplates = [];
+foreach (scandir(ATOS_HOME_DIR . '/templates/report') as $file) {
+    if ($file === '.' || $file === '..') {
+        continue;
+    }
+
+    $exp = explode('.', $file);
+
+    $allTemplates[$exp[0]] = snakeToEnglish($file);
+}
+
 echo template(
     'admin/projects',
     [
         '_metaTitle' => $project['title'] . ' (ATOS)',
         'collections' => $collections,
+        'templates' => $allTemplates,
         'allCollections' => $allCollections,
         'collectionsRendered' => $collectionsRendered,
-        'collectionSelect' => $collectionSelect,
-        'hourTypeSelect' => $hourTypeSelect,
         'nextId' => $storyService->generateTicketId($project['id']),
         'project' => $project,
-        'storyTypeSelect' => $storyTypeSelect,
-        'totalCollections' => $totalCollections,
+        'hourTypes' => $hourTypeResults,
+        'storyStatuses' => $storyStatuses,
+        'storyTypes' => $storyTypeResults,
     ]
 );
 exit;
+
+/**
+ * @param array  $row
+ * @return string
+ */
+function getLabel(array  $row): string
+{
+    return "<div class=\"projectId\" style=\"color:" . $row['status_color'] . "\">" . $row['show_id'] . "</div>";
+}
