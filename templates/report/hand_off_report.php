@@ -3,7 +3,7 @@
 
 <head>
     <meta charset="utf-8">
-    <title><?php echo $project['title']; ?></title>
+    <title><?php echo $title ? $title : 'Project Hand Off'; ?></title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <style type="text/css">
         <?php echo $css; ?>
@@ -19,7 +19,7 @@
             <?php if ($title) { ?>
                 <?php echo $title; ?>
             <?php } else { ?>
-                <?php echo $project['title']; ?>
+                Project Hand Off
             <?php } ?>
         </h3>
         

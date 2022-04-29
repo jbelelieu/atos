@@ -223,6 +223,7 @@ Some ways you can contribute include:
 - Donate to support additional development
 - Build features for the core platform
 - Translate the application into a new language or dialect
+- Build new report templates
 - Create yearly tax files: create one for your regional burdens and share with the world!
 - Theming
   - Dashboard themes (no heavy javascript-based solutions)
@@ -236,16 +237,8 @@ Some ways you can contribute include:
 
 # Roadmap
 
-- Editing of companies, projects, rates, types, and statuses
+- Edit companies and project basics
 - Task notes and files
-- PRoject hand off lists
-- Project turn-over to-do lists that can be generated and sent to clients much like invoices
-- Basic estimated tax help for American freelancers
-  - Automate grabbing regions from github and auto creating
-  - Save generated tax burden page
-  - Select your tax strategies
-  - Reminders of est taxes being due
-- Bulk actions on stories
 - Expanded language support and language packs
-- Various themes
 - List invoice / tax directory contents
+- Better help bubbles, especially for first time users
