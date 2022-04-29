@@ -129,8 +129,8 @@ INSERT INTO story_type (id, title) VALUES (1, 'Task'), (2, 'Chore'), (3, 'Meetin
 -- to remain in this order!
 INSERT INTO story_status (id, title, emoji, color, is_complete_state, is_billable_state) VALUES
 (1, 'Open', 'fi-sr-document', '#111111', 0, 0),
-(2, 'Complete', 'fi-sr-checkbox', '#47F43E', 1, 1),
-(3, 'Shipped', 'fi-sr-rocket-lunch', '#3fcce8', 1, 1),
+(2, 'Complete', 'fi-sr-rocket-lunch', '#47F43E', 1, 1),
+(3, 'Hand Off Plan', 'fi-sr-checkbox', '#3fcce8', 1, 0),
 (4, 'Closed', 'fi-sr-cross-circle', '#b82a36', 1, 0),
 (5, 'Unpaid', 'fi-sr-time-fast', '#e1e1e1', 1, 0);
 

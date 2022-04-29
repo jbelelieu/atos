@@ -1,5 +1,7 @@
 <?php
 
+use services\ProjectService;
+
 /**
  * ATOS: "Built by freelancer 🙋‍♂️, for freelancers 🕺 🤷 💃🏾 "
  *
@@ -241,6 +243,8 @@ function template(
     if (!file_exists($path)) {
         systemError('You are trying to load a template that does not exist');
     }
+
+    $projects = (new ProjectService())->getProjects();
 
     extract($args);
 
