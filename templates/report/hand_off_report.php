@@ -15,16 +15,15 @@
 
         <?php echo $logo; ?>
             
-        <h3>
-            <?php if ($title) { ?>
-                <?php echo $title; ?>
-            <?php } else { ?>
-                Project Hand Off
+        <h3 class="textCenter">
+            <?php echo $project['title']; ?><?php if ($title) { ?>
+                <?php echo ': ' . $title; ?>
+            <?php } else { ?>: Project Hand Off
             <?php } ?>
         </h3>
-        
+
         <div class="border">
-            <div class="borderSection pad">
+            <div class="borderSection pad sunk">
                 
                 <table width="100%">
                     <tr>
@@ -56,21 +55,23 @@
             <?php } ?>
             
             <div class="borderSectionTop">
-                <table width="100%" style="font-size:90%;">
+                <table width="100%" style="font-size:90%;verticle-align:middle;">
                     <thead>
                         <tr>
+                            <th width="24"></th>
                             <th width="">Task</th>
-                            <th width="155">Type</th>
                         </tr>
                     </thead>
                     <tbody>
                         <?php foreach ($stories as $aStory) { ?>
                             <tr>
                                 <td>
-                                    <?php echo $aStory['title']; ?>
+                                    <input type="checkbox" <?php echo isBool($aStory['isComplete']) ? 'checked=checked' : 'disabled="disabled"'; ?> />
                                 </td>
                                 <td>
-                                    <?php echo $aStory['typeTitle']; ?>
+                                    <div class="table_bump">
+                                        <?php echo $aStory['title']; ?>
+                                    </div>
                                 </td>
                             </tr>
                         <?php } ?>

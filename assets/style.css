@@ -918,9 +918,9 @@ button:hover:not(.createNew) {
 }
 
 .freeColumns {
-    grid-template-columns: auto auto auto auto auto auto;
+    grid-template-columns: auto auto auto auto auto auto auto auto;
     display: inline-grid;
-    grid-column-gap: 24px;
+    grid-column-gap: 32px;
 }
 
 .projectTopColumns {
@@ -1090,28 +1090,9 @@ table td.summary {
 
 /*  */
 
-.success {
-    color: #3fcce8;
-}
-
-.blue {
-    color: #3fcce8;
-}
-
-.error {
-    color: #E44B58;
-}
-
-.error,
-.success {
-    line-height: 32px;
-    font-weight: bold;
-    font-size: 0.9em;
-}
-
 .iconHolder {
     display: inline-block;
-    font-size: 18px;
+    font-size: 22px;
 }
 
 /*  */
@@ -1128,12 +1109,35 @@ table td.summary {
     text-decoration: underline;
 }
 
+.error,
+.success,
 .highlight {
-    background-color: #dbf9ff;
     padding: 16px;
+}
+
+.highlight {
     border-radius: 9px;
-    /* margin-bottom: 24px; */
-    /* border-bottom: 1px solid #3fcce8; */
+}
+
+.error {
+    background-color: #E44B58;
+    color: #fff;
+}
+
+.error,
+.success {
+    font-weight: bold;
+    margin: 16px 0;
+}
+
+.error .iconHolder,
+.success .iconHolder {
+    margin-right: 12px;
+}
+
+.highlight,
+.success {
+    background-color: #dbf9ff;
 }
 
 .highlight h2:first-child {
@@ -1145,6 +1149,25 @@ table td.summary {
     padding: 16px;
     border-radius: 0;
 }
+
+/* .success {
+    color: #3fcce8;
+}
+
+.blue {
+    color: #3fcce8;
+}
+
+.error {
+    color: #E44B58;
+}
+
+.error,
+.success {
+    line-height: 32px;
+    font-weight: bold;
+    font-size: 0.9em;
+} */
 
 .attentionTop {
     /* border-left: 3px solid #3fcce8;

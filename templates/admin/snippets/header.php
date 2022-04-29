@@ -67,3 +67,12 @@ $pageTitle = (isset($_metaTitle)) ? $_metaTitle : 'ATOS';
         <div>
     </div>
 </header>
+
+<?php
+if (!empty($_GET['_success'])) {
+                        echo "<div class=\"success\">" . putIcon('checked') . $_GET['_success'] . "</div>";
+                    }
+
+if (!empty($_GET['_error'])) {
+    echo "<div class=\"error\">" . putIcon('minus-circle', '#fff') . $_GET['_error'] . "</div>";
+}

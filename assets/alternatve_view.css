@@ -829,6 +829,10 @@ table td.summary {
     background-color: #dbf9ff;
 }
 
+.table_bump {
+    padding-top: 4px;
+}
+
 .attentionTop p:first-child {
     margin-top: 0;
 }
