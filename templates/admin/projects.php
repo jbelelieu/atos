@@ -55,5 +55,5 @@
     </form>
 
     <?php echo $collectionsRendered; ?>
-
+    
 </div>

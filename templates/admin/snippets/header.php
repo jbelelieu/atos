@@ -58,6 +58,7 @@ $lastProjectId = isset($_SESSION["viewingProject"]) ? $_SESSION["viewingProject"
                             value=\"" . $buildLink . "\">" . $aProject['title'] . "</option>";
                     }
                     ?>
+                    <option value=""<?php echo (!$lastProjectId) ? 'selected=selected' : ''; ?>>Projects</option>
                 </select>
             </span>
             <a href="/tax">Taxes</a>
