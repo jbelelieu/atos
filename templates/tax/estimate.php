@@ -127,23 +127,34 @@
                             <table>
                                 <thead>
                                     <tr>
-                                        <th width="230">Date Due or Paid</th>
+                                        <th width="170">Date Due or Paid</th>
                                         <th>Estimated</th>
                                         <th>Actual Paid</th>
+                                        <th>Difference</th>
                                     </tr>
                                 </thead>
                                 <tbody>
                                     <?php
                                     $up = 0;
+                                    $totalDifference = 0;
+
                                     foreach ($details['recommendations']['schedule'] as $date => $sDetails) {
                                         $thisRegion = $estimatedTaxes[$region];
+
                                         if (array_key_exists($up, $thisRegion)) {
                                             $useDate =  $estimatedTaxes[$region][$up]['created_at'];
                                             $useAmount = $estimatedTaxes[$region][$up]['amount'];
+
+                                            $difference = ($useAmount > 0)
+                                                ? $sDetails['_amount'] - $useAmount
+                                                : 0;
                                         } else {
                                             $useDate =  $date;
                                             $useAmount =  0;
+                                            $difference = 0;
                                         }
+
+                                        $totalDifference += $difference;
                                         
                                         $addClass = $useAmount > 0 ? 'paid' : ''; ?>
                                     <tr>
@@ -167,6 +178,12 @@
                                                 value="<?php echo $estimatedTaxes[$region][$up]['amount'] ?>"
                                                 style="width:120px;" />
                                         </td>
+                                        <td class="<?php echo ($difference > 0) ? 'red' : ''; ?>">
+                                            <?php
+                                                echo ($difference > 0)
+                                                    ? formatMoney($difference * 100)
+                                                    :  '-'; ?>
+                                        </td>
                                     </tr>
                                     <?php
                                     $up++;
@@ -176,6 +193,7 @@
                                     <td class="listLeft"></td>
                                     <td class="bold"><?php echo $details['results']['_tax']; ?></td>
                                     <td class="bold"><?php echo $regionTotals[$region]; ?></td>
+                                    <td class="bold <?php echo $totalDifference > 0 ? 'red' : ''; ?>"><?php echo formatMoney($totalDifference * 100); ?></td>
                                 </tr>
                              </table>
                         </div>

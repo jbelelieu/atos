@@ -200,7 +200,7 @@ foreach ($finalData as $region => $aTaxRegionBurden) {
         $schedule[$aDate] = [
             'date' => formatDate($aDate),
             'amount' => formatMoney($quarterly * 100),
-            // 'daysUntil' => ($daysUntil <= 0) ? putIcon('icofont-check') : $daysUntil,
+            '_amount' => $quarterly,
             'daysUntil' => ($daysUntil <= 0) ? '-' : $daysUntil,
         ];
     }
@@ -229,15 +229,18 @@ foreach ($known as $payment) {
     if (!array_key_exists($payment['region'], $estimatedTaxes)) {
         $estimatedTaxes[$payment['region']] = [];
     }
+
     $estimatedTaxes[$payment['region']][] = $payment;
 }
 
 $regionTotals = [];
 foreach ($estimatedTaxes as $region => $payments) {
     $total = 0;
+    
     foreach ($payments as $aPayment) {
         $total += $aPayment['amount'];
     }
+
     $regionTotals[$region] = formatMoney($total * 100);
 }
 
