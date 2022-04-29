@@ -5,7 +5,7 @@
 
 <?php if (empty($taxesThisYear)) { ?>
 
-    <div class="highlight">
+    <div class="highlightFixed">
     <h2>Setup your <?php echo $year; ?> taxes!</h2>
 
     <p>It looks like you haven't set up your taxes for the year in question. Let's get that started so that you can start estimating your payments.</p>

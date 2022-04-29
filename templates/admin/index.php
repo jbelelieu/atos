@@ -169,13 +169,7 @@
 </thead>
 <?php echo $clients; ?>
 <tr>
-<td colspan=6>
-    <button
-    type="button"
-    id="createClient-button"
-    onClick="toggleDiv('createClient', 'Cancel', 'Create New')"
-    class="createNew">Create</button>
-</td>
+<td colspan=6></td>
 <td class="summary"><?php echo $totalClientValue; ?></td>
 <td></td>
 </tr>
