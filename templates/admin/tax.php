@@ -129,7 +129,7 @@
                             title="Delete"
                             onclick="return confirm('This will delete the status - are you sure?')"
                             href="/tax?action=deleteYear&year=<?php echo $aTaxYear['year']; ?>">
-                                <?php echo putIcon('fi-sr-trash'); ?>
+                                <?php echo putIcon('icofont-delete'); ?>
                         </a>
                     </div>
                 </td>

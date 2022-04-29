@@ -42,7 +42,7 @@
     <th width="140">Type</th>
     <th width="32"></th>
     <th width=>Title</th>
-    <th width="130"></th>
+    <th width="160"></th>
     </tr>
     </thead>
     <tbody>
@@ -82,7 +82,7 @@
             <th width="120">Completed</th>
             <th width="75">Hours</th>
             <th width=>Title</th>
-            <th width="130"></th>
+            <th width="160"></th>
             </tr>
         </thead>
         <tbody>

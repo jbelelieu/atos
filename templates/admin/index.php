@@ -160,9 +160,9 @@
 <th>Logo</th>
 <th>Title</th>
 <th>Address</th>
-<th><?php echo putIcon('fi-sr-smartphone'); ?></th>
-<th><?php echo putIcon('fi-sr-envelope'); ?></th>
-<th><?php echo putIcon('fi-sr-link'); ?></th>
+<th><?php echo putIcon('icofont-phone'); ?></th>
+<th><?php echo putIcon('icofont-email'); ?></th>
+<th><?php echo putIcon('icofont-link'); ?></th>
 <th>Billed</th>
 <th width="42"></th>
 </tr>

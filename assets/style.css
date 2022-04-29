@@ -1105,6 +1105,11 @@ table td.summary {
     font-size: 0.9em;
 }
 
+.iconHolder {
+    display: inline-block;
+    font-size: 18px;
+}
+
 /*  */
 
 .invoiceFooter {

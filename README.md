@@ -232,7 +232,7 @@ Some ways you can contribute include:
 ### Special Thank You
 
 - The fine folks over at [phpLiteAdmin](https://www.phpliteadmin.org/).
-- The artists over at [flaticon](https://flaticon.com/).
+- The artists over at [Icofont](https://icofont.com/).
 
 # Roadmap
 

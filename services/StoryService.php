@@ -49,7 +49,7 @@ class StoryService extends BaseService
         global $storyStatuses;
 
         $options = (!$skipMoveCollection)
-            ? "<a title=\"" . language('move_collections', 'Move Collections') . "\" href=\"/project?action=shiftCollection&project_id=" . $projectId . "&id=" . $itemId . "\">" . putIcon('fi-sr-undo') . "</a>"
+            ? "<a title=\"" . language('move_collections', 'Move Collections') . "\" href=\"/project?action=shiftCollection&project_id=" . $projectId . "&id=" . $itemId . "\">" . putIcon('icofont-undo') . "</a>"
             : '';
 
         if (!$skipStatuses) {

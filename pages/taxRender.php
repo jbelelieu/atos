@@ -200,7 +200,7 @@ foreach ($finalData as $region => $aTaxRegionBurden) {
         $schedule[$aDate] = [
             'date' => formatDate($aDate),
             'amount' => formatMoney($quarterly * 100),
-            // 'daysUntil' => ($daysUntil <= 0) ? putIcon('fi-sr-check') : $daysUntil,
+            // 'daysUntil' => ($daysUntil <= 0) ? putIcon('icofont-check') : $daysUntil,
             'daysUntil' => ($daysUntil <= 0) ? '-' : $daysUntil,
         ];
     }

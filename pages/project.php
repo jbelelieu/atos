@@ -119,7 +119,7 @@ foreach ($allCollections as $row) {
     $isProjectDefault = isBool($row['is_project_default']);
 
     $delete = (!$isProjectDefault)
-        ? "<span class=\"delete\"><a onclick=\"return confirm('Are you sure you want to delete this collection?')\" href=\"/project?action=deleteCollection&project_id=" . $project['id'] . "&id=" . $row['id'] . "\">" . putIcon('fi-sr-trash') . "</a></span>"
+        ? "<span class=\"delete\"><a onclick=\"return confirm('Are you sure you want to delete this collection?')\" href=\"/project?action=deleteCollection&project_id=" . $project['id'] . "&id=" . $row['id'] . "\">" . putIcon('icofont-delete') . "</a></span>"
         : '';
 
     $update = ($at > 0 && !$isProjectDefault)
