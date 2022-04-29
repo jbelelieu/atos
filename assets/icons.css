@@ -1,15 +1,15 @@
 @font-face {
     font-family: "uicons-solid-rounded";
-    src: url("/assets/font/uicons-solid-rounded.eot#iefix") format("embedded-opentype"),
-        url("/assets/font/uicons-solid-rounded.woff2") format("woff2"),
-        url("/assets/font/uicons-solid-rounded.woff") format("woff");
+    src: url("/assets/webfonts/uicons-solid-rounded.eot#iefix") format("embedded-opentype"),
+        url("/assets/webfonts/uicons-solid-rounded.woff2") format("woff2"),
+        url("/assets/webfonts/uicons-solid-rounded.woff") format("woff");
 }
 
 i[class^="fi-sr-"]:before,
 i[class*=" fi-sr-"]:before,
 span[class^="fi-sr-"]:before,
 span[class*="fi-sr-"]:before {
-    font-family: 'uicons-solid-rounded' !important;
+    font-family: uicons-solid-rounded !important;
     font-style: normal;
     font-weight: normal !important;
     font-variant: normal;
