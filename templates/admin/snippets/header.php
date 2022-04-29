@@ -24,22 +24,18 @@ $pageTitle = (isset($_metaTitle)) ? $_metaTitle : 'ATOS';
             <div id="company"><a href="/">ATOS</a></div>
         </div>
         <div>
-
-<?php
-if (!empty($_GET['_success'])) {
-    echo "<span class=\"success\">" . $_GET['_success'] . "</span>";
-}
-if (!empty($_GET['_error'])) {
-    echo "<span class=\"error\">" . $_GET['_error'] . "</span>";
-}
-
-$lastProjectId = isset($_SESSION["viewingProject"]) ? $_SESSION["viewingProject"] : null;
-$lastProjectLink = $lastProjectId
-    ? '<a href="/project?id=' . $lastProjectId . '">' . $_SESSION["viewingProjectName"] . '</a>'
-    : '<a href="/project">Projects</a>';
-?>
-    
+            <form action="/search" method="get">
+            <input type="text" autocomplete="off" name="query" required="required" placeholder="Search tasks" />
+            </form>
         </div>
+
+        <?php
+        $lastProjectId = isset($_SESSION["viewingProject"]) ? $_SESSION["viewingProject"] : null;
+        $lastProjectLink = $lastProjectId
+            ? '<a href="/project?id=' . $lastProjectId . '">' . $_SESSION["viewingProjectName"] . '</a>'
+            : '<a href="/project">Projects</a>';
+        ?>
+        
         <div id="nav" class="textRight">
             <?php if (is_array($allProjects) && sizeof($allProjects) > 0) { ?>
             <span>

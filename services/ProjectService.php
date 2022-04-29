@@ -226,4 +226,39 @@ class ProjectService extends BaseService
 
         return $statement->fetch();
     }
+
+    /**
+     * @param string $query
+     * @return array
+     */
+    public function search(string $query): array
+    {
+        $statement = $this->db->prepare("
+            SELECT
+                story.*,
+                project.title as projectTitle,
+                project.id as projectId,
+                story_collection.id as collectionId,
+                story_collection.title as collectionTitle,
+                story_hour_type.title as rateTypeTitle,
+                story_hour_type.rate as rate,
+                story_status.title as statusTitle,
+                story_type.title as typeTitle
+            FROM story
+            JOIN story_collection ON story_collection.id = story.collection
+            JOIN project ON story_collection.project_id = project.id
+            JOIN story_hour_type on story_hour_type.id = story.rate_type
+            JOIN story_status on story_status.id = story.status
+            JOIN story_type on story_type.id = story.type
+            WHERE story.title LIKE :query
+        ");
+
+        $query = '%' . $query . '%';
+
+        $statement->bindParam(':query', $query);
+
+        $statement->execute();
+
+        return $statement->fetchAll();
+    }
 }

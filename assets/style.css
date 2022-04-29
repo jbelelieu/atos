@@ -490,15 +490,15 @@ header a {
     left: 21px;
     font-weight: bold;
     top: 0;
-    line-height: 32px;
+    line-height: 40px;
 }
 
 #icon {
     position: absolute;
     left: 0;
     top: 0;
-    height: 32px;
-    width: 32px;
+    height: 40px;
+    width: 40px;
 }
 
 #icon img {
@@ -936,7 +936,7 @@ button:hover:not(.createNew) {
 }
 
 .headerColumns {
-    grid-template-columns: 100px 1fr 500px;
+    grid-template-columns: 100px 220px 1fr;
 }
 
 .columns2575 {

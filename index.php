@@ -39,15 +39,15 @@ switch (strtolower($requestUri)) {
     case '/project':
         require ATOS_HOME_DIR . '/pages/project.php';
         break;
-    case '/project/handoff':
-        require ATOS_HOME_DIR . '/pages/projectHandoff.php';
+    case '/project/report':
+        require ATOS_HOME_DIR . '/pages/report.php';
+        break;
+    case '/search':
+        require ATOS_HOME_DIR . '/pages/search.php';
         break;
     case '/settings':
         require ATOS_HOME_DIR . '/pages/settings.php';
         break;
-    // case '/task':
-    //     require ATOS_HOME_DIR . '/pages/task.php';
-    //     break;
     case '/tax':
         require ATOS_HOME_DIR . '/pages/taxes.php';
         break;
