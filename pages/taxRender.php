@@ -302,4 +302,17 @@ $changes = [
 
 // dd($changes);
 
-echo template('tax/estimate', $changes, true);
+$template = template('tax/estimate', $changes, true);
+
+if (!empty($_GET['save']) && $_GET['save'] === '1') {
+    $filename = 'tax-' . $year . '-' . date('Ymd') . '.html';
+
+    file_put_contents(ATOS_HOME_DIR . '/_generated/' . $filename, $template);
+
+    $msg = 'Saved tax estimate to: _generated/' . $filename;
+    redirect('/tax', null, $msg);
+    exit;
+}
+
+echo $template;
+exit;

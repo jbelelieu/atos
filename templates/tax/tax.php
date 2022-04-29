@@ -1,5 +1,7 @@
 
-<div class="holder">
+<div id="holderFixed" class="border">
+
+<div class="borderContainer pad">
 
 <?php if (empty($taxesThisYear)) { ?>
 
@@ -131,4 +133,5 @@
     </tbody>
 </table>
 
+</div>
 </div>

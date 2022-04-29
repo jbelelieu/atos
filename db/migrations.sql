@@ -123,7 +123,7 @@ CREATE TABLE `tax_adjustment` (
   CONSTRAINT fk_tax_a_year FOREIGN KEY(year) REFERENCES tax(year) ON DELETE CASCADE
 );
 
-INSERT INTO story_type (id, title) VALUES (1, 'Story'), (2, 'Chore'), (3, 'Meeting');
+INSERT INTO story_type (id, title) VALUES (1, 'Task'), (2, 'Chore'), (3, 'Meeting');
 
 -- The primary items should not be removed and need
 -- to remain in this order!

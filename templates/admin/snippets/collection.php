@@ -31,7 +31,7 @@
     <input type="hidden" name="action" value="updateStories" />
     <input type="hidden" name="project_id" value="<?php echo $collection['project_id']; ?>" />
 
-    <table class="allStoriesInCollection unorganized">
+    <table id="table-all" class="allStoriesInCollection unorganized">
     <thead>
     <tr>
     <th width="80">ID</th>
@@ -47,7 +47,7 @@
         <tr>
         <td colspan="4" class="textRight"></td>
         <td colspan="2">
-            <button type="submit">Update Stories</button>
+            <button type="submit">Update Tasks</button>
         </td>
         </tr>
     </tbody>
@@ -100,3 +100,18 @@
 <?php if ($tripFlag) { ?>
 </details>
 <?php } ?>
+
+<script type="text/javascript">
+    // Warns the user if they try to leave a page that
+    // has unsaved form changes. Simply add the "preventLeaving"
+    // class to any form to make this work.
+    $('#').data('serialize', $('.preventLeaving').serialize());
+
+    // $(window).bind('beforeunload', function(e) {
+    //     if ($('.preventLeaving').serialize() != $('.preventLeaving').data('serialize')) {
+    //         return true;
+    //     } else {
+    //         e = null;
+    //     }
+    // });
+</script>

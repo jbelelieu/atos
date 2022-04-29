@@ -16,6 +16,7 @@
 
         <div class="textCenter" style="padding-bottom:12px;">
             <nav class="marginTop">
+                <a class="blue bold" href="/tax/render?<?php echo $queryString; ?>&save=1">Save Estimate</a>
                 <a href="#d0">Tax Breakdown</a>
                 <a href="#regions">Regional Tax Burdens</a>
                 <a href="#deductions">Deducations</a>
@@ -123,7 +124,7 @@
                             <table>
                                 <thead>
                                     <tr>
-                                        <th width="230">Date Due</th>
+                                        <th width="230">Date Due or Paid</th>
                                         <th>Estimated</th>
                                         <th>Actual Paid</th>
                                     </tr>

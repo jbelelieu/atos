@@ -2,10 +2,10 @@
 <div class="holder">
 
 <h2>Project <?php echo $project['title']; ?></h2>
-<button type="button" onclick="toggleDiv('createStory')" class="a">Create Story</button>
+<button type="button" onclick="toggleDiv('createStory')" class="a">Create Task</button>
 
 <div id="createStory" class="sunk hide">
-    <h4>Create a Story</h4>
+    <h4>Create a Task</h4>
     <form action="/project?id=<?php echo $project['id']; ?>" method="post">
         <div class="threeColumns">
             <div>
@@ -44,31 +44,16 @@
 <div class="clearFix"></div>
 
 <form action="/project?id=<?php echo $project['id']; ?>" method="post">
-<div id="createCollection" class="sunk less">
-    <div id="collections" class="padLessBottom">
-        <?php echo $collections; ?>
-        <input type="text" style="width:150px;" placeholder="New Collection Title" required="required" autocomplete="off" name="title" /> <button type="submit">Create</button>
+    <div id="createCollection" class="sunk less">
+        <div id="collections" class="padLessBottom">
+            <?php echo $collections; ?>
+            <input type="text" style="width:150px;" placeholder="New Collection Title" required="required" autocomplete="off" name="title" /> <button type="submit">Create</button>
+        </div>
     </div>
-</div>
-<input type="hidden" name="project_id" value="<?php echo $project['id']; ?>" />
-<input type="hidden" name="action" value="createCollection" />
+    <input type="hidden" name="project_id" value="<?php echo $project['id']; ?>" />
+    <input type="hidden" name="action" value="createCollection" />
 </form>
 
 <?php echo $collectionsRendered; ?>
-
-<script type="text/javascript">
-    // Warns the user if they try to leave a page that
-    // has unsaved form changes. Simply add the "preventLeaving"
-    // class to any form to make this work.
-    // $('.preventLeaving').data('serialize', $('.preventLeaving').serialize());
-
-    // $(window).bind('beforeunload', function(e) {
-    //     if ($('.preventLeaving').serialize() != $('.preventLeaving').data('serialize')) {
-    //         return true;
-    //     } else {
-    //         e = null;
-    //     }
-    // });
-</script>
 
 </div>

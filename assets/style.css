@@ -544,6 +544,15 @@ input.paid {
     border-radius: 0px 0px 9px 9px;
 }
 
+.borderContainer h2:first-child {
+    margin-top: 0;
+    padding-top: 0;
+}
+
+.borderTop {
+    border-top: 1px solid #f1f1f1;
+}
+
 .borderRight {
     border-right: 1px solid #f1f1f1;
 }
@@ -752,6 +761,7 @@ button.a {
     margin-left: 12px;
     color: #3fcce8;
     padding: 0px;
+    font-weight: bold;
     background-color: #fff !important;
 }
 

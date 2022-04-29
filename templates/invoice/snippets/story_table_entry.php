@@ -3,6 +3,9 @@
     <td valign="top" class="tb-stories-id">
         <?php echo $show_id; ?>
     </td>
+    <!-- <td valign="top" width=100 class="tb-stories-title ellipsis">
+        <?php echo $type_title; ?>
+    </td> -->
     <td valign="top" width=400 class="tb-stories-title ellipsis">
         <?php echo $title; ?>
     </td>
