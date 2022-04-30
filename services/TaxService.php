@@ -54,6 +54,7 @@ class TaxService extends BaseService
                 'maximumTaxable' => $taxableInThisBracket,
                 'taxableAmountInBracket' => $taxableAmountInBracket,
                 'rate' => $percentTaxed,
+                'remainining' => $taxable,
                 'tax' => round($thisTaxBurden),
             ];
 

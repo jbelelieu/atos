@@ -1140,7 +1140,8 @@ table td.summary {
     background-color: #dbf9ff;
 }
 
-.highlight h2:first-child {
+.highlight h2:first-child,
+.highlightFixed h2:first-child {
     margin-top: 12px;
 }
 

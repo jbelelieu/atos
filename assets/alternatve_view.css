@@ -442,11 +442,11 @@ hr {
 }
 
 .show {
-    visibility: visible;
+    display: block;
 }
 
 .hide {
-    visibility: hidden;
+    display: none;
 }
 
 header span:last-child {
@@ -675,6 +675,15 @@ h4 {
     max-width: 150px;
     width: auto;
     height: auto;
+}
+
+button.a {
+    margin: 0;
+    color: #111;
+    padding: 0px;
+    border: none;
+    cursor: pointer;
+    background-color: transparent !important;
 }
 
 /*  */
