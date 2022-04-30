@@ -1,4 +1,4 @@
-![ATOS Logo](assets/atos_logo.png)
+![ATOS Logo](assets/screens/atos_logo.png)
 
 **Built by freelancer 🙋‍♂️, for freelancers 🕺 🤷 💃🏾 .**
 
@@ -8,11 +8,12 @@ Whether you're selling time-based sprints, or simply tracking time worked, ATOS 
 
 💬&nbsp;&nbsp;&nbsp;[Tweet About ATOS](http://twitter.com/intent/tweet?text=Freelancers!+Check+out+ATOS+%2C+a+drop+dead+simple%2C+locally+hosted+story+tracker+and+invoice+generator+designed+for+freelancer+software+developers.&url=https%3A%2F%2Fgithub.com%2Fjbelelieu%2Fato_stories)&nbsp;&nbsp;&nbsp;☕️&nbsp;&nbsp;&nbsp;[Buy me a Coffee!](https://www.buymeacoffee.com/jbelelieu)
 
-ATOS is a locally hosted, zero-setup application that makes invoicing against backlogs drop-dead simple. It does:
+**Key Features**
 
+- **Client Management**: Manage all of your clients, as well as companies that you represent.
 - **Project Management**: Track stories against known backlogs (or use it as an independent PM tool).
 - **Invoice Generation**: Generate detailed invoices against those completed stories.
-- **Taxes**: Estimate your tax burden for the year using customizable tax files for various regions, whether it be at the national (federal), regional (state), or municipal levels (city).
+- **Estimated Taxes**: Estimate your tax burden for the year using customizable tax files for various regions, whether it be at the national (federal), regional (state), or municipal levels (city).
   
 ATOS is 100% open source and free to use, licensed under the [GNU AGPLv3 License](https://www.gnu.org/licenses/agpl-3.0.en.html).
 
@@ -37,6 +38,8 @@ ATOS is 100% open source and free to use, licensed under the [GNU AGPLv3 License
     - [Is this meant to be a replacement for JIRA or Pivotal Tracker?](#is-this-meant-to-be-a-replacement-for-jira-or-pivotal-tracker)
     - [What tasks get placed on invoices?](#what-tasks-get-placed-on-invoices)
     - [Will future versions remain compatible with the beta?](#will-future-versions-remain-compatible-with-the-beta)
+    - [Will future versions require a local PHP Server?](#will-future-versions-require-a-local-php-server)
+    - [How long will beta last?](#how-long-will-beta-last)
     - [Why isn't this using modern PHP tools like Composer?](#why-isnt-this-using-modern-php-tools-like-composer)
     - [How should I handle non-payment of a collection?](#how-should-i-handle-non-payment-of-a-collection)
     - [How do I reconcile what I billed and what I got paid?](#how-do-i-reconcile-what-i-billed-and-what-i-got-paid)
@@ -159,6 +162,14 @@ Note that you can have stories with a "complete" status that won't appear in the
 ### Will future versions remain compatible with the beta?
 
 100%, without question. I use this personally, and I can't lose years of data for an upgrade. Your data won't become obsolete and you won't need to re-import anything with future versions.
+
+### Will future versions require a local PHP Server?
+
+While you can certainly continue to use this with a local PHP server, once beta is completed, the plan is to turn this into either a desktop app or a containerized app.
+
+### How long will beta last?
+
+Depending on how much feedback I get, I'm hoping to release v1 of ATOS mid-summer.
 
 ### Why isn't this using modern PHP tools like Composer?
 
