@@ -1,5 +1,3 @@
-
-
 ![ATOS Logo](assets/atos_logo.png)
 
 **Built by freelancer 🙋‍♂️, for freelancers 🕺 🤷 💃🏾 .**

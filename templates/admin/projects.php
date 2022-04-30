@@ -3,7 +3,7 @@
 
     <?php if ($totalCollections === 1) { ?>
         <p class="highlight">
-            Start here by creating your first collection of stories!
+            Start here by creating your first collection of stories. A collection is a grouping of stories that will be billed to a client. One common use case is to map bi-weekly sprints to invoiced work.
         </p>
     <?php } ?>
 
@@ -73,7 +73,7 @@
 
     <?php if ($totalCollections > 1 && $totalTasks <= 0) { ?>
         <p class="highlight">
-            Congrats on creating your first collection; now add some tasks to it to start billing!
+            Congrats on creating your first collection! Now add some tasks to it. Once you've added a task, you can assign it a status. If a status sets a story to "complete" and "billable" (see "Settings"), it will be added to generate invoices.
         </p>
     <?php } ?>
 
