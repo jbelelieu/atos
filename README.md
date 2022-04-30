@@ -15,7 +15,11 @@ Whether you're selling time-based sprints, or simply tracking time worked, ATOS 
 - **Invoice Generation**: Generate detailed invoices against those completed stories.
 - **Estimated Taxes**: Estimate your tax burden for the year using customizable tax files for various regions, whether it be at the national (federal), regional (state), or municipal levels (city).
   
+**Open Source and Free!**
+
 ATOS is 100% open source and free to use, licensed under the [GNU AGPLv3 License](https://www.gnu.org/licenses/agpl-3.0.en.html).
+
+**Screen Shots**
 
 <img alt="ATOS Screen Shot" src="https://github.com/jbelelieu/atos/blob/develop/assets/screens/atos-screen-project-sm.png?raw=true" style="width: 250px;float:left;" /> <img alt="ATOS Invoice Screen Shot" src="https://github.com/jbelelieu/atos/blob/develop/assets/screens/atos-screen-invoice-sm.png?raw=true" style="width: 250px;float:left;" /> <img alt="ATOS Invoice Screen Shot" src="https://github.com/jbelelieu/atos/blob/develop/assets/screens/atos-screen-taxes-sm.png?raw=true" style="width: 250px;float:left;" />
 
@@ -62,6 +66,8 @@ ATOS requires `PHP 8.1+` and `SQLite3`.
 - From Github, download the [latest release ZIP file](https://github.com/jbelelieu/atos/releases)
 - Unzip it wherever you want on your local machine
 - From the command line, go to the ATOS directory and launch the PHP server: `php -S localhost:9001`
+  - If you need to install PHP, please see "Notice: PHP 8.1 Requirement" below for instructions.
+  - You can test your machine's version of PHP using `php -v`
 - You can now access ATOS from any web browser at `http://localhost:9001`.
 
 #### Update Your Default Settings (Optional Step)
@@ -246,6 +252,7 @@ Some ways you can contribute include:
 
 # Roadmap
 
+- Remove PHP8 requirement in favor of most universally available versions
 - Edit companies and project basics
 - Task notes and files
 - Expanded language support and language packs
