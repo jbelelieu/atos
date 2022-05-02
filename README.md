@@ -28,7 +28,7 @@ ATOS is 100% open source and free to use, licensed under the [GNU AGPLv3 License
 - [Setup](#setup)
     - [Download and Start](#download-and-start)
       - [Update Your Default Settings (Optional Step)](#update-your-default-settings-optional-step)
-      - [Notice: Deploying ATOS To The Web**](#notice-deploying-atos-to-the-web)
+      - [Notice: Deploying ATOS To The Web](#notice-deploying-atos-to-the-web)
       - [Notice: Updating Your Logo](#notice-updating-your-logo)
       - [Notice: Saving Invoices and Tax Overviews](#notice-saving-invoices-and-tax-overviews)
       - [Notice: Language Files](#notice-language-files)
@@ -43,8 +43,10 @@ ATOS is 100% open source and free to use, licensed under the [GNU AGPLv3 License
     - [What tasks get placed on invoices?](#what-tasks-get-placed-on-invoices)
     - [Will future versions remain compatible with the beta?](#will-future-versions-remain-compatible-with-the-beta)
     - [Will future versions require a local PHP Server?](#will-future-versions-require-a-local-php-server)
+    - [Can companies use this to management projects?](#can-companies-use-this-to-management-projects)
     - [How long will beta last?](#how-long-will-beta-last)
     - [Why isn't this using modern PHP tools like Composer?](#why-isnt-this-using-modern-php-tools-like-composer)
+    - [Are you commiting to maintaining and improving ATOS moving forward?](#are-you-commiting-to-maintaining-and-improving-atos-moving-forward)
     - [How should I handle non-payment of a collection?](#how-should-i-handle-non-payment-of-a-collection)
     - [How do I reconcile what I billed and what I got paid?](#how-do-i-reconcile-what-i-billed-and-what-i-got-paid)
     - [What's the easiest way to import part data?](#whats-the-easiest-way-to-import-part-data)
@@ -74,7 +76,7 @@ ATOS requires `PHP 8.1+` and `SQLite3`.
 
 Open `settings.sample.php` and update the values as needed. Optionally rename it to `settings.env.php`, otherwise ATOS will do that for you.
 
-#### Notice: Deploying ATOS To The Web**
+#### Notice: Deploying ATOS To The Web
 
 ATOS was always meant to be used locally. While there shouldn't be any problems deploying it, I don't recommend allowing anyone to access it who you don't trust. There is no concept of "users" in the platform, so anyone with access to the platform will be able to do whatever they want with your data.
 
@@ -173,15 +175,27 @@ Note that you can have stories with a "complete" status that won't appear in the
 
 While you can certainly continue to use this with a local PHP server, once beta is completed, the plan is to turn this into either a desktop app or a containerized app.
 
+### Can companies use this to management projects?
+
+As of now there isn't a concept of "users", so while in theory it could be used, there wouldn't be any way of limiting who can do what in the application, nor any way of knowning who did what.
+
+Should beta find success, I will be happy to implement more extensive user-based permissions/roles allowing for companies to leverage this more effectively. But again, this was always designed for freelancers, so that was never a consideration going into beta.
+
 ### How long will beta last?
 
 Depending on how much feedback I get, I'm hoping to release v1 of ATOS mid-summer. Should the project find good feedback and success, I'll commit to extensive code clean up in line with some of my other modern projects like Zenbership v2.
 
 ### Why isn't this using modern PHP tools like Composer?
 
-The goal was always a zero-dependency application that can be setup in seconds. While I could ship with a vendor folder, I want this to be without bloat whenever possible. Sqlite3 allows for easy bsckups and makes your data highly portable. By adding complexity in the form of package managers and the such, it adds extra steps I don't want to put people through.
+The goal was always a zero-dependency application that can be setup in seconds. While I could ship with a vendor folder, I want this to be without bloat whenever possible. Sqlite3 allows for easy backups and makes your data highly portable. The lack of a full fledged PHP framekwork makes the package smaller. By adding complexity in the form of package managers and the such, it adds extra steps I don't want to put people through.
 
 In thoery, assuming you have PHP 8.1 installed locally, all you have to do is unzip the latest release and start the PHP server.
+
+### Are you commiting to maintaining and improving ATOS moving forward?
+
+Should ATOS gain a dedicated user-base and receive good feedback during beta, I fully intend to continue working on it. Future work would include a post-beta modernization of the codebase, as well as potential online "cloud-based" versions of the application. But I'll never remove the open source aspect of the application, and it will always be free to use locally.
+
+I personally use this application for all of my freelancing needs, so one way or another development will continue on it.
 
 ### How should I handle non-payment of a collection?
 
