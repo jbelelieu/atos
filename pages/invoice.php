@@ -145,7 +145,7 @@ $template = template(
 );
 
 if (!empty($_GET['save']) && $_GET['save'] === '1') {
-    $filename = cleanFileName($project['title']) . '_' . date('Ymd') . '_' . cleanFileName($collection['title']) . '.html';
+    $filename = 'invoice-' . date('Ymd') . '-' . cleanFileName($project['title']) . '-' . cleanFileName($collection['title']) . '.html';
 
     file_put_contents(ATOS_HOME_DIR . '/_generated/' . $filename, $template);
 

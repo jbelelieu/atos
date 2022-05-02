@@ -33,6 +33,12 @@ $rUri = explode('?', $_SERVER['REQUEST_URI']);
 $requestUri = $rUri['0'];
 
 switch (strtolower($requestUri)) {
+    case '/documents':
+        require ATOS_HOME_DIR . '/pages/files.php';
+        break;
+    case '/documents/load':
+        require ATOS_HOME_DIR . '/pages/files.php';
+        break;
     case '/invoice':
         require ATOS_HOME_DIR . '/pages/invoice.php';
         break;

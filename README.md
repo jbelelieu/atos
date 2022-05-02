@@ -175,13 +175,13 @@ While you can certainly continue to use this with a local PHP server, once beta 
 
 ### How long will beta last?
 
-Depending on how much feedback I get, I'm hoping to release v1 of ATOS mid-summer.
+Depending on how much feedback I get, I'm hoping to release v1 of ATOS mid-summer. Should the project find good feedback and success, I'll commit to extensive code clean up in line with some of my other modern projects like Zenbership v2.
 
 ### Why isn't this using modern PHP tools like Composer?
 
-The goal was always a zero-dependency application that can be setup in seconds. Sqlite3 allows for easy bsckups and makes your data highly portable. By adding complexity in the form of package managers and the such, it adds extra steps I don't want to put people through.
+The goal was always a zero-dependency application that can be setup in seconds. While I could ship with a vendor folder, I want this to be without bloat whenever possible. Sqlite3 allows for easy bsckups and makes your data highly portable. By adding complexity in the form of package managers and the such, it adds extra steps I don't want to put people through.
 
-In thoery, assuming you have PHP 8.1 installed locally, all you have to do is unzip the latest release and start the PHP server. I intend to keep it that way: *simplicity is poetry in code!*
+In thoery, assuming you have PHP 8.1 installed locally, all you have to do is unzip the latest release and start the PHP server.
 
 ### How should I handle non-payment of a collection?
 

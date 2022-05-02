@@ -66,7 +66,7 @@ if (!empty($_GET['save']) && $_GET['save'] === '1') {
         ? cleanFileName($_GET['title'])
         : cleanFileName($project['title']);
 
-    $filename = 'report-' . $cleanName . '_' . date('Ymd') . '.html';
+    $filename = 'report-' . date('Ymd') . '-' . $cleanName . '-' . '.html';
 
     file_put_contents(ATOS_HOME_DIR . '/_generated/' . $filename, $template);
 

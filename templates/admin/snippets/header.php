@@ -62,6 +62,7 @@ $pageTitle = (isset($_metaTitle)) ? $_metaTitle : 'ATOS';
             </span>
             <?php } ?>
             <?php echo $lastProjectLink; ?>
+            <a href="/documents">Documents</a>
             <a href="/tax">Taxes</a>
             <a href="/settings">Settings</a>
         <div>

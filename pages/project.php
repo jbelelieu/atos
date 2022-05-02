@@ -107,7 +107,7 @@ $collectionResults = [
 
 // Build the collections list.
 $collections = '';
-$allCollections = $collectionService->getCollectionByProject($project['id']);
+$allCollections = $collectionService->getCollectionByProject($project['id'], 9999);
 $totalCollections = sizeof($allCollections);
 $at = 0;
 

@@ -304,7 +304,7 @@ $changes = [
 $template = template('tax/estimate', $changes, true);
 
 if (!empty($_GET['save']) && $_GET['save'] === '1') {
-    $filename = 'tax-' . $year . '-' . date('Ymd') . '.html';
+    $filename = 'tax-' . date('Ymd') . '-' . $year . '.html';
 
     file_put_contents(ATOS_HOME_DIR . '/_generated/' . $filename, $template);
 

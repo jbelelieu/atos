@@ -135,8 +135,10 @@ function formatMoney($money): string
  */
 function logo(string $altText = ''): string
 {
-    return (file_exists(ATOS_HOME_DIR . '/assets/logo.png'))
-        ? '<div id="logoArea"><img src="/assets/logo.png" alt="' . $altText . '" /></div>'
+    $file = '/' . ltrim(getSetting(AtosSettings::LOGO_FILE), '/');
+
+    return (file_exists(ATOS_HOME_DIR . $file))
+        ? '<div id="logoArea"><img src="' . $file . '" alt="' . $altText . '" /></div>'
         : '';
 }
 
