@@ -65,7 +65,7 @@
     <th>Code</th>
     <th>Contractor</th>
     <th>Client</th>
-    <th width=190>Hours</th>
+    <th width=190>Units</th>
     <th width=190>Billed</th>
     <th width="42"></th>
     </tr>

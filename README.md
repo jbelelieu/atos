@@ -205,7 +205,7 @@ If a client doesn't end up paying, you should set the the task to the `Unpaid` s
 
 If a client only paid a fraction of an invoice, you have some options:
 
-- Change the task's hours: you can alter the collection, changing the hours billed to `0`,
+- Change the task's units: you can alter the collection, changing the units billed to `0`,
 - Change your tax burdens: if your goal is more accurate tax reporting, you can add a deduction at for the difference between what you billed and what you were paid. For example, if you were owed were `$10,000` and only got paid `$6,000`, within your tax information for that year, a `$4,000` deduction effectively fixes your actual income since deductions come directly out of your billed amount for the year.
 
 ### What's the easiest way to import part data?

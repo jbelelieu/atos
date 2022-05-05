@@ -23,7 +23,8 @@
     </td>
     <td>
         <input
-            type="text"
+            type="number"
+            step="0.25"
             autocomplete="off"
             name="story[<?php echo $story['id']; ?>][hours]"
             value="<?php echo $hours; ?>" />

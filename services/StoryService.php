@@ -231,7 +231,7 @@ class StoryService extends BaseService
                     id = :id
             ');
 
-            $hours = (int) $aStory['hours'];
+            $hours = (float) $aStory['hours'];
             $type = (int) $aStory['type'];
             $rateType = (int) $aStory['rate_type'];
 

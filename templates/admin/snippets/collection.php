@@ -80,7 +80,7 @@
             <th width="150">Type</th>
             <th width="32"></th>
             <th width="120">Completed</th>
-            <th width="75">Hours</th>
+            <th width="90">Units</th>
             <th width=>Title</th>
             <th width="180"></th>
             </tr>

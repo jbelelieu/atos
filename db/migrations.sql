@@ -82,7 +82,7 @@ CREATE TABLE `story` (
   `created_at` timestamp DEFAULT CURRENT_TIMESTAMP,
   `due_at` timestamp,
   `ended_at` timestamp,
-  `hours` INTEGER,
+  `hours` NUMERIC,
   `collection` INTEGER,
   `rate_type` INTEGER DEFAULT "1",
   `type` INTEGER,

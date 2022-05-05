@@ -92,7 +92,7 @@ foreach ($shippedStories as $aStory) {
     }
 
     $dayHours += (int) $aStory['hours'];
-    $totalHours += (int) $aStory['hours'];
+    $totalHours += (float) $aStory['hours'];
 
     $storyHtml .= template('invoice/snippets/story_table_entry', $aStory, true);
 }

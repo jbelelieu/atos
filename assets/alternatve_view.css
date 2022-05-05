@@ -688,9 +688,33 @@ button.a {
 
 /*  */
 
+blockquote {
+    font-style: italic;
+    margin: 16px 0;
+    color: #333;
+}
+
+blockquote:before,
+blockquote:after {
+    content: '"';
+}
 
 .noMarginTop {
     margin-top: 0px;
+}
+
+.borderSection table tr th:first-child,
+.sunk table tr th:first-child,
+.borderSection table tr td:first-child,
+.sunk table tr td:first-child {
+    padding-left: 0px;
+}
+
+.borderSection table tr th:last-child,
+.sunk table tr th:last-child,
+.borderSection table tr td:last-child,
+.sunk table tr td:last-child {
+    padding-right: 0px;
 }
 
 /*  */
