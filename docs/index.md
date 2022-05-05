@@ -15,6 +15,94 @@
 
 ----
 
+# On This Page
+
+- [Documentation](#documentation)
+  - [User Documentation](#user-documentation)
+  - [Technical Documentation](#technical-documentation)
+- [On This Page](#on-this-page)
+- [Setup & Installation](#setup--installation)
+  - [If You Have PHP7 Installed Locally](#if-you-have-php7-installed-locally)
+  - [If You Don't Have PHP7 Installed](#if-you-dont-have-php7-installed)
+- [Update Your Default Settings (Optional Step)](#update-your-default-settings-optional-step)
+  - [Important Notices](#important-notices)
+    - [Deploying ATOS To The Web](#deploying-atos-to-the-web)
+    - [Optimized Viewing Experience (Sorry, No Mobile)](#optimized-viewing-experience-sorry-no-mobile)
+    - [Updating Your Logo](#updating-your-logo)
+    - [Saving Invoices, Reports, and Tax Documents](#saving-invoices-reports-and-tax-documents)
+    - [Language Files](#language-files)
+    - [Templates Files](#templates-files)
+    - [phpLiteAdmin](#phpliteadmin)
+- [Core Concepts](#core-concepts)
+
+# Setup & Installation
+
+ATOS requires `PHP7+` and `SQLite3`.
+
+## If You Have PHP7 Installed Locally
+
+- From Github, download the [latest release ZIP file](https://github.com/jbelelieu/atos/releases)
+- Unzip it wherever you want on your local machine
+- From the command line, go to the ATOS directory and launch the PHP server: `php -S localhost:9001`
+  - If you need to install PHP, please see "Notice: PHP 8.1 Requirement" below for instructions.
+  - You can test your machine's version of PHP using `php -v`
+- You can now access ATOS from any web browser at `http://localhost:9001`.
+
+## If You Don't Have PHP7 Installed
+
+Do the following then follow the above directions:
+
+- On Mac: `brew update && brew install php && brew link php`
+  - To update an existing version of PHP: `brew update && brew upgrade php && brew link --overwrite --force php`
+
+
+# Update Your Default Settings (Optional Step)
+
+Open `settings.sample.php` and update the values as needed. Optionally rename it to `settings.env.php`, otherwise ATOS will do that for you.
+
+## Important Notices
+
+### Deploying ATOS To The Web
+
+ATOS was always meant to be used locally. While there shouldn't be any problems deploying it, I don't recommend allowing anyone to access it who you don't trust. There is no concept of "users" in the platform, so anyone with access to the platform will be able to do whatever they want with your data.
+
+### Optimized Viewing Experience (Sorry, No Mobile)
+
+This software was never optimized for mobile; in fact, it was intended to be used with relatively large resolution displays.
+
+### Updating Your Logo
+
+You can add your logo to outgoing invoices by simply replacing `assets/logo.png` in the main directory of the project with your actual logo.
+
+### Saving Invoices, Reports, and Tax Documents
+
+If you plan on generating and saving generated documents locally (which I recommend you do), you will need to make sure the `_generated` and `_vault` directories are writable: `chmod 0755 _generated && chmod 0755 _vault`.
+
+Invoices/ and taxes files are saved as HTML. Most computers have reasonable `Print as PDF` options now; please use that feature to print a PDF if required. ATOS hard codes styles, so changing `assets/invoiceStyle.css` or `assets/taxStyle.css` won't affect already saved invoices.
+
+### Language Files
+
+You can customize some of the language that isn't on templates using the `includes/language.php` file.
+
+If you happen to translate the application, please share it with the community!
+
+### Templates Files
+
+You certainly don't need to, but if you want to, feel free to thinker with all of the templates in the `templates` folder.
+
+Please see the docs for a list of available variables for each template.
+
+If you happen to make a new theme, please share it with the community!
+
+### phpLiteAdmin
+
+For your convinience, ATOS ships with [phpLiteAdmin](https://www.phpliteadmin.org/). You can access that from `http://localhost:9001/db`.
+
+ATOS will automatically attempt to run migrations at first start up. On the off chance that migrations fail, you can use phpLiteAdmin to manually execute the contents of `db/migrations.sql`.
+
+---
+
+
 # Core Concepts
 
 These cover anything you can directly interact with/manage using the software:
@@ -33,50 +121,3 @@ These cover anything you can directly interact with/manage using the software:
 - **Taxes**: Tax year covered by ATOS. Each tax year can have different filing strategies and regions.
 - **Tax Deduction**: Any amount that comes directly out of your base income to figure out your taxable income. For example, the US Federal standard deduction.
 - **Tax Adjustment**: Any income outside of ATOS that will add to your total taxable income. For example, capital gains taxes of 15% on $5,000 in stock earnings.
-
-# Important Notices
-
-## Deploying ATOS To The Web
-
-ATOS was always meant to be used locally. While there shouldn't be any problems deploying it, I don't recommend allowing anyone to access it who you don't trust. There is no concept of "users" in the platform, so anyone with access to the platform will be able to do whatever they want with your data.
-
-## Optimized Viewing Experience (Sorry, No Mobile)
-
-This software was never optimized for mobile; in fact, it was intended to be used with relatively large resolution displays.
-
-## Updating Your Logo
-
-You can add your logo to outgoing invoices by simply replacing `assets/logo.png` in the main directory of the project with your actual logo.
-
-## Saving Invoices, Reports, and Tax Documents
-
-If you plan on generating and saving generated documents locally (which I recommend you do), you will need to make sure the `_generated` and `_vault` directories are writable: `chmod 0755 _generated && chmod 0755 _vault`.
-
-Invoices/ and taxes files are saved as HTML. Most computers have reasonable `Print as PDF` options now; please use that feature to print a PDF if required. ATOS hard codes styles, so changing `assets/invoiceStyle.css` or `assets/taxStyle.css` won't affect already saved invoices.
-
-## Language Files
-
-You can customize some of the language that isn't on templates using the `includes/language.php` file.
-
-If you happen to translate the application, please share it with the community!
-
-## Templates Files
-
-You certainly don't need to, but if you want to, feel free to thinker with all of the templates in the `templates` folder.
-
-Please see the docs for a list of available variables for each template.
-
-If you happen to make a new theme, please share it with the community!
-
-## PHP7+ Requirement (Installing PHP)
-
-ATOS requires PHP7+. Many systems ship with PHP installed, but if you need to install PHP7+ (brew should provide the latest version):
-
-- On Mac: `brew update && brew install php && brew link php`
-  - To update an existing version of PHP: `brew update && brew upgrade php && brew link --overwrite --force php`
-
-## phpLiteAdmin
-
-For your convinience, ATOS ships with [phpLiteAdmin](https://www.phpliteadmin.org/). You can access that from `http://localhost:9001/db`.
-
-ATOS will automatically attempt to run migrations at first start up. On the off chance that migrations fail, you can use phpLiteAdmin to manually execute the contents of `db/migrations.sql`.

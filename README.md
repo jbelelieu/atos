@@ -4,7 +4,7 @@
 
 *Now in beta!* --- ATOS is every freelancer's one-stop-shop for managing clients, projects, and your taxes. Whether you're selling time-based sprints, or simply tracking time worked, ATOS allows you to manage multiple projects for multiple clients at once, all while generating beautiful invoices and helping you with your estimated taxes in the process.
 
-- 📔&nbsp;&nbsp;&nbsp;[Documentation](docs/index.md)
+- 📔&nbsp;&nbsp;&nbsp;[Documentation & Installation](https://jbelelieu.github.io/atos/)
 - 💬&nbsp;&nbsp;&nbsp;[Tweet About ATOS](http://twitter.com/intent/tweet?text=Freelancers!+Check+out+ATOS+%2C+a+drop+dead+simple%2C+locally+hosted+story+tracker+and+invoice+generator+designed+for+freelancer+software+developers.&url=https%3A%2F%2Fgithub.com%2Fjbelelieu%2Fato_stories)
 - ☕️&nbsp;&nbsp;&nbsp;[Buy me a Coffee!](https://www.buymeacoffee.com/jbelelieu)
 
@@ -27,37 +27,10 @@ ATOS is 100% open source and free to use, licensed under the [GNU AGPLv3 License
 
 -----
 
-- [Setup](#setup)
-    - [Download and Start](#download-and-start)
-      - [Update Your Default Settings (Optional Step)](#update-your-default-settings-optional-step)
-      - [Important Notices](#important-notices)
 - [Contributing](#contributing)
   - [How to Contribute](#how-to-contribute)
   - [Special Thank You](#special-thank-you)
 - [Roadmap](#roadmap)
-
------
-
-# Setup
-
-ATOS requires `PHP 8.1+` and `SQLite3`.
-
-### Download and Start
-
-- From Github, download the [latest release ZIP file](https://github.com/jbelelieu/atos/releases)
-- Unzip it wherever you want on your local machine
-- From the command line, go to the ATOS directory and launch the PHP server: `php -S localhost:9001`
-  - If you need to install PHP, please see "Notice: PHP 8.1 Requirement" below for instructions.
-  - You can test your machine's version of PHP using `php -v`
-- You can now access ATOS from any web browser at `http://localhost:9001`.
-
-#### Update Your Default Settings (Optional Step)
-
-Open `settings.sample.php` and update the values as needed. Optionally rename it to `settings.env.php`, otherwise ATOS will do that for you.
-
-#### Important Notices
-
-Please see the [documentation](docs/index.md) for some additional optional setup steps as well as some important notices.
 
 ----
 
