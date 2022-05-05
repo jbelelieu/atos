@@ -3,8 +3,6 @@
 namespace services;
 
 use services\BaseService;
-use services\ProjectService;
-use services\SettingService;
 
 /**
  * ATOS: "Built by freelancer 🙋‍♂️, for freelancers 🕺 🤷 💃🏾 "
@@ -19,7 +17,19 @@ use services\SettingService;
  */
 class StoryService extends BaseService
 {
+    /**
+     * @var services\CollectionService
+     */
+    private $collectionService;
+
+    /**
+     * @var services\ProjectService
+     */
     private $projectService;
+
+    /**
+     * @var services\SettingService
+     */
     private $settingService;
 
     public function __construct()
@@ -64,6 +74,15 @@ class StoryService extends BaseService
         }
 
         return $options;
+    }
+
+    /**
+     * @param array $data
+     * @return void
+     */
+    public function createNote(array $data): void
+    {
+        dd($data);
     }
 
     /**
@@ -117,6 +136,15 @@ class StoryService extends BaseService
         $statement->execute();
 
         redirect('/project', $data['project_id'], 'Your new story has been created as ' . $id);
+    }
+
+    /**
+     * @param array $data
+     * @return void
+     */
+    public function deleteNote(array $data): void
+    {
+        dd($data);
     }
 
     /**
@@ -209,9 +237,26 @@ class StoryService extends BaseService
      */
     public function updateStories(array $data): void
     {
+        $collectionService = new CollectionService(); // TODO: we need dependency injection
+
+        $defaultCollection = $collectionService
+            ->getDefaultCollectionForProject($data['project_id']);
+        $latestCollection = $collectionService
+            ->getLatestCollectionForProject($data['project_id']);
+
         foreach ($data['story'] as $storyId => $aStory) {
+            $thisStory = $this->getStory($storyId);
+
             if (empty($aStory['title'])) {
                 continue;
+            }
+
+            if (in_array($storyId, $data['move'])) {
+                $newCollection = ((int) $thisStory['collection'] === (int) $defaultCollection['id'])
+                    ? $latestCollection['id']
+                    : $defaultCollection['id'];
+            } else {
+                $newCollection = $thisStory['collection'];
             }
 
             // Default to existing, overwrite anything incoming...
@@ -226,6 +271,7 @@ class StoryService extends BaseService
                     type = :type,
                     rate_type = :rate_type,
                     title = :title,
+                    collection = :collection,
                     ended_at = :ended_at
                 WHERE
                     id = :id
@@ -237,6 +283,7 @@ class StoryService extends BaseService
 
             $statement->bindParam(':ended_at', $aStory['ended_at']);
             $statement->bindParam(':hours', $hours);
+            $statement->bindParam(':collection', $newCollection);
             $statement->bindParam(':type', $type);
             $statement->bindParam(':rate_type', $rateType);
             $statement->bindParam(':title', $aStory['title']);
@@ -244,7 +291,15 @@ class StoryService extends BaseService
             $statement->execute();
         }
 
-        redirect('/project', $data['project_id'], 'Your stories have been updated.');
+        redirect(
+            '/project',
+            $data['project_id'],
+            'Your stories have been updated.',
+            null,
+            false,
+            [],
+            ($data['collection_id'] === $defaultCollection['id']) ? 'unorganized' : 'top'
+        );
     }
 
     /**

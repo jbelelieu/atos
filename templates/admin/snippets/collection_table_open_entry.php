@@ -1,5 +1,8 @@
 
 <tr>
+<td class="checkbox">
+    <input type="checkbox" name="move[]" value="<?php echo $story['id']; ?>" />
+</td>
 <td>
     <span class="ticketId">
         <?php echo $story['show_id']; ?>

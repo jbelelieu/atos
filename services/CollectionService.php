@@ -3,8 +3,6 @@
 namespace services;
 
 use services\BaseService;
-use services\SettingService;
-use services\StoryService;
 
 /**
  * ATOS: "Built by freelancer 🙋‍♂️, for freelancers 🕺 🤷 💃🏾 "
@@ -19,7 +17,14 @@ use services\StoryService;
  */
 class CollectionService extends BaseService
 {
+    /**
+     * @var services\SettingService
+     */
     private $settingService;
+
+    /**
+     * @var services\StoryService
+     */
     private $storyService;
 
     public function __construct()

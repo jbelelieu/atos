@@ -47,6 +47,9 @@ if (isset($_GET['action'])) {
         case 'deleteFileLink':
             $fileLinkService->deleteFileLink($_GET);
             exit;
+        case 'deleteFileLink':
+            $storyService->deleteNote($_GET);
+            exit;
         case 'deleteStory':
             $storyService->deleteStory($_GET);
             exit;
@@ -71,6 +74,9 @@ if (isset($_POST['action'])) {
             exit;
         case 'createLink':
             $fileLinkService->createLink($_POST);
+            exit;
+        case 'createNote':
+            $storyService->createNote($_POST);
             exit;
         case 'createStory':
             $storyService->createStory($_POST);

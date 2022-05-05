@@ -93,6 +93,16 @@ CREATE TABLE `story` (
   CONSTRAINT fk_rate_type FOREIGN KEY(rate_type) REFERENCES story_hour_type(id)
 );
 
+CREATE TABLE `story_note` (
+  `id` INTEGER PRIMARY KEY AUTOINCREMENT,
+  `created_at` timestamp DEFAULT CURRENT_TIMESTAMP,
+  `story_id` INTEGER,
+  `title` varchar(200),
+  `note` text,
+  `is_public` BOOLEAN DEFAULT "0",
+  CONSTRAINT fk_story_note_story_id FOREIGN KEY(story_id) REFERENCES story(id)
+);
+
 CREATE TABLE `invoice` (
   `id` INTEGER PRIMARY KEY AUTOINCREMENT,
   `created_at` timestamp DEFAULT CURRENT_TIMESTAMP,

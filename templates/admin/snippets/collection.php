@@ -21,7 +21,7 @@
 <?php } else { ?>
 
     <div class="clearFix"></div>
-    <h5 class="bubble noMarginTop">Open</h5> <a class="unorgLink" href="#unorganized">View Unorganized</a>
+    <h5 class="bubble noMarginTop">Open</h5> <a class="unorgLink" href="#unorganized">Unorganized</a> <a class="unorgLink" href="#completed">Completed &amp; Billable</a>
 
 <?php } ?>
 
@@ -32,11 +32,13 @@
     action="/project?id=<?php echo $collection['project_id']; ?>"
     method="post">
     <input type="hidden" name="action" value="updateStories" />
+    <input type="hidden" name="collection_id" value="<?php echo $collection['id']; ?>" />
     <input type="hidden" name="project_id" value="<?php echo $collection['project_id']; ?>" />
 
     <table id="table-all" class="allStoriesInCollection unorganized">
     <thead>
     <tr>
+    <th width="32"></th>
     <th width="80">ID</th>
     <th width="140">Rate Type</th>
     <th width="140">Type</th>
@@ -48,7 +50,10 @@
     <tbody>
         <?php echo $openStories; ?>
         <tr>
-        <td colspan="4" class="textRight"></td>
+        <td colspan="4">
+            <button type="submit">Move Selected</button>
+        </td>
+        <td class="textRight"></td>
         <td colspan="2">
             <button type="submit">Update Tasks</button>
         </td>
@@ -61,7 +66,8 @@
 <div class="" style="margin-top: 12px;">
     <!-- Billable stories table -->
 
-    <hr class="lighter" />
+    <a name="completed"></a>
+    <hr />
     <h5>Completed &amp; Billable</h5>
 
     <form
@@ -70,6 +76,7 @@
         action="/project?id=<?php echo $collection['project_id']; ?>"
         method="post">
         <input type="hidden" name="action" value="updateStories" />
+        <input type="hidden" name="collection_id" value="<?php echo $collection['id']; ?>" />
         <input type="hidden" name="project_id" value="<?php echo $collection['project_id']; ?>" />
 
         <table class="allStoriesInCollection">

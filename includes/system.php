@@ -119,7 +119,7 @@ spl_autoload_register(
 
         $fileName .= str_replace('_', DIRECTORY_SEPARATOR, $className) . '.php';
 
-        require ATOS_HOME_DIR . '/' . $fileName;
+        require_once ATOS_HOME_DIR . '/' . $fileName;
     }
 );
 

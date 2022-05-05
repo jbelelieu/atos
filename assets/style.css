@@ -576,21 +576,6 @@ input.paid {
     border-left: 1px solid #f1f1f1;
 }
 
-table td:last-child a {
-    width: 18px;
-    height: 18px;
-}
-
-table td:first-child,
-table th:first-child {
-    padding-left: 0px;
-}
-
-table td:last-child,
-table th:last-child {
-    padding-right: 0px;
-}
-
 .borderSection {
     position: relative;
 }
@@ -1007,6 +992,34 @@ table {
     width: 100%;
     border-collapse: collapse;
     font-size: 0.95em;
+}
+
+table td.checkbox {
+    padding-right: 0px;
+    text-align: center;
+}
+
+table tr:nth-child(even) {
+    background: #f5f5f5;
+}
+
+table tr:hover {
+    background: #e5e5e5;
+}
+
+table td:last-child a {
+    width: 18px;
+    height: 18px;
+}
+
+table td:first-child,
+table th:first-child {
+    padding-left: 0px;
+}
+
+table td:last-child,
+table th:last-child {
+    padding-right: 0px;
 }
 
 table th {

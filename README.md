@@ -1,6 +1,6 @@
 ![ATOS Logo](assets/screens/atos_logo.png)
 
-**Built by freelancer 🙋‍♂️, for freelancers 🕺 🤷 💃🏾 .**
+**Built by freelancer 🙋‍♂️, for freelancer 🕺 🤷 💃🏾 .**
 
 *Now in beta!*
 
