@@ -55,16 +55,6 @@ CREATE TABLE `story_status` (
   `emoji` varchar(10)
 );
 
-CREATE TABLE `story_note` (
-  `id` INTEGER PRIMARY KEY AUTOINCREMENT,
-  `story_id` INTEGER,
-  `created_at` timestamp DEFAULT CURRENT_TIMESTAMP,
-  `resolved_at` timestamp,
-  `is_resolved` boolean DEFAULT 0,
-  `note` text,
-  CONSTRAINT fk_story_id FOREIGN KEY(story_id) REFERENCES story(id) ON DELETE CASCADE
-);
-
 CREATE TABLE `story_collection` (
   `id` INTEGER PRIMARY KEY AUTOINCREMENT,
   `created_at` timestamp DEFAULT CURRENT_TIMESTAMP,
