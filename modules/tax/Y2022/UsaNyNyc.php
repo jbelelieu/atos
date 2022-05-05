@@ -16,6 +16,9 @@ namespace modules\tax\Y2022;
 
 class UsaNyNyc
 {
+    /**
+     * Dates on which estimated taxes are due
+     */
     const ESTIMATED_TAXES_DUE = [
         '2022-04-18',
         '2022-06-15',
@@ -23,10 +26,25 @@ class UsaNyNyc
         '2023-01-17',
     ];
 
+    /**
+     * Online payment portal
+     */
+    const link = 'https://www.tax.ny.gov/pay/ind/pay-estimated-tax.htm';
+
+    /**
+     * Name of the region
+     */
     const REGION = 'New York City';
     
+    /**
+     * Year this tax file is relevant for
+     */
     const YEAR = 2022;
 
+    /**
+     * Filing status option
+     * Percent Taxes => Income up to
+     */
     public function head_of_household(): array
     {
         return [
@@ -37,11 +55,19 @@ class UsaNyNyc
         ];
     }
 
+    /**
+     * Filing status option
+     * Percent Taxes => Income up to
+     */
     public function married_individual(): array
     {
         return $this->single;
     }
 
+    /**
+     * Filing status option
+     * Percent Taxes => Income up to
+     */
     public function married_joint(): array
     {
         return [
@@ -52,11 +78,19 @@ class UsaNyNyc
         ];
     }
 
+    /**
+     * Filing status option
+     * Percent Taxes => Income up to
+     */
     public function qualified_widower(): array
     {
         return $this->married_joint();
     }
 
+    /**
+     * Filing status option
+     * Percent Taxes => Income up to
+     */
     public function single(): array
     {
         return [
