@@ -51,12 +51,16 @@ function cleanFileName(string $input): string
  * @param $data
  * @return void
  */
-function dd($data)
+function dd()
 {
-    echo "<PRE>";
-    print_r($data);
-    echo "</PRE>";
-    exit;
+    echo "<pre>";
+
+    foreach (func_get_args() as $x) {
+        print_r($x);
+        echo "\n\n\n";
+    }
+    
+    die;
 }
 
 /**

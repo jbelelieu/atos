@@ -182,7 +182,6 @@ foreach ($taxRegions as $aRegion => $regionalStrategy) {
 }
 
 // Add recommendations
-$recommendations = [];
 foreach ($finalData as $region => $aTaxRegionBurden) {
     $estTaxes = $aTaxRegionBurden['_class']::ESTIMATED_TAXES_DUE;
 
@@ -242,6 +241,7 @@ foreach ($estimatedTaxes as $region => $payments) {
     }
 
     $regionTotals[$region] = formatMoney($total * 100);
+    $regionTotals['_' . $region] = $total;
 }
 
 $queryString = '&year=' . $year;
