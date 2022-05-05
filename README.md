@@ -61,9 +61,10 @@ Some ways you can contribute include:
 
 # Roadmap
 
-- File and data syncing via a cloud service (dropbox, etc.)
-- Remove PHP8 requirement in favor of most universally available versions
 - Edit companies and project basics
 - Task notes and files
 - Expanded language support and language packs
+- File and data syncing via a cloud service (dropbox, etc.)
 - Better help bubbles, especially for first time users
+- Cloud-based option for freelancers on the move!
+  
