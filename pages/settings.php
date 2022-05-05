@@ -126,8 +126,8 @@ foreach ($statuses as $aStatus) {
                 ]
             ),
             'icon' => putIcon($aStatus['emoji'], $aStatus['color']),
-            'isBillable' => isBool($aStatus['is_billable_state']),
-            'isComplete' => isBool($aStatus['is_complete_state']),
+            'isBillable' => parseBool($aStatus['is_billable_state']),
+            'isComplete' => parseBool($aStatus['is_complete_state']),
         ],
         true
     );

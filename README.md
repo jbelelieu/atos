@@ -1,6 +1,4 @@
-
-
-![ATOS Logo](assets/atos_logo.png)
+![ATOS Logo](assets/screens/atos_logo.png)
 
 **Built by freelancer 🙋‍♂️, for freelancers 🕺 🤷 💃🏾 .**
 
@@ -10,13 +8,18 @@ Whether you're selling time-based sprints, or simply tracking time worked, ATOS 
 
 💬&nbsp;&nbsp;&nbsp;[Tweet About ATOS](http://twitter.com/intent/tweet?text=Freelancers!+Check+out+ATOS+%2C+a+drop+dead+simple%2C+locally+hosted+story+tracker+and+invoice+generator+designed+for+freelancer+software+developers.&url=https%3A%2F%2Fgithub.com%2Fjbelelieu%2Fato_stories)&nbsp;&nbsp;&nbsp;☕️&nbsp;&nbsp;&nbsp;[Buy me a Coffee!](https://www.buymeacoffee.com/jbelelieu)
 
-ATOS is a locally hosted, zero-setup application that makes invoicing against backlogs drop-dead simple. It does:
+**Key Features**
 
+- **Client Management**: Manage all of your clients, as well as companies that you represent.
 - **Project Management**: Track stories against known backlogs (or use it as an independent PM tool).
 - **Invoice Generation**: Generate detailed invoices against those completed stories.
-- **Taxes**: Estimate your tax burden for the year using customizable tax files for various regions, whether it be at the national (federal), regional (state), or municipal levels (city).
+- **Estimated Taxes**: Estimate your tax burden for the year using customizable tax files for various regions, whether it be at the national (federal), regional (state), or municipal levels (city).
   
+**Open Source and Free!**
+
 ATOS is 100% open source and free to use, licensed under the [GNU AGPLv3 License](https://www.gnu.org/licenses/agpl-3.0.en.html).
+
+**Screen Shots**
 
 <img alt="ATOS Screen Shot" src="https://github.com/jbelelieu/atos/blob/develop/assets/screens/atos-screen-project-sm.png?raw=true" style="width: 250px;float:left;" /> <img alt="ATOS Invoice Screen Shot" src="https://github.com/jbelelieu/atos/blob/develop/assets/screens/atos-screen-invoice-sm.png?raw=true" style="width: 250px;float:left;" /> <img alt="ATOS Invoice Screen Shot" src="https://github.com/jbelelieu/atos/blob/develop/assets/screens/atos-screen-taxes-sm.png?raw=true" style="width: 250px;float:left;" />
 
@@ -25,9 +28,9 @@ ATOS is 100% open source and free to use, licensed under the [GNU AGPLv3 License
 - [Setup](#setup)
     - [Download and Start](#download-and-start)
       - [Update Your Default Settings (Optional Step)](#update-your-default-settings-optional-step)
-      - [Notice: Deploying ATOS To The Web**](#notice-deploying-atos-to-the-web)
+      - [Notice: Deploying ATOS To The Web](#notice-deploying-atos-to-the-web)
       - [Notice: Updating Your Logo](#notice-updating-your-logo)
-      - [Notice: Saving Invoices and Tax Overviews](#notice-saving-invoices-and-tax-overviews)
+      - [Notice: Saving Invoices, Reports, and Tax Documents](#notice-saving-invoices-reports-and-tax-documents)
       - [Notice: Language Files](#notice-language-files)
       - [Notice: Templates Files](#notice-templates-files)
       - [Notice: PHP 8.1 Requirement](#notice-php-81-requirement)
@@ -39,7 +42,11 @@ ATOS is 100% open source and free to use, licensed under the [GNU AGPLv3 License
     - [Is this meant to be a replacement for JIRA or Pivotal Tracker?](#is-this-meant-to-be-a-replacement-for-jira-or-pivotal-tracker)
     - [What tasks get placed on invoices?](#what-tasks-get-placed-on-invoices)
     - [Will future versions remain compatible with the beta?](#will-future-versions-remain-compatible-with-the-beta)
+    - [Will future versions require a local PHP Server?](#will-future-versions-require-a-local-php-server)
+    - [Can companies use this to management projects?](#can-companies-use-this-to-management-projects)
+    - [How long will beta last?](#how-long-will-beta-last)
     - [Why isn't this using modern PHP tools like Composer?](#why-isnt-this-using-modern-php-tools-like-composer)
+    - [Are you commiting to maintaining and improving ATOS moving forward?](#are-you-commiting-to-maintaining-and-improving-atos-moving-forward)
     - [How should I handle non-payment of a collection?](#how-should-i-handle-non-payment-of-a-collection)
     - [How do I reconcile what I billed and what I got paid?](#how-do-i-reconcile-what-i-billed-and-what-i-got-paid)
     - [What's the easiest way to import part data?](#whats-the-easiest-way-to-import-part-data)
@@ -61,13 +68,15 @@ ATOS requires `PHP 8.1+` and `SQLite3`.
 - From Github, download the [latest release ZIP file](https://github.com/jbelelieu/atos/releases)
 - Unzip it wherever you want on your local machine
 - From the command line, go to the ATOS directory and launch the PHP server: `php -S localhost:9001`
+  - If you need to install PHP, please see "Notice: PHP 8.1 Requirement" below for instructions.
+  - You can test your machine's version of PHP using `php -v`
 - You can now access ATOS from any web browser at `http://localhost:9001`.
 
 #### Update Your Default Settings (Optional Step)
 
 Open `settings.sample.php` and update the values as needed. Optionally rename it to `settings.env.php`, otherwise ATOS will do that for you.
 
-#### Notice: Deploying ATOS To The Web**
+#### Notice: Deploying ATOS To The Web
 
 ATOS was always meant to be used locally. While there shouldn't be any problems deploying it, I don't recommend allowing anyone to access it who you don't trust. There is no concept of "users" in the platform, so anyone with access to the platform will be able to do whatever they want with your data.
 
@@ -75,9 +84,9 @@ ATOS was always meant to be used locally. While there shouldn't be any problems 
 
 You can add your logo to outgoing invoices by simply replacing `assets/logo.png` in the main directory of the project with your actual logo.
 
-#### Notice: Saving Invoices and Tax Overviews
+#### Notice: Saving Invoices, Reports, and Tax Documents
 
-If you plan on generating and saving invoices/taxes locally (which I recommend you do), you will need to make sure the `_generated` directory is writable: `chmod 0755 _generated`.
+If you plan on generating and saving generated documents locally (which I recommend you do), you will need to make sure the `_generated` and `_vault` directories are writable: `chmod 0755 _generated && chmod 0755 _vault`.
 
 Invoices/ and taxes files are saved as HTML. Most computers have reasonable `Print as PDF` options now; please use that feature to print a PDF if required. ATOS hard codes styles, so changing `assets/invoiceStyle.css` or `assets/taxStyle.css` won't affect already saved invoices.
 
@@ -162,11 +171,31 @@ Note that you can have stories with a "complete" status that won't appear in the
 
 100%, without question. I use this personally, and I can't lose years of data for an upgrade. Your data won't become obsolete and you won't need to re-import anything with future versions.
 
+### Will future versions require a local PHP Server?
+
+While you can certainly continue to use this with a local PHP server, once beta is completed, the plan is to turn this into either a desktop app or a containerized app.
+
+### Can companies use this to management projects?
+
+As of now there isn't a concept of "users", so while in theory it could be used, there wouldn't be any way of limiting who can do what in the application, nor any way of knowning who did what.
+
+Should beta find success, I will be happy to implement more extensive user-based permissions/roles allowing for companies to leverage this more effectively. But again, this was always designed for freelancers, so that was never a consideration going into beta.
+
+### How long will beta last?
+
+Depending on how much feedback I get, I'm hoping to release v1 of ATOS mid-summer. Should the project find good feedback and success, I'll commit to extensive code clean up in line with some of my other modern projects like Zenbership v2.
+
 ### Why isn't this using modern PHP tools like Composer?
 
-The goal was always a zero-dependency application that can be setup in seconds. Sqlite3 allows for easy bsckups and makes your data highly portable. By adding complexity in the form of package managers and the such, it adds extra steps I don't want to put people through.
+The goal was always a zero-dependency application that can be setup in seconds. While I could ship with a vendor folder, I want this to be without bloat whenever possible. Sqlite3 allows for easy backups and makes your data highly portable. The lack of a full fledged PHP framekwork makes the package smaller. By adding complexity in the form of package managers and the such, it adds extra steps I don't want to put people through.
 
-In thoery, assuming you have PHP 8.1 installed locally, all you have to do is unzip the latest release and start the PHP server. I intend to keep it that way: *simplicity is poetry in code!*
+In thoery, assuming you have PHP 8.1 installed locally, all you have to do is unzip the latest release and start the PHP server.
+
+### Are you commiting to maintaining and improving ATOS moving forward?
+
+Should ATOS gain a dedicated user-base and receive good feedback during beta, I fully intend to continue working on it. Future work would include a post-beta modernization of the codebase, as well as potential online "cloud-based" versions of the application. But I'll never remove the open source aspect of the application, and it will always be free to use locally.
+
+I personally use this application for all of my freelancing needs, so one way or another development will continue on it.
 
 ### How should I handle non-payment of a collection?
 
@@ -176,7 +205,7 @@ If a client doesn't end up paying, you should set the the task to the `Unpaid` s
 
 If a client only paid a fraction of an invoice, you have some options:
 
-- Change the task's hours: you can alter the collection, changing the hours billed to `0`,
+- Change the task's units: you can alter the collection, changing the units billed to `0`,
 - Change your tax burdens: if your goal is more accurate tax reporting, you can add a deduction at for the difference between what you billed and what you were paid. For example, if you were owed were `$10,000` and only got paid `$6,000`, within your tax information for that year, a `$4,000` deduction effectively fixes your actual income since deductions come directly out of your billed amount for the year.
 
 ### What's the easiest way to import part data?
@@ -223,6 +252,7 @@ Some ways you can contribute include:
 - Donate to support additional development
 - Build features for the core platform
 - Translate the application into a new language or dialect
+- Build new report templates
 - Create yearly tax files: create one for your regional burdens and share with the world!
 - Theming
   - Dashboard themes (no heavy javascript-based solutions)
@@ -236,16 +266,9 @@ Some ways you can contribute include:
 
 # Roadmap
 
-- Editing of companies, projects, rates, types, and statuses
+- File and data syncing via a cloud service (dropbox, etc.)
+- Remove PHP8 requirement in favor of most universally available versions
+- Edit companies and project basics
 - Task notes and files
-- PRoject hand off lists
-- Project turn-over to-do lists that can be generated and sent to clients much like invoices
-- Basic estimated tax help for American freelancers
-  - Automate grabbing regions from github and auto creating
-  - Save generated tax burden page
-  - Select your tax strategies
-  - Reminders of est taxes being due
-- Bulk actions on stories
 - Expanded language support and language packs
-- Various themes
-- List invoice / tax directory contents
+- Better help bubbles, especially for first time users

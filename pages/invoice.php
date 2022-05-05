@@ -92,7 +92,7 @@ foreach ($shippedStories as $aStory) {
     }
 
     $dayHours += (int) $aStory['hours'];
-    $totalHours += (int) $aStory['hours'];
+    $totalHours += (float) $aStory['hours'];
 
     $storyHtml .= template('invoice/snippets/story_table_entry', $aStory, true);
 }
@@ -145,7 +145,7 @@ $template = template(
 );
 
 if (!empty($_GET['save']) && $_GET['save'] === '1') {
-    $filename = cleanFileName($project['title']) . '_' . date('Ymd') . '_' . cleanFileName($collection['title']) . '.html';
+    $filename = 'invoice-' . date('Ymd') . '-' . cleanFileName($project['title']) . '-' . cleanFileName($collection['title']) . '.html';
 
     file_put_contents(ATOS_HOME_DIR . '/_generated/' . $filename, $template);
 

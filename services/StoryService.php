@@ -43,13 +43,14 @@ class StoryService extends BaseService
         $itemId,
         bool $skipMoveCollection = false,
         $skipStatusId = 0,
-        bool $skipStatuses = false
+        bool $skipStatuses = false,
+        string $helpText = 'Move Collections'
     ): string {
         // TODO: oof
         global $storyStatuses;
 
         $options = (!$skipMoveCollection)
-            ? "<a title=\"" . language('move_collections', 'Move Collections') . "\" href=\"/project?action=shiftCollection&project_id=" . $projectId . "&id=" . $itemId . "\">" . putIcon('icofont-undo') . "</a>"
+            ? "<a title=\"" . language('move_collections', $helpText) . "\" href=\"/project?action=shiftCollection&project_id=" . $projectId . "&id=" . $itemId . "\">" . putIcon('icofont-box') . "</a>"
             : '';
 
         if (!$skipStatuses) {
@@ -75,12 +76,37 @@ class StoryService extends BaseService
             ? $data['show_id']
             : $this->generateTicketId($data['project_id']);
 
+        $status = $this->settingService->getStoryStatusById($data['status']);
+
+        $ended_at = (parseBool($status['is_complete_state'])) ? date('Y-m-d H:i:s') : null;
+
         $statement = $this->db->prepare('
-            INSERT INTO story (show_id, due_at, title, collection, rate_type, type, status)
-            VALUES (:show_id, :due_at, :title, :collection, :rate_type, :type, :status)
+            INSERT INTO story (
+                show_id,
+                due_at,
+                title,
+                collection,
+                rate_type,
+                type,
+                status,
+                ended_at,
+                hours
+            )
+            VALUES (
+                :show_id,
+                :due_at,
+                :title,
+                :collection,
+                :rate_type,
+                :type,
+                :status,
+                :ended_at,
+                1
+            )
         ');
 
         $statement->bindParam(':show_id', $id);
+        $statement->bindParam(':ended_at', $ended_at);
         $statement->bindParam(':due_at', $data['due_at']);
         $statement->bindParam(':title', $data['title']);
         $statement->bindParam(':collection', $data['collection']);
@@ -205,7 +231,7 @@ class StoryService extends BaseService
                     id = :id
             ');
 
-            $hours = (int) $aStory['hours'];
+            $hours = (float) $aStory['hours'];
             $type = (int) $aStory['type'];
             $rateType = (int) $aStory['rate_type'];
 
@@ -237,9 +263,11 @@ class StoryService extends BaseService
         $hours = 0;
         if ((int) $story['hours'] > 0) {
             $hours = $story['hours'];
-        } elseif (isBool($status['is_billable_state'])) {
+        } elseif (parseBool($status['is_billable_state'])) {
             $hours = 1;
         }
+
+        $endedAt = $story['ended_at'] ? $story['ended_at'] : date('Y-m-d H:i:s');
     
         $statement = $this->db->prepare('
             UPDATE story
@@ -250,7 +278,7 @@ class StoryService extends BaseService
         $statement->bindParam(':status', $data['status']);
         $statement->bindParam(':hours', $hours);
         $statement->bindParam(':id', $data['id']);
-        $statement->bindParam(':ended_at', date('Y-m-d H:i:s'));
+        $statement->bindParam(':ended_at', $endedAt);
         $statement->execute();
 
         $status = $this->settingService->getStoryStatusById($data['status']);

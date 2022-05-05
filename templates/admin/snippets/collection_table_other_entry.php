@@ -23,7 +23,8 @@
     </td>
     <td>
         <input
-            type="text"
+            type="number"
+            step="0.25"
             autocomplete="off"
             name="story[<?php echo $story['id']; ?>][hours]"
             value="<?php echo $hours; ?>" />
@@ -41,8 +42,7 @@
             <?php echo $options; ?><a
             title="Delete"
             onclick="return confirm('This will delete the task - are you sure?')"
-            href="<?php echo $deleteLink; ?>">
-            <?php echo putIcon('icofont-delete'); ?>
+            href="<?php echo $deleteLink; ?>"><?php echo putIcon('icofont-delete'); ?></a>
         </div>
     </td>
 </tr>

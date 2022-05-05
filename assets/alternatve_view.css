@@ -442,11 +442,11 @@ hr {
 }
 
 .show {
-    visibility: visible;
+    display: block;
 }
 
 .hide {
-    visibility: hidden;
+    display: none;
 }
 
 header span:last-child {
@@ -671,17 +671,50 @@ h4 {
 }
 
 #logoArea img {
-    max-height: 80px;
+    max-height: 100px;
     max-width: 150px;
     width: auto;
     height: auto;
 }
 
+button.a {
+    margin: 0;
+    color: #111;
+    padding: 0px;
+    border: none;
+    cursor: pointer;
+    background-color: transparent !important;
+}
+
 /*  */
 
+blockquote {
+    font-style: italic;
+    margin: 16px 0;
+    color: #333;
+}
+
+blockquote:before,
+blockquote:after {
+    content: '"';
+}
 
 .noMarginTop {
     margin-top: 0px;
+}
+
+.borderSection table tr th:first-child,
+.sunk table tr th:first-child,
+.borderSection table tr td:first-child,
+.sunk table tr td:first-child {
+    padding-left: 0px;
+}
+
+.borderSection table tr th:last-child,
+.sunk table tr th:last-child,
+.borderSection table tr td:last-child,
+.sunk table tr td:last-child {
+    padding-right: 0px;
 }
 
 /*  */
@@ -827,6 +860,10 @@ table td.summary {
     border-right: 3px solid #3fcce8;
     border-bottom: 6px solid #3fcce8; */
     background-color: #dbf9ff;
+}
+
+.table_bump {
+    padding-top: 4px;
 }
 
 .attentionTop p:first-child {

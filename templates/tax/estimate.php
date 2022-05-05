@@ -8,6 +8,7 @@
     <style type="text/css">
         <?php echo $css; ?>
     </style>
+    <script src="/assets/main.js"></script>
 </head>
 
 <body>
@@ -16,6 +17,7 @@
 
         <div class="textCenter noprint" style="padding-bottom:12px;">
             <nav class="marginTop">
+                <a href="/tax">Back to Taxes</a>
                 <a class="blue bold" href="/tax/render?<?php echo $queryString; ?>&save=1">Save Estimate</a>
                 <a href="#d0">Tax Breakdown</a>
                 <a href="#regions">Regional Tax Burdens</a>
@@ -114,36 +116,61 @@
                         <div class="textRight pad">
                             <h4>
                                 <span class="larger red">
-                                    TAX BURDEN
+                                    TAX BURDEN</br >
+                                    <?php echo $details['results']['_tax']; ?> (<button type="button" class="a" onClick="toggleDiv('region-<?php echo $region; ?>');">?</button>)
                                 </span><br /><br />
                                 <?php echo $details['_class']::REGION; ?>
                                 <br />
                                 <?php echo $details['filingStrategy'] ?>
                                 <br />
                                 <?php echo $details['recommendations']['percentOfTotalTaxBurden'] ?>% of total
+                                <br /><br />
                             </h4>
                         </div>
                         <div class="pad borderLeft">
                             <table>
                                 <thead>
                                     <tr>
-                                        <th width="230">Date Due or Paid</th>
-                                        <th>Estimated</th>
+                                        <th width="170">Date Due or Paid</th>
+                                        <th>Rec. Payment</th>
                                         <th>Actual Paid</th>
+                                        <th>Difference</th>
                                     </tr>
                                 </thead>
                                 <tbody>
                                     <?php
                                     $up = 0;
+                                    $left = 4;
+                                    $totalDifference = 0;
+                                    $difference = 0;
+                                    $addPerPayment = 0;
+
                                     foreach ($details['recommendations']['schedule'] as $date => $sDetails) {
                                         $thisRegion = $estimatedTaxes[$region];
+
+                                        $split = ($difference != 0)
+                                            ? ceil($difference / $left)
+                                            : 0;
+
+                                        $sDetails['_amount'] -= ($split + $addPerPayment);
+                                        $sDetails['amount'] = formatMoney($sDetails['_amount'] * 100);
+
+                                        $addPerPayment += $split;
+
                                         if (array_key_exists($up, $thisRegion)) {
                                             $useDate =  $estimatedTaxes[$region][$up]['created_at'];
                                             $useAmount = $estimatedTaxes[$region][$up]['amount'];
+
+                                            $difference = ($useAmount > 0)
+                                                ? $useAmount - $sDetails['_amount']
+                                                : 0;
                                         } else {
                                             $useDate =  $date;
                                             $useAmount =  0;
+                                            $difference = 0;
                                         }
+
+                                        $totalDifference += $difference;
                                         
                                         $addClass = $useAmount > 0 ? 'paid' : ''; ?>
                                     <tr>
@@ -159,7 +186,9 @@
                                             <!-- <?php echo $sDetails['date']; ?> -->
                                             <p class="weak">Days until due: <?php echo $sDetails['daysUntil']; ?></p>
                                         </td>
-                                        <td><?php echo $sDetails['amount']; ?></td>
+                                        <td class="<?php echo ($difference === 0) ? '' : 'gray'; ?>">
+                                            <?php echo $sDetails['amount']; ?>
+                                        </td>
                                         <td>
                                             $<input
                                                 type="number"
@@ -167,17 +196,61 @@
                                                 value="<?php echo $estimatedTaxes[$region][$up]['amount'] ?>"
                                                 style="width:120px;" />
                                         </td>
+                                        <td class="<?php echo ($difference < 0) ? 'red' : ''; ?>">
+                                            <?php
+                                                echo ($difference !== 0)
+                                                    ? formatMoney($difference * 100)
+                                                    :  '-'; ?>
+                                        </td>
                                     </tr>
                                     <?php
-                                    $up++;
+                                        $left--;
+                                        $up++;
                                     } ?>
                                 </tbody>
                                 <tr>
-                                    <td class="listLeft"></td>
-                                    <td class="bold"><?php echo $details['results']['_tax']; ?></td>
+                                    <td class="listLeft">
+                                    </td>
+                                    <td class="bold"></td>
                                     <td class="bold"><?php echo $regionTotals[$region]; ?></td>
+                                    <td class="bold <?php echo $totalDifference < 0 ? 'red' : ''; ?>"><?php echo formatMoney($totalDifference * 100); ?></td>
                                 </tr>
                              </table>
+
+                             <div class="hide marginTop" id="region-<?php echo $region; ?>">
+                                <table class="weak">
+                                    <thead>
+                                    <tr>
+                                        <th>Bracket</th>
+                                        <th>Taxable</th>
+                                        <th>Bracket Tax</th>
+                                        <th>Total Tax</th>
+                                        <th>Remaining</th>
+                                    </tr>
+                                    </thead>
+                                    <tbody>
+                                    <?php
+                                    $totalTax = 0;
+                                    foreach ($details['results']['taxedAt']  as $item) {
+                                        $totalTax += $item['tax']; ?>
+                                        <tr>
+                                            <td><?php echo $item['rate']; ?>%</td>
+                                            <td><?php echo formatMoney($item['taxableAmountInBracket'] * 100); ?></td>
+                                            <td>
+                                                <?php echo formatMoney($item['tax'] * 100); ?>
+                                            </td>
+                                            <td>
+                                                <?php echo formatMoney($totalTax * 100); ?>
+                                            </td>
+                                            <td>
+                                                <?php echo formatMoney($item['remainining'] * 100); ?>
+                                            </td>
+                                        </tr>
+                                    <?php
+                                    } ?>
+                                    </tbody>
+                                </table>
+                             </div>
                         </div>
                         
                     </div>

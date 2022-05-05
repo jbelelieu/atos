@@ -70,7 +70,7 @@ class CollectionService extends BaseService
     {
         $collection = $this->getCollectionById($data['id']);
 
-        $isDefault = isBool($collection['is_project_default']);
+        $isDefault = parseBool($collection['is_project_default']);
         if ($isDefault) {
             redirect(
                 '/project',
@@ -101,7 +101,7 @@ class CollectionService extends BaseService
         redirect(
             '/project',
             $data['project_id'],
-            'Your collection has been deleted.'
+            'Your collection has been deleted. All stories in that collection have been moved to your default collection for the project.'
         );
     }
         
@@ -208,7 +208,7 @@ class CollectionService extends BaseService
         bool $showCompleteNotBillable = false
     ) {
         $collection = $this->getCollectionById($collectionId);
-        $isDefaultCollection = isBool($collection['is_project_default']);
+        $isDefaultCollection = parseBool($collection['is_project_default']);
 
         $statusQuery = '';
         if (!$isDefaultCollection) {
@@ -293,7 +293,7 @@ class CollectionService extends BaseService
         $currentCollection = $this->getCollectionById($story['collection']);
         $currentStatus = $this->settingService->getStoryStatusById($story['status']);
 
-        $isStoryInDefaultCollection = isBool($currentCollection['is_project_default']);
+        $isStoryInDefaultCollection = parseBool($currentCollection['is_project_default']);
 
         if ($isStoryInDefaultCollection) {
             $useCollection = $this->getLatestCollectionForProject($data['project_id']);

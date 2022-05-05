@@ -62,8 +62,18 @@ $pageTitle = (isset($_metaTitle)) ? $_metaTitle : 'ATOS';
             </span>
             <?php } ?>
             <?php echo $lastProjectLink; ?>
+            <a href="/documents">Documents</a>
             <a href="/tax">Taxes</a>
             <a href="/settings">Settings</a>
         <div>
     </div>
 </header>
+
+<?php
+if (!empty($_GET['_success'])) {
+                        echo "<div class=\"success\">" . putIcon('checked') . $_GET['_success'] . "</div>";
+                    }
+
+if (!empty($_GET['_error'])) {
+    echo "<div class=\"error\">" . putIcon('minus-circle', '#fff') . $_GET['_error'] . "</div>";
+}

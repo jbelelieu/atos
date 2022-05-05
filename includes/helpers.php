@@ -51,12 +51,16 @@ function cleanFileName(string $input): string
  * @param $data
  * @return void
  */
-function dd($data)
+function dd()
 {
-    echo "<PRE>";
-    print_r($data);
-    echo "</PRE>";
-    exit;
+    echo "<pre>";
+
+    foreach (func_get_args() as $x) {
+        print_r($x);
+        echo "\n\n\n";
+    }
+    
+    die;
 }
 
 /**
@@ -67,25 +71,6 @@ function dd($data)
 function formatDate(string $date, string $format = 'Y/m/d'): string
 {
     return date($format, strtotime($date));
-}
-
-/**
- * SQLite3 and PHP don't play well with booleans, so we'll
- * create a function to manage this better.
- *
- * @param $value
- * @return boolean
- */
-function isBool($value): bool
-{
-    $stringValue = strtolower((string) $value);
-
-    return (
-        $stringValue === '1'
-        || $stringValue === 'true'
-        || $stringValue === 'yes'
-        || $stringValue === 'y'
-    ) ? true : false;
 }
 
 /**
@@ -100,6 +85,25 @@ function language(string $key, string $default = ''): string
     return (array_key_exists($key, $ATOS_LANGUAGE)) ? $ATOS_LANGUAGE[$key] : $default;
 
     return $default;
+}
+
+/**
+ * SQLite3 and PHP don't play well with booleans, so we'll
+ * create a function to manage this better.
+ *
+ * @param $value
+ * @return boolean
+ */
+function parseBool($value): bool
+{
+    $stringValue = strtolower((string) $value);
+
+    return (
+        $stringValue === '1'
+        || $stringValue === 'true'
+        || $stringValue === 'yes'
+        || $stringValue === 'y'
+    ) ? true : false;
 }
 
 /**
@@ -135,19 +139,21 @@ function formatMoney($money): string
  */
 function logo(string $altText = ''): string
 {
-    return (file_exists(ATOS_HOME_DIR . '/assets/logo.png'))
-        ? '<div id="logoArea"><img src="/assets/logo.png" alt="' . $altText . '" /></div>'
+    $file = '/' . ltrim(getSetting(AtosSettings::LOGO_FILE), '/');
+
+    return (file_exists(ATOS_HOME_DIR . $file))
+        ? '<div id="logoArea"><img src="' . $file . '" alt="' . $altText . '" /></div>'
         : '';
 }
 
 /**
- * @param string $page
- * @param string $id
- * @param string|null $success
- * @param string|null $error
- * @param bool $return
- * @param array $queryString
- * @param string $hash
+ * @param string $page  Base URI we are redirecting to.
+ * @param string $id  ID of the item we are redirecting to.
+ * @param string|null $success  Success message.
+ * @param string|null $error  Error message.
+ * @param bool $return  If true, we return the URL without redirecting to it.
+ * @param array $queryString  Additional values to add to the query string.
+ * @param string $hash  If you want to use a hashbang, ie "vertical scroll" to a certain part of a page.
  * @return void
  */
 function redirect(

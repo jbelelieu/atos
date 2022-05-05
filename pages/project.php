@@ -1,6 +1,7 @@
 <?php
 
 use services\CollectionService;
+use services\FileLinkService;
 use services\ProjectService;
 use services\SettingService;
 use services\StoryService;
@@ -33,6 +34,7 @@ if (empty($_GET['id'])) {
  */
 
 $collectionService = new CollectionService();
+$fileLinkService = new FileLinkService();
 $settingService = new SettingService();
 $projectService = new ProjectService();
 $storyService = new StoryService();
@@ -41,6 +43,9 @@ if (isset($_GET['action'])) {
     switch ($_GET['action']) {
         case 'deleteCollection':
             $collectionService->deleteCollection($_GET);
+            exit;
+        case 'deleteFileLink':
+            $fileLinkService->deleteFileLink($_GET);
             exit;
         case 'deleteStory':
             $storyService->deleteStory($_GET);
@@ -64,11 +69,17 @@ if (isset($_POST['action'])) {
         case 'createCollection':
             $collectionService->createCollection($_POST);
             exit;
+        case 'createLink':
+            $fileLinkService->createLink($_POST);
+            exit;
         case 'createStory':
             $storyService->createStory($_POST);
             exit;
         case 'updateStories':
             $storyService->updateStories($_POST);
+            exit;
+        case 'uploadFile':
+            $fileLinkService->uploadFile($_POST);
             exit;
         default:
             redirect('/project', $_GET['id'], null, 'Unknown action');
@@ -107,7 +118,7 @@ $collectionResults = [
 
 // Build the collections list.
 $collections = '';
-$allCollections = $collectionService->getCollectionByProject($project['id']);
+$allCollections = $collectionService->getCollectionByProject($project['id'], 9999);
 $totalCollections = sizeof($allCollections);
 $at = 0;
 
@@ -116,7 +127,7 @@ foreach ($allCollections as $row) {
         continue;
     }
 
-    $isProjectDefault = isBool($row['is_project_default']);
+    $isProjectDefault = parseBool($row['is_project_default']);
 
     $delete = (!$isProjectDefault)
         ? "<span class=\"delete\"><a onclick=\"return confirm('Are you sure you want to delete this collection?')\" href=\"/project?action=deleteCollection&project_id=" . $project['id'] . "&id=" . $row['id'] . "\">" . putIcon('icofont-delete') . "</a></span>"
@@ -145,7 +156,7 @@ foreach ($collectionResults as $aCollection) {
 
     $hours = 0;
 
-    $isProjectDefault = isBool($aCollection['is_project_default']);
+    $isProjectDefault = parseBool($aCollection['is_project_default']);
 
     $tripFlag = ($collectionCount > 1 && !$isProjectDefault);
 
@@ -154,6 +165,8 @@ foreach ($collectionResults as $aCollection) {
     $openStories = $collectionService->getStoriesInCollection($aCollection['id']);
     foreach ($openStories as $row) {
         $totalTasks++;
+
+        $row['title'] = htmlspecialchars($row['title']);
 
         $label = getLabel($row);
 
@@ -204,7 +217,7 @@ foreach ($collectionResults as $aCollection) {
     foreach ($otherStories as $row) {
         $totalTasks++;
     
-        $endedAt = ($row['status'] == 2 || $row['status'] == 4)
+        $endedAt = ($row['is_complete_state'] || $row['is_billable_state'])
             ? formatDate($row['ended_at'], 'Y-m-d')
             : null;
 
@@ -212,9 +225,9 @@ foreach ($collectionResults as $aCollection) {
 
         $hours += (int) $row['hours'];
 
-        $class = '';
-        $class .= (!isBool($row['is_billable_state'])) ? ' notBillable' : '';
-        $class .= ($row['status'] == 3) ? ' handOff' : '';
+        $class = (!parseBool($row['is_billable_state'])) ? ' notBillable' : '';
+
+        $row['title'] = htmlspecialchars($row['title']);
 
         $renderedOtherStories .= template(
             'admin/snippets/collection_table_other_entry',
@@ -274,7 +287,7 @@ foreach (scandir(ATOS_HOME_DIR . '/templates/report') as $file) {
 
     $exp = explode('.', $file);
 
-    $allTemplates[$exp[0]] = snakeToEnglish($file);
+    $allTemplates[$exp[0]] = snakeToEnglish($exp[0]);
 }
 
 echo template(
@@ -285,6 +298,8 @@ echo template(
         'templates' => $allTemplates,
         'allCollections' => $allCollections,
         'collectionsRendered' => $collectionsRendered,
+        'files' => $fileLinkService->getFilesForProject($project['id']),
+        'links' => $fileLinkService->getLinksForProject($project['id']),
         'nextId' => $storyService->generateTicketId($project['id']),
         'project' => $project,
         'totalCollections' => sizeof($allCollections),
@@ -302,5 +317,5 @@ exit;
  */
 function getLabel(array  $row): string
 {
-    return "<div class=\"projectId\" style=\"color:" . $row['status_color'] . "\">" . $row['show_id'] . "</div>";
+    return "<div class=\"projectId\" style=\"background-color:" . $row['status_color'] . "\">" . $row['show_id'] . "</div>";
 }

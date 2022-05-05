@@ -78,15 +78,15 @@ $attentionMessage = '';
 if ($overrideEstimatedTotal) {
     $displayType = 'Taxes ' . $year . ': Fixed Income Projection Estimate';
 
-    $attentionMessage = 'This is an estimate based on a hypothetical year-end income.<br /><br />This attempts to project your tax burden for the year assuming that your total income for the year will be ' . formatMoney($overrideEstimatedTotal * 100) . '.';
+    $attentionMessage = '<b>Please speak to a financial professional before using these numbers as a guide!</b><br /><br  />This is an estimate based on a hypothetical year-end income.<br /><br />This attempts to project your tax burden for the year assuming that your total income for the year will be ' . formatMoney($overrideEstimatedTotal * 100) . '.';
 } elseif ($doProjectedEstimate) {
     $displayType = 'Taxes ' . $year . ': Projected Estimate';
 
-    $attentionMessage = 'This is an estimate based on your current daily average income projected through the end of the year.<br /><br /><b>Important:</b> Any additional income will change these numbers, giving you a larger tax burden. If you have a good idea of what you will make this year, try a "Fixed Income Projection" estimate instead.';
+    $attentionMessage = '<b>Please speak to a financial professional before using these numbers as a guide!</b><br /><br  />This is an estimate based on your current daily average income projected through the end of the year.<br /><br /><b>Important:</b> Any additional income will change these numbers, giving you a larger tax burden. If you have a good idea of what you will make this year, try a "Fixed Income Projection" estimate instead.';
 } else {
     $displayType = 'Taxes ' . $year . ': Actual Current Estimate';
 
-    $attentionMessage = 'This is only valid if your income remains the same for the rest of the year.<br /><br /><b>Important:</b> Any additional income will change these numbers, giving you a larger tax burden. If you have a good idea of what you will make this year, try a "Fixed Income Projection" estimate instead.';
+    $attentionMessage = '<b>Please speak to a financial professional before using these numbers as a guide!</b><br /><br  />This is only valid if your income remains the same for the rest of the year.<br /><br /><b>Important:</b> Any additional income will change these numbers, giving you a larger tax burden. If you have a good idea of what you will make this year, try a "Fixed Income Projection" estimate instead.';
 }
 
 if (!file_exists(ATOS_HOME_DIR . '/modules/tax/Y' . $year)) {
@@ -182,7 +182,6 @@ foreach ($taxRegions as $aRegion => $regionalStrategy) {
 }
 
 // Add recommendations
-$recommendations = [];
 foreach ($finalData as $region => $aTaxRegionBurden) {
     $estTaxes = $aTaxRegionBurden['_class']::ESTIMATED_TAXES_DUE;
 
@@ -200,7 +199,7 @@ foreach ($finalData as $region => $aTaxRegionBurden) {
         $schedule[$aDate] = [
             'date' => formatDate($aDate),
             'amount' => formatMoney($quarterly * 100),
-            // 'daysUntil' => ($daysUntil <= 0) ? putIcon('icofont-check') : $daysUntil,
+            '_amount' => $quarterly,
             'daysUntil' => ($daysUntil <= 0) ? '-' : $daysUntil,
         ];
     }
@@ -229,16 +228,20 @@ foreach ($known as $payment) {
     if (!array_key_exists($payment['region'], $estimatedTaxes)) {
         $estimatedTaxes[$payment['region']] = [];
     }
+
     $estimatedTaxes[$payment['region']][] = $payment;
 }
 
 $regionTotals = [];
 foreach ($estimatedTaxes as $region => $payments) {
     $total = 0;
+    
     foreach ($payments as $aPayment) {
         $total += $aPayment['amount'];
     }
+
     $regionTotals[$region] = formatMoney($total * 100);
+    $regionTotals['_' . $region] = $total;
 }
 
 $queryString = '&year=' . $year;
@@ -301,7 +304,7 @@ $changes = [
 $template = template('tax/estimate', $changes, true);
 
 if (!empty($_GET['save']) && $_GET['save'] === '1') {
-    $filename = 'tax-' . $year . '-' . date('Ymd') . '.html';
+    $filename = 'tax-' . date('Ymd') . '-' . $year . '.html';
 
     file_put_contents(ATOS_HOME_DIR . '/_generated/' . $filename, $template);
 

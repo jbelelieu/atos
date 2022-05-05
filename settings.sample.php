@@ -3,6 +3,9 @@
 return [
     // What is your database file called.
     'DATABASE_FILE_NAME' => 'atos.sqlite3',
+
+    // Path to your logo file
+    'LOGO_FILE' => 'assets/logo.png',
     
     // How many days from issuances of the invoice should payment be due?
     // Set to zero (0) to not have a due date.

@@ -17,10 +17,10 @@ namespace modules\tax\Y2021;
 class UsaNyNyc
 {
     const ESTIMATED_TAXES_DUE = [
-        '2022-04-15',
-        '2022-06-15',
-        '2022-09-15',
-        '2023-01-15',
+        '2021-04-15',
+        '2021-06-15',
+        '2021-09-15',
+        '2022-01-15',
     ];
 
     const REGION = 'New York City';

@@ -32,6 +32,7 @@ require ATOS_HOME_DIR . "/includes/helpers.php";
 enum AtosSettings: string
 {
     case DATABASE_FILE_NAME = 'DATABASE_FILE_NAME';
+    case LOGO_FILE = 'LOGO_FILE';
     case INVOICE_DUE_DATE_IN_DAYS = 'INVOICE_DUE_DATE_IN_DAYS';
     case INVOICE_ORDER_BY_DATE_COMPLETED = 'INVOICE_ORDER_BY_DATE_COMPLETED';
     case UNORGANIZED_NAME = 'UNORGANIZED_NAME';
@@ -47,6 +48,8 @@ function getSetting(AtosSettings $key, $default = null)
     switch ($key) {
         case AtosSettings::DATABASE_FILE_NAME:
             return returnSetting('DATABASE_FILE_NAME', $default);
+        case AtosSettings::LOGO_FILE:
+            return returnSetting('LOGO_FILE', $default);
         case AtosSettings::INVOICE_DUE_DATE_IN_DAYS:
             return (int) returnSetting('INVOICE_DUE_DATE_IN_DAYS', $default);
         case AtosSettings::INVOICE_ORDER_BY_DATE_COMPLETED:

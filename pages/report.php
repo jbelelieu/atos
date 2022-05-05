@@ -1,5 +1,6 @@
 <?php
 
+use services\CollectionService;
 use services\CompanyService;
 use services\ProjectService;
 
@@ -25,12 +26,14 @@ if (empty($_GET['project_id'])) {
     );
 }
 
+$collectionService = new CollectionService();
 $companyService = new CompanyService();
 $projectService = new ProjectService();
 
 $project = $projectService->getProjectById($_GET['project_id']);
 $company = $companyService->getCompanyById($project['company_id']);
 $clientCompany = $companyService->getCompanyById($project['client_id']);
+$collections = $collectionService->getCollectionByProject($project['id']);
 
 $results = $projectService->getStoriesByFilters(
     $_GET['project_id'],
@@ -49,6 +52,7 @@ $template = template(
         'project' => $project,
         'company' => $company,
         'stories' => $results,
+        'collections' => $collections,
         'logo' => logo(),
         'css' => file_get_contents('assets/alternatve_view.css'),
     ],
@@ -62,7 +66,7 @@ if (!empty($_GET['save']) && $_GET['save'] === '1') {
         ? cleanFileName($_GET['title'])
         : cleanFileName($project['title']);
 
-    $filename = 'report-' . $cleanName . '_' . date('Ymd') . '.html';
+    $filename = 'report-' . date('Ymd') . '-' . $cleanName . '-' . '.html';
 
     file_put_contents(ATOS_HOME_DIR . '/_generated/' . $filename, $template);
 
