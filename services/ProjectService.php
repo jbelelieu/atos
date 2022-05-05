@@ -4,8 +4,6 @@ namespace services;
 
 use services\BaseService;
 
-// require_once ATOS_HOME_DIR . '/services/BaseService.php';
-
 /**
  * ATOS: "Built by freelancer 🙋‍♂️, for freelancers 🕺 🤷 💃🏾 "
  *
@@ -75,9 +73,8 @@ class ProjectService extends BaseService
             systemError($e->getMessage());
         }
 
-        redirect('/', null, 'Your project has been created; now go got get that bread.');
+        redirect('/', null, 'Your project has been created; now go got get that bread!');
     }
-
 
     /**
      * @param array $data

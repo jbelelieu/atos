@@ -76,12 +76,37 @@ class StoryService extends BaseService
             ? $data['show_id']
             : $this->generateTicketId($data['project_id']);
 
+        $status = $this->settingService->getStoryStatusById($data['status']);
+
+        $ended_at = (parseBool($status['is_complete_state'])) ? date('Y-m-d H:i:s') : null;
+
         $statement = $this->db->prepare('
-            INSERT INTO story (show_id, due_at, title, collection, rate_type, type, status)
-            VALUES (:show_id, :due_at, :title, :collection, :rate_type, :type, :status)
+            INSERT INTO story (
+                show_id,
+                due_at,
+                title,
+                collection,
+                rate_type,
+                type,
+                status,
+                ended_at,
+                hours
+            )
+            VALUES (
+                :show_id,
+                :due_at,
+                :title,
+                :collection,
+                :rate_type,
+                :type,
+                :status,
+                :ended_at,
+                1
+            )
         ');
 
         $statement->bindParam(':show_id', $id);
+        $statement->bindParam(':ended_at', $ended_at);
         $statement->bindParam(':due_at', $data['due_at']);
         $statement->bindParam(':title', $data['title']);
         $statement->bindParam(':collection', $data['collection']);
@@ -238,7 +263,7 @@ class StoryService extends BaseService
         $hours = 0;
         if ((int) $story['hours'] > 0) {
             $hours = $story['hours'];
-        } elseif (isBool($status['is_billable_state'])) {
+        } elseif (parseBool($status['is_billable_state'])) {
             $hours = 1;
         }
 

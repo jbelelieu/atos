@@ -66,7 +66,7 @@
                         <?php foreach ($stories as $aStory) { ?>
                             <tr>
                                 <td>
-                                    <input type="checkbox" <?php echo isBool($aStory['isComplete']) ? 'checked=checked' : 'disabled="disabled"'; ?> />
+                                    <input type="checkbox" <?php echo parseBool($aStory['isComplete']) ? 'checked=checked' : 'disabled="disabled"'; ?> />
                                 </td>
                                 <td>
                                     <div class="table_bump">

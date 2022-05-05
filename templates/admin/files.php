@@ -1,8 +1,8 @@
 
-<div id="holderFixed">
+<div id="holderFixed" class="border">
 
-    <h2>Invoices</h2>
-    <div class="borderContainer border pad">
+    <div class="borderContainer pad">
+        <h2>Invoices</h2>
         <table>
         <thead>
         <tr>
@@ -25,8 +25,8 @@
         </table>
     </div>
 
-    <h2>Reports</h2>
-    <div class="borderContainer border pad">
+    <div class="borderContainer borderTop pad">
+        <h2>Reports</h2>
         <table>
         <thead>
         <tr>
@@ -49,8 +49,8 @@
         </table>
     </div>
     
-    <h2>Taxes</h2>
-    <div class="borderContainer border pad">
+    <div class="borderContainer borderTop pad">
+        <h2>Taxes</h2>
         <table>
         <thead>
         <tr>

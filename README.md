@@ -30,7 +30,7 @@ ATOS is 100% open source and free to use, licensed under the [GNU AGPLv3 License
       - [Update Your Default Settings (Optional Step)](#update-your-default-settings-optional-step)
       - [Notice: Deploying ATOS To The Web](#notice-deploying-atos-to-the-web)
       - [Notice: Updating Your Logo](#notice-updating-your-logo)
-      - [Notice: Saving Invoices and Tax Overviews](#notice-saving-invoices-and-tax-overviews)
+      - [Notice: Saving Invoices, Reports, and Tax Documents](#notice-saving-invoices-reports-and-tax-documents)
       - [Notice: Language Files](#notice-language-files)
       - [Notice: Templates Files](#notice-templates-files)
       - [Notice: PHP 8.1 Requirement](#notice-php-81-requirement)
@@ -84,9 +84,9 @@ ATOS was always meant to be used locally. While there shouldn't be any problems 
 
 You can add your logo to outgoing invoices by simply replacing `assets/logo.png` in the main directory of the project with your actual logo.
 
-#### Notice: Saving Invoices and Tax Overviews
+#### Notice: Saving Invoices, Reports, and Tax Documents
 
-If you plan on generating and saving invoices/taxes locally (which I recommend you do), you will need to make sure the `_generated` directory is writable: `chmod 0755 _generated`.
+If you plan on generating and saving generated documents locally (which I recommend you do), you will need to make sure the `_generated` and `_vault` directories are writable: `chmod 0755 _generated && chmod 0755 _vault`.
 
 Invoices/ and taxes files are saved as HTML. Most computers have reasonable `Print as PDF` options now; please use that feature to print a PDF if required. ATOS hard codes styles, so changing `assets/invoiceStyle.css` or `assets/taxStyle.css` won't affect already saved invoices.
 
@@ -266,9 +266,9 @@ Some ways you can contribute include:
 
 # Roadmap
 
+- File and data syncing via a cloud service (dropbox, etc.)
 - Remove PHP8 requirement in favor of most universally available versions
 - Edit companies and project basics
 - Task notes and files
 - Expanded language support and language packs
-- List invoice / tax directory contents
 - Better help bubbles, especially for first time users

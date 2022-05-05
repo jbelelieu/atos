@@ -2,7 +2,6 @@
 <div id="holderFixed" class="border">
 
 <div class="borderContainer pad">
-    
     <h2>Task Statuses</h2>
     <button type="button" onclick="toggleDiv('createStatus')" class="a">Create</button>
 
