@@ -54,7 +54,7 @@ $template = template(
         'stories' => $results,
         'collections' => $collections,
         'logo' => logo(),
-        'css' => file_get_contents('assets/alternatve_view.css'),
+        'css' => file_get_contents('assets/alternative_view.css'),
     ],
     true
 );

@@ -48,7 +48,7 @@ if (sizeof($shippedStories) === 0) {
     systemError('There are no billable items on this invoice.');
 }
 
-$settingListType = getSetting(\AtosSettings::INVOICE_ORDER_BY_DATE_COMPLETED, 'list');
+$settingListType = getSetting('INVOICE_ORDER_BY_DATE_COMPLETED', 'list');
 
 $hoursByRateType = [];
 
@@ -122,18 +122,19 @@ foreach ($knownRateTypes as $aRateType) {
     );
 }
 
-$daysDue = getSetting(\AtosSettings::INVOICE_DUE_DATE_IN_DAYS, 14);
+$daysDue = getSetting('INVOICE_DUE_DATE_IN_DAYS', 14);
 
 $template = template(
     'invoice/invoice',
     [
+        '_metaTitle' => 'Invoice (ATOS)',
         'client' => $clientCompany,
         'collection' => $collection,
         'company' => $company,
         'displayStories' => ($settingListType === 'none') ? false : true,
         'dueDate' => ($daysDue > 0) ? formatDate(date('Y-m-d H:i:s', time() + 1209600)) : '',
         'logo' => logo($company['title']),
-        'css' => file_get_contents('assets/alternatve_view.css'),
+        'css' => file_get_contents('assets/alternative_view.css'),
         'project' => $project,
         'rateTypes' => $ratesHtml,
         'sentOn' => formatDate(date('Y-m-d H:i:s')),

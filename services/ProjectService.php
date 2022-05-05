@@ -63,7 +63,7 @@ class ProjectService extends BaseService
             ');
 
             $statement->bindParam(':project_id', $lastProjectId);
-            $statement->bindParam(':title', getSetting(\AtosSettings::UNORGANIZED_NAME, 'Unorganized'));
+            $statement->bindParam(':title', getSetting('UNORGANIZED_NAME', 'Unorganized'));
             $statement->execute();
 
             $this->db->commit();
