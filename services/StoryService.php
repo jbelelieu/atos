@@ -251,7 +251,7 @@ class StoryService extends BaseService
                 continue;
             }
 
-            if (in_array($storyId, $data['move'])) {
+            if (isset($data['move']) && in_array($storyId, $data['move'])) {
                 $newCollection = ((int) $thisStory['collection'] === (int) $defaultCollection['id'])
                     ? $latestCollection['id']
                     : $defaultCollection['id'];

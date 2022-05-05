@@ -9,6 +9,12 @@
         Before you can create a project, you'll need to first create a contracted party (you or your company) and a client (the company you are working for).
     </p>
 <?php } else { ?>
+    <?php if ($totalClients == 2) { ?>
+    <p class="highlight">
+        Congratulations on creating a contracting company and a client company. Now lets create a project. Select your company as the "Contracted Party" and your client's company as the "Client".
+    </p>
+    <?php } ?>
+    
     <button type="button" onclick="toggleDiv('createProject')" class="a">Create Project</button>
 
     <div class="sunk <?php if ($totalProjects === 0) {
@@ -16,10 +22,11 @@
 } else {
     echo "hide";
 } ?> border pad bg" id="createProject">
+
         <form action="/" method="post">
             <div class="halfHalfColumns">
                 <div>
-                <label><b>Projects</b>&nbsp;&nbsp;Contracted Party</label>
+                <label>Contracted Party</label>
                 <select required="required" name="company_id"><?php echo $clientSelect; ?></select>
                 </div>
 
