@@ -1,6 +1,10 @@
 
 <div id="holderFixed" class="border">
 
+    <div class="highlightFixed">
+        <p>Whenever you generate and save an invoice, report, or tax estimation, those files will appear in on this page.</p>
+    </div>
+
     <div class="borderContainer pad">
         <h2>Invoices</h2>
         <table>

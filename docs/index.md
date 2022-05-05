@@ -42,10 +42,8 @@ ATOS requires `PHP7+` and `SQLite3`.
 ## If You Have PHP7 Installed Locally
 
 - From Github, download the [latest release ZIP file](https://github.com/jbelelieu/atos/releases)
-- Unzip it wherever you want on your local machine
+- Unzip it to your local machine into a writable folder
 - From the command line, go to the ATOS directory and launch the PHP server: `php -S localhost:9001`
-  - If you need to install PHP, please see "Notice: PHP 8.1 Requirement" below for instructions.
-  - You can test your machine's version of PHP using `php -v`
 - You can now access ATOS from any web browser at `http://localhost:9001`.
 
 ## If You Don't Have PHP7 Installed
@@ -54,7 +52,7 @@ Do the following then follow the above directions:
 
 - On Mac: `brew update && brew install php && brew link php`
   - To update an existing version of PHP: `brew update && brew upgrade php && brew link --overwrite --force php`
-
+- You can test your machine's version of PHP from teh command line using `php -v`
 
 # Update Your Default Settings (Optional Step)
 
