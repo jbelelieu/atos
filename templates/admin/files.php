@@ -6,6 +6,7 @@
         <table>
         <thead>
         <tr>
+            <th width="120">Date</th>
             <th>Filename</th>
         </tr>
         </thead>
@@ -13,7 +14,10 @@
             <?php foreach ($invoices as $aFile) { ?>
                 <tr>
                     <td>
-                        <a href="/documents/load?id=<?php echo $aFile; ?>" target="_blank"><?php echo $aFile; ?></a>
+                        <?php echo $aFile['date']; ?>
+                    </td>
+                    <td>
+                        <a href="/documents/load?id=<?php echo $aFile['file']; ?>" target="_blank"><?php echo $aFile['file']; ?></a>
                     </td>
                 </tr>
             <?php } ?>
@@ -26,6 +30,7 @@
         <table>
         <thead>
         <tr>
+            <th width="120">Date</th>
             <th>Filename</th>
         </tr>
         </thead>
@@ -33,7 +38,10 @@
             <?php foreach ($reports as $aFile) { ?>
                 <tr>
                     <td>
-                        <a href="/documents/load?id=<?php echo $aFile; ?>" target="_blank"><?php echo $aFile; ?></a>
+                        <?php echo $aFile['date']; ?>
+                    </td>
+                    <td>
+                        <a href="/documents/load?id=<?php echo $aFile['file']; ?>" target="_blank"><?php echo $aFile['file']; ?></a>
                     </td>
                 </tr>
             <?php } ?>
@@ -46,6 +54,7 @@
         <table>
         <thead>
         <tr>
+            <th width="120">Date</th>
             <th>Filename</th>
         </tr>
         </thead>
@@ -53,7 +62,10 @@
             <?php foreach ($taxes as $aFile) { ?>
                 <tr>
                     <td>
-                        <a href="/documents/load?id=<?php echo $aFile; ?>" target="_blank"><?php echo $aFile; ?></a>
+                        <?php echo $aFile['date']; ?>
+                    </td>
+                    <td>
+                        <a href="/documents/load?id=<?php echo $aFile['file']; ?>" target="_blank"><?php echo $aFile['file']; ?></a>
                     </td>
                 </tr>
             <?php } ?>

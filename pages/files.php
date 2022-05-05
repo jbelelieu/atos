@@ -45,18 +45,24 @@ foreach (scandir(ATOS_HOME_DIR . '/_generated') as $file) {
     }
 
     $exp = explode('-', $file);
+    
+    $entry = [
+        'file' => $file,
+        'date' => formatDate($exp['1']),
+    ];
+
     switch ($exp[0]) {
         case 'invoice':
-            $invoices[] = $file;
+            $invoices[] = $entry;
             break;
         case 'report':
-            $reports[] = $file;
+            $reports[] = $entry;
             break;
         case 'tax':
-            $tax[] = $file;
+            $tax[] = $entry;
             break;
         default:
-            $files[] = $file;
+            $files[] = $entry;
     }
 }
  
