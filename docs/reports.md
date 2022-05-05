@@ -1,4 +1,3 @@
-<div style="float:right; width:200px; background-color: #fff; border: 1px solid #e5e5e5;padding:24px; margin-left: 24px; margin-bottom: 24px;">
 
 - [Overview](#overview)
 - [Generating a Report](#generating-a-report)
@@ -7,7 +6,8 @@
   - [Example Use Cases](#example-use-cases)
     - [Project hand off checklist](#project-hand-off-checklist)
     - [Project remaining backlog list](#project-remaining-backlog-list)
-</div>
+
+----
 
 # Overview
 
