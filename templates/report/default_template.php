@@ -15,20 +15,19 @@
 
         <?php echo $logo; ?>
             
-        <h3 class="textCenter">
-            <?php echo $project['title']; ?><?php if ($title) { ?>
-                <?php echo ': ' . $title; ?>
-            <?php } else { ?>: Project Hand Off
-            <?php } ?>
-        </h3>
+        <h5>
+            <?php echo $project['title']; ?><?php if ($title) {
+    echo ': ' . $title;
+} ?>
+        </h5>
 
         <div class="border">
             <div class="borderSection pad sunk">
                 
                 <table width="100%">
                     <tr>
-                        <th><b>Billing Party</b></th>
-                        <th><b>Bill To</b></th>
+                        <th><b>Contractor</b></th>
+                        <th><b>Client</b></th>
                     </tr>
                     <tr>
                         <td width="50%" valign="top">

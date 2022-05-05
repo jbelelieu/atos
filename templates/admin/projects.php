@@ -90,7 +90,7 @@
     <div
         id="createFile"
         class="<?php echo(!empty($_GET['_showFile'])) && parseBool($_GET['_showFile']) ? '' : 'hide'; ?>">
-        <h4>Files</h4>
+        <h4 class="marginTopLess">Files</h4>
         <div
             class="sunk border pad bg">
 
