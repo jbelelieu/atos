@@ -22,6 +22,18 @@ CREATE TABLE `project` (
   CONSTRAINT fk_client_id FOREIGN KEY(client_id) REFERENCES company(id)
 );
 
+CREATE TABLE `project_file` (
+  `id` INTEGER PRIMARY KEY AUTOINCREMENT,
+  `created_at` timestamp DEFAULT CURRENT_TIMESTAMP,
+  `project_id` INTEGER,
+  `story_id` INTEGER default null,
+  `is_link` boolean DEFAULT 1,
+  `title` varchar(255),
+  `data` text,
+  CONSTRAINT fk_project_files_project_id FOREIGN KEY(project_id) REFERENCES project(id) ON DELETE CASCADE,
+  CONSTRAINT fk_project_files_story_id FOREIGN KEY(story_id) REFERENCES story(id) ON DELETE CASCADE
+);
+
 CREATE TABLE `story_hour_type` (
   `id` INTEGER PRIMARY KEY AUTOINCREMENT,
   `title` varchar(255),
