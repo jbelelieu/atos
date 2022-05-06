@@ -36,7 +36,7 @@
             <table class="alignCenter">
                 <tbody>
                 <?php foreach ($strategies as $aStrategy) { ?>
-                    <tr>
+                    <tr class="noHighlight">
                         <td width="300" class="textRight">
                             <div class="emoji_bump">
                             <?php echo camelToEnglish($aStrategy['region']); ?>

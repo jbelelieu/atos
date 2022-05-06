@@ -91,7 +91,7 @@
     <hr />
 
     <h2 class="sectionHeader">Companies &amp; Clients</h2>
-    <button type="button" onclick="toggleDiv('createClient')" class="a">Create Project</button>
+    <button type="button" onclick="toggleDiv('createClient')" class="a">Create Company</button>
     
 <?php if ($totalClients < 1) { ?>
     <p class="highlight">
@@ -107,7 +107,7 @@
     <form action="/" method="post">
         <div class="halfHalfColumns">
             <div>
-                <label><b>Companies &amp; Clients</b>&nbsp;&nbsp;Name</label>
+                <label>Name</label>
                 <input
                     type="text"
                     required="required"
@@ -147,7 +147,7 @@
                 <label>Instructions (html ok; line breaks auto-added)</label>
                 <textarea
                     placeholder="Please send payments to Chase Bank.&#10;&#10;<ul>&#10;<li>Account number: 9188273647</li>&#10;<li>Routing number: 123456789</li>&#10;</ul>"
-                    name="address"
+                    name="instructions"
                     autocomplete="off"
                     style="height:165px;"></textarea>
                 </div>
