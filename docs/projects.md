@@ -1,7 +1,7 @@
 - [Projects](#projects)
   - [Project Links & Files](#project-links--files)
 - [Collections](#collections)
-  - [Moving Stories Around](#moving-stories-around)
+  - [Moving Tasks Around](#moving-tasks-around)
 - [Tasks](#tasks)
   - [Creating a Task](#creating-a-task)
   - [Task Status](#task-status)
@@ -30,7 +30,7 @@ You can create a collection from the top of any project's page next to the "Unor
 
 You can create multiple collections as well. To switch between collections, simple click any collection bubble at the top of the page.
 
-## Moving Stories Around
+## Moving Tasks Around
 
 Next to each story's title you will find a series of icons. The first icon on each row moves the story around. Rules for moving a story are simple:
 

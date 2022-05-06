@@ -37,7 +37,7 @@ Please see the "[Objects](objects.md)" article for information on what variables
 
 - Using the "Default Template":
   - Create a story type called "Hand Off"
-  - Generate a report with all stories considered hand off items following transfer of the project back to the client.
+  - Generate a report with all tasks considered hand off items following transfer of the project back to the client.
      
 ### Project remaining backlog list
 

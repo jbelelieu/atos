@@ -3,7 +3,7 @@
 
     <?php if ($totalCollections === 1) { ?>
         <p class="highlight">
-            Start here by creating your first collection of stories. A collection is a grouping of stories that will be billed to a client. One common use case is to map bi-weekly sprints to invoiced work.
+            Start here by creating your first collection of tasks. A collection is a grouping of tasks that will be billed to a client. One common use case is to map bi-weekly sprints to invoiced work.
         </p>
     <?php } ?>
 

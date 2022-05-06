@@ -9,7 +9,7 @@ use services\StoryService;
 /**
  * ATOS: "Built by freelancer 🙋‍♂️, for freelancers 🕺 🤷 💃🏾 "
  *
- * This file controls all things collections and stories.
+ * This file controls all things collections and tasks.
  *
  * @author @jbelelieu
  * @copyright Humanity, any year.

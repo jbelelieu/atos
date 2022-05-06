@@ -96,11 +96,11 @@
             <?php echo $otherStories; ?>
             <tr class="noHighlight">
             <td colspan="5" class="textRight">
-                <button type="button" onClick="window.location='/invoice?collection=<?php echo $collection['id']; ?>&save=1'">Generate & Save Invoice</button> <button type="button" onClick="window.open('/invoice?collection=<?php echo $collection['id']; ?>')">Preview Invoice</button>
+                <button type="button" onClick="window.location='/invoice?collection=<?php echo $collection['id']; ?>&save=1'">Generate &amp; Save Invoice</button> <button type="button" onClick="window.open('/invoice?collection=<?php echo $collection['id']; ?>')">Preview Invoice</button>
             </td>
             <td class="bold"><?php echo $hours; ?></td>
             <td colspan="2">
-                <button type="submit">Update Stories</button>
+                <button type="submit">Update Tasks</button>
             </td>
             </tr>
         </tbody>

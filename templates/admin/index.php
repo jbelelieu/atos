@@ -44,7 +44,7 @@
                     name="code"
                     style="width:80px"
                     maxlength=2 />
-                <p class="fieldHelp">Used to name stories for example, "<u>PA</u>-120".</p>
+                <p class="fieldHelp">Used to name tasks for example, "<u>PA</u>-120".</p>
                 </div>
 
                 <div>

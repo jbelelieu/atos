@@ -23,7 +23,7 @@ However, I've also used this quite effectively to manage projects that didn't ha
 
 The task's status controls whether it appears on invoices, specifically whether you marked it as a "billable" state.
 
-Note that you can have stories with a "complete" status that won't appear in the "Open" state, but at the same time won't appear on invoices. This gives you the flexibility to maintain an accurate backlog (not every task on a project is billable) while still getting paid for billable work!
+Note that you can have tasks with a "complete" status that won't appear in the "Open" state, but at the same time won't appear on invoices. This gives you the flexibility to maintain an accurate backlog (not every task on a project is billable) while still getting paid for billable work!
 
 # Will future versions remain compatible with the beta?
 

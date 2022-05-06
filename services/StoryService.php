@@ -294,7 +294,7 @@ class StoryService extends BaseService
         redirect(
             '/project',
             $data['project_id'],
-            'Your stories have been updated.',
+            'Your tasks have been updated.',
             null,
             false,
             [],

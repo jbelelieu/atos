@@ -5,7 +5,7 @@
 *Now in beta!* --- ATOS is every freelancer's one-stop-shop for managing clients, projects, and your taxes. Whether you're selling time-based sprints, or simply tracking time worked, ATOS allows you to manage multiple projects for multiple clients at once, all while generating beautiful invoices and helping you with your estimated taxes in the process.
 
 - 📔&nbsp;&nbsp;&nbsp;[Documentation & Installation](https://jbelelieu.github.io/atos/)
-- 💬&nbsp;&nbsp;&nbsp;[Tweet About ATOS](http://twitter.com/intent/tweet?text=Freelancers!+Check+out+ATOS+%2C+a+drop+dead+simple%2C+locally+hosted+story+tracker+and+invoice+generator+designed+for+freelancer+software+developers.&url=https%3A%2F%2Fgithub.com%2Fjbelelieu%2Fato_stories)
+- 💬&nbsp;&nbsp;&nbsp;[Tweet About ATOS](http://twitter.com/intent/tweet?text=Freelancers!%20Check%20out%20ATOS,%20free%20software%20designed%20to%20help%20you%20manage%20your%20clients,%20invoices,%20and%20estimated%20taxes.%20https://github.com/jbelelieu/atos)
 - 🎥&nbsp;&nbsp;&nbsp;[Walkthrough Video](https://youtu.be/DY_ze39ZRt8)
 - ☕️&nbsp;&nbsp;&nbsp;[Buy me a Coffee!](https://www.buymeacoffee.com/jbelelieu)
 
@@ -14,9 +14,9 @@
 **Key Features**
 
 - **Client Management**: Manage all of your clients, as well as companies that you represent, all from the same dashboard.
-- **Project Management**: Track stories against known backlogs, or use ATOS as a full-fledged independent project management tool.
+- **Project Management**: Track tasks against known backlogs, or use ATOS as a full-fledged independent project management tool.
 - **Task Management**: Group tasks into collections and bill out against billable tasks within collections.
-- **Invoices**: Generate detailed invoices against those completed stories.
+- **Invoices**: Generate detailed invoices against those completed tasks.
 - **Estimated Taxes**: Estimate your tax burden for the year using customizable tax files for various regions, whether it be at the national (federal), regional (state), or municipal levels (city).
 - **Reports**: Generate reports for your clients, filtered by project type/status/etc.. Need more flexibiliy? Create your own report templates and [contribute](#contributing) to the community.
   
