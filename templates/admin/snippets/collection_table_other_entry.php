@@ -1,5 +1,5 @@
 
-<tr class="<?php echo $rowClass; ?>">
+<tr class="<?php echo $rowClass; ?> noHighlight">
     <td>
         <?php echo $label; ?>
     </td>

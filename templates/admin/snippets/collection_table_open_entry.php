@@ -4,9 +4,7 @@
     <input type="checkbox" name="move[]" value="<?php echo $story['id']; ?>" />
 </td>
 <td>
-    <span class="ticketId">
-        <?php echo $story['show_id']; ?>
-    </span>
+    <?php echo $label; ?>
 </td>
 <td>
     <?php echo $hourSelect; ?>
