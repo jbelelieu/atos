@@ -6,7 +6,10 @@
 
 - 📔&nbsp;&nbsp;&nbsp;[Documentation & Installation](https://jbelelieu.github.io/atos/)
 - 💬&nbsp;&nbsp;&nbsp;[Tweet About ATOS](http://twitter.com/intent/tweet?text=Freelancers!+Check+out+ATOS+%2C+a+drop+dead+simple%2C+locally+hosted+story+tracker+and+invoice+generator+designed+for+freelancer+software+developers.&url=https%3A%2F%2Fgithub.com%2Fjbelelieu%2Fato_stories)
+- 🎥&nbsp;&nbsp;&nbsp;[Walkthrough Video](https://youtu.be/DY_ze39ZRt8)
 - ☕️&nbsp;&nbsp;&nbsp;[Buy me a Coffee!](https://www.buymeacoffee.com/jbelelieu)
+
+# Walkthrough Video
 
 **Key Features**
 
@@ -27,6 +30,7 @@ ATOS is 100% open source and free to use, licensed under the [GNU AGPLv3 License
 
 -----
 
+- [Walkthrough Video](#walkthrough-video)
 - [Contributing](#contributing)
   - [How to Contribute](#how-to-contribute)
   - [Special Thank You](#special-thank-you)
