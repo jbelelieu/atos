@@ -189,7 +189,7 @@ class ProjectService extends BaseService
             ORDER BY type ASC
         ");
 
-        $statement->execute([$projectId, ...$bind]);
+        $statement->execute(array_merge([ $projectId ], $bind));
 
         return $statement->fetchAll();
     }

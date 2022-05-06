@@ -112,12 +112,14 @@ foreach ($knownRateTypes as $aRateType) {
 
     $ratesHtml .= template(
         'invoice/snippets/rates_table_entry',
-        [
-            ...$aType,
-            'dollarRate' => $dollarRate,
-            'hours' => $hours,
-            'subtotal' => $subtotal,
-        ],
+        array_merge(
+            $aType,
+            [
+                'dollarRate' => $dollarRate,
+                'hours' => $hours,
+                'subtotal' => $subtotal,
+            ]
+        ),
         true
     );
 }

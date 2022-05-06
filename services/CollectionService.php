@@ -85,14 +85,14 @@ class CollectionService extends BaseService
             );
         }
 
-        // Delete the collection...
+        // Delete the collection.
         $statement = $this->db->prepare('
             DELETE FROM story_collection WHERE id = :id
         ');
         $statement->bindParam(':id', $data['id']);
         $statement->execute();
 
-        // Move everything to unorganized...
+        // Move everything to unorganized.
         $defaultCollection = $this->getDefaultCollectionForProject($data['project_id']);
         $statement = $this->db->prepare('
             UPDATE story

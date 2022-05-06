@@ -19,7 +19,7 @@ class BaseService
 
     public function __construct()
     {
-        global $db; // TODO: you know what to do...
+        global $db; // TODO: you know what to do
 
         $this->db = $db;
     }

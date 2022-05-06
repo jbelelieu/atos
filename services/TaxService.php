@@ -346,7 +346,7 @@ class TaxService extends BaseService
         redirect(
             "/tax/render",
             null,
-            'Deduction deleted; I hope you have some other ones...',
+            'Deduction deleted; I hope you have some other ones!',
             null,
             false,
             [
@@ -428,11 +428,13 @@ class TaxService extends BaseService
 
             $additionalTax += $amount;
 
-            $data[] = [
-                ...$anAddition,
-                '_amount' => formatMoney($anAddition['taxable_amount'] * 100),
-                'adjustment' => formatMoney($amount * 100),
-            ];
+            $data[] = array_merge(
+                $anAddition,
+                [
+                    '_amount' => formatMoney($anAddition['taxable_amount'] * 100),
+                    'adjustment' => formatMoney($amount * 100),
+                ]
+            );
         }
 
         return [
@@ -535,10 +537,12 @@ class TaxService extends BaseService
         foreach ($deductions as $aDeduction) {
             $adjustments += $aDeduction['amount'];
             
-            $data[] = [
-                ...$aDeduction,
-                'adjustment' => formatMoney($aDeduction['amount'] * 100),
-            ];
+            $data[] = array_merge(
+                $aDeduction,
+                [
+                    'adjustment' => formatMoney($aDeduction['amount'] * 100),
+                ]
+            );
         }
 
         return [

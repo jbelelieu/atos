@@ -259,7 +259,7 @@ class StoryService extends BaseService
                 $newCollection = $thisStory['collection'];
             }
 
-            // Default to existing, overwrite anything incoming...
+            // Default to existing, overwrite anything incoming.
             $currentStory = $this->getStory($storyId);
             $aStory = array_merge($currentStory, $aStory);
 
