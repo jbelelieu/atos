@@ -13,6 +13,7 @@
         <input
             type="date"
             autocomplete="off"
+            style="width:120px;"
             name="story[<?php echo $story['id']; ?>][ended_at]"
             value="<?php echo $endedAt; ?>" />
     </td>
@@ -21,6 +22,7 @@
             type="number"
             step="0.25"
             autocomplete="off"
+            style="width:80px;"
             name="story[<?php echo $story['id']; ?>][hours]"
             value="<?php echo $hours; ?>" />
     </td>

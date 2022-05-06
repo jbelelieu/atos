@@ -81,9 +81,9 @@
         <thead>
             <tr class="noHighlight">
             <th width="90">ID</th>
-            <th width="250">Rate Type</th>
-            <th width="250">Type</th>
-            <th width="120">Completed</th>
+            <th width="180">Rate Type</th>
+            <th width="180">Type</th>
+            <th width="80">Completed</th>
             <th width="90">Units</th>
             <th width="180"></th>
             </tr>
