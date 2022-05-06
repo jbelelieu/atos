@@ -87,6 +87,12 @@
                                         <td class="bold"><?php echo $taxes['totalTax']; ?></td>
                                     </tr>
                                     <tr>
+                                        <td class="gray listLeft">Currently Set Aside</td>
+                                        <td class="gray">
+                                            <?php echo $taxes['asideTotal']; ?> (<?php echo $taxes['asideDifference']; ?>)
+                                        </td>
+                                    </tr>
+                                    <tr>
                                         <td class="listLeft">Effective rate</td>
                                         <td><?php echo $taxes['effectiveRate']; ?>%</td>
                                     </tr>
@@ -130,7 +136,7 @@
                         <div class="pad borderLeft">
                             <table>
                                 <thead>
-                                    <tr>
+                                    <tr class="noHighlight">
                                         <th width="170">Date Due or Paid</th>
                                         <th>Rec. Payment</th>
                                         <th>Actual Paid</th>
@@ -208,7 +214,7 @@
                                         $up++;
                                     } ?>
                                 </tbody>
-                                <tr>
+                                <tr class="noHighlight">
                                     <td class="listLeft">
                                     </td>
                                     <td class="bold"></td>
@@ -220,7 +226,7 @@
                              <div class="hide marginTop" id="region-<?php echo $region; ?>">
                                 <table class="weak">
                                     <thead>
-                                    <tr>
+                                    <tr class="noHighlight">
                                         <th>Bracket</th>
                                         <th>Taxable</th>
                                         <th>Bracket Tax</th>
@@ -284,7 +290,7 @@
 
                             <table>
                                 <thead>
-                                    <tr>
+                                    <tr class="noHighlight">
                                         <th width="50%">Deduction</th>
                                         <th>Amount</th>
                                         <th width="50"></th>
@@ -309,7 +315,7 @@
                                         </td>
                                     </tr>
                                     <?php } ?>
-                                    <tr>
+                                    <tr class="noHighlight">
                                         <td class="listLeft">
                                             <div class="marginTop">
                                                 <input type="text" name="title" autocomplete="off" placeholder="Standard Deduction" required="required" style="width:100%;" />
@@ -353,7 +359,7 @@
 
                         <table>
                             <thead>
-                                <tr>
+                                <tr class="noHighlight">
                                     <th width="">Adjustment</th>
                                     <th width="190">Taxed Amount</th>
                                     <th width="80"></th>
@@ -383,7 +389,7 @@
                                     </td>
                                 </tr>
                                 <?php } ?>
-                                <tr>
+                                <tr class="noHighlight">
                                     <td class="listLeft">
                                         <div class="marginTop">
                                         <input
@@ -442,7 +448,7 @@
                     <div class="pad borderLeft">
                         <table>
                             <thead>
-                                <tr>
+                                <tr class="noHighlight">
                                     <th width="">Average</th>
                                     <th width="120">Daily</th>
                                     <th width="120">Monthly</th>
@@ -464,14 +470,6 @@
                                     <td><?php echo $averages['daily']['postTaxIncome']; ?></td>
                                     <td><?php echo $averages['monthly']['postTaxIncome']; ?></td>
                                 </tr>
-                                <!-- <tr class="">
-                                    <td class="listLeft">
-                                        <p class="deAdHeading">Actual</p>
-                                        <p class="weak">This is how much you have actually earned this year on average per day through <?php echo $dayNumber; ?> days.</p>
-                                    </td>
-                                    <td><?php echo $averages['actual']['daily']['preTax']; ?></td>
-                                    <td><?php echo $averages['actual']['monthly']['preTax']; ?></td>
-                                </tr> -->
                             </tbody>
                         </table>
                     </div>

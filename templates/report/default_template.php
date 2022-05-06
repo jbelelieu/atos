@@ -56,7 +56,7 @@
             <div class="borderSectionTop">
                 <table width="100%" style="font-size:90%;verticle-align:middle;">
                     <thead>
-                        <tr>
+                        <tr class="noHighlight">
                             <th width="24"></th>
                             <th width="">Task</th>
                         </tr>

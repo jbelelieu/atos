@@ -37,7 +37,7 @@
 
     <table id="table-all" class="allStoriesInCollection unorganized">
     <thead>
-    <tr>
+    <tr class="noHighlight">
     <th width="32"></th>
     <th width="80">ID</th>
     <th width="140">Rate Type</th>
@@ -49,7 +49,7 @@
     </thead>
     <tbody>
         <?php echo $openStories; ?>
-        <tr>
+        <tr class="noHighlight">
         <td colspan="4">
             <button type="submit">Move Selected</button>
         </td>
@@ -81,7 +81,7 @@
 
         <table class="allStoriesInCollection">
         <thead>
-            <tr>
+            <tr class="noHighlight">
             <th width="80">ID</th>
             <th width="180">Rate Type</th>
             <th width="150">Type</th>
@@ -94,7 +94,7 @@
         </thead>
         <tbody>
             <?php echo $otherStories; ?>
-            <tr>
+            <tr class="noHighlight">
             <td colspan="5" class="textRight">
                 <button type="button" onClick="window.location='/invoice?collection=<?php echo $collection['id']; ?>&save=1'">Generate & Save Invoice</button> <button type="button" onClick="window.open('/invoice?collection=<?php echo $collection['id']; ?>')">Preview Invoice</button>
             </td>

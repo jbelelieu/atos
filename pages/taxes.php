@@ -26,6 +26,9 @@ $taxService = new TaxService();
 
 if (isset($_POST['action'])) {
     switch ($_POST['action']) {
+        case 'createMoneyAside':
+            $taxService->createMoneyAside($_POST);
+            exit;
         case 'setupTaxes':
             $taxService->setupTaxes($_POST);
             exit;
@@ -36,6 +39,9 @@ if (isset($_POST['action'])) {
 
 if (isset($_GET['action'])) {
     switch ($_GET['action']) {
+        case 'deleteMoneyAside':
+            $taxService->deleteMoneyAside($_GET['id']);
+            exit;
         case 'deleteYear':
             $taxService->deleteYear(intval($_GET['year']));
             exit;
@@ -84,6 +90,10 @@ foreach ($taxes as &$aTaxYear) {
         $combine = $namespace . '\\Y' . $aTaxYear['year'] . '\\' . $key;
         $class = new $combine();
 
+        $aside = $taxService->getMoneyAside($aTaxYear['year']);
+
+        $aTaxYear['aside'] = $aside;
+
         $aTaxYear[$key] = [
             'status' => $strat,
             '_class' => new $class(),
@@ -98,6 +108,7 @@ $changes = [
     'taxesThisYear' => $taxesThisYear,
     'taxes' => $taxes,
     'year' => $year,
+    'aside' => $aside,
 ];
 
 // dd($changes);

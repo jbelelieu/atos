@@ -195,6 +195,43 @@ class TaxService extends BaseService
      * @param array $data
      * @return void
      */
+    public function createMoneyAside(array $data)
+    {
+        $statement = $this->db->prepare('
+            INSERT INTO tax_aside (
+                year,
+                created_at,
+                \'group\',
+                amount,
+                title
+            )
+            VALUES (
+                :year,
+                :created_at,
+                :group,
+                :amount,
+                :title
+            )
+        ');
+        $statement->bindParam(':year', $data['year']);
+        $statement->bindParam(':created_at', $data['created_at']);
+        $statement->bindParam(':group', $data['group']);
+        $statement->bindParam(':amount', $data['amount']);
+        $statement->bindParam(':title', $data['title']);
+
+        $statement->execute();
+
+        redirect(
+            "/tax",
+            null,
+            'Your money has been logged.'
+        );
+    }
+
+    /**
+     * @param array $data
+     * @return void
+     */
     public function deleteAdjustment(array $data)
     {
         $year = (empty($data['year'])) ? date('Y') : $data['year'];
@@ -218,6 +255,26 @@ class TaxService extends BaseService
                 'income' => $data['income'],
             ],
             'adjustments'
+        );
+    }
+
+    /**
+     * @param integer $asideId
+     * @return void
+     */
+    public function deleteMoneyAside(int $asideId)
+    {
+        $statement = $this->db->prepare('
+            DELETE FROM tax_aside
+            WHERE id = :id
+        ');
+        $statement->bindParam(':id', $asideId);
+        $statement->execute();
+
+        redirect(
+            "/tax",
+            null,
+            'Your item has been deleted.'
         );
     }
 
@@ -301,6 +358,42 @@ class TaxService extends BaseService
         );
     }
 
+    /**
+     * @return array
+     */
+    public function getMoneyAside(int $year)
+    {
+        $statement = $this->db->prepare("
+            SELECT *
+            FROM tax_aside
+            WHERE year = :year
+            ORDER BY created_at ASC
+        ");
+        $statement->bindParam(':year', $year);
+        $statement->execute();
+
+        return $statement->fetchAll();
+    }
+
+    /**
+     * @param integer $year
+     * @return integer
+     */
+    public function getTotalAsideForYear(int $year): int
+    {
+        $statement = $this->db->prepare("
+            SELECT SUM(amount) as total
+            FROM tax_aside
+            WHERE year = :year
+        ");
+        $statement->bindParam(':year', $year);
+        $statement->execute();
+
+        $data = $statement->fetch();
+
+        return $data['total'];
+    }
+    
     /**
      * @return array
      */

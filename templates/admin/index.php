@@ -67,7 +67,7 @@
 
     <table>
     <thead>
-    <tr>
+    <tr class="noHighlight">
     <th>Title</th>
     <th>Code</th>
     <th>Contractor</th>
@@ -78,7 +78,7 @@
     </tr>
     </thead>
     <?php echo $projects; ?>
-    <tr>
+    <tr class="noHighlight">
     <td colspan=4></td>
     <td class="summary"><?php echo $totalProjectHours; ?></td>
     <td class="summary"><?php echo $totalProjectValue; ?></td>
@@ -163,7 +163,7 @@
 
 <table>
 <thead>
-<tr>
+<tr class="noHighlight">
 <th>Logo</th>
 <th>Title</th>
 <th>Address</th>
@@ -175,7 +175,7 @@
 </tr>
 </thead>
 <?php echo $clients; ?>
-<tr>
+<tr class="noHighlight">
 <td colspan=6></td>
 <td class="summary"><?php echo $totalClientValue; ?></td>
 <td></td>

@@ -135,6 +135,16 @@ CREATE TABLE `tax_adjustment` (
   CONSTRAINT fk_tax_a_year FOREIGN KEY(year) REFERENCES tax(year) ON DELETE CASCADE
 );
 
+CREATE TABLE `tax_aside` (
+  `id` INTEGER PRIMARY KEY AUTOINCREMENT,
+  `created_at` timestamp DEFAULT CURRENT_TIMESTAMP,
+  `year` INTEGER,
+  `title` varchar(255),
+  `amount` INTEGER,
+  `group` varchar(100),
+  CONSTRAINT fk_tax_aside_tax_a_year FOREIGN KEY(year) REFERENCES tax(year) ON DELETE CASCADE
+);
+
 INSERT INTO story_type (id, title) VALUES (1, 'Task'), (2, 'Chore'), (3, 'Meeting'), (4, 'Hand Off Item');
 
 -- The primary items should not be removed and need

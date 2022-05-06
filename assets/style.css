@@ -845,6 +845,10 @@ img.clientLogo {
     margin-top: 12px;
 }
 
+.marginTopLessLess {
+    margin-top: 6px;
+}
+
 button[type="submit"] {
     font-size: 1em;
     background-color: #111;
@@ -999,7 +1003,7 @@ table td.checkbox {
     text-align: center;
 }
 
-table tr:hover {
+table tr:hover:not(.noHighlight) {
     background: #f5f5f5;
 }
 

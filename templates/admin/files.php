@@ -9,7 +9,7 @@
         <h2>Invoices</h2>
         <table>
         <thead>
-        <tr>
+        <tr class="noHighlight">
             <th width="120">Date</th>
             <th>Filename</th>
         </tr>
@@ -33,7 +33,7 @@
         <h2>Reports</h2>
         <table>
         <thead>
-        <tr>
+        <tr class="noHighlight">
             <th width="120">Date</th>
             <th>Filename</th>
         </tr>
@@ -57,7 +57,7 @@
         <h2>Taxes</h2>
         <table>
         <thead>
-        <tr>
+        <tr class="noHighlight">
             <th width="120">Date</th>
             <th>Filename</th>
         </tr>

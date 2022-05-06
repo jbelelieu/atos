@@ -41,7 +41,7 @@
         <input type="hidden" name="action" value="updateStatuses" />
         <table>
         <thead>
-        <tr>
+        <tr class="noHighlight">
         <th width="50%">Title</th>
         <th width="42"></th>
         <th>Is Complete?</th>
@@ -96,7 +96,7 @@
 
     <table>
     <thead>
-    <tr>
+    <tr class="noHighlight">
     <th width="70%">Title</th>
     <th>Rate</th>
     <th width="42"></th>
@@ -138,7 +138,7 @@
 
     <table>
     <thead>
-    <tr>
+    <tr class="noHighlight">
     <th>Title</th>
     <th width="42"></th>
     </tr>

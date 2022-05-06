@@ -5,7 +5,7 @@
 
     <table id="table-all" class="allStoriesInCollection unorganized">
     <thead>
-    <tr>
+    <tr class="noHighlight">
         <th width="80">ID</th>
         <th width="">Title</th>
         <th width="">Project</th>

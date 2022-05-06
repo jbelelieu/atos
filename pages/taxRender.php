@@ -248,6 +248,9 @@ $queryString = '&year=' . $year;
 $queryString .= (!empty($_GET['income'])) ? '&income=' . $_GET['income'] : '';
 $queryString .= (!empty($_GET['estimate'])) ? '&estimate=' . $_GET['estimate'] : '';
 
+$aside = $taxService->getTotalAsideForYear($year);
+$asideDifference = $aside - $tax;
+
 $changes = [
     'logo' => logo(),
     'css' => file_get_contents('assets/alternative_view.css'),
@@ -289,6 +292,8 @@ $changes = [
         'totalDailyAverage' => formatMoney($totalDailyAverage * 100),
     ],
     'taxes' => [
+        'asideTotal' => formatMoney($aside * 100),
+        'asideDifference' => formatMoney($asideDifference * 100),
         'totalTax' => formatMoney($tax * 100),
         'effectiveRate' => $taxableIncome > 0 ? round($tax / $taxableIncome, 2) * 100 : 0,
         'regions' => $finalData,

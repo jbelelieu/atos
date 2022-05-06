@@ -74,7 +74,7 @@
                     <div>
                         <table width="100%">
                             <thead>
-                                <tr>
+                                <tr class="noHighlight">
                                     <th width="50%">Line Item</th>
                                     <th width="18%">Rate</th>
                                     <th width="12%">Units</th>
@@ -83,7 +83,7 @@
                             </thead>
                             <tbody>
                                 <?php echo $rateTypes; ?>
-                                <tr>
+                                <tr class="noHighlight">
                                     <td valign="top" colspan="2"></td>
                                     <td>
                                         <?php echo $totalHours; ?>
@@ -113,7 +113,7 @@
             <div class="borderSectionTop">
                 <table width="100%" style="font-size:90%;">
                     <thead>
-                        <tr>
+                        <tr class="noHighlight">
                             <th width="100">Task #</th>
                             <th width="">Description</th>
                             <th width="155">Rate Type</th>

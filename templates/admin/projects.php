@@ -37,7 +37,7 @@
             <input type="hidden" name="project_id" value="<?php echo $project['id']; ?>" />
                 <table>
                     <thead>
-                        <tr>
+                        <tr class="noHighlight">
                             <th width="250">Title</th>
                             <th>Link</th>
                             <th width="42"></th>
@@ -60,7 +60,7 @@
                                 </td>
                             </tr>
                         <?php } ?>
-                        <tr>
+                        <tr class="noHighlight">
                             <td>
                                 <input
                                     type="text"
@@ -99,7 +99,7 @@
             <input type="hidden" name="project_id" value="<?php echo $project['id']; ?>" />
                 <table>
                     <thead>
-                        <tr>
+                        <tr class="noHighlight">
                             <th width="250">Title</th>
                             <th>Location</th>
                             <th width="42"></th>
@@ -120,7 +120,7 @@
                                 </td>
                             </tr>
                         <?php } ?>
-                        <tr>
+                        <tr class="noHighlight">
                             <td>
                                 <input
                                     type="text"
