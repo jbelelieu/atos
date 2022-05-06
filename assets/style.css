@@ -676,7 +676,7 @@ h4.sectionHeader {
     border-radius: 12px;
     text-align: center;
     color: #111;
-    display: inline-block;
+    /* display: inline-block; */
     padding: 2px 9px;
     line-height: 30px !important;
     font-weight: bold;
@@ -1002,8 +1002,16 @@ table {
     font-size: 0.95em;
 }
 
+table td.label {
+    padding-right: 0px;
+    padding-left: 0px;
+    text-align: center;
+}
+
 table td.checkbox {
     padding-right: 0px;
+    padding-left: 0px;
+    padding-top: 10px;
     text-align: center;
 }
 
@@ -1026,6 +1034,10 @@ table th:last-child {
     padding-right: 0px;
 }
 
+.taskBottom {
+    /* border-bottom: 1px solid #111; */
+}
+
 table th {
     border-bottom: 1px solid #e5e5e5;
     text-align: left;
@@ -1034,11 +1046,21 @@ table th {
 }
 
 table tr:not(:last-child):not(.noBorder) {
-    border-bottom: 1px dotted #e5e5e5;
+    /* border-bottom: 1px dotted #e5e5e5; */
 }
 
 table td.borderTop {
-    border-bottom: 1px dotted #e5e5e5;
+    /* border-bottom: 1px dotted #e5e5e5; */
+}
+
+.taskInput {
+    padding-top: 0px;
+    padding-left: 0px;
+    padding-bottom: 32px;
+}
+
+tr.taskTopLine td {
+    padding-bottom: 0px;
 }
 
 table td,

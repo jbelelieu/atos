@@ -1,6 +1,6 @@
 
-<tr class="<?php echo $rowClass; ?> noHighlight">
-    <td>
+<tr class="<?php echo $rowClass; ?> taskTopLine noHighlight">
+    <td class="label">
         <?php echo $label; ?>
     </td>
     <td>
@@ -24,14 +24,6 @@
             name="story[<?php echo $story['id']; ?>][hours]"
             value="<?php echo $hours; ?>" />
     </td>
-    <td>
-        <input
-            type="text"
-            autocomplete="off"
-            style="width:100%;"
-            name="story[<?php echo $story['id']; ?>][title]"
-            value="<?php echo $story['title']; ?>" />
-    </td>
     <td class="textRight">
         <div class="emoji_bump">
             <?php echo $options; ?><a
@@ -39,5 +31,15 @@
             onclick="return confirm('This will delete the task - are you sure?')"
             href="<?php echo $deleteLink; ?>"><?php echo putIcon('icofont-delete'); ?></a>
         </div>
+    </td>
+</tr>
+<tr class="noHighlight taskBottom">
+    <td colspan="6" class="taskInput">
+        <input
+            type="text"
+            autocomplete="off"
+            style="width:100%;"
+            name="story[<?php echo $story['id']; ?>][title]"
+            value="<?php echo $story['title']; ?>" />
     </td>
 </tr>
