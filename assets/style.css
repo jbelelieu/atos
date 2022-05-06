@@ -837,6 +837,10 @@ img.clientLogo {
     margin-left: 12px;
 }
 
+#collections .divHolder {
+    font-size: 16px;
+}
+
 .marginTop {
     margin-top: 42px;
 }

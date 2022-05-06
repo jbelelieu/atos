@@ -12,12 +12,7 @@
 <td>
     <?php echo $typeSelect; ?>
 </td>
-<td class="textCenter">
-    <div class="emoji_bump">
-        <?php echo putIcon($story['status_emoji'], $story['status_color']); ?>
-    </div>
-</td>
-<td class="">
+<td>
     <input
         type="text"
         autocomplete="off"

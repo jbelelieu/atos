@@ -42,7 +42,6 @@
     <th width="80">ID</th>
     <th width="140">Rate Type</th>
     <th width="140">Type</th>
-    <th width="32"></th>
     <th width=>Title</th>
     <th width="180"></th>
     </tr>
@@ -50,7 +49,7 @@
     <tbody>
         <?php echo $openStories; ?>
         <tr class="noHighlight">
-        <td colspan="4">
+        <td colspan="3">
             <button type="submit">Move Selected</button>
         </td>
         <td class="textRight"></td>
@@ -85,7 +84,6 @@
             <th width="80">ID</th>
             <th width="180">Rate Type</th>
             <th width="150">Type</th>
-            <th width="32"></th>
             <th width="120">Completed</th>
             <th width="90">Units</th>
             <th width=>Title</th>
@@ -95,7 +93,7 @@
         <tbody>
             <?php echo $otherStories; ?>
             <tr class="noHighlight">
-            <td colspan="5" class="textRight">
+            <td colspan="4" class="textRight">
                 <button type="button" onClick="window.location='/invoice?collection=<?php echo $collection['id']; ?>&save=1'">Generate &amp; Save Invoice</button> <button type="button" onClick="window.open('/invoice?collection=<?php echo $collection['id']; ?>')">Preview Invoice</button>
             </td>
             <td class="bold"><?php echo $hours; ?></td>
