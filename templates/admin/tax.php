@@ -189,6 +189,7 @@
                                 type="text"
                                 name="group"
                                 maxlength="20"
+                                placeholder="SAVINGS"
                                 style="width:130px;"
                                 required="required" />
                         </td>
