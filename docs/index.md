@@ -117,5 +117,6 @@ These cover anything you can directly interact with/manage using the software:
   - **Status**: this controls the "state" of the task. Each status can be consider "open" or "complete", as well as "billable" or "not billable". For example, you can set a "Rejected" status to be considered "complete" but it won't be billed to the client. (See "Settings")
 - **Invoices**: an invoice is the final output of a collection. When you generate an invoice, any task in the collection being invoiced with a status set to "billable" and "complete" will be included and billed according to the task's rate type.
 - **Taxes**: Tax year covered by ATOS. Each tax year can have different filing strategies and regions.
-- **Tax Deduction**: Any amount that comes directly out of your base income to figure out your taxable income. For example, the US Federal standard deduction.
-- **Tax Adjustment**: Any income outside of ATOS that will add to your total taxable income. For example, capital gains taxes of 15% on $5,000 in stock earnings.
+  - **Money Set Aside**: During the months between estimated tax payments being due, this allow you to track where you are keeping that money. For example, your savings account or a stock.
+  - **Tax Deduction**: Any amount that comes directly out of your base income to figure out your taxable income. For example, the US Federal standard deduction.
+  - **Tax Adjustment**: Any income outside of ATOS that will add to your total taxable income. For example, capital gains taxes of 15% on $5,000 in stock earnings.

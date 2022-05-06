@@ -101,8 +101,7 @@
                         <td>
                             <?php foreach ($aTaxYear['strategies'] as $region => $strategy) { ?>
                                 <b><?php echo $aTaxYear[$region]['_class']::REGION; ?>:</b> <?php echo snakeToEnglish($strategy); ?><br />
-                            <?php
-            } ?>
+                            <?php } ?>
                         </td>
                         <td>
                             <nav class="strong" style="margin-bottom:12px;">
