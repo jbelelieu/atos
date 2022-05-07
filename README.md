@@ -26,13 +26,13 @@ ATOS is 100% open source and free to use, licensed under the [GNU AGPLv3 License
 
 **Screen Shots**
 
-<img alt="Projects" src="https://github.com/jbelelieu/atos/blob/develop/assets/screens/atos-screen-project-sm.png?raw=true" style="width: 250px;float:left;" />
-<br /><br />
-<img alt="Invoice" src="https://github.com/jbelelieu/atos/blob/develop/assets/screens/atos-screen-invoice-sm.png?raw=true" style="width: 250px;float:left;" />
-<br /><br />
-<img alt="Tax Estimate" src="https://github.com/jbelelieu/atos/blob/develop/assets/screens/atos-screen-taxes-sm.png?raw=true" style="width: 250px;float:left;" />
-<br /><br />
-<img alt="Tax Overview" src="https://github.com/jbelelieu/atos/blob/develop/assets/screens/atos-screen-tax-sm.png?raw=true" style="width: 250px;float:left;" />
+<img alt="Projects" src="https://github.com/jbelelieu/atos/blob/develop/assets/screens/atos-screen-project-sm.png?raw=true" />
+<br />
+<img alt="Invoice" src="https://github.com/jbelelieu/atos/blob/develop/assets/screens/atos-screen-invoice-sm.png?raw=true" />
+<br />
+<img alt="Tax Estimate" src="https://github.com/jbelelieu/atos/blob/develop/assets/screens/atos-screen-taxes-sm.png?raw=true" />
+<br />
+<img alt="Tax Overview" src="https://github.com/jbelelieu/atos/blob/develop/assets/screens/atos-screen-tax-sm.png?raw=true" />
 
 -----
 
