@@ -16,7 +16,7 @@
 <?php if ($isProjectDefault) { ?>
 
     <a name="unorganized"></a>
-    <a class="unorgLink" href="#top">View Open</a>
+    <a class="unorgLink" href="#top">View Open</a> <a class="unorgLink" href="#completed">View Completed &amp; Billable</a>
 
 <?php } else { ?>
 
@@ -66,7 +66,7 @@
 
     <a name="completed"></a>
     <hr />
-    <h5>Completed &amp; Billable</h5>
+    <h5>Completed &amp; Billable</h5><a class="unorgLink" href="#top">View Open</a> <a class="unorgLink" href="#unorganized">View Unorganzied</a>
 
     <form
         id="billable-table"
