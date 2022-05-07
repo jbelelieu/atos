@@ -92,7 +92,10 @@ foreach ($taxes as &$aTaxYear) {
 
         $aside = $taxService->getMoneyAside($aTaxYear['year']);
 
+        $income = formatMoney($taxService->getTotalBaseIncomeByYear($aTaxYear['year']) * 100);
+
         $aTaxYear['aside'] = $aside;
+        $aTaxYear['income'] = $income;
 
         $aTaxYear[$key] = [
             'status' => $strat,

@@ -104,9 +104,6 @@ $taxRegions = $taxYes['strategies'];
 
 // Get our base income and set as initial taxable income.
 $baseIncome = $taxService->getTotalBaseIncomeByYear($year);
-// if ($baseIncome <= 0) {
-//     redirect('/tax', null, null, 'No known income for the year in question.');
-// }
 
 $dayInTheYear = (int) date('z') + 1;
 
@@ -115,7 +112,6 @@ if ($remaining < 0) {
     $remaining = 0;
 }
 
-// $dayInTheYear = 2;
 $estMonths = 365 / 30;
 $currentMonthlyAverage = ($dayInTheYear < $estMonths)
     ? 0

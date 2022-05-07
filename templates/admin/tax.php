@@ -80,7 +80,7 @@
 </div>
 <?php } ?>
 
-        <?php foreach ($taxes as $aTaxYear) { ?>
+<?php foreach ($taxes as $aTaxYear) { ?>
 <div class="holderFixed border">
     <div class="borderAlterTop pad noTopPad">
         <table>
@@ -88,6 +88,7 @@
                 <tr class="noHighlight">
                     <th>Year</th>
                     <th>Statuses</th>
+                    <th>Income To Date</th>
                     <th>Generate Estimates</th>
                     <th width="42"></th>
                 </tr>
@@ -103,6 +104,9 @@
                     <?php foreach ($aTaxYear['strategies'] as $region => $strategy) { ?>
                         <b><?php echo $aTaxYear[$region]['_class']::REGION; ?>:</b> <?php echo snakeToEnglish($strategy); ?><br />
                     <?php } ?>
+                </td>
+                <td>
+                    <?php echo $aTaxYear['income']; ?>
                 </td>
                 <td>
                     <nav class="strong" style="margin-bottom:12px;">
@@ -212,4 +216,4 @@
         </form>
     </div>
 </div>
-    <?php } ?>
+<?php } ?>
