@@ -1,9 +1,19 @@
 
-<div id="holderFixed" class="border">
+<div class="holderFixed marginTop">
+    <div class="halfHalfColumns">
+        <div>
+        </div>
+        <div class="textRight">
+            <form action="/tax" method="get">
+                <span class="gray">Switch Years:</span> <input type="number" name="year" value="<?php echo (isset($_GET['year'])) ? $_GET['year'] : date('Y'); ?>" style="width:120px;" /> <button type="submit">Go</button>
+            </form>
+        </div>
+    </div>
+</div>
 
-<div class="borderAlterTop">
-
-    <?php if (empty($taxesThisYear)) { ?>
+<?php if (empty($taxesThisYear)) { ?>
+<div class="holderFixed border">
+    <div class="borderAlterTop">
         <div class="highlightFixed">
             <h2>Setup your <?php echo $year; ?> taxes!</h2>
 
@@ -66,21 +76,16 @@
             </form>
         <?php } ?>
         </div>
-    <?php } ?>
+    </div>
+</div>
+<?php } ?>
 
-    <div class="pad">
-
-        <div class="halfHalfColumns">
-            <div>
-                <h2 class="noMarginTop">Tax Years</h2>
-            </div>
-            <div class="textRight">
-                <form action="/tax" method="get">
-                    <input type="number" name="year" value="<?php echo (isset($_GET['year'])) ? $_GET['year'] : date('Y'); ?>" style="width:120px;" /> <button type="submit">Go</button>
-                </form>
-            </div>
-        </div>
-
+<div class="holderFixed border">
+    <div class="borderAlterTop pad">
+        <?php foreach ($taxes as $aTaxYear) { ?>
+        <h5 class=""
+            ><?php echo $aTaxYear['year']; ?>
+        </h5>
         <table>
             <thead>
                 <tr class="noHighlight">
@@ -91,90 +96,61 @@
                 </tr>
             </thead>
             <tbody>
-                <?php foreach ($taxes as $aTaxYear) { ?>
-                    <tr>
-                        <td>
-                            <a href="/tax/render?year=<?php echo $aTaxYear['year']; ?>">
-                                <?php echo $aTaxYear['year']; ?>
-                            </a>
-                        </td>
-                        <td>
-                            <?php foreach ($aTaxYear['strategies'] as $region => $strategy) { ?>
-                                <b><?php echo $aTaxYear[$region]['_class']::REGION; ?>:</b> <?php echo snakeToEnglish($strategy); ?><br />
-                            <?php } ?>
-                        </td>
-                        <td>
-                            <nav class="strong" style="margin-bottom:12px;">
-                            <a href="/tax/render?year=<?php echo $aTaxYear['year']; ?>">
-                                Actual Current
-                            </a><a href="/tax/render?year=<?php echo $aTaxYear['year']; ?>&estimate=true">
-                                Projected
-                            </a>
-                            </nav>
-                            
-                            <form action="/tax/render" method="get">
-                                <input type="hidden" name="year" value="<?php echo $aTaxYear['year']; ?>" />
-                                <input type="hidden" name="estimate" value="true" />
-                                $<input type="number" name="income" placeholder="250000" style="width:100px;" /> <button type="submit">Project</button>
-                            </form>
-                        </td>
-                        <td>
-                            <div class="textRight emoji_bump">
-                                <a
-                                    title="Delete"
-                                    onclick="return confirm('This will delete the status - are you sure?')"
-                                    href="/tax?action=deleteYear&year=<?php echo $aTaxYear['year']; ?>">
-                                        <?php echo putIcon('icofont-delete'); ?>
-                                </a>
-                            </div>
-                        </td>
-                    </tr>
-                <?php
-            } ?>
+            <tr>
+                <td>
+                    <a href="/tax/render?year=<?php echo $aTaxYear['year']; ?>">
+                        <?php echo $aTaxYear['year']; ?>
+                    </a>
+                </td>
+                <td>
+                    <?php foreach ($aTaxYear['strategies'] as $region => $strategy) { ?>
+                        <b><?php echo $aTaxYear[$region]['_class']::REGION; ?>:</b> <?php echo snakeToEnglish($strategy); ?><br />
+                    <?php } ?>
+                </td>
+                <td>
+                    <nav class="strong" style="margin-bottom:12px;">
+                    <a href="/tax/render?year=<?php echo $aTaxYear['year']; ?>">
+                        Actual Current
+                    </a><a href="/tax/render?year=<?php echo $aTaxYear['year']; ?>&estimate=true">
+                        Projected
+                    </a>
+                    </nav>
+                    
+                    <form action="/tax/render" method="get">
+                        <input type="hidden" name="year" value="<?php echo $aTaxYear['year']; ?>" />
+                        <input type="hidden" name="estimate" value="true" />
+                        $<input type="number" name="income" placeholder="250000" style="width:100px;" /> <button type="submit">Project</button>
+                    </form>
+                </td>
+                <td>
+                    <div class="textRight emoji_bump">
+                        <a
+                            title="Delete"
+                            onclick="return confirm('This will delete the status - are you sure?')"
+                            href="/tax?action=deleteYear&year=<?php echo $aTaxYear['year']; ?>">
+                                <?php echo putIcon('icofont-delete'); ?>
+                        </a>
+                    </div>
+                </td>
+            </tr>
             </tbody>
         </table>
 
-        <?php foreach ($taxes as $aTaxYear) { ?>
-            <form action="/tax" method="post">
-            <input type="hidden" name="year" value="<?php echo $aTaxYear['year']; ?>" />
-            <input type="hidden" name="action" value="createMoneyAside" />
-                <h2>Money Set Aside in <?php echo $aTaxYear['year']; ?></h2>
-                <table>
-                    <thead>
-                        <tr class="noHighlight">
-                            <th width="150">Date</th>
-                            <th width="150">Group</th>
-                            <th width="140">Amount</th>
-                            <th>Notes</th>
-                            <th width="42"></th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                    <?php
-                    $total = 0;
-                    foreach ($aTaxYear['aside'] as $anAside) {
-                        $total += $anAside['amount'];
-                    ?>
-                        <tr>
-                            <td><?php echo formatDate($anAside['created_at']); ?></td>
-                            <td><?php echo $anAside['group']; ?></td>
-                            <td><?php echo formatMoney($anAside['amount'] * 100); ?></td>
-                            <td><?php echo $anAside['title']; ?></td>
-                            <td class="textRight">
-                                <a
-                                    title="Delete"
-                                    onclick="return confirm('Are you sure?')"
-                                    href="/tax?action=deleteMoneyAside&id=<?php echo $anAside['id']; ?>">
-                                        <?php echo putIcon('icofont-delete'); ?>
-                                </a>
-                            </td>
-                        </tr>
-                    <?php } ?>
+        <form action="/tax" method="post">
+        <input type="hidden" name="year" value="<?php echo $aTaxYear['year']; ?>" />
+        <input type="hidden" name="action" value="createMoneyAside" />
+            <h4 class="marginTopLess">Money Set Aside in <?php echo $aTaxYear['year']; ?></h4>
+            <table>
+                <thead>
                     <tr class="noHighlight">
-                        <td colspan="2"></td>
-                        <td class="bold"><?php echo formatMoney($total * 100); ?></td>
-                        <td colspan="2"></td>
+                        <th width="150">Date</th>
+                        <th width="150">Group</th>
+                        <th width="140">Amount</th>
+                        <th>Notes</th>
+                        <th width="42"></th>
                     </tr>
+                </thead>
+                <tbody>
                     <tr class="noHighlight">
                         <td>
                             <input
@@ -200,20 +176,43 @@
                                 autocomplete="off"
                                 required="required" />
                         </td>
-                        <td>
+                        <td colspan="2">
                             <input
                                 type="text"
+                                style="width:220px;"
                                 autocomplete="off"
-                                name="title" />
+                                name="title" /> <button type="submit">Add</button>
                         </td>
-                        <td></td>
                     </tr>
-                    </tbody>
-                </table>
-                <div class="textRight marginTopLessLess"><button type="submit">Create Aside</button></div>
-            </form>
-        <?php } ?>
+                    <?php
+                    $total = 0;
+                    foreach ($aTaxYear['aside'] as $anAside) {
+                        $total += $anAside['amount'];
+                    ?>
+                    <tr>
+                        <td><?php echo formatDate($anAside['created_at']); ?></td>
+                        <td><?php echo $anAside['group']; ?></td>
+                        <td><?php echo formatMoney($anAside['amount'] * 100); ?></td>
+                        <td><?php echo $anAside['title']; ?></td>
+                        <td class="textRight">
+                            <a
+                                title="Delete"
+                                onclick="return confirm('Are you sure?')"
+                                href="/tax?action=deleteMoneyAside&id=<?php echo $anAside['id']; ?>">
+                                    <?php echo putIcon('icofont-delete'); ?>
+                            </a>
+                        </td>
+                    </tr>
+                <?php } ?>
+                <tr class="noHighlight">
+                    <td colspan="2"></td>
+                    <td class="bold"><?php echo formatMoney($total * 100); ?></td>
+                    <td colspan="2"></td>
+                </tr>
+                </tbody>
+            </table>
+            <div class="textRight marginTopLessLess"></div>
+        </form>
+    <?php } ?>
     </div>
-
-</div>
 </div>

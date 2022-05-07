@@ -706,6 +706,11 @@ h4.sectionHeader {
     margin: 42px auto;
 }
 
+.holderFixed {
+    width: 800px;
+    margin: 12px auto 12px auto;
+}
+
 .underTableSubmit {
     margin-top: 12px;
 }
@@ -892,6 +897,10 @@ button:hover:not(.createNew) {
 
 .show {
     display: block;
+}
+
+.noMarginTop {
+    margin-top: 0px;
 }
 
 .projectTopColumns,
