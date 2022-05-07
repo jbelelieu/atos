@@ -1054,8 +1054,12 @@ table th {
     color: #555;
 }
 
-table tr:not(:last-child):not(.noBorder) {
-    /* border-bottom: 1px dotted #e5e5e5; */
+table.lessPad tr:not(:last-child):not(.noBorder) {
+    border-bottom: 1px dotted #e5e5e5;
+}
+
+table.lessPad tr:first-child {
+    border-bottom: none !important;
 }
 
 table td.borderTop {
@@ -1076,6 +1080,11 @@ table td,
 table th {
     vertical-align: top;
     padding: 6px 16px;
+}
+
+table.lessPad td,
+table.lessPad th {
+    padding: 3px;
 }
 
 table td input {
@@ -1138,9 +1147,17 @@ table td.summary {
 
 /*  */
 
+.noTopPad {
+    padding-top: 0px !important;
+}
+
 .iconHolder {
     display: inline-block;
     font-size: 22px;
+}
+
+#collections .iconHolder {
+    font-size: 14px !important;
 }
 
 /*  */

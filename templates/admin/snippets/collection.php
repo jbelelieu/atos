@@ -85,7 +85,7 @@
             <th width="180">Type</th>
             <th width="80">Completed</th>
             <th width="90">Units</th>
-            <th width="180"></th>
+            <th></th>
             </tr>
         </thead>
         <tbody>

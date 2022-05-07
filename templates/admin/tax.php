@@ -80,12 +80,9 @@
 </div>
 <?php } ?>
 
-<div class="holderFixed border">
-    <div class="borderAlterTop pad">
         <?php foreach ($taxes as $aTaxYear) { ?>
-        <h5 class=""
-            ><?php echo $aTaxYear['year']; ?>
-        </h5>
+<div class="holderFixed border">
+    <div class="borderAlterTop pad noTopPad">
         <table>
             <thead>
                 <tr class="noHighlight">
@@ -97,7 +94,7 @@
             </thead>
             <tbody>
             <tr>
-                <td>
+                <td class="bold larger">
                     <a href="/tax/render?year=<?php echo $aTaxYear['year']; ?>">
                         <?php echo $aTaxYear['year']; ?>
                     </a>
@@ -140,7 +137,7 @@
         <input type="hidden" name="year" value="<?php echo $aTaxYear['year']; ?>" />
         <input type="hidden" name="action" value="createMoneyAside" />
             <h4 class="marginTopLess">Money Set Aside in <?php echo $aTaxYear['year']; ?></h4>
-            <table>
+            <table class="lessPad">
                 <thead>
                     <tr class="noHighlight">
                         <th width="150">Date</th>
@@ -213,6 +210,6 @@
             </table>
             <div class="textRight marginTopLessLess"></div>
         </form>
-    <?php } ?>
     </div>
 </div>
+    <?php } ?>

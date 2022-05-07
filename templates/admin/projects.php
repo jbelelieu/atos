@@ -20,7 +20,7 @@
 
     <hr />
 
-    <h2>Project <?php echo $project['title']; ?></h2>
+    <h2><?php echo $project['title']; ?></h2>
     <button type="button" onclick="toggleDiv('createHandOFf')" class="a">Generate Report</button>
     <button type="button" onclick="toggleDiv('createLink')" class="a">Links</button>
     <button type="button" onclick="toggleDiv('createFile')" class="a">Files</button>
