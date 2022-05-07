@@ -1,8 +1,7 @@
 
-<div id="holderFixed" class="border">
-
-<div class="borderContainer pad">
-    <h2>Task Statuses</h2>
+<div class="holder">
+    <hr />
+    <h2 class="sectionHeader">Task Statuses</h2>
     <button type="button" onclick="toggleDiv('createStatus')" class="a">Create</button>
 
     <div id="createStatus" class="sunk hide">
@@ -58,10 +57,8 @@
         </div>
     </form>
 
-</div>
-<div class="borderContainer borderTop pad">
-
-<h2>Rate Types</h2>
+<hr />
+<h2 class="sectionHeader">Rate Types</h2>
 <button type="button" onclick="toggleDiv('createRate')" class="a">Create</button>
 
 <div id="createRate" class="sunk hide">
@@ -92,30 +89,27 @@
 </div>
 
 <form action="/settings" method="post">
-    <input type="hidden" name="action" value="updateRates" />
+<input type="hidden" name="action" value="updateRates" />
+<table>
+<thead>
+<tr class="noHighlight">
+<th width="70%">Title</th>
+<th>Rate</th>
+<th width="42"></th>
+</tr>
+</thead>
+<tbody>
+    <?php echo $renderedRateTypes; ?>
+</tbody>
+</table>
 
-    <table>
-    <thead>
-    <tr class="noHighlight">
-    <th width="70%">Title</th>
-    <th>Rate</th>
-    <th width="42"></th>
-    </tr>
-    </thead>
-    <tbody>
-        <?php echo $renderedRateTypes; ?>
-    </tbody>
-    </table>
-    
-    <div class="underTableSubmit textRight">
-        <button type="submit">Save Rate Types</button>
-    </div> 
+<div class="underTableSubmit textRight">
+    <button type="submit">Save Rate Types</button>
+</div> 
 </form>
-  
-</div>
-<div class="borderContainer borderTop pad">
-  
-<h2>Task Types</h2>
+
+<hr />
+<h2 class="sectionHeader">Task Types</h2>
 <button type="button" onclick="toggleDiv('createType')" class="a">Create</button>
 
 <div id="createType" class="sunk hide">
@@ -152,7 +146,3 @@
         <button type="submit">Save Task Types</button>
     </div>
 </form>
-
-</div>
-
-</div>

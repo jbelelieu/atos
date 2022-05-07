@@ -1,5 +1,5 @@
 
-<tr class="<?php if ($is_hidden) {
+<tr class="noHighlight <?php if ($is_hidden) {
     echo "notLive";
 } ?>">
 <td>

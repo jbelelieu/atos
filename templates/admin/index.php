@@ -88,10 +88,9 @@
 <?php } ?>
 
 
-    <hr />
-
-    <h2 class="sectionHeader">Companies &amp; Clients</h2>
-    <button type="button" onclick="toggleDiv('createClient')" class="a">Create Company</button>
+<hr />
+<h2 class="sectionHeader">Companies &amp; Clients</h2>
+<button type="button" onclick="toggleDiv('createClient')" class="a">Create Company</button>
     
 <?php if ($totalClients < 1) { ?>
     <p class="highlight">

@@ -1,4 +1,4 @@
-<tr>
+<tr class="noHighlight">
 <td>
     <input
         type="text"
