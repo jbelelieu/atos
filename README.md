@@ -26,12 +26,16 @@ ATOS is 100% open source and free to use, licensed under the [GNU AGPLv3 License
 
 **Screen Shots**
 
+<center>Project Overview Screen</center>
 <img alt="Projects" src="https://github.com/jbelelieu/atos/blob/develop/assets/screens/atos-screen-project-sm.png?raw=true" />
 <br />
+<center>Invoice</center>
 <img alt="Invoice" src="https://github.com/jbelelieu/atos/blob/develop/assets/screens/atos-screen-invoice-sm.png?raw=true" />
 <br />
+<center>Tax Estimate</center>
 <img alt="Tax Estimate" src="https://github.com/jbelelieu/atos/blob/develop/assets/screens/atos-screen-taxes-sm.png?raw=true" />
 <br />
+<center>Tax Overview</center>
 <img alt="Tax Overview" src="https://github.com/jbelelieu/atos/blob/develop/assets/screens/atos-screen-tax-sm.png?raw=true" />
 
 -----
