@@ -494,8 +494,13 @@ footer {
     line-height: 1.3em;
 }
 
+p.pullUp {
+    margin-top: -2px;
+}
+
 p.deAdHeading {
     margin-top: 0px !important;
+    margin-bottom: 0px;
 }
 
 input.paid {

@@ -372,7 +372,7 @@
                                         <p class="deAdHeading">
                                             <?php echo $aBurden['title']; ?>
                                         </p>
-                                        <p class="weak">
+                                        <p class="weak pullUp">
                                             <?php echo $aBurden['taxable_percent']; ?>% on <?php echo $aBurden['_amount']; ?>
                                         </p>
                                     </td>

@@ -1,6 +1,4 @@
-# Documentation
-
-## User Documentation
+**User Documentation**
 
 - [Companies](companies.md)
 - [Projects, Collections and Tasks](projects.md)
@@ -9,25 +7,13 @@
 - [Modules](https://github.com/jbelelieu/atos_modules)
 - [FAQ](faq.md)
 
-## Technical Documentation
+**Technical Documentation**
 
 - [Template Objects](objects.md): see what variables are available to you on various templates.
 
 ---
 
-# Walkthrough Video
-
-[Click here](https://youtu.be/DY_ze39ZRt8) to view the walkthrough video, which goes over setting up and using the application.
-
-----
-
-# On This Page
-
-- [Documentation](#documentation)
-  - [User Documentation](#user-documentation)
-  - [Technical Documentation](#technical-documentation)
 - [Walkthrough Video](#walkthrough-video)
-- [On This Page](#on-this-page)
 - [Setup & Installation](#setup--installation)
   - [If You Have PHP7 Installed Locally](#if-you-have-php7-installed-locally)
   - [If You Don't Have PHP7 Installed](#if-you-dont-have-php7-installed)
@@ -41,6 +27,10 @@
     - [Templates Files](#templates-files)
     - [phpLiteAdmin](#phpliteadmin)
 - [Core Concepts](#core-concepts)
+
+# Walkthrough Video
+
+[Click here](https://youtu.be/DY_ze39ZRt8) to view the walkthrough video, which goes over setting up and using the application.
 
 # Setup & Installation
 
