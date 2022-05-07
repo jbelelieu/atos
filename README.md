@@ -7,7 +7,7 @@
 - 📔&nbsp;&nbsp;&nbsp;[Documentation & Installation](https://jbelelieu.github.io/atos/)
 - 💬&nbsp;&nbsp;&nbsp;[Tweet About ATOS](http://twitter.com/intent/tweet?text=Freelancers!%20Check%20out%20ATOS,%20free%20software%20designed%20to%20help%20you%20manage%20your%20clients,%20invoices,%20and%20estimated%20taxes.%20https://github.com/jbelelieu/atos)
 - 🎥&nbsp;&nbsp;&nbsp;[Walkthrough Video](https://youtu.be/DY_ze39ZRt8)
-- [Support us Financially](https://opencollective.com/castlamp/projects/by_freelancer_for_freelancer)
+- 🤑&nbsp;&nbsp;&nbsp;[Support us Financially](https://opencollective.com/castlamp/projects/by_freelancer_for_freelancer)
 - ☕️&nbsp;&nbsp;&nbsp;[Buy me a Coffee!](https://www.buymeacoffee.com/jbelelieu)
 
 **Key Features**
