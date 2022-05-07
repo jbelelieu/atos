@@ -9,8 +9,6 @@
 - 🎥&nbsp;&nbsp;&nbsp;[Walkthrough Video](https://youtu.be/DY_ze39ZRt8)
 - ☕️&nbsp;&nbsp;&nbsp;[Buy me a Coffee!](https://www.buymeacoffee.com/jbelelieu)
 
-# Walkthrough Video
-
 **Key Features**
 
 - **Client Management**: Manage all of your clients, as well as companies that you represent, all from the same dashboard.
@@ -40,7 +38,6 @@ ATOS is 100% open source and free to use, licensed under the [GNU AGPLv3 License
 
 -----
 
-- [Walkthrough Video](#walkthrough-video)
 - [Contributing](#contributing)
   - [How to Contribute](#how-to-contribute)
   - [Special Thank You](#special-thank-you)
