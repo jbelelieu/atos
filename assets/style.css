@@ -28,7 +28,7 @@ html {
 *,
 *:before,
 *:after {
-    box-sizing: inherit;
+    box-sizing: border-box;
 }
 
 /* Sections
@@ -41,7 +41,10 @@ html {
 body {
     margin: 0;
     overflow-x: hidden;
+    /* width: 100vw; */
 }
+
+#container {}
 
 /**
  * Render the `main` element consistently in IE.
@@ -1276,4 +1279,15 @@ nav.strong a:not(:last-child):after {
 
 /*  */
 
-@media only screen and (max-device-width: 700px) {}
+@media only screen and (max-device-width: 700px) {
+    .headerColumns {
+        grid-template-columns: 1fr 1fr;
+        grid-template-areas: ". .";
+    }
+
+    #nav {
+        text-align: left;
+        width: 100%;
+        grid-column: 1 / -1;
+    }
+}

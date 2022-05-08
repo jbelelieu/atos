@@ -52,6 +52,10 @@ class AtosSettings
         }
     }
 
+    /**
+     * @param string $settingKey
+     * @param [type] $default
+     */
     public function returnSetting(string $settingKey, $default = null)
     {
         return array_key_exists($settingKey, $this->settings)
@@ -60,6 +64,10 @@ class AtosSettings
     }
 }
 
+/**
+ * @param string $key
+ * @param [type] $default
+ */
 function getSetting(string $key, $default = null)
 {
     $settings = new AtosSettings();
@@ -67,6 +75,8 @@ function getSetting(string $key, $default = null)
     switch ($key) {
         case 'DATABASE_FILE_NAME':
             return $settings->returnSetting('DATABASE_FILE_NAME', $default);
+        case 'EST_TAXES_ADD_SAFETY_BUFFER':
+            return (int) $settings->returnSetting('EST_TAXES_ADD_SAFETY_BUFFER', $default);
         case 'LOGO_FILE':
             return $settings->returnSetting('LOGO_FILE', $default);
         case 'INVOICE_DUE_DATE_IN_DAYS':

@@ -4,6 +4,11 @@ return [
     // What is your database file called.
     'DATABASE_FILE_NAME' => 'atos.sqlite3',
 
+    // Percent of additional estimated taxes you'd like
+    // to add to the actual calcuated totals. This is to
+    // prevent potential underpayment penalties.
+    'EST_TAXES_ADD_SAFETY_BUFFER' => 10,
+
     // Path to your logo file
     'LOGO_FILE' => 'assets/logo.png',
     

@@ -119,26 +119,36 @@
 
                 <div class="borderSection">
                     <div class="columns2575 sunk">
-                        <div class="textRight pad">
-                            <h4>
+                        <div class="pad">
+                            <h4 class="">
                                 <span class="larger red">
                                     TAX BURDEN</br >
-                                    <?php echo $details['results']['_tax']; ?> (<button type="button" class="a" onClick="toggleDiv('region-<?php echo $region; ?>');">?</button>)
+                                    <?php echo $details['results']['_tax']; ?>
+                                    <!-- (<button type="button" class="a" onClick="toggleDiv('region-<?php echo $region; ?>');">?</button>) -->
                                 </span><br /><br />
                                 <?php echo $details['_class']::REGION; ?>
                                 <br />
                                 <?php echo $details['filingStrategy'] ?>
-                                <br />
-                                <?php echo $details['recommendations']['percentOfTotalTaxBurden'] ?>% of total
                                 <br /><br />
+                                <?php echo $details['recommendations']['percentOfTotalTaxBurden'] ?>% of total
                             </h4>
+
+                            <hr />
+
+                             <p class="weak textLeft">
+                                 <b>Explanation of Figures</b>
+                                 <br />A <?php echo $details['recommendations']['buffer']; ?>% safety buffer has been added to each quarterly payment.
+                                <br /><br />Actual change is reflected as <?php echo $details['recommendations']['payment']; ?> + <?php echo $details['recommendations']['bufferAdded']; ?> (<?php echo $details['recommendations']['buffer']; ?>%)
+                                <br /><br />
+                                In addition, if you underpaid or overpaid on previous payments, the difference will be added/subtracted from subsequent payments.
+                            </p>
                         </div>
                         <div class="pad borderLeft">
                             <table>
                                 <thead>
                                     <tr class="noHighlight">
                                         <th width="170">Date Due or Paid</th>
-                                        <th>Rec. Payment</th>
+                                        <th>Rec. Payment*</th>
                                         <th>Actual Paid</th>
                                         <th>Difference</th>
                                     </tr>
@@ -223,7 +233,8 @@
                                 </tr>
                              </table>
 
-                             <div class="hide marginTop" id="region-<?php echo $region; ?>">
+                             <div class="marginTop" id="region-<?php echo $region; ?>">
+                                <h4>Breakdown of Taxed Income</h4>
                                 <table class="weak">
                                     <thead>
                                     <tr class="noHighlight">

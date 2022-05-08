@@ -1,6 +1,9 @@
 
 <div class="holder">
 
+    <hr />
+    <h2>Collections</h2>
+
     <?php if ($totalCollections === 1) { ?>
         <p class="highlight">
             Start here by creating your first collection of tasks. A collection is a grouping of tasks that will be billed to a client. One common use case is to map bi-weekly sprints to invoiced work.
@@ -19,8 +22,8 @@
     </form>
 
     <hr />
-
     <h2><?php echo $project['title']; ?></h2>
+
     <button type="button" onclick="toggleDiv('createHandOFf')" class="a">Generate Report</button>
     <button type="button" onclick="toggleDiv('createLink')" class="a">Links</button>
     <button type="button" onclick="toggleDiv('createFile')" class="a">Files</button>

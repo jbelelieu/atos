@@ -735,9 +735,9 @@ blockquote:after {
 .columns2575 {
     display: grid;
     grid-template-rows: 1fr;
-    grid-column-gap: 40px;
+    grid-column-gap: 0px;
     grid-row-gap: 0px;
-    grid-template-columns: 190px 1fr;
+    grid-template-columns: 220px 1fr;
 }
 
 .columns2575 table:first-child {

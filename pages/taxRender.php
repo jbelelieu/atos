@@ -178,6 +178,8 @@ foreach ($taxRegions as $aRegion => $regionalStrategy) {
 }
 
 // Add recommendations
+$safetyBuffer = getSetting('EST_TAXES_ADD_SAFETY_BUFFER', 10);
+
 foreach ($finalData as $region => $aTaxRegionBurden) {
     $estTaxes = $aTaxRegionBurden['_class']::ESTIMATED_TAXES_DUE;
 
@@ -186,6 +188,8 @@ foreach ($finalData as $region => $aTaxRegionBurden) {
     $percent = $tax > 0 ? intval($aTaxRegionBurden['results']['tax']) / $tax : 0;
 
     $quarterly = intval($aTaxRegionBurden['results']['tax']) / intval($totalPaymentsRequired);
+    $bufferAdded = $quarterly * ($safetyBuffer / 100);
+    $useQuarterly = $quarterly + $bufferAdded;
 
     $schedule = [];
     foreach ($estTaxes as $aDate) {
@@ -194,16 +198,22 @@ foreach ($finalData as $region => $aTaxRegionBurden) {
 
         $schedule[$aDate] = [
             'date' => formatDate($aDate),
-            'amount' => formatMoney($quarterly * 100),
-            '_amount' => $quarterly,
+            'baseAmount' => formatMoney($quarterly * 100),
+            '_baseAmount' => $quarterly,
+            'amount' => formatMoney($useQuarterly * 100),
+            '_amount' => $useQuarterly,
             'daysUntil' => ($daysUntil <= 0) ? '-' : $daysUntil,
         ];
     }
 
     $finalData[$region]['recommendations'] = [
+        'buffer' => $safetyBuffer,
+        'bufferAdded' => formatMoney($bufferAdded * 100),
+        '_bufferAdded' => $bufferAdded,
         'totalPayment' => $totalPaymentsRequired,
         'schedule' => $schedule,
         'payment' => formatMoney($quarterly * 100),
+        '_payment' => $quarterly,
         'percentOfTotalTaxBurden' => round($percent, 2) * 100,
     ];
 }
