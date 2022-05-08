@@ -31,7 +31,7 @@
             <!-- start -->
             <div class="borderSection">
                 <div class="columns2575">
-                    <div class="textRight pad">
+                    <div class="pad">
                         <h4>
                             <span class="larger">
                                 <?php echo $displayType; ?>
@@ -55,11 +55,12 @@
             <a name="d0"></a>
             <div class="borderSection">
                 <div class="columns2575">
-                    <div class="textRight pad">
+                    <div class="pad">
                         <h4>
                             <span class="larger">
-                                Tax Breakdown
+                                <?php echo $year; ?>
                             </span>
+                            <br />Tax Breakdown
                         </h4>
                     </div>
                     <div class="pad borderLeft">
