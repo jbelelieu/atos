@@ -546,6 +546,10 @@ input.paid {
     padding: 22px 22px 18px 22px;
 }
 
+.padNoTop {
+    padding: 0px 22px 0px 22px;
+}
+
 .padLess {
     padding: 16px;
 }

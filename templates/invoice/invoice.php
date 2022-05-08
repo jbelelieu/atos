@@ -25,7 +25,7 @@
         <div class="border">
             <div class="borderSection pad">
                 <div class="columns2575">
-                    <div class="textRight">
+                    <div class="textRight padNoTop">
                         <h4>
                             <span class="larger">
                                 <?php echo $project['title']; ?>
@@ -62,7 +62,7 @@
             </div>
             <div class="borderSection borderSectionTop pad">
                 <div class="columns2575">
-                    <div class="textRight">
+                    <div class="textRight padNoTop">
                         <h4>
                             <span class="larger">
                                 <?php echo $collection['title']; ?>
@@ -100,7 +100,7 @@
 
             <?php if (!empty($client['instructions'])) { ?>
                 <div class="sunk columns2575 pad">
-                    <div class="textRight">
+                    <div class="textRight padNoTop">
                         <h4>Instructions &raquo;</h4>
                     </div>
                     <div>
