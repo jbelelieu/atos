@@ -55,16 +55,6 @@ CREATE TABLE `story_status` (
   `emoji` varchar(10)
 );
 
-CREATE TABLE `story_note` (
-  `id` INTEGER PRIMARY KEY AUTOINCREMENT,
-  `story_id` INTEGER,
-  `created_at` timestamp DEFAULT CURRENT_TIMESTAMP,
-  `resolved_at` timestamp,
-  `is_resolved` boolean DEFAULT 0,
-  `note` text,
-  CONSTRAINT fk_story_id FOREIGN KEY(story_id) REFERENCES story(id) ON DELETE CASCADE
-);
-
 CREATE TABLE `story_collection` (
   `id` INTEGER PRIMARY KEY AUTOINCREMENT,
   `created_at` timestamp DEFAULT CURRENT_TIMESTAMP,
@@ -91,6 +81,16 @@ CREATE TABLE `story` (
   CONSTRAINT fk_collection FOREIGN KEY(collection) REFERENCES story_collection(id), 
   CONSTRAINT fk_type FOREIGN KEY(type) REFERENCES story_type(id),
   CONSTRAINT fk_rate_type FOREIGN KEY(rate_type) REFERENCES story_hour_type(id)
+);
+
+CREATE TABLE `story_note` (
+  `id` INTEGER PRIMARY KEY AUTOINCREMENT,
+  `created_at` timestamp DEFAULT CURRENT_TIMESTAMP,
+  `story_id` INTEGER,
+  `title` varchar(200),
+  `note` text,
+  `is_public` BOOLEAN DEFAULT "0",
+  CONSTRAINT fk_story_note_story_id FOREIGN KEY(story_id) REFERENCES story(id)
 );
 
 CREATE TABLE `invoice` (
@@ -135,16 +135,26 @@ CREATE TABLE `tax_adjustment` (
   CONSTRAINT fk_tax_a_year FOREIGN KEY(year) REFERENCES tax(year) ON DELETE CASCADE
 );
 
+CREATE TABLE `tax_aside` (
+  `id` INTEGER PRIMARY KEY AUTOINCREMENT,
+  `created_at` timestamp DEFAULT CURRENT_TIMESTAMP,
+  `year` INTEGER,
+  `title` varchar(255),
+  `amount` INTEGER,
+  `group` varchar(100),
+  CONSTRAINT fk_tax_aside_tax_a_year FOREIGN KEY(year) REFERENCES tax(year) ON DELETE CASCADE
+);
+
 INSERT INTO story_type (id, title) VALUES (1, 'Task'), (2, 'Chore'), (3, 'Meeting'), (4, 'Hand Off Item');
 
 -- The primary items should not be removed and need
 -- to remain in this order!
 INSERT INTO story_status (id, title, emoji, color, is_complete_state, is_billable_state) VALUES
-(1, 'Open', 'folder-open', '#111111', 0, 0),
+(1, 'Open', 'folder-open', '#e5e5e5', 0, 0),
 (2, 'Complete', 'money', '#47F43E', 1, 1),
 (3, 'Shipped', 'checked', '#3fcce8', 1, 0),
 (4, 'Closed', 'close-circled', '#b82a36', 1, 0),
-(5, 'Unpaid', 'broken', '#ccc', 1, 0);
+(5, 'Unpaid', 'broken', '#cccccc', 1, 0);
 
 -- This is in dollar cents, so $50 = 5000.
 INSERT INTO story_hour_type (id, title, rate, is_hidden) VALUES (1, 'Standard Rate', '5000', 0);

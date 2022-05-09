@@ -1,27 +1,34 @@
 <?php if ($tripFlag) { ?>
 <details>
     <summary>
-        <h3><?php echo $collection['title']; ?></h3>
+        <h2><?php echo $collection['title']; ?></h2>
         <div class="clearFix"></div>
     </summary>
 <?php } ?>
 
-
-<hr />
-
-<h2 style="margin-bottom: 24px;">
-    <?php echo $collection['title']; ?>
-</h2>
-
 <?php if ($isProjectDefault) { ?>
 
     <a name="unorganized"></a>
-    <a class="unorgLink" href="#top">View Open</a>
+
+    <hr />
+    <h2 style="margin-bottom: 24px;">
+        <?php echo $collection['title']; ?>
+    </h2>
+    <div class="clearFix"></div>
+
+    <a class="unorgLink" href="#top">View Open</a> <a class="unorgLink" href="#completed">View Completed &amp; Billable</a>
 
 <?php } else { ?>
 
+    <a name="open"></a>
+
+    <hr />
+    <h2 style="margin-bottom: 24px;">
+        <?php echo $collection['title']; ?>
+    </h2>
     <div class="clearFix"></div>
-    <h5 class="bubble noMarginTop">Open</h5> <a class="unorgLink" href="#unorganized">View Unorganized</a>
+    
+    <h5 class="bubble noMarginTop">Open</h5> <a class="unorgLink" href="#unorganized">Unorganized</a> <a class="unorgLink" href="#completed">Completed &amp; Billable</a>
 
 <?php } ?>
 
@@ -32,25 +39,29 @@
     action="/project?id=<?php echo $collection['project_id']; ?>"
     method="post">
     <input type="hidden" name="action" value="updateStories" />
+    <input type="hidden" name="from" value="not_completed" />
+    <input type="hidden" name="collection_id" value="<?php echo $collection['id']; ?>" />
     <input type="hidden" name="project_id" value="<?php echo $collection['project_id']; ?>" />
 
     <table id="table-all" class="allStoriesInCollection unorganized">
     <thead>
-    <tr>
-    <th width="80">ID</th>
-    <th width="140">Rate Type</th>
-    <th width="140">Type</th>
-    <th width="32"></th>
-    <th width=>Title</th>
-    <th width="180"></th>
+    <tr class="noHighlight">
+        <th width="32"></th>
+        <th width="90">ID</th>
+        <th width="250">Rate Type</th>
+        <th width="250">Type</th>
+        <th width=""></th>
     </tr>
     </thead>
     <tbody>
         <?php echo $openStories; ?>
-        <tr>
-        <td colspan="4" class="textRight"></td>
-        <td colspan="2">
-            <button type="submit">Update Tasks</button>
+        <tr class="noHighlight">
+        <td colspan="3">
+            <button type="submit">Move</button>
+        </td>
+        <td class="textRight"></td>
+        <td colspan="2" class="textRight">
+            <button type="submit">Update</button>
         </td>
         </tr>
     </tbody>
@@ -61,8 +72,10 @@
 <div class="" style="margin-top: 12px;">
     <!-- Billable stories table -->
 
-    <hr class="lighter" />
-    <h5>Completed &amp; Billable</h5>
+    <a name="completed"></a>
+
+    <hr />
+    <h5>Completed &amp; Billable</h5><a class="unorgLink" href="#top">View Open</a> <a class="unorgLink" href="#unorganized">View Unorganzied</a>
 
     <form
         id="billable-table"
@@ -70,30 +83,30 @@
         action="/project?id=<?php echo $collection['project_id']; ?>"
         method="post">
         <input type="hidden" name="action" value="updateStories" />
+        <input type="hidden" name="from" value="completed" />
+        <input type="hidden" name="collection_id" value="<?php echo $collection['id']; ?>" />
         <input type="hidden" name="project_id" value="<?php echo $collection['project_id']; ?>" />
 
         <table class="allStoriesInCollection">
         <thead>
-            <tr>
-            <th width="80">ID</th>
+            <tr class="noHighlight">
+            <th width="90">ID</th>
             <th width="180">Rate Type</th>
-            <th width="150">Type</th>
-            <th width="32"></th>
-            <th width="120">Completed</th>
+            <th width="180">Type</th>
+            <th width="80">Completed</th>
             <th width="90">Units</th>
-            <th width=>Title</th>
-            <th width="180"></th>
+            <th></th>
             </tr>
         </thead>
         <tbody>
             <?php echo $otherStories; ?>
-            <tr>
-            <td colspan="5" class="textRight">
-                <button type="button" onClick="window.location='/invoice?collection=<?php echo $collection['id']; ?>&save=1'">Generate & Save Invoice</button> <button type="button" onClick="window.open('/invoice?collection=<?php echo $collection['id']; ?>')">Preview Invoice</button>
+            <tr class="noHighlight">
+            <td colspan="4" class="textRight">
+                <button type="button" onClick="window.location='/invoice?collection=<?php echo $collection['id']; ?>&save=1'">Generate &amp; Save Invoice</button> <button type="button" onClick="window.open('/invoice?collection=<?php echo $collection['id']; ?>')">Preview Invoice</button>
             </td>
             <td class="bold"><?php echo $hours; ?></td>
-            <td colspan="2">
-                <button type="submit">Update Stories</button>
+            <td colspan="2" class="textRight">
+                <button type="submit">Update</button>
             </td>
             </tr>
         </tbody>

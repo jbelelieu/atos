@@ -3,8 +3,6 @@
 namespace services;
 
 use services\BaseService;
-use services\SettingService;
-use services\StoryService;
 
 /**
  * ATOS: "Built by freelancer 🙋‍♂️, for freelancers 🕺 🤷 💃🏾 "
@@ -19,7 +17,14 @@ use services\StoryService;
  */
 class CollectionService extends BaseService
 {
+    /**
+     * @var services\SettingService
+     */
     private $settingService;
+
+    /**
+     * @var services\StoryService
+     */
     private $storyService;
 
     public function __construct()
@@ -80,14 +85,14 @@ class CollectionService extends BaseService
             );
         }
 
-        // Delete the collection...
+        // Delete the collection.
         $statement = $this->db->prepare('
             DELETE FROM story_collection WHERE id = :id
         ');
         $statement->bindParam(':id', $data['id']);
         $statement->execute();
 
-        // Move everything to unorganized...
+        // Move everything to unorganized.
         $defaultCollection = $this->getDefaultCollectionForProject($data['project_id']);
         $statement = $this->db->prepare('
             UPDATE story
@@ -101,7 +106,7 @@ class CollectionService extends BaseService
         redirect(
             '/project',
             $data['project_id'],
-            'Your collection has been deleted. All stories in that collection have been moved to your default collection for the project.'
+            'Your collection has been deleted. All tasks in that collection have been moved to your default collection for the project.'
         );
     }
         

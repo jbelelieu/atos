@@ -16,6 +16,9 @@ namespace modules\tax\Y2021;
 
 class UsaNy
 {
+    /**
+     * Dates on which estimated taxes are due
+     */
     const ESTIMATED_TAXES_DUE = [
         '2021-04-15',
         '2021-06-15',
@@ -23,10 +26,25 @@ class UsaNy
         '2022-01-15',
     ];
 
+    /**
+     * Online payment portal
+     */
+    const link = 'https://www.tax.ny.gov/pay/ind/pay-estimated-tax.htm';
+
+    /**
+     * Name of the region
+     */
     const REGION = 'New York State';
     
+    /**
+     * Year this tax file is relevant for
+     */
     const YEAR = 2021;
 
+    /**
+     * Filing status option
+     * Percent Taxes => Income up to
+     */
     public function single(): array
     {
         return [

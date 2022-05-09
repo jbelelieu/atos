@@ -1,9 +1,12 @@
 
 <div class="holder">
 
+    <hr />
+    <h2>Collections</h2>
+
     <?php if ($totalCollections === 1) { ?>
         <p class="highlight">
-            Start here by creating your first collection of stories. A collection is a grouping of stories that will be billed to a client. One common use case is to map bi-weekly sprints to invoiced work.
+            Start here by creating your first collection of tasks. A collection is a grouping of tasks that will be billed to a client. One common use case is to map bi-weekly sprints to invoiced work.
         </p>
     <?php } ?>
 
@@ -19,8 +22,8 @@
     </form>
 
     <hr />
+    <h2><?php echo $project['title']; ?></h2>
 
-    <h2>Project <?php echo $project['title']; ?></h2>
     <button type="button" onclick="toggleDiv('createHandOFf')" class="a">Generate Report</button>
     <button type="button" onclick="toggleDiv('createLink')" class="a">Links</button>
     <button type="button" onclick="toggleDiv('createFile')" class="a">Files</button>
@@ -37,7 +40,7 @@
             <input type="hidden" name="project_id" value="<?php echo $project['id']; ?>" />
                 <table>
                     <thead>
-                        <tr>
+                        <tr class="noHighlight">
                             <th width="250">Title</th>
                             <th>Link</th>
                             <th width="42"></th>
@@ -60,7 +63,7 @@
                                 </td>
                             </tr>
                         <?php } ?>
-                        <tr>
+                        <tr class="noHighlight">
                             <td>
                                 <input
                                     type="text"
@@ -90,7 +93,7 @@
     <div
         id="createFile"
         class="<?php echo(!empty($_GET['_showFile'])) && parseBool($_GET['_showFile']) ? '' : 'hide'; ?>">
-        <h4>Files</h4>
+        <h4 class="marginTopLess">Files</h4>
         <div
             class="sunk border pad bg">
 
@@ -99,7 +102,7 @@
             <input type="hidden" name="project_id" value="<?php echo $project['id']; ?>" />
                 <table>
                     <thead>
-                        <tr>
+                        <tr class="noHighlight">
                             <th width="250">Title</th>
                             <th>Location</th>
                             <th width="42"></th>
@@ -120,7 +123,7 @@
                                 </td>
                             </tr>
                         <?php } ?>
-                        <tr>
+                        <tr class="noHighlight">
                             <td>
                                 <input
                                     type="text"
@@ -151,45 +154,62 @@
         <form action="/project/report" method="get">
         <input type="hidden" name="project_id" value="<?php echo $project['id']; ?>" />
 
-        <div class="freeColumns">
+        <div class="twoColumns">
             <div>
-            <label>Title</label>
-            <input type="text" name="title" autocomplete="off" placeholder="Project Hand Off Checklist" />
+                <label>Title</label>
+                <input type="text" name="title" autocomplete="off" placeholder="Project Hand Off Checklist" />
+
+                <br />
+
+                <label>Template</label>
+                <select name="template" required="required">
+                    <?php foreach ($templates as $aTemplate => $cleanName) { ?>
+                        <option value="<?php echo $aTemplate; ?>"><?php echo $cleanName; ?></option>
+                    <?php } ?>
+                </select>
             </div>
 
             <div>
-            <label>Message (html ok)</label>
-            <textarea name="message"></textarea>
+                <label>Message (html ok)</label>
+                <textarea name="message" style="width:100%;height:100px;"></textarea>
             </div>
-
+        </div>
+        <div class="fourColumns">
             <div>
-            <label>Template</label>
-            <select name="template" required="required">
-                <?php foreach ($templates as $aTemplate => $cleanName) { ?>
-                    <option value="<?php echo $aTemplate; ?>"><?php echo $cleanName; ?></option>
+                <label>Include Statuses</label>
+                <?php foreach ($storyStatuses as $anItem) { ?>
+                    <input type="checkbox" name="status[<?php echo $anItem['id']; ?>]" value="1" /> <?php echo $anItem['title']; ?><br />
                 <?php } ?>
-            </select>
             </div>
 
             <div>
-            <label>Include Statuses</label>
-            <?php foreach ($storyStatuses as $anItem) { ?>
-                <input type="checkbox" name="status[<?php echo $anItem['id']; ?>]" value="1" /> <?php echo $anItem['title']; ?><br />
-            <?php } ?>
+                <label>Include Types</label>
+                <?php foreach ($storyTypes as $anItem) { ?>
+                    <input type="checkbox" name="type[<?php echo $anItem['id']; ?>]" value="1" /> <?php echo $anItem['title']; ?><br />
+                <?php } ?>
             </div>
 
             <div>
-            <label>Include Types</label>
-            <?php foreach ($storyTypes as $anItem) { ?>
-                <input type="checkbox" name="type[<?php echo $anItem['id']; ?>]" value="1" /> <?php echo $anItem['title']; ?><br />
-            <?php } ?>
+                <label>Collection</label>
+                <?php foreach ($allCollections as $aCollection) { ?>
+                    <input type="checkbox" name="collection[<?php echo $aCollection['id']; ?>]" value="1" /> <?php echo $aCollection['title']; ?><br />
+                <?php } ?>
             </div>
 
-            <div class="emoji_bump">
-                <button type="submit">Generate</button>
-                <br /><br />
-                <input type="checkbox" name="save" value="1" /> Save as file
+            <div>
+                <p class="weak"></p>
+
+                <label>Completed On</label>
+                <input type="date" name="completedOn[start]" />
+                
+                <label>Completed before</label>
+                <input type="date" name="completedOn[end]" />
             </div>
+        </div>
+
+        <div class="underTableSubmit">
+            <button type="submit">Generate</button>
+            <input style="margin-left:16px;" type="checkbox" name="save" value="1" /> Save Report to Documents
         </div>
 
         </form>

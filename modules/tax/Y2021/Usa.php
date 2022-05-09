@@ -16,6 +16,9 @@ namespace modules\tax\Y2021;
 
 class Usa
 {
+    /**
+     * Dates on which estimated taxes are due
+     */
     const ESTIMATED_TAXES_DUE = [
         '2021-04-15',
         '2021-06-15',
@@ -23,10 +26,25 @@ class Usa
         '2022-01-15',
     ];
 
+    /**
+     * Online payment portal
+     */
+    const link = 'https://www.irs.gov/payments';
+
+    /**
+     * Name of the region
+     */
     const REGION = 'Usa Federal';
     
+    /**
+     * Year this tax file is relevant for
+     */
     const YEAR = 2021;
 
+    /**
+     * Filing status option
+     * Percent Taxes => Income up to
+     */
     public function single(): array
     {
         return [

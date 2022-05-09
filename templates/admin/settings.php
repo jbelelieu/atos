@@ -1,8 +1,7 @@
 
-<div id="holderFixed" class="border">
-
-<div class="borderContainer pad">
-    <h2>Task Statuses</h2>
+<div class="holder">
+    <hr />
+    <h2 class="sectionHeader">Task Statuses</h2>
     <button type="button" onclick="toggleDiv('createStatus')" class="a">Create</button>
 
     <div id="createStatus" class="sunk hide">
@@ -13,12 +12,12 @@
                 <input type="text" required="required" autocomplete="off" name="title" />
                 
                 <label>Complete State?</label>
-                <input type="radio" name="is_complete_state" value="1" checked="checked" /> Yes, we can consider these stories completed.<br />
-                <input type="radio" name="is_complete_state" value="0" /> No, stories with this status are not complete.
+                <input type="radio" name="is_complete_state" value="1" checked="checked" /> Yes, we can consider these tasks completed.<br />
+                <input type="radio" name="is_complete_state" value="0" /> No, tasks with this status are not complete.
 
                 <label>Billable State?</label>
                 <input type="radio" name="is_billable_state" value="1" checked="checked" /> Yes, this status represents a billable state.<br />
-                <input type="radio" name="is_billable_state" value="0" /> No, do not bill for stories with this status.
+                <input type="radio" name="is_billable_state" value="0" /> No, do not bill for tasks with this status.
                 
                 <div class="halfHalfColumns">
                     <div>
@@ -41,7 +40,7 @@
         <input type="hidden" name="action" value="updateStatuses" />
         <table>
         <thead>
-        <tr>
+        <tr class="noHighlight">
         <th width="50%">Title</th>
         <th width="42"></th>
         <th>Is Complete?</th>
@@ -58,10 +57,8 @@
         </div>
     </form>
 
-</div>
-<div class="borderContainer borderTop pad">
-
-<h2>Rate Types</h2>
+<hr />
+<h2 class="sectionHeader">Rate Types</h2>
 <button type="button" onclick="toggleDiv('createRate')" class="a">Create</button>
 
 <div id="createRate" class="sunk hide">
@@ -92,30 +89,27 @@
 </div>
 
 <form action="/settings" method="post">
-    <input type="hidden" name="action" value="updateRates" />
+<input type="hidden" name="action" value="updateRates" />
+<table>
+<thead>
+<tr class="noHighlight">
+<th width="70%">Title</th>
+<th>Rate</th>
+<th width="42"></th>
+</tr>
+</thead>
+<tbody>
+    <?php echo $renderedRateTypes; ?>
+</tbody>
+</table>
 
-    <table>
-    <thead>
-    <tr>
-    <th width="70%">Title</th>
-    <th>Rate</th>
-    <th width="42"></th>
-    </tr>
-    </thead>
-    <tbody>
-        <?php echo $renderedRateTypes; ?>
-    </tbody>
-    </table>
-    
-    <div class="underTableSubmit textRight">
-        <button type="submit">Save Rate Types</button>
-    </div> 
+<div class="underTableSubmit textRight">
+    <button type="submit">Save Rate Types</button>
+</div> 
 </form>
-  
-</div>
-<div class="borderContainer borderTop pad">
-  
-<h2>Task Types</h2>
+
+<hr />
+<h2 class="sectionHeader">Task Types</h2>
 <button type="button" onclick="toggleDiv('createType')" class="a">Create</button>
 
 <div id="createType" class="sunk hide">
@@ -138,7 +132,7 @@
 
     <table>
     <thead>
-    <tr>
+    <tr class="noHighlight">
     <th>Title</th>
     <th width="42"></th>
     </tr>
@@ -152,7 +146,3 @@
         <button type="submit">Save Task Types</button>
     </div>
 </form>
-
-</div>
-
-</div>

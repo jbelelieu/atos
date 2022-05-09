@@ -9,6 +9,12 @@
         Before you can create a project, you'll need to first create a contracted party (you or your company) and a client (the company you are working for).
     </p>
 <?php } else { ?>
+    <?php if ($totalClients == 2) { ?>
+    <p class="highlight">
+        Congratulations on creating a contracting company and a client company. Now lets create a project. Select your company as the "Contracted Party" and your client's company as the "Client".
+    </p>
+    <?php } ?>
+    
     <button type="button" onclick="toggleDiv('createProject')" class="a">Create Project</button>
 
     <div class="sunk <?php if ($totalProjects === 0) {
@@ -16,10 +22,11 @@
 } else {
     echo "hide";
 } ?> border pad bg" id="createProject">
+
         <form action="/" method="post">
             <div class="halfHalfColumns">
                 <div>
-                <label><b>Projects</b>&nbsp;&nbsp;Contracted Party</label>
+                <label>Contracted Party</label>
                 <select required="required" name="company_id"><?php echo $clientSelect; ?></select>
                 </div>
 
@@ -37,7 +44,7 @@
                     name="code"
                     style="width:80px"
                     maxlength=2 />
-                <p class="fieldHelp">Used to name stories for example, "<u>PA</u>-120".</p>
+                <p class="fieldHelp">Used to name tasks for example, "<u>PA</u>-120".</p>
                 </div>
 
                 <div>
@@ -60,7 +67,7 @@
 
     <table>
     <thead>
-    <tr>
+    <tr class="noHighlight">
     <th>Title</th>
     <th>Code</th>
     <th>Contractor</th>
@@ -71,7 +78,7 @@
     </tr>
     </thead>
     <?php echo $projects; ?>
-    <tr>
+    <tr class="noHighlight">
     <td colspan=4></td>
     <td class="summary"><?php echo $totalProjectHours; ?></td>
     <td class="summary"><?php echo $totalProjectValue; ?></td>
@@ -81,10 +88,9 @@
 <?php } ?>
 
 
-    <hr />
-
-    <h2 class="sectionHeader">Companies &amp; Clients</h2>
-    <button type="button" onclick="toggleDiv('createClient')" class="a">Create Project</button>
+<hr />
+<h2 class="sectionHeader">Companies &amp; Clients</h2>
+<button type="button" onclick="toggleDiv('createClient')" class="a">Create Company</button>
     
 <?php if ($totalClients < 1) { ?>
     <p class="highlight">
@@ -100,7 +106,7 @@
     <form action="/" method="post">
         <div class="halfHalfColumns">
             <div>
-                <label><b>Companies &amp; Clients</b>&nbsp;&nbsp;Name</label>
+                <label>Name</label>
                 <input
                     type="text"
                     required="required"
@@ -140,7 +146,7 @@
                 <label>Instructions (html ok; line breaks auto-added)</label>
                 <textarea
                     placeholder="Please send payments to Chase Bank.&#10;&#10;<ul>&#10;<li>Account number: 9188273647</li>&#10;<li>Routing number: 123456789</li>&#10;</ul>"
-                    name="address"
+                    name="instructions"
                     autocomplete="off"
                     style="height:165px;"></textarea>
                 </div>
@@ -156,7 +162,7 @@
 
 <table>
 <thead>
-<tr>
+<tr class="noHighlight">
 <th>Logo</th>
 <th>Title</th>
 <th>Address</th>
@@ -168,7 +174,7 @@
 </tr>
 </thead>
 <?php echo $clients; ?>
-<tr>
+<tr class="noHighlight">
 <td colspan=6></td>
 <td class="summary"><?php echo $totalClientValue; ?></td>
 <td></td>

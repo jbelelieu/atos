@@ -9,7 +9,7 @@ use services\StoryService;
 /**
  * ATOS: "Built by freelancer 🙋‍♂️, for freelancers 🕺 🤷 💃🏾 "
  *
- * This file controls all things collections and stories.
+ * This file controls all things collections and tasks.
  *
  * @author @jbelelieu
  * @copyright Humanity, any year.
@@ -47,6 +47,9 @@ if (isset($_GET['action'])) {
         case 'deleteFileLink':
             $fileLinkService->deleteFileLink($_GET);
             exit;
+        case 'deleteFileLink':
+            $storyService->deleteNote($_GET);
+            exit;
         case 'deleteStory':
             $storyService->deleteStory($_GET);
             exit;
@@ -71,6 +74,9 @@ if (isset($_POST['action'])) {
             exit;
         case 'createLink':
             $fileLinkService->createLink($_POST);
+            exit;
+        case 'createNote':
+            $storyService->createNote($_POST);
             exit;
         case 'createStory':
             $storyService->createStory($_POST);
@@ -130,7 +136,7 @@ foreach ($allCollections as $row) {
     $isProjectDefault = parseBool($row['is_project_default']);
 
     $delete = (!$isProjectDefault)
-        ? "<span class=\"delete\"><a onclick=\"return confirm('Are you sure you want to delete this collection?')\" href=\"/project?action=deleteCollection&project_id=" . $project['id'] . "&id=" . $row['id'] . "\">" . putIcon('icofont-delete') . "</a></span>"
+        ? "<span class=\"delete\" style=\"font-size:90%;\"><a onclick=\"return confirm('Are you sure you want to delete this collection?')\" href=\"/project?action=deleteCollection&project_id=" . $project['id'] . "&id=" . $row['id'] . "\">" . putIcon('icofont-delete') . "</a></span>"
         : '';
 
     $update = ($at > 0 && !$isProjectDefault)
@@ -223,7 +229,7 @@ foreach ($collectionResults as $aCollection) {
 
         $label = getLabel($row);
 
-        $hours += (int) $row['hours'];
+        $hours += $row['hours'];
 
         $class = (!parseBool($row['is_billable_state'])) ? ' notBillable' : '';
 

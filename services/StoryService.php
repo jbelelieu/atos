@@ -3,8 +3,6 @@
 namespace services;
 
 use services\BaseService;
-use services\ProjectService;
-use services\SettingService;
 
 /**
  * ATOS: "Built by freelancer 🙋‍♂️, for freelancers 🕺 🤷 💃🏾 "
@@ -19,7 +17,14 @@ use services\SettingService;
  */
 class StoryService extends BaseService
 {
+    /**
+     * @var services\ProjectService
+     */
     private $projectService;
+
+    /**
+     * @var services\SettingService
+     */
     private $settingService;
 
     public function __construct()
@@ -64,6 +69,15 @@ class StoryService extends BaseService
         }
 
         return $options;
+    }
+
+    /**
+     * @param array $data
+     * @return void
+     */
+    public function createNote(array $data): void
+    {
+        dd($data);
     }
 
     /**
@@ -117,6 +131,15 @@ class StoryService extends BaseService
         $statement->execute();
 
         redirect('/project', $data['project_id'], 'Your new story has been created as ' . $id);
+    }
+
+    /**
+     * @param array $data
+     * @return void
+     */
+    public function deleteNote(array $data): void
+    {
+        dd($data);
     }
 
     /**
@@ -209,12 +232,53 @@ class StoryService extends BaseService
      */
     public function updateStories(array $data): void
     {
+        $collectionService = new CollectionService(); // TODO: need dependency injection
+
+        $defaultCollection = $collectionService
+            ->getDefaultCollectionForProject($data['project_id']);
+
+        $latestCollection = $collectionService
+            ->getLatestCollectionForProject($data['project_id']);
+
+        $status = null;
+        $thisStory = null;
         foreach ($data['story'] as $storyId => $aStory) {
+            // We only need one since we can safely assume that
+            // all stories are in the same collection.
+            if (!$thisStory) {
+                $thisStory = $this->getStory($storyId);
+                $status = $this->settingService->getStoryStatusById($thisStory['status']);
+            }
+
             if (empty($aStory['title'])) {
                 continue;
             }
 
-            // Default to existing, overwrite anything incoming...
+            if (isset($data['move']) && in_array($storyId, $data['move'])) {
+                $newCollection = ((int) $thisStory['collection'] === (int) $defaultCollection['id'])
+                    ? $latestCollection['id']
+                    : $defaultCollection['id'];
+
+                $return = ($data['collection_id'] === $defaultCollection['id'])
+                    ? 'unorganized'
+                    : 'top';
+            } else {
+                $newCollection = $thisStory['collection'];
+
+                if (
+                    parseBool($status['is_complete_state'])
+                    || parseBool($status['is_billable_state'])
+                ) {
+                    $return = 'completed';
+                }
+                else if ($thisStory['collection'] === $defaultCollection['id']) {
+                    $return = 'unorganized';
+                } else {
+                    $return = 'open';
+                }
+            }
+
+            // Default to existing, overwrite anything incoming.
             $currentStory = $this->getStory($storyId);
             $aStory = array_merge($currentStory, $aStory);
 
@@ -226,6 +290,7 @@ class StoryService extends BaseService
                     type = :type,
                     rate_type = :rate_type,
                     title = :title,
+                    collection = :collection,
                     ended_at = :ended_at
                 WHERE
                     id = :id
@@ -237,6 +302,7 @@ class StoryService extends BaseService
 
             $statement->bindParam(':ended_at', $aStory['ended_at']);
             $statement->bindParam(':hours', $hours);
+            $statement->bindParam(':collection', $newCollection);
             $statement->bindParam(':type', $type);
             $statement->bindParam(':rate_type', $rateType);
             $statement->bindParam(':title', $aStory['title']);
@@ -244,7 +310,16 @@ class StoryService extends BaseService
             $statement->execute();
         }
 
-        redirect('/project', $data['project_id'], 'Your stories have been updated.');
+
+        redirect(
+            '/project',
+            $data['project_id'],
+            'Your tasks have been updated.',
+            null,
+            false,
+            [],
+            $return
+        );
     }
 
     /**

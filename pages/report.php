@@ -39,6 +39,8 @@ $results = $projectService->getStoriesByFilters(
     $_GET['project_id'],
     isset($_GET['type']) ? $_GET['type'] : [],
     isset($_GET['status']) ? $_GET['status'] : [],
+    isset($_GET['completedOn']) ? $_GET['completedOn'] : [],
+    isset($_GET['collection']) ? $_GET['collection'] : [],
 );
 
 $templateName = 'report/' . $_GET['template'];
@@ -54,7 +56,7 @@ $template = template(
         'stories' => $results,
         'collections' => $collections,
         'logo' => logo(),
-        'css' => file_get_contents('assets/alternatve_view.css'),
+        'css' => file_get_contents('assets/alternative_view.css'),
     ],
     true
 );

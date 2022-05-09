@@ -31,7 +31,7 @@
             <!-- start -->
             <div class="borderSection">
                 <div class="columns2575">
-                    <div class="textRight pad">
+                    <div class="pad">
                         <h4>
                             <span class="larger">
                                 <?php echo $displayType; ?>
@@ -55,11 +55,12 @@
             <a name="d0"></a>
             <div class="borderSection">
                 <div class="columns2575">
-                    <div class="textRight pad">
+                    <div class="pad">
                         <h4>
                             <span class="larger">
-                                Tax Breakdown
+                                <?php echo $year; ?>
                             </span>
+                            <br />Tax Breakdown
                         </h4>
                     </div>
                     <div class="pad borderLeft">
@@ -85,6 +86,12 @@
                                     <tr>
                                         <td class="listLeft">Estimated Taxes Due</td>
                                         <td class="bold"><?php echo $taxes['totalTax']; ?></td>
+                                    </tr>
+                                    <tr>
+                                        <td class="gray listLeft">Currently Set Aside</td>
+                                        <td class="gray">
+                                            <?php echo $taxes['asideTotal']; ?> (<?php echo $taxes['asideDifference']; ?>)
+                                        </td>
                                     </tr>
                                     <tr>
                                         <td class="listLeft">Effective rate</td>
@@ -113,26 +120,36 @@
 
                 <div class="borderSection">
                     <div class="columns2575 sunk">
-                        <div class="textRight pad">
-                            <h4>
+                        <div class="pad">
+                            <h4 class="">
                                 <span class="larger red">
                                     TAX BURDEN</br >
-                                    <?php echo $details['results']['_tax']; ?> (<button type="button" class="a" onClick="toggleDiv('region-<?php echo $region; ?>');">?</button>)
+                                    <?php echo $details['results']['_tax']; ?>
+                                    <!-- (<button type="button" class="a" onClick="toggleDiv('region-<?php echo $region; ?>');">?</button>) -->
                                 </span><br /><br />
                                 <?php echo $details['_class']::REGION; ?>
                                 <br />
                                 <?php echo $details['filingStrategy'] ?>
-                                <br />
-                                <?php echo $details['recommendations']['percentOfTotalTaxBurden'] ?>% of total
                                 <br /><br />
+                                <?php echo $details['recommendations']['percentOfTotalTaxBurden'] ?>% of total
                             </h4>
+
+                            <hr />
+
+                             <p class="weak textLeft">
+                                 <b>Explanation of Figures</b>
+                                 <br />A <?php echo $details['recommendations']['buffer']; ?>% safety buffer has been added to each quarterly payment.
+                                <br /><br />Actual change is reflected as <?php echo $details['recommendations']['payment']; ?> + <?php echo $details['recommendations']['bufferAdded']; ?> (<?php echo $details['recommendations']['buffer']; ?>%)
+                                <br /><br />
+                                In addition, if you underpaid or overpaid on previous payments, the difference will be added/subtracted from subsequent payments.
+                            </p>
                         </div>
                         <div class="pad borderLeft">
                             <table>
                                 <thead>
-                                    <tr>
+                                    <tr class="noHighlight">
                                         <th width="170">Date Due or Paid</th>
-                                        <th>Rec. Payment</th>
+                                        <th>Rec. Payment*</th>
                                         <th>Actual Paid</th>
                                         <th>Difference</th>
                                     </tr>
@@ -208,7 +225,7 @@
                                         $up++;
                                     } ?>
                                 </tbody>
-                                <tr>
+                                <tr class="noHighlight">
                                     <td class="listLeft">
                                     </td>
                                     <td class="bold"></td>
@@ -217,10 +234,11 @@
                                 </tr>
                              </table>
 
-                             <div class="hide marginTop" id="region-<?php echo $region; ?>">
+                             <div class="marginTop" id="region-<?php echo $region; ?>">
+                                <h4>Breakdown of Taxed Income</h4>
                                 <table class="weak">
                                     <thead>
-                                    <tr>
+                                    <tr class="noHighlight">
                                         <th>Bracket</th>
                                         <th>Taxable</th>
                                         <th>Bracket Tax</th>
@@ -284,7 +302,7 @@
 
                             <table>
                                 <thead>
-                                    <tr>
+                                    <tr class="noHighlight">
                                         <th width="50%">Deduction</th>
                                         <th>Amount</th>
                                         <th width="50"></th>
@@ -309,7 +327,7 @@
                                         </td>
                                     </tr>
                                     <?php } ?>
-                                    <tr>
+                                    <tr class="noHighlight">
                                         <td class="listLeft">
                                             <div class="marginTop">
                                                 <input type="text" name="title" autocomplete="off" placeholder="Standard Deduction" required="required" style="width:100%;" />
@@ -353,7 +371,7 @@
 
                         <table>
                             <thead>
-                                <tr>
+                                <tr class="noHighlight">
                                     <th width="">Adjustment</th>
                                     <th width="190">Taxed Amount</th>
                                     <th width="80"></th>
@@ -366,7 +384,7 @@
                                         <p class="deAdHeading">
                                             <?php echo $aBurden['title']; ?>
                                         </p>
-                                        <p class="weak">
+                                        <p class="weak pullUp">
                                             <?php echo $aBurden['taxable_percent']; ?>% on <?php echo $aBurden['_amount']; ?>
                                         </p>
                                     </td>
@@ -383,7 +401,7 @@
                                     </td>
                                 </tr>
                                 <?php } ?>
-                                <tr>
+                                <tr class="noHighlight">
                                     <td class="listLeft">
                                         <div class="marginTop">
                                         <input
@@ -442,7 +460,7 @@
                     <div class="pad borderLeft">
                         <table>
                             <thead>
-                                <tr>
+                                <tr class="noHighlight">
                                     <th width="">Average</th>
                                     <th width="120">Daily</th>
                                     <th width="120">Monthly</th>
@@ -464,14 +482,6 @@
                                     <td><?php echo $averages['daily']['postTaxIncome']; ?></td>
                                     <td><?php echo $averages['monthly']['postTaxIncome']; ?></td>
                                 </tr>
-                                <!-- <tr class="">
-                                    <td class="listLeft">
-                                        <p class="deAdHeading">Actual</p>
-                                        <p class="weak">This is how much you have actually earned this year on average per day through <?php echo $dayNumber; ?> days.</p>
-                                    </td>
-                                    <td><?php echo $averages['actual']['daily']['preTax']; ?></td>
-                                    <td><?php echo $averages['actual']['monthly']['preTax']; ?></td>
-                                </tr> -->
                             </tbody>
                         </table>
                     </div>

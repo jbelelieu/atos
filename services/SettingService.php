@@ -208,7 +208,7 @@ class SettingService extends BaseService
         $statement->bindParam(':revert_to', $revertedTo);
         $statement->execute();
 
-        redirect('/settings', null, 'We deleted that story status. All stories that were set to that status have been reverted to the "' . $revertedToName . '" status.');
+        redirect('/settings', null, 'We deleted that story status. All tasks that were set to that status have been reverted to the "' . $revertedToName . '" status.');
     }
 
     /**
@@ -236,7 +236,7 @@ class SettingService extends BaseService
         $statement->bindParam(':old_type', $data['id']);
         $statement->execute();
 
-        redirect('/settings', null, 'We deleted that story type. All stories that were of that type have been reverted to the standard "Story" type.');
+        redirect('/settings', null, 'We deleted that story type. All tasks that were of that type have been reverted to the standard "Story" type.');
     }
 
     /**

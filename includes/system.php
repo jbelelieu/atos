@@ -29,73 +29,65 @@ require ATOS_HOME_DIR . "/includes/helpers.php";
  *
  */
 
-enum AtosSettings: string
+class AtosSettings
 {
-    case DATABASE_FILE_NAME = 'DATABASE_FILE_NAME';
-    case LOGO_FILE = 'LOGO_FILE';
-    case INVOICE_DUE_DATE_IN_DAYS = 'INVOICE_DUE_DATE_IN_DAYS';
-    case INVOICE_ORDER_BY_DATE_COMPLETED = 'INVOICE_ORDER_BY_DATE_COMPLETED';
-    case UNORGANIZED_NAME = 'UNORGANIZED_NAME';
+    private $settings = [];
+
+    public function __construct()
+    {
+        try {
+            if (!file_exists(ATOS_HOME_DIR . '/settings.env.php')) {
+                $worked = @rename(
+                    ATOS_HOME_DIR . '/settings.sample.php',
+                    ATOS_HOME_DIR . '/settings.env.php'
+                );
+                if (!$worked) {
+                    systemError('We could not rename <u>settings.sample.php</u> to <u>settings.env.php</u>. Please do that and try again.');
+                }
+            }
+            
+            $this->settings = require ATOS_HOME_DIR . '/settings.env.php';
+        } catch (Exception $e) {
+            systemError($e->getMessage());
+        }
+    }
+
+    /**
+     * @param string $settingKey
+     * @param [type] $default
+     */
+    public function returnSetting(string $settingKey, $default = null)
+    {
+        return array_key_exists($settingKey, $this->settings)
+            ? $this->settings[$settingKey]
+            : $default;
+    }
 }
 
 /**
  * @param string $key
- * @param string|null $default
- * @return string
+ * @param [type] $default
  */
-function getSetting(AtosSettings $key, $default = null)
+function getSetting(string $key, $default = null)
 {
+    $settings = new AtosSettings();
+
     switch ($key) {
-        case AtosSettings::DATABASE_FILE_NAME:
-            return returnSetting('DATABASE_FILE_NAME', $default);
-        case AtosSettings::LOGO_FILE:
-            return returnSetting('LOGO_FILE', $default);
-        case AtosSettings::INVOICE_DUE_DATE_IN_DAYS:
-            return (int) returnSetting('INVOICE_DUE_DATE_IN_DAYS', $default);
-        case AtosSettings::INVOICE_ORDER_BY_DATE_COMPLETED:
-            return returnSetting('INVOICE_ORDER_BY_DATE_COMPLETED', $default);
-        case AtosSettings::UNORGANIZED_NAME:
-            return returnSetting('UNORGANIZED_NAME', $default);
+        case 'DATABASE_FILE_NAME':
+            return $settings->returnSetting('DATABASE_FILE_NAME', $default);
+        case 'EST_TAXES_ADD_SAFETY_BUFFER':
+            return (int) $settings->returnSetting('EST_TAXES_ADD_SAFETY_BUFFER', $default);
+        case 'LOGO_FILE':
+            return $settings->returnSetting('LOGO_FILE', $default);
+        case 'INVOICE_DUE_DATE_IN_DAYS':
+            return (int) $settings->returnSetting('INVOICE_DUE_DATE_IN_DAYS', $default);
+        case 'INVOICE_ORDER_BY_DATE_COMPLETED':
+            return $settings->returnSetting('INVOICE_ORDER_BY_DATE_COMPLETED', $default);
+        case 'UNORGANIZED_NAME':
+            return $settings->returnSetting('UNORGANIZED_NAME', $default);
         default:
             return $default;
     }
-}
-
-/**
- * @param string $settingKey
- * @param $default
- * @return void
- */
-function returnSetting(string $settingKey, $default = null)
-{
-    global $atosSettings;
-
-    return array_key_exists($settingKey, $atosSettings)
-        ? $atosSettings[$settingKey]
-        : $default;
-}
-
-/**
- * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
- *
- *   System settings loader
- *
- */
-
-try {
-    if (!file_exists(ATOS_HOME_DIR . '/settings.env.php')) {
-        $worked = @rename(
-            ATOS_HOME_DIR . '/settings.sample.php',
-            ATOS_HOME_DIR . '/settings.env.php'
-        );
-        if (!$worked) {
-            systemError('We could not rename <u>settings.sample.php</u> to <u>settings.env.php</u>. Please do that and try again.');
-        }
-    }
-    
-    $atosSettings = require ATOS_HOME_DIR . '/settings.env.php';
-} catch (Exception $e) {
-    systemError($e->getMessage());
 }
 
 /**
@@ -119,7 +111,7 @@ spl_autoload_register(
 
         $fileName .= str_replace('_', DIRECTORY_SEPARATOR, $className) . '.php';
 
-        require ATOS_HOME_DIR . '/' . $fileName;
+        require_once ATOS_HOME_DIR . '/' . $fileName;
     }
 );
 
@@ -131,7 +123,7 @@ spl_autoload_register(
  */
 
 // Connect to the database.
-$dbFile = ATOS_HOME_DIR . '/db/' . getSetting(\AtosSettings::DATABASE_FILE_NAME, 'atos.sqlite3');
+$dbFile = ATOS_HOME_DIR . '/db/' . getSetting('DATABASE_FILE_NAME', 'atos.sqlite3');
 if (!file_exists($dbFile)) {
     systemError('Database file not found.');
 }

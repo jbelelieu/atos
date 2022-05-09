@@ -76,17 +76,17 @@ $year = (!empty($_GET['year'])) ? $_GET['year'] : date('Y');
 // Attention message
 $attentionMessage = '';
 if ($overrideEstimatedTotal) {
-    $displayType = 'Taxes ' . $year . ': Fixed Income Projection Estimate';
+    $displayType = 'Fixed Income Estimate';
 
-    $attentionMessage = '<b>Please speak to a financial professional before using these numbers as a guide!</b><br /><br  />This is an estimate based on a hypothetical year-end income.<br /><br />This attempts to project your tax burden for the year assuming that your total income for the year will be ' . formatMoney($overrideEstimatedTotal * 100) . '.';
+    $attentionMessage = '<b>All numbers are only good faith estimates</b><br /><br  />This is an estimate based on a hypothetical year-end income which attempts to project your tax burden assuming that your total income for the year will be ' . formatMoney($overrideEstimatedTotal * 100) . '.';
 } elseif ($doProjectedEstimate) {
-    $displayType = 'Taxes ' . $year . ': Projected Estimate';
+    $displayType = 'Projected Estimate';
 
-    $attentionMessage = '<b>Please speak to a financial professional before using these numbers as a guide!</b><br /><br  />This is an estimate based on your current daily average income projected through the end of the year.<br /><br /><b>Important:</b> Any additional income will change these numbers, giving you a larger tax burden. If you have a good idea of what you will make this year, try a "Fixed Income Projection" estimate instead.';
+    $attentionMessage = '<b>All numbers are only good faith estimates</b><br /><br  />This is an estimate based on your current daily average income projected through the end of the year.<br /><br /><b>Important:</b> Any additional income will change these numbers, giving you a larger tax burden. If you have a good idea of what you will make this year, try a "Fixed Income" estimate instead.';
 } else {
-    $displayType = 'Taxes ' . $year . ': Actual Current Estimate';
+    $displayType = 'Actual Current Estimate';
 
-    $attentionMessage = '<b>Please speak to a financial professional before using these numbers as a guide!</b><br /><br  />This is only valid if your income remains the same for the rest of the year.<br /><br /><b>Important:</b> Any additional income will change these numbers, giving you a larger tax burden. If you have a good idea of what you will make this year, try a "Fixed Income Projection" estimate instead.';
+    $attentionMessage = '<b>All numbers are only good faith estimates.</b><br /><br  />This is only valid if your income remains the same for the rest of the year.<br /><br /><b>Important:</b> Any additional income will change these numbers, giving you a larger tax burden. If you have a good idea of what you will make this year, try a "Fixed Income Projection" estimate instead.';
 }
 
 if (!file_exists(ATOS_HOME_DIR . '/modules/tax/Y' . $year)) {
@@ -104,9 +104,6 @@ $taxRegions = $taxYes['strategies'];
 
 // Get our base income and set as initial taxable income.
 $baseIncome = $taxService->getTotalBaseIncomeByYear($year);
-// if ($baseIncome <= 0) {
-//     redirect('/tax', null, null, 'No known income for the year in question.');
-// }
 
 $dayInTheYear = (int) date('z') + 1;
 
@@ -115,7 +112,6 @@ if ($remaining < 0) {
     $remaining = 0;
 }
 
-// $dayInTheYear = 2;
 $estMonths = 365 / 30;
 $currentMonthlyAverage = ($dayInTheYear < $estMonths)
     ? 0
@@ -182,6 +178,8 @@ foreach ($taxRegions as $aRegion => $regionalStrategy) {
 }
 
 // Add recommendations
+$safetyBuffer = getSetting('EST_TAXES_ADD_SAFETY_BUFFER', 10);
+
 foreach ($finalData as $region => $aTaxRegionBurden) {
     $estTaxes = $aTaxRegionBurden['_class']::ESTIMATED_TAXES_DUE;
 
@@ -190,6 +188,8 @@ foreach ($finalData as $region => $aTaxRegionBurden) {
     $percent = $tax > 0 ? intval($aTaxRegionBurden['results']['tax']) / $tax : 0;
 
     $quarterly = intval($aTaxRegionBurden['results']['tax']) / intval($totalPaymentsRequired);
+    $bufferAdded = $quarterly * ($safetyBuffer / 100);
+    $useQuarterly = $quarterly + $bufferAdded;
 
     $schedule = [];
     foreach ($estTaxes as $aDate) {
@@ -198,16 +198,22 @@ foreach ($finalData as $region => $aTaxRegionBurden) {
 
         $schedule[$aDate] = [
             'date' => formatDate($aDate),
-            'amount' => formatMoney($quarterly * 100),
-            '_amount' => $quarterly,
+            'baseAmount' => formatMoney($quarterly * 100),
+            '_baseAmount' => $quarterly,
+            'amount' => formatMoney($useQuarterly * 100),
+            '_amount' => $useQuarterly,
             'daysUntil' => ($daysUntil <= 0) ? '-' : $daysUntil,
         ];
     }
 
     $finalData[$region]['recommendations'] = [
+        'buffer' => $safetyBuffer,
+        'bufferAdded' => formatMoney($bufferAdded * 100),
+        '_bufferAdded' => $bufferAdded,
         'totalPayment' => $totalPaymentsRequired,
         'schedule' => $schedule,
         'payment' => formatMoney($quarterly * 100),
+        '_payment' => $quarterly,
         'percentOfTotalTaxBurden' => round($percent, 2) * 100,
     ];
 }
@@ -248,9 +254,12 @@ $queryString = '&year=' . $year;
 $queryString .= (!empty($_GET['income'])) ? '&income=' . $_GET['income'] : '';
 $queryString .= (!empty($_GET['estimate'])) ? '&estimate=' . $_GET['estimate'] : '';
 
+$aside = $taxService->getTotalAsideForYear($year);
+$asideDifference = $aside - $tax;
+
 $changes = [
     'logo' => logo(),
-    'css' => file_get_contents('assets/alternatve_view.css'),
+    'css' => file_get_contents('assets/alternative_view.css'),
     'queryString' => $queryString,
     'year' => $year,
     'displayType' => $displayType,
@@ -289,6 +298,8 @@ $changes = [
         'totalDailyAverage' => formatMoney($totalDailyAverage * 100),
     ],
     'taxes' => [
+        'asideTotal' => formatMoney($aside * 100),
+        'asideDifference' => formatMoney($asideDifference * 100),
         'totalTax' => formatMoney($tax * 100),
         'effectiveRate' => $taxableIncome > 0 ? round($tax / $taxableIncome, 2) * 100 : 0,
         'regions' => $finalData,

@@ -16,6 +16,8 @@ $pageTitle = (isset($_metaTitle)) ? $_metaTitle : 'ATOS';
 </head>
 
 <body>
+<div id="container">
+
 <a name="top"></a>
 <header>
     <div class="headerColumns">
