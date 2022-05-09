@@ -1,5 +1,5 @@
 
-<tr>
+<tr class="noHighlight">
     <td>
         <a href="/project?_success=Welcome+to+your+<?php echo $project['title']; ?>+project&id=<?php echo $project['id']; ?>">
             <?php echo $project['title']; ?>

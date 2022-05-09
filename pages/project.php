@@ -229,7 +229,7 @@ foreach ($collectionResults as $aCollection) {
 
         $label = getLabel($row);
 
-        $hours += (int) $row['hours'];
+        $hours += $row['hours'];
 
         $class = (!parseBool($row['is_billable_state'])) ? ' notBillable' : '';
 
