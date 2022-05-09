@@ -18,11 +18,6 @@ use services\BaseService;
 class StoryService extends BaseService
 {
     /**
-     * @var services\CollectionService
-     */
-    private $collectionService;
-
-    /**
      * @var services\ProjectService
      */
     private $projectService;
@@ -237,15 +232,23 @@ class StoryService extends BaseService
      */
     public function updateStories(array $data): void
     {
-        $collectionService = new CollectionService(); // TODO: we need dependency injection
+        $collectionService = new CollectionService(); // TODO: need dependency injection
 
         $defaultCollection = $collectionService
             ->getDefaultCollectionForProject($data['project_id']);
+
         $latestCollection = $collectionService
             ->getLatestCollectionForProject($data['project_id']);
 
+        $status = null;
+        $thisStory = null;
         foreach ($data['story'] as $storyId => $aStory) {
-            $thisStory = $this->getStory($storyId);
+            // We only need one since we can safely assume that
+            // all stories are in the same collection.
+            if (!$thisStory) {
+                $thisStory = $this->getStory($storyId);
+                $status = $this->settingService->getStoryStatusById($thisStory['status']);
+            }
 
             if (empty($aStory['title'])) {
                 continue;
@@ -255,8 +258,24 @@ class StoryService extends BaseService
                 $newCollection = ((int) $thisStory['collection'] === (int) $defaultCollection['id'])
                     ? $latestCollection['id']
                     : $defaultCollection['id'];
+
+                $return = ($data['collection_id'] === $defaultCollection['id'])
+                    ? 'unorganized'
+                    : 'top';
             } else {
                 $newCollection = $thisStory['collection'];
+
+                if (
+                    parseBool($status['is_complete_state'])
+                    || parseBool($status['is_billable_state'])
+                ) {
+                    $return = 'completed';
+                }
+                else if ($thisStory['collection'] === $defaultCollection['id']) {
+                    $return = 'unorganized';
+                } else {
+                    $return = 'open';
+                }
             }
 
             // Default to existing, overwrite anything incoming.
@@ -291,6 +310,7 @@ class StoryService extends BaseService
             $statement->execute();
         }
 
+
         redirect(
             '/project',
             $data['project_id'],
@@ -298,7 +318,7 @@ class StoryService extends BaseService
             null,
             false,
             [],
-            ($data['collection_id'] === $defaultCollection['id']) ? 'unorganized' : 'top'
+            $return
         );
     }
 

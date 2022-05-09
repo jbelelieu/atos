@@ -1,26 +1,33 @@
 <?php if ($tripFlag) { ?>
 <details>
     <summary>
-        <h3><?php echo $collection['title']; ?></h3>
+        <h2><?php echo $collection['title']; ?></h2>
         <div class="clearFix"></div>
     </summary>
 <?php } ?>
 
-
-<hr />
-
-<h2 style="margin-bottom: 24px;">
-    <?php echo $collection['title']; ?>
-</h2>
-
 <?php if ($isProjectDefault) { ?>
 
     <a name="unorganized"></a>
+
+    <hr />
+    <h2 style="margin-bottom: 24px;">
+        <?php echo $collection['title']; ?>
+    </h2>
+    <div class="clearFix"></div>
+
     <a class="unorgLink" href="#top">View Open</a> <a class="unorgLink" href="#completed">View Completed &amp; Billable</a>
 
 <?php } else { ?>
 
+    <a name="open"></a>
+
+    <hr />
+    <h2 style="margin-bottom: 24px;">
+        <?php echo $collection['title']; ?>
+    </h2>
     <div class="clearFix"></div>
+    
     <h5 class="bubble noMarginTop">Open</h5> <a class="unorgLink" href="#unorganized">Unorganized</a> <a class="unorgLink" href="#completed">Completed &amp; Billable</a>
 
 <?php } ?>
@@ -32,6 +39,7 @@
     action="/project?id=<?php echo $collection['project_id']; ?>"
     method="post">
     <input type="hidden" name="action" value="updateStories" />
+    <input type="hidden" name="from" value="not_completed" />
     <input type="hidden" name="collection_id" value="<?php echo $collection['id']; ?>" />
     <input type="hidden" name="project_id" value="<?php echo $collection['project_id']; ?>" />
 
@@ -75,6 +83,7 @@
         action="/project?id=<?php echo $collection['project_id']; ?>"
         method="post">
         <input type="hidden" name="action" value="updateStories" />
+        <input type="hidden" name="from" value="completed" />
         <input type="hidden" name="collection_id" value="<?php echo $collection['id']; ?>" />
         <input type="hidden" name="project_id" value="<?php echo $collection['project_id']; ?>" />
 
