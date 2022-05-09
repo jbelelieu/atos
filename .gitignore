@@ -3,3 +3,4 @@
 .env
 settings.env.php
 db/castlamp.sqlite3
+_vault

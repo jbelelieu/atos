@@ -49,7 +49,9 @@
                     <tbody>
                         <?php foreach ($links as $aLink) { ?>
                             <tr>
-                                <td><?php echo $aLink['title']; ?></td>
+                                <td>
+                                    <?php echo $aLink['title']; ?>
+                                </td>
                                 <td class="ellipsis">
                                     <a href="<?php echo $aLink['data']; ?>" target="_blank">
                                         <?php echo $aLink['data']; ?>
@@ -103,20 +105,28 @@
                 <table>
                     <thead>
                         <tr class="noHighlight">
-                            <th width="250">Title</th>
+                            <th width="400">Title</th>
+                            <th width="120">Date</th>
                             <th>Location</th>
-                            <th width="42"></th>
+                            <th width="62"></th>
                         </tr>
                     </thead>
                     <tbody>
                         <?php foreach ($files as $aFile) { ?>
-                            <tr>
-                                <td><?php echo $aFile['title']; ?></td>
+                            <tr class="noHighlight">
+                                <td class="<?php echo parseBool($aFile['is_pinned']) ? 'bold' : ''; ?>">
+                                    <?php echo parseBool($aFile['is_pinned']) ? putIcon('tack-pin', '#111', '16px') : ''; ?> <a target="_blank" href="<?php echo $aFile['data']; ?>"><?php echo $aFile['title']; ?></a>
+                                </td>
+                                <td>
+                                    <?php echo formatDate($aFile['created_at']); ?>
+                                </td>
                                 <td class="ellipsis">
                                     <?php echo $aFile['data']; ?>
                                 </td>
                                 <td>
                                     <a
+                                        title="Pin"
+                                        href="/project?id=<?php echo $project['id']; ?>&action=pinFile&file_id=<?php echo $aFile['id']; ?>"><?php echo putIcon('icofont-tack-pin'); ?></a><a
                                         title="Delete"
                                         onclick="return confirm('Are you sure?')"
                                         href="/project?id=<?php echo $project['id']; ?>&action=deleteFileLink&file_id=<?php echo $aFile['id']; ?>"><?php echo putIcon('icofont-delete'); ?></a>
@@ -130,8 +140,15 @@
                                     name="title"
                                     required="required"
                                     autocomplete="off"
-                                    required="required"
                                     placeholder="Github Repo" />
+                            </td>
+                            <td>
+                                <input
+                                    type="date"
+                                    name="created_at"
+                                    required="required"
+                                    value="<?php echo date('Y-m-d'); ?>"
+                                    autocomplete="off" />
                             </td>
                             <td>
                                 <input

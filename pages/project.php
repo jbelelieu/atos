@@ -53,6 +53,9 @@ if (isset($_GET['action'])) {
         case 'deleteStory':
             $storyService->deleteStory($_GET);
             exit;
+        case 'pinFile':
+            $fileLinkService->pinFile($_GET['id'], $_GET['file_id']);
+            exit;
         case 'updateStoryStatus':
             $storyService->updateStoryStatus($_GET, 4);
             exit;

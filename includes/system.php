@@ -134,14 +134,20 @@ $db->setAttribute(\PDO::ATTR_DEFAULT_FETCH_MODE, \PDO::FETCH_ASSOC);
 // Migration checks
 try {
     $isInstalledStmt = $db->prepare("
-        SELECT name FROM sqlite_master WHERE type='table' AND name='story' 
+        SELECT name
+        FROM sqlite_master
+        WHERE type='table' AND name='story' 
     ");
     $isInstalledStmt->execute();
     $installed = $isInstalledStmt->fetch();
 
     if (!$installed || empty($installed['name'])) {
-        $migrations = file_get_contents(ATOS_HOME_DIR . '/db/migrations.sql');
-        $db->exec($migrations);
+        foreach (scandir(ATOS_HOME_DIR . '/db/migrations') as $aFile) {
+            if ($aFile === '.' || $aFile === '..') { continue; }
+            
+            $migrations = file_get_contents(ATOS_HOME_DIR . '/db/migrations/' . $aFile);
+            $db->exec($migrations);
+        }
     }
 } catch (\Exception $e) {
     systemError($e->getMessage());

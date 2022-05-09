@@ -108,20 +108,22 @@ function parseBool($value): bool
 
 /**
  * @param string $name
- * @param string $default
+ * @param string $color
+ * @param string $fontSize
  * @return string
  */
 function putIcon(
     string $name,
     string $color = '#111',
-    string $default = 'icofont-question-circle'
+    string $fontSize = '22px'
 ): string {
     $useColor = empty($color) ? '#111' : $color;
-    // $useDefault = empty($default) ? 'icofont-question-circle' : $default;
+    
     $finalUse = (substr($name, 0, 7) === 'icofont') ? $name : 'icofont-' . $name;
+    
     $color = ltrim($useColor, '#');
 
-    return '<div class="iconHolder"><i style="color: #' . $color . ';" class="'. $finalUse . '"></i></div>';
+    return '<div class="iconHolder"><i style="font-size:' . $fontSize . ';color: #' . $color . ';" class="'. $finalUse . '"></i></div>';
 }
 
 /**
