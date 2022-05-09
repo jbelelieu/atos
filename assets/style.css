@@ -755,8 +755,8 @@ select {
 
 textarea {
     width: 100%;
-    min-width: 300px;
-    min-height: 100px;
+    /* min-width: 300px; */
+    /* min-height: 100px; */
 }
 
 .formBox h1 {

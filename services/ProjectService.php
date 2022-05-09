@@ -144,31 +144,82 @@ class ProjectService extends BaseService
     }
 
     /**
-     * @param array $types
-     * @param array $status
+     * @param array $array
+     * @param string $tableKey
+     * @param array $bound
      * @return void
      */
-    public function getStoriesByFilters(int $projectId, array $types = [], array $statuses = [])
+    protected function buildWhereIn(
+        array $array,
+        string $tableKey,
+        array $bound
+    ) {
+        $placeholders = '';
+
+        foreach ($array as $anItem => $x) {
+            $bound[] = $anItem;
+
+            $placeholders .= ',?';
+        }
+
+        return [
+            ' AND story.' . $tableKey . ' IN (' . ltrim($placeholders, ',') . ')',
+            $bound
+        ];
+    }
+
+    /**
+     * @param integer $projectId
+     * @param array $types
+     * @param array $statuses
+     * @param array $completedOnRange
+     * @return array
+     */
+    public function getStoriesByFilters(
+        int $projectId,
+        array $types = [],
+        array $statuses = [],
+        array $completedOn = [],
+        array $collections = []
+    ): array
     {
-        $bind = [];
+        $whereIn = $this->buildWhereIn($types, 'type', []);
+        $whereType = $whereIn[0];
 
-        $placeholders = '';
-        foreach ($types as $aType => $x) {
-            $bind[] = $aType;
-            $placeholders .= ',?';
-        }
-        $whereType = (sizeof($types) > 0)
-            ? ' AND story.type IN (' . ltrim($placeholders, ',') . ')'
-            : '';
+        $whereIn = $this->buildWhereIn($statuses, 'status', $whereIn['1']);
+        $whereStatus = $whereIn[0];
 
-        $placeholders = '';
-        foreach ($statuses as $aStatus => $x) {
-            $bind[] = $aStatus;
-            $placeholders .= ',?';
+        $whereIn = $this->buildWhereIn($collections, 'collection', $whereIn['1']);
+        $whereCollection = $whereIn[0];
+
+        $bound = $whereIn['1'];
+        
+        $whereCompleted = '';
+
+        if (!array_key_exists('start', $completedOn)) {
+            $completedOn['start'] = null;
         }
-        $whereStatus = (sizeof($statuses) > 0)
-            ? ' AND story.status IN (' . ltrim($placeholders, ',') . ')'
-            : '';
+
+        if (!array_key_exists('end', $completedOn)) {
+            $completedOn['end'] = null;
+        }
+
+        if (!empty($completedOn)) {
+            if (!empty($completedOn['start']) && !empty($completedOn['end'])) {
+                $whereCompleted = ' AND story.ended_at >= ? AND story.ended_at <= ?';
+
+                $bound[] = $completedOn['start'];
+                $bound[] = $completedOn['end'];
+            } else if (!empty($completedOn['start']) && empty($completedOn['end'])) {
+                $whereCompleted = ' AND story.ended_at = ?';
+
+                $bound[] = $completedOn['start'];
+            } else if (empty($completedOn['start']) && !empty($completedOn['end'])) {
+                $whereCompleted = ' AND story.ended_at <= ?';
+
+                $bound[] = $completedOn['end'];
+            }
+        }
 
         $statement = $this->db->prepare("
             SELECT
@@ -185,14 +236,15 @@ class ProjectService extends BaseService
             JOIN story_status on story_status.id = story.status
             JOIN story_type on story_type.id = story.type
             WHERE story_collection.project_id = ?
-            $whereType$whereStatus
+            $whereType$whereStatus$whereCollection$whereCompleted
             ORDER BY type ASC
         ");
 
-        $statement->execute(array_merge([ $projectId ], $bind));
+        $statement->execute(array_merge([ $projectId ], $bound));
 
         return $statement->fetchAll();
     }
+
     /**
      * @param integer $projectId
      * @return array
