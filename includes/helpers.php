@@ -115,7 +115,7 @@ function parseBool($value): bool
 function putIcon(
     string $name,
     string $color = '#111',
-    string $fontSize = '22px'
+    string $fontSize = '20px'
 ): string {
     $useColor = empty($color) ? '#111' : $color;
     

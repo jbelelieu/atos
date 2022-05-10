@@ -13,7 +13,9 @@
     <form action="/project?id=<?php echo $project['id']; ?>" method="post">
         <div id="createCollection" class="sunk less">
             <div id="collections" class="padLessBottom">
+                
                 <?php echo $collections; ?>
+                
                 <input type="text" style="width:150px;" placeholder="Sprint May 1 - 15" required="required" autocomplete="off" name="title" /> <button type="submit">Create</button>
             </div>
         </div>
