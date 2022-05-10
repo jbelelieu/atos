@@ -62,8 +62,10 @@ class ProjectService extends BaseService
                 )
             ');
 
+            $orgName = getSetting('UNORGANIZED_NAME', 'Unorganized');
+            
             $statement->bindParam(':project_id', $lastProjectId);
-            $statement->bindParam(':title', getSetting('UNORGANIZED_NAME', 'Unorganized'));
+            $statement->bindParam(':title', $orgName);
             $statement->execute();
 
             $this->db->commit();

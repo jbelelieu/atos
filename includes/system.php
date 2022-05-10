@@ -130,6 +130,7 @@ if (!file_exists($dbFile)) {
 $db = new \PDO("sqlite:$dbFile");
 $db->setAttribute(\PDO::ATTR_ERRMODE, \PDO::ERRMODE_EXCEPTION);
 $db->setAttribute(\PDO::ATTR_DEFAULT_FETCH_MODE, \PDO::FETCH_ASSOC);
+// $db->exec("PRAGMA foreign_keys = ON");
 
 // Migration checks
 try {
@@ -146,6 +147,7 @@ try {
             if ($aFile === '.' || $aFile === '..') { continue; }
             
             $migrations = file_get_contents(ATOS_HOME_DIR . '/db/migrations/' . $aFile);
+            
             $db->exec($migrations);
         }
     }

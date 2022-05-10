@@ -10,7 +10,7 @@ use services\StoryService;
  * ATOS: "Built by freelancer 🙋‍♂️, for freelancers 🕺 🤷 💃🏾 "
  *
  * This file controls all things collections and tasks.
- *
+ * 
  * @author @jbelelieu
  * @copyright Humanity, any year.
  * @license AGPL-3.0 License
@@ -171,6 +171,7 @@ foreach ($collectionResults as $aCollection) {
 
     // Open stories for this collection
     $renderedOpenStories = '';
+    $openHours = 0;
     $openStories = $collectionService->getStoriesInCollection($aCollection['id']);
     foreach ($openStories as $row) {
         $totalTasks++;
@@ -178,6 +179,8 @@ foreach ($collectionResults as $aCollection) {
         $row['title'] = htmlspecialchars($row['title']);
 
         $label = getLabel($row);
+
+        $openHours += $row['hours'];
 
         $renderedOpenStories .= template(
             'admin/snippets/collection_table_open_entry',
@@ -278,6 +281,7 @@ foreach ($collectionResults as $aCollection) {
         [
             'collection' => $aCollection,
             'hours' => $hours,
+            'openHours' => $openHours,
             'isProjectDefault' => $isProjectDefault,
             'openStories' => $renderedOpenStories,
             'otherStories' => $renderedOtherStories,

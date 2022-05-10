@@ -78,11 +78,11 @@ $attentionMessage = '';
 if ($overrideEstimatedTotal) {
     $displayType = 'Fixed Income Estimate';
 
-    $attentionMessage = '<b>All numbers are only good faith estimates</b><br /><br  />This is an estimate based on a hypothetical year-end income which attempts to project your tax burden assuming that your total income for the year will be ' . formatMoney($overrideEstimatedTotal * 100) . '.';
+    $attentionMessage = '<b>All numbers are only good faith estimates.</b><br /><br  />This is an estimate based on a hypothetical year-end income which attempts to project your tax burden assuming that your total income for the year will be ' . formatMoney($overrideEstimatedTotal * 100) . '.';
 } elseif ($doProjectedEstimate) {
     $displayType = 'Projected Estimate';
 
-    $attentionMessage = '<b>All numbers are only good faith estimates</b><br /><br  />This is an estimate based on your current daily average income projected through the end of the year.<br /><br /><b>Important:</b> Any additional income will change these numbers, giving you a larger tax burden. If you have a good idea of what you will make this year, try a "Fixed Income" estimate instead.';
+    $attentionMessage = '<b>All numbers are only good faith estimates.</b><br /><br  />This is an estimate based on your current daily average income projected through the end of the year.<br /><br /><b>Important:</b> Any additional income will change these numbers, giving you a larger tax burden. If you have a good idea of what you will make this year, try a "Fixed Income" estimate instead.';
 } else {
     $displayType = 'Actual Current Estimate';
 
