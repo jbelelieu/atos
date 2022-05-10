@@ -50,13 +50,15 @@
         <th width="90">ID</th>
         <th width="250">Rate Type</th>
         <th width="250">Type</th>
+        <th width="80">Completed</th>
+        <th width="90">Units</th>
         <th width=""></th>
     </tr>
     </thead>
     <tbody>
         <?php echo $openStories; ?>
         <tr class="noHighlight">
-        <td colspan="3">
+        <td colspan="4">
             <button type="submit">Move</button>
         </td>
         <td class="textRight"></td>

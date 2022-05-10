@@ -208,7 +208,7 @@ class CollectionService extends BaseService
     public function getStoriesInCollection(
         int $collectionId,
         bool $isOpen = true,
-        string $order = 'status ASC, created_at DESC',
+        string $order = 'hours DESC, created_at DESC',
         bool $billableOnly = false,
         bool $showCompleteNotBillable = false
     ) {

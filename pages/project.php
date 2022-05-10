@@ -191,6 +191,7 @@ foreach ($collectionResults as $aCollection) {
                     ]
                 ),
                 'label' => $label,
+                'hours' => $row['hours'],
                 'hourSelect' => $settingService->buildHourSelect(
                     $row['id'],
                     $row['rate_type'],
