@@ -164,10 +164,15 @@ class ProjectService extends BaseService
             $placeholders .= ',?';
         }
 
-        return [
-            ' AND story.' . $tableKey . ' IN (' . ltrim($placeholders, ',') . ')',
-            $bound
-        ];
+        return (sizeof($array) > 0)
+            ? [
+                ' AND story.' . $tableKey . ' IN (' . ltrim($placeholders, ',') . ')',
+                $bound
+            ]
+            : [
+                '',
+                $bound
+            ];
     }
 
     /**
