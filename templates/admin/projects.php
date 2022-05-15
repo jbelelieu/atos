@@ -27,8 +27,8 @@
     <h2><?php echo $project['title']; ?></h2>
 
     <button type="button" onclick="toggleDiv('createHandOFf')" class="a">Generate Report</button>
-    <button type="button" onclick="toggleDiv('createLink')" class="a">Links</button>
-    <button type="button" onclick="toggleDiv('createFile')" class="a">Files</button>
+    <button type="button" onclick="toggleDiv('createLink')" class="a">Links (<?php echo sizeof($links); ?>)</button>
+    <button type="button" onclick="toggleDiv('createFile')" class="a">Files (<?php echo sizeof($files); ?>)</button>
 
     <div
         id="createLink"
