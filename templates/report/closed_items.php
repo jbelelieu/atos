@@ -57,7 +57,8 @@
                 <table width="100%" style="font-size:90%;verticle-align:middle;">
                     <thead>
                         <tr class="noHighlight">
-                            <th width="100">Date</th>
+                            <th width="100">Completed</th>
+                            <th width="">Type</th>
                             <th width="">Task</th>
                             <th width="100">Units</th>
                         </tr>
@@ -74,6 +75,9 @@
                                     <?php echo $date; ?>
                                 </td>
                                 <td>
+                                    <?php echo $aStory['typeTitle']; ?>
+                                </td>
+                                <td>
                                     <?php echo $aStory['title']; ?>
                                 </td>
                                 <td>
@@ -82,6 +86,7 @@
                             </tr>
                         <?php } ?>
                         <tr>
+                            <td></td>
                             <td></td>
                             <td></td>
                             <td class="bold"><?php echo $totalHours; ?></td>

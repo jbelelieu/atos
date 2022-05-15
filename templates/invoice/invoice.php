@@ -117,7 +117,7 @@
                             <th width="100">Task #</th>
                             <th width="">Description</th>
                             <th width="155">Rate Type</th>
-                            <th width="60">Hrs</th>
+                            <th width="60">Units</th>
                         </tr>
                     </thead>
                     <tbody>

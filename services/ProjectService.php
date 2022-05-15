@@ -176,6 +176,8 @@ class ProjectService extends BaseService
     }
 
     /**
+     * TODO: Allow for custom ordering
+     * 
      * @param integer $projectId
      * @param array $types
      * @param array $statuses
@@ -244,7 +246,7 @@ class ProjectService extends BaseService
             JOIN story_type on story_type.id = story.type
             WHERE story_collection.project_id = ?
             $whereType$whereStatus$whereCollection$whereCompleted
-            ORDER BY type ASC
+            ORDER BY ended_at ASC, type ASC
         ");
 
         $statement->execute(array_merge([ $projectId ], $bound));
