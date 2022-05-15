@@ -139,12 +139,14 @@ function formatMoney($money): string
  * @param string $altText
  * @return string
  */
-function logo(string $altText = ''): string
+function logo(string $altText = 'Company Logo'): string
 {
     $file = '/' . ltrim(getSetting('LOGO_FILE'), '/');
 
+    $url = 'http://' . $_SERVER["HTTP_HOST"] . $file;
+
     return (file_exists(ATOS_HOME_DIR . $file))
-        ? '<div id="logoArea"><img src="' . $file . '" alt="' . $altText . '" /></div>'
+        ? '<div id="logoArea"><img src="' . $url . '" alt="' . $altText . '" /></div>'
         : '';
 }
 
