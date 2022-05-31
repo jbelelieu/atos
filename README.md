@@ -10,7 +10,6 @@ ATOS is every freelancer's one-stop shop for managing clients, projects, and you
 - 💬&nbsp;&nbsp;&nbsp;<a href="http://twitter.com/intent/tweet?text=Freelancers!%20Check%20out%20ATOS,%20free%20software%20designed%20to%20help%20you%20manage%20your%20clients,%20invoices,%20and%20estimated%20taxes.%20https://github.com/jbelelieu/atos" target="_blank">Tweet About ATOS</a>
 - ☕️&nbsp;&nbsp;&nbsp;<a href="https://jbelelieu.github.io/atos/faq.html" target="_blank">FAQ</a>
 - 🎥&nbsp;&nbsp;&nbsp;<a href="https://youtu.be/DY_ze39ZRt8" target="_blank">Walkthrough Video</a>
-- 🤑&nbsp;&nbsp;&nbsp;<a href="https://opencollective.com/castlamp/projects/by_freelancer_for_freelancer/" target="_blank">Support ATOS Financially</a>
 - ☕️&nbsp;&nbsp;&nbsp;<a href="https://www.buymeacoffee.com/jbelelieu" target="_blank">Buy Me A Coffee</a>
 
 **Key Features**
