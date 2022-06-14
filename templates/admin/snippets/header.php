@@ -22,6 +22,40 @@ $pageTitle = (isset($_metaTitle)) ? $_metaTitle : 'ATOS';
 <div id="container">
 
 <a name="top"></a>
+<?php
+
+// TODO: move this out of here but for now I don't care.
+$TaxService = new TaxService();
+$checkDate = date('Y-m-d');
+$year = date('Y');
+$dates = [];
+$alert = '';
+$moduleDir = ATOS_HOME_DIR . '/modules/tax/Y' . $year;
+foreach (scandir($moduleDir) as $file) {
+    if ($file === '..' || $file === '.') {
+        continue;
+    }
+    $exp = explode('.', $file);
+    $className = $exp[0];
+
+    $combine = '\\modules\\tax\\Y' . $year . '\\' . $className;
+    $class = new $combine();
+
+    $dates = $class::ESTIMATED_TAXES_DUE;
+
+    foreach ($dates as $aDate) {
+        // TODO: check if it's already paid and ignore if it is.
+        $difference = strtotime($aDate) - strtotime($checkDate);
+        if ($difference > 0 && $difference <= 604800) {
+            $alert .= '<span>Your estimated taxes for ' . $class::REGION . ' are due on ' . formatDate($aDate) . '</span>';
+        }
+    }
+}
+
+if ($alert) {
+    echo "<div class=\"alert\"><marquee>" . $alert . "</marquee></div>";
+}
+?>
 <header>
     <div class="headerColumns">
         <div id="logo">
@@ -81,36 +115,4 @@ if (!empty($_GET['_success'])) {
 
 if (!empty($_GET['_error'])) {
     echo "<div class=\"error\">" . putIcon('minus-circle', '#fff') . $_GET['_error'] . "</div>";
-}
-
-// TODO: move this out of here but for now I don't care.
-$TaxService = new TaxService();
-$checkDate = date('Y-m-d');
-$year = date('Y');
-$dates = [];
-$alert = '';
-$moduleDir = ATOS_HOME_DIR . '/modules/tax/Y' . $year;
-foreach (scandir($moduleDir) as $file) {
-    if ($file === '..' || $file === '.') {
-        continue;
-    }
-    $exp = explode('.', $file);
-    $className = $exp[0];
-
-    $combine = '\\modules\\tax\\Y' . $year . '\\' . $className;
-    $class = new $combine();
-
-    $dates = $class::ESTIMATED_TAXES_DUE;
-
-    foreach ($dates as $aDate) {
-        // TODO: check if it's already paid and ignore if it is.
-        $difference = strtotime($aDate) - strtotime($checkDate);
-        if ($difference > 0 && $difference <= 604800) {
-            $alert .= '<li>Your estimated taxes for ' . $class::REGION . ' are due on ' . formatDate($aDate) . '</li>';
-        }
-    }
-}
-
-if ($alert) {
-    echo "<div class=\"alert\">" . $alert . "</div>";
 }

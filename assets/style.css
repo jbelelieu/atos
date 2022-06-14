@@ -1183,7 +1183,6 @@ table td.summary {
 
 .error,
 .success,
-.alert,
 .highlight {
     padding: 16px;
 }
@@ -1199,6 +1198,20 @@ table td.summary {
 
 .alert {
     background-color: #ffd788;
+    padding: 0 16px;
+    height: 32px;
+    line-height: 32px;
+    /* max-width: 500px;
+    position: fixed;
+    bottom: 42px;
+    right: 24px;
+    background-color: #ffd788;
+    border-radius: 9px; */
+}
+
+.alert span {
+    display: inline-block;
+    margin-right: 24px;
 }
 
 .error,
