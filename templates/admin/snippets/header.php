@@ -103,8 +103,8 @@ foreach (scandir($moduleDir) as $file) {
     $dates = $class::ESTIMATED_TAXES_DUE;
 
     foreach ($dates as $aDate) {
+        // TODO: check if it's already paid and ignore if it is.
         $difference = strtotime($aDate) - strtotime($checkDate);
-
         if ($difference > 0 && $difference <= 604800) {
             $alert .= '<li>Your estimated taxes for ' . $class::REGION . ' are due on ' . formatDate($aDate) . '</li>';
         }
@@ -112,5 +112,5 @@ foreach (scandir($moduleDir) as $file) {
 }
 
 if ($alert) {
-    echo "<div class=\"error\">" . $alert . "</div>";
+    echo "<div class=\"alert\">" . $alert . "</div>";
 }
