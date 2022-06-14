@@ -591,6 +591,10 @@ input.paid {
     text-align: right;
 }
 
+.textSmall {
+    font-size: 0.8em;
+}
+
 .pad {
     padding: 32px 16px;
 }

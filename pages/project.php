@@ -318,6 +318,7 @@ echo template(
         'project' => $project,
         'totalCollections' => sizeof($allCollections),
         'totalTasks' => $totalTasks,
+        'totalHoursToDate' => $projectService->getProjectTotals($project['id']),
         'hourTypes' => $hourTypeResults,
         'storyStatuses' => $storyStatuses,
         'storyTypes' => $storyTypeResults,

@@ -1,5 +1,8 @@
 
 <div class="holder">
+    <!-- <div class="gray textSmall textRight">
+    <?php echo $totalHoursToDate['hours'] . ' hours'; ?>
+    </div> -->
 
     <hr />
     <h2>Collections</h2>
@@ -299,7 +302,6 @@
     </div>
 
     <div class="clearFix"></div>
-
 
     <?php echo $collectionsRendered; ?>
 </div>
