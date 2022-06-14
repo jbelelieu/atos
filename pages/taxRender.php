@@ -254,8 +254,11 @@ $queryString = '&year=' . $year;
 $queryString .= (!empty($_GET['income'])) ? '&income=' . $_GET['income'] : '';
 $queryString .= (!empty($_GET['estimate'])) ? '&estimate=' . $_GET['estimate'] : '';
 
+$totalPaid = $taxService->getTotalPaid($year);
+
 $aside = $taxService->getTotalAsideForYear($year);
-$asideDifference = $aside - $tax;
+
+$asideDifference = $aside - $tax + $totalPaid;
 
 $changes = [
     'logo' => logo(),
@@ -300,9 +303,11 @@ $changes = [
     'taxes' => [
         'asideTotal' => formatMoney($aside * 100),
         'asideDifference' => formatMoney($asideDifference * 100),
+        '_asideDifference' => $asideDifference,
         'totalTax' => formatMoney($tax * 100),
         'effectiveRate' => $taxableIncome > 0 ? round($tax / $taxableIncome, 2) * 100 : 0,
         'regions' => $finalData,
+        'paid' => formatMoney($totalPaid * 100),
     ],
     '_raw' => [
         'taxBurdens' => $taxBurdens['data'],

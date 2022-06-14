@@ -114,6 +114,4 @@ $changes = [
     'aside' => $aside,
 ];
 
-// dd($changes);
-
 echo template('admin/tax', $changes);

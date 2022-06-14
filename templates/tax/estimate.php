@@ -88,9 +88,19 @@
                                         <td class="bold"><?php echo $taxes['totalTax']; ?></td>
                                     </tr>
                                     <tr>
-                                        <td class="gray listLeft">Currently Set Aside</td>
-                                        <td class="gray">
-                                            <?php echo $taxes['asideTotal']; ?> (<?php echo $taxes['asideDifference']; ?>)
+                                        <td class=" listLeft">Total Paid To Date</td>
+                                        <td class=""><?php echo $taxes['paid']; ?></td>
+                                    </tr>
+                                    <tr>
+                                        <td class=" listLeft">Currently Set Aside</td>
+                                        <td class="">
+                                            <?php echo $taxes['asideTotal']; ?>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td class=" listLeft">Current Surplus or Shortfall</td>
+                                        <td class="<?php echo ($taxes['_asideDifference'] < 0) ? 'red' : ''; ?>">
+                                            <?php echo $taxes['asideDifference']; ?>
                                         </td>
                                     </tr>
                                     <tr>

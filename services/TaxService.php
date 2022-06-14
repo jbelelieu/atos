@@ -395,6 +395,25 @@ class TaxService extends BaseService
     }
     
     /**
+     * @param integer $year
+     * @return integer
+     */
+    public function getTotalPaid(int $year): int
+    {
+        $statement = $this->db->prepare("
+            SELECT SUM(amount) as total
+            FROM tax_payment
+            WHERE year = :year
+        ");
+        $statement->bindParam(':year', $year);
+        $statement->execute();
+
+        $data = $statement->fetch();
+
+        return $data['total'];
+    }
+
+    /**
      * @return array
      */
     public function getEstimatedPaymentsForYear(int $year)
