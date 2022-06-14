@@ -68,7 +68,7 @@
                         $totalHours = 0;
                         foreach ($stories as $aStory) {
                             $totalHours += $aStory['hours'];
-                            $date = formatDate($aStory['ended_at']);
+                            $date = $aStory['ended_at'] ? formatDate($aStory['ended_at']) : 'N/A';
                         ?>
                             <tr>
                                 <td>

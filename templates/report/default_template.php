@@ -43,21 +43,17 @@
             </div>
 
             <?php if (!empty($message)) { ?>
-                <div class="sunk columns2575 pad">
-                    <div class="textRight">
-                        <h4>Details</h4>
-                    </div>
-                    <div>
-                        <?php echo $message; ?>
-                    </div>
+                <div class="pad">
+                    <?php echo $message; ?>
                 </div>
             <?php } ?>
             
             <div class="borderSectionTop">
                 <table width="100%" style="font-size:90%;verticle-align:middle;">
-                    <thead>
+                    <thead class="sunk">
                         <tr class="noHighlight">
                             <th width="24"></th>
+                            <th width="80">Task #</th>
                             <th width="">Task</th>
                         </tr>
                     </thead>
@@ -66,6 +62,11 @@
                             <tr>
                                 <td>
                                     <input type="checkbox" <?php echo parseBool($aStory['isComplete']) ? 'checked=checked' : 'disabled="disabled"'; ?> />
+                                </td>
+                                <td>
+                                    <div class="table_bump">
+                                        <?php echo $aStory['show_id']; ?>
+                                    </div>
                                 </td>
                                 <td>
                                     <div class="table_bump">
