@@ -43,9 +43,9 @@
             </div>
 
             <?php if (!empty($message)) { ?>
-                <div class="sunk columns2575 pad">
-                    <div class="textRight">
-                        <h4>Details</h4>
+                <div class="sunk columns1585 pad">
+                    <div class="textRight detailsPadding">
+                        <h4>Notes</h4>
                     </div>
                     <div>
                         <?php echo $message; ?>

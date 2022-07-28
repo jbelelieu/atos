@@ -609,6 +609,43 @@ class TaxService extends BaseService
     }
 
     /**
+     * @param integer $year
+     * @param integer $month
+     * @return float
+     */
+    public function getTotalBaseIncomeByMonth(int $year, int $month): float
+    {
+        $month = str_pad($month, 2, '0', STR_PAD_LEFT);
+
+        $statement = $this->db->prepare("
+            SELECT
+                SUM(story_hour_type.rate * story.hours/ 100) as totalValue
+            FROM
+                story
+            JOIN
+                story_hour_type ON story.rate_type = story_hour_type.id
+            JOIN
+                story_status ON story.status = story_status.id
+            WHERE
+                story_status.is_billable_state = true
+                AND ended_at >= :dateLow
+                AND ended_at <= :dateHigh
+        ");
+
+        $dateLow = $year . '-' . $month . '-01';
+        $dateHigh = $year . '-' . $month . '-31';
+
+        $statement->bindParam(':dateLow', $dateLow);
+        $statement->bindParam(':dateHigh', $dateHigh);
+
+        $statement->execute();
+
+        $total = $statement->fetch();
+
+        return ($total) ? (float) $total['totalValue'] : 0;
+    }
+
+    /**
      * @param array $data
      * @return void
      */

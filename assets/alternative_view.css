@@ -570,6 +570,11 @@ input.paid {
     padding-bottom: 16px;
 }
 
+.detailsPadding {
+    padding-top: 2px;
+    padding-right: 16px;
+}
+
 .borderSection h1 {
     margin-top: 0px;
 }
@@ -630,7 +635,7 @@ input.paid {
 
 #holderFixed {
     width: 800px;
-    margin: 42px auto;
+    margin: 24px auto;
 }
 
 .sunk {
@@ -676,7 +681,7 @@ h4 {
 
 #logoArea {
     text-align: center;
-    margin-bottom: 24px;
+    margin-bottom: 0;
 }
 
 #logoArea img {
@@ -744,10 +749,20 @@ blockquote:after {
     grid-template-columns: 220px 1fr;
 }
 
+.columns1585 {
+    display: grid;
+    grid-template-rows: 1fr;
+    grid-column-gap: 0px;
+    grid-row-gap: 0px;
+    grid-template-columns: 120px 1fr;
+}
+
+.columns1585 table:first-child,
 .columns2575 table:first-child {
     margin: -10px 0 0 0;
 }
 
+.columns1585 table:last-child,
 .columns2575 table:last-child,
 .columns2575 p:last-child {
     margin-bottom: 0px;

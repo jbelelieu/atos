@@ -94,6 +94,15 @@ foreach ($taxes as &$aTaxYear) {
 
         $income = formatMoney($taxService->getTotalBaseIncomeByYear($aTaxYear['year']) * 100);
 
+        $monthly = [];
+        $x = 0;
+        while ($x < 12) {
+            $x++;
+            $month = str_pad($x, 2, '0', STR_PAD_LEFT);
+            $monthly[$aTaxYear['year'] . '-' . $month] = $taxService->getTotalBaseIncomeByMonth($aTaxYear['year'], $x) * 100;
+        }
+
+        $aTaxYear['monthly'] = $monthly;
         $aTaxYear['aside'] = $aside;
         $aTaxYear['income'] = $income;
 

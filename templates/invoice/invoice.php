@@ -31,7 +31,7 @@
                                 <?php echo $project['title']; ?>
                             </span>
                             <br /><br />
-                            Sent On<br />
+                            Generated On<br />
                             <?php echo $sentOn; ?>
                             <?php if (!empty($dueDate)) { ?>
                                 <br /><br />
@@ -116,7 +116,7 @@
                         <tr class="noHighlight">
                             <th width="100">Task #</th>
                             <th width="">Description</th>
-                            <th width="155">Rate Type</th>
+                            <th width="175">Rate Type</th>
                             <th width="60">Units</th>
                         </tr>
                     </thead>

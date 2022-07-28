@@ -140,6 +140,25 @@
         <form action="/tax" method="post">
         <input type="hidden" name="year" value="<?php echo $aTaxYear['year']; ?>" />
         <input type="hidden" name="action" value="createMoneyAside" />
+            <h4 class="marginTopLess">Monthly Breakdown</h4>
+
+            <table class="lessPad">
+                <thead>
+                    <tr class="noHighlight">
+                        <th>Month</th>
+                        <th width="150">Total</th>
+                    </tr>
+                </thead>
+                <tbody>
+                <?php foreach ($aTaxYear['monthly'] as $aMonth => $aTotal) { ?>
+                    <tr>
+                        <td><?php echo $aMonth; ?></td>
+                        <td><?php echo formatMoney($aTotal); ?></td>
+                    </tr>
+                <?php } ?>
+                </tbody>
+            </table>
+
             <h4 class="marginTopLess">Money Set Aside in <?php echo $aTaxYear['year']; ?> for Estimated Taxes</h4>
             <table class="lessPad">
                 <thead>
