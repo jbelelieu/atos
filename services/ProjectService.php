@@ -275,10 +275,34 @@ class ProjectService extends BaseService
             JOIN
                 story_hour_type
                 ON story_hour_type.id = story.rate_type
+            JOIN
+                story_status
+                ON story_status.id = story.status
             WHERE
                 project.id = :project_id
-                AND story.status != 1;
+                AND story.status != 1
+                AND story_status.is_complete_state = true
+                AND story_status.is_billable_state = true;
         ");
+        // $statement = $this->db->prepare("
+        //     SELECT
+        //         COALESCE(SUM(story.hours), 0) as hours,
+        //         COALESCE(SUM(story.hours * story_hour_type.rate), 0) as total
+        //     FROM
+        //         project
+        //     JOIN
+        //         story_collection
+        //         ON project.id = story_collection.project_id
+        //     JOIN
+        //         story
+        //         ON story_collection.id = story.collection
+        //     JOIN
+        //         story_hour_type
+        //         ON story_hour_type.id = story.rate_type
+        //     WHERE
+        //         project.id = :project_id
+        //         AND story.status != 1
+        // ");
 
         $statement->bindParam(':project_id', $projectId);
 
