@@ -194,6 +194,7 @@ foreach ($collectionResults as $aCollection) {
                     ]
                 ),
                 'label' => $label,
+                'endedAt' => formatDate($row['ended_at'], 'Y-m-d'),
                 'hours' => $row['hours'],
                 'hourSelect' => $settingService->buildHourSelect(
                     $row['id'],
