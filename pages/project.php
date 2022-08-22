@@ -172,7 +172,11 @@ foreach ($collectionResults as $aCollection) {
     // Open stories for this collection
     $renderedOpenStories = '';
     $openHours = 0;
-    $openStories = $collectionService->getStoriesInCollection($aCollection['id']);
+    $openStories = $collectionService->getStoriesInCollection(
+        $aCollection['id'],
+        true,
+        "ended_at ASC"
+    );
     foreach ($openStories as $row) {
         $totalTasks++;
 
