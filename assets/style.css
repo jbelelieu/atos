@@ -918,6 +918,8 @@ button:hover:not(.createNew) {
 .halfHalfColumns,
 .fourColumns,
 .columns2575,
+.columns33,
+.columns50,
 .columns6535,
 .columns7525 {
     display: grid;
@@ -952,6 +954,14 @@ button:hover:not(.createNew) {
     grid-template-columns: 75% 25%;
 }
 
+.columns50 {
+    grid-template-columns: 50% 50%;
+}
+
+.columns33 {
+    grid-template-columns: 1fr 1fr 1fr;
+}
+
 .halfHalfColumns {
     grid-template-columns: 1fr 1fr;
 }
@@ -968,9 +978,26 @@ button:hover:not(.createNew) {
     grid-template-columns: 100px 220px 1fr;
 }
 
+.labelsNoForm p {
+    margin-top: 0px;
+    margin-bottom: 0px;
+}
+
+.labelsNoForm label {
+    margin-top: 6px;
+}
+
 .columns2575 {
     display: grid;
     grid-template-columns: 190px 1fr;
+    grid-template-rows: 1fr;
+    grid-column-gap: 40px;
+    grid-row-gap: 0px;
+}
+
+.columns2575p {
+    display: grid;
+    grid-template-columns: 15% 1fr;
     grid-template-rows: 1fr;
     grid-column-gap: 40px;
     grid-row-gap: 0px;

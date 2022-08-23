@@ -5,26 +5,57 @@
     </div> -->
 
     <hr />
-    <h2>Collections</h2>
+    <h2>Project Overview</h2>
 
-    <?php if ($totalCollections === 1) { ?>
-        <p class="highlight">
-            Start here by creating your first collection of tasks. A collection is a grouping of tasks that will be billed to a client. One common use case is to map bi-weekly sprints to invoiced work.
-        </p>
-    <?php } ?>
+    <div class="columns2575p">
+        <div>
+            <h5>Details</h5>
 
-    <form action="/project?id=<?php echo $project['id']; ?>" method="post">
-        <div id="createCollection" class="sunk less">
-            <div id="collections" class="padLessBottom">
+            <div class="columns50 labelsNoForm">
+                <div>
+                    <label>Started</label>
+                    <p><?php echo formatDate($project['created_at']); ?></p>
+                </div>
                 
-                <?php echo $collections; ?>
-                
-                <input type="text" style="width:150px;" placeholder="Sprint May 1 - 15" required="required" autocomplete="off" name="title" /> <button type="submit">Create</button>
+                <div>
+                    <label>Ended</label>
+                    <p><?php echo $project['ended_at'] ? formatDate($project['ended_at']) : 'Ongoing'; ?></p>
+                </div>
+
+                <div>
+                    <label>Hours Billed</label>
+                    <p><?php echo $totalHoursToDate['hours']; ?></p>
+                </div>
+
+                <div>
+                    <label>Income</label>
+                    <p><?php echo formatMoney($totalHoursToDate['total']); ?></p>
+                </div>
             </div>
         </div>
-        <input type="hidden" name="project_id" value="<?php echo $project['id']; ?>" />
-        <input type="hidden" name="action" value="createCollection" />
-    </form>
+        <div>
+            <h5>Collections</h5>
+
+            <?php if ($totalCollections === 1) { ?>
+                <p class="highlight">
+                    Start here by creating your first collection of tasks. A collection is a grouping of tasks that will be billed to a client. One common use case is to map bi-weekly sprints to invoiced work.
+                </p>
+            <?php } ?>
+
+            <form action="/project?id=<?php echo $project['id']; ?>" method="post">
+                <div id="createCollection" class="sunk less">
+                    <div id="collections" class="padLessBottom">
+                        
+                        <?php echo $collections; ?>
+                        
+                        <input type="text" style="width:150px;" placeholder="Sprint May 1 - 15" required="required" autocomplete="off" name="title" /> <button type="submit">Create</button>
+                    </div>
+                </div>
+                <input type="hidden" name="project_id" value="<?php echo $project['id']; ?>" />
+                <input type="hidden" name="action" value="createCollection" />
+            </form>
+        </div>
+    </div>
 
     <hr />
     <h2><?php echo $project['title']; ?></h2>

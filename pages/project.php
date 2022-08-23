@@ -314,6 +314,7 @@ echo template(
     [
         '_metaTitle' => $project['title'] . ' (ATOS)',
         'collections' => $collections,
+        'project' => $project,
         'templates' => $allTemplates,
         'allCollections' => $allCollections,
         'collectionsRendered' => $collectionsRendered,
