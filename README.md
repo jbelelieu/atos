@@ -59,6 +59,7 @@ ATOS requires `PHP7+` and `SQLite3`.
 - From Github, download the [latest release ZIP file](https://github.com/jbelelieu/atos/releases)
 - Unzip it to your local machine into a writable folder
 - From the command line, go to the ATOS directory and launch the PHP server: `php -S localhost:9001`
+  - If you want it to run in the background, use `nohup php -S localhost:9001 &`
 - You can now access ATOS from any web browser at `http://localhost:9001`.
 
 Please see the [documentation](docs/index.md) if you need a more detailed installation walkthrough.
