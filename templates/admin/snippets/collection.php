@@ -28,7 +28,7 @@
     </h2>
     <div class="clearFix"></div>
     
-    <h5 class="bubble noMarginTop">Open</h5> <a class="unorgLink" href="#unorganized">Unorganized</a> <a class="unorgLink" href="#completed">Completed &amp; Billable</a>
+    <h5 class="bubble noMarginTop">Open</h5> <a class="unorgLink" href="#unorganized">Unorganized</a> <a class="unorgLink" href="#completed">Completed &amp; Billable</a> <a class="unorgLink" href="/project?action=moveOpenToNextCollection&id=<?php echo $_GET['id']; ?>">Move All To Next Collection</a>
 
 <?php } ?>
 

@@ -155,6 +155,27 @@ class CollectionService extends BaseService
     }
 
     /**
+     * @param integer $projectId
+     * @return void
+     */
+    public function getNextCollectionForProject(int $projectId)
+    {
+        $statement = $this->db->prepare('
+            SELECT *
+            FROM story_collection
+            WHERE project_id = :project_id
+            ORDER BY created_at DESC
+            LIMIT 1
+        ');
+
+        $statement->bindParam(':project_id', $projectId);
+
+        $statement->execute();
+
+        return $statement->fetch();
+    }
+
+    /**
      * @param int $id
      * @return array
      */
@@ -282,6 +303,45 @@ class CollectionService extends BaseService
         }
     }
 
+    /**
+     * @param array $data
+     * @return void
+     */
+    public function moveOpenToNextCollection(array $data): void
+    {
+        $statement = $this->db->prepare("
+            SELECT *
+            FROM story_collection
+            WHERE project_id = :id
+            ORDER BY created_at DESC
+            LIMIT 2
+        ");
+
+        $statement->bindParam(':id', $data['id']);
+
+        $statement->execute();
+
+        $stories = $statement->fetchAll();
+
+        $currentStory = array_shift($stories);
+
+        if (empty($stories)) {
+            redirect('/project', $data['id'], null, 'We could not find another collection to move these stories to.');
+        }
+
+        $statement = $this->db->prepare('
+            UPDATE story
+            SET collection = :newCollection
+            WHERE collection = :oldCollection
+        ');
+
+        $statement->bindParam(':newCollection', $stories[0]['id']);
+        $statement->bindParam(':oldCollection', $currentStory['id']);
+
+        $statement->execute();
+
+        redirect('/project', $data['id'], 'Moved all open stories to collection "' . $stories[0]['title'] . '"');
+    }
 
     /**
      * Workflow for shifting is as follows:
