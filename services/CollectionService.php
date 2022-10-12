@@ -321,26 +321,28 @@ class CollectionService extends BaseService
 
         $statement->execute();
 
-        $stories = $statement->fetchAll();
+        $collections = $statement->fetchAll();
 
-        $currentStory = array_shift($stories);
+        $currentCollection = array_shift($collections);
 
-        if (empty($stories)) {
+        if (empty($collections)) {
             redirect('/project', $data['id'], null, 'We could not find another collection to move these stories to.');
         }
 
-        $statement = $this->db->prepare('
-            UPDATE story
-            SET collection = :newCollection
-            WHERE collection = :oldCollection
-        ');
+        $stories = $this->getStoriesInCollection($currentCollection['id'], true);
 
-        $statement->bindParam(':newCollection', $stories[0]['id']);
-        $statement->bindParam(':oldCollection', $currentStory['id']);
+        foreach ($stories as $aStory) {
+            $statement = $this->db->prepare('
+                UPDATE story
+                SET collection = :newCollection
+                WHERE id = :storyId
+            ');
+            $statement->bindParam(':newCollection', $collections[0]['id']);
+            $statement->bindParam(':storyId', $aStory['id']);
+            $statement->execute();
+        }
 
-        $statement->execute();
-
-        redirect('/project', $data['id'], 'Moved all open stories to collection "' . $stories[0]['title'] . '"');
+        redirect('/project', $data['id'], 'Moved all open stories to collection "' . $collections[0]['title'] . '"');
     }
 
     /**
