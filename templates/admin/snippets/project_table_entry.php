@@ -15,6 +15,9 @@
         <?php echo $project['company_name']; ?>
     </td>
     <td>
+        <?php echo $started; ?>
+    </td>
+    <td>
         <?php echo $hours; ?>
     </td>
     <td>

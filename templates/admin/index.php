@@ -72,14 +72,15 @@
     <th>Code</th>
     <th>Contractor</th>
     <th>Client</th>
-    <th width=190>Units</th>
-    <th width=190>Billed</th>
+    <th width=130>Started</th>
+    <th width=100>Units</th>
+    <th width=140>Billed</th>
     <th width="42"></th>
     </tr>
     </thead>
     <?php echo $projects; ?>
     <tr class="noHighlight">
-    <td colspan=4></td>
+    <td colspan=5></td>
     <td class="summary"><?php echo $totalProjectHours; ?></td>
     <td class="summary"><?php echo $totalProjectValue; ?></td>
     <td></td>
