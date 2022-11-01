@@ -857,6 +857,10 @@ img.clientLogo {
     margin-top: 42px;
 }
 
+.marginTopMid {
+    margin-top: 24px;
+}
+
 .marginTopLess {
     margin-top: 12px;
 }

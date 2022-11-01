@@ -391,7 +391,7 @@ class TaxService extends BaseService
 
         $data = $statement->fetch();
 
-        return $data['total'];
+        return $data['total'] ? $data['total'] : 0;
     }
     
     /**
