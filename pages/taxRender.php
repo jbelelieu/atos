@@ -258,8 +258,7 @@ $totalPaid = $taxService->getTotalPaid($year);
 
 $aside = $taxService->getTotalAsideForYear($year);
 
-// TODO: this may be incorrect.
-$asideDifference = $aside - $tax + $totalPaid;
+$asideDifference = $aside - $totalPaid - $tax + $totalPaid;
 
 $changes = [
     'logo' => logo(),
