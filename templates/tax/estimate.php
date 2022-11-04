@@ -92,7 +92,7 @@
                                         <td class=""><?php echo $taxes['paid']; ?></td>
                                     </tr>
                                     <tr>
-                                        <td class=" listLeft">Currently Set Aside</td>
+                                        <td class=" listLeft">Total Set Aside</td>
                                         <td class="">
                                             <?php echo $taxes['asideTotal']; ?>
                                         </td>
