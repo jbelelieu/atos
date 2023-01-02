@@ -31,6 +31,12 @@ $year = date('Y');
 $dates = [];
 $alert = '';
 $moduleDir = ATOS_HOME_DIR . '/modules/tax/Y' . $year;
+
+if (!file_exists($moduleDir)) {
+    $year -= 1;
+    $moduleDir = ATOS_HOME_DIR . '/modules/tax/Y' . $year;
+}
+
 foreach (scandir($moduleDir) as $file) {
     if ($file === '..' || $file === '.') {
         continue;
