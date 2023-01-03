@@ -68,7 +68,7 @@ class UsaNy
      */
     public function married_individual(): array
     {
-        return $this->single;
+        return $this->single();
     }
 
     /**
