@@ -14,7 +14,7 @@
 ---
 
 - [Walkthrough Video](#walkthrough-video)
-- [Setup & Installation](#setup--installation)
+- [Setup \& Installation](#setup--installation)
   - [If You Have PHP7 Installed Locally](#if-you-have-php7-installed-locally)
   - [If You Don't Have PHP7 Installed](#if-you-dont-have-php7-installed)
 - [Update Your Default Settings (Optional Step)](#update-your-default-settings-optional-step)
@@ -23,6 +23,7 @@
     - [Optimized Viewing Experience (Sorry, No Mobile)](#optimized-viewing-experience-sorry-no-mobile)
     - [Updating Your Logo](#updating-your-logo)
     - [Saving Invoices, Reports, and Tax Documents](#saving-invoices-reports-and-tax-documents)
+    - [Daily Automated Backups](#daily-automated-backups)
     - [Language Files](#language-files)
     - [Templates Files](#templates-files)
     - [phpLiteAdmin](#phpliteadmin)
@@ -74,6 +75,12 @@ You can add your logo to outgoing invoices by simply replacing `assets/logo.png`
 If you plan on generating and saving generated documents locally (which I recommend you do), you will need to make sure the `_generated` and `_vault` directories are writable: `chmod 0755 _generated && chmod 0755 _vault`.
 
 Invoices/ and taxes files are saved as HTML. Most computers have reasonable `Print as PDF` options now; please use that feature to print a PDF if required. ATOS hard codes styles, so changing `assets/invoiceStyle.css` or `assets/taxStyle.css` won't affect already saved invoices.
+
+### Daily Automated Backups
+
+*Added in v0.6.1.*
+
+Note that if you input information within the settings file for the backup FTP server, ATOS will automatically create a daily backup of your SQLite database (assuming you load ATOS once per day).
 
 ### Language Files
 
