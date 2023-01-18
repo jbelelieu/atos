@@ -1,6 +1,17 @@
 <?php
 
 return [
+    // If you would like to perform daily database backups,
+    // input the FTP information for the server to which 
+    // we will be backing up the local database.
+    'BACKUP_FTP_SERVER' => [
+        'port' => 21,
+        'host' => '',
+        'username' => '',
+        'password' => '',
+        'remoteFilePath' => '',
+    ],
+
     // What is your database file called.
     'DATABASE_FILE_NAME' => 'atos.sqlite3',
 

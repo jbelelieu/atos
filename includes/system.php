@@ -1,5 +1,7 @@
 <?php
 
+use services\FtpService;
+
 /**
  * ATOS: "Built by freelancer 🙋‍♂️, for freelancers 🕺 🤷 💃🏾 "
  *
@@ -65,6 +67,46 @@ class AtosSettings
 }
 
 /**
+ * @param string $dbFile
+ * @return boolean
+ */
+function checkForBackup(string $dbFile): bool {
+    $ftp = getSetting('BACKUP_FTP_SERVER');
+
+    if (
+        empty($ftp)
+        || !array_key_exists('host', $ftp)
+        || empty($ftp['host'])
+        || !array_key_exists('remoteFilePath', $ftp)
+        || empty($ftp['remoteFilePath'])
+    ) {
+        return false;
+    }
+
+    $backupFile = ATOS_HOME_DIR . '/db/last_backup';
+    if (file_exists($backupFile)) {
+        $lastBackup = (int) file_get_contents($backupFile);
+
+        $difference = $lastBackup - time();
+        if ($difference < 86400) {
+            return false;
+        }
+    }
+
+    $ftpSuccess = (new FtpService())->upload($dbFile, $ftp['remoteFilePath'] . '/atos.sqlite3');
+    if (!$ftpSuccess) {
+        return false;
+    }
+
+    $wroteBackup = file_put_contents($backupFile, time()) ? true : false;
+    if (!$wroteBackup) {
+        systemError('We were able to backup your database via FTP, however we were not able to write the local backup timestamp file. Please ensure that the db folder is writable.');
+    }
+
+    return true;
+}
+
+/**
  * @param string $key
  * @param [type] $default
  */
@@ -73,6 +115,8 @@ function getSetting(string $key, $default = null)
     $settings = new AtosSettings();
 
     switch ($key) {
+        case 'BACKUP_FTP_SERVER':
+            return $settings->returnSetting('BACKUP_FTP_SERVER', $default);
         case 'DATABASE_FILE_NAME':
             return $settings->returnSetting('DATABASE_FILE_NAME', $default);
         case 'EST_TAXES_ADD_SAFETY_BUFFER':
@@ -132,8 +176,14 @@ $db->setAttribute(\PDO::ATTR_ERRMODE, \PDO::ERRMODE_EXCEPTION);
 $db->setAttribute(\PDO::ATTR_DEFAULT_FETCH_MODE, \PDO::FETCH_ASSOC);
 // $db->exec("PRAGMA foreign_keys = ON");
 
-// Migration checks
 try {
+    // Installation/migrations checks
+    // TODO: this was only intended for first time installs,
+    //       but we need to make migrations more flexible
+    //       to allow for future DB updates post-installation.
+    // TODO: Also, do we really want to do all of this try block
+    //       every time we load a page? Maybe we should make these
+    //       manual actions.
     $isInstalledStmt = $db->prepare("
         SELECT name
         FROM sqlite_master
@@ -151,6 +201,9 @@ try {
             $db->exec($migrations);
         }
     }
+
+    // Backup checks
+    checkForBackup($dbFile);
 } catch (\Exception $e) {
     systemError($e->getMessage());
 }
