@@ -78,15 +78,15 @@ $attentionMessage = '';
 if ($overrideEstimatedTotal) {
     $displayType = 'Fixed Income Estimate';
 
-    $attentionMessage = '<b>All numbers are only good faith estimates</b><br /><br  />This is an estimate based on a hypothetical year-end income which attempts to project your tax burden assuming that your total income for the year will be ' . formatMoney($overrideEstimatedTotal * 100) . '.';
+    $attentionMessage = '<b>All numbers are only good faith estimates. Please speak with a financial professional before filing your taxes!</b><br /><br  />This is an estimate based on a hypothetical year-end income which attempts to project your tax burden assuming that your total income for the year will be ' . formatMoney($overrideEstimatedTotal * 100) . '.';
 } elseif ($doProjectedEstimate) {
     $displayType = 'Projected Estimate';
 
-    $attentionMessage = '<b>All numbers are only good faith estimates</b><br /><br  />This is an estimate based on your current daily average income projected through the end of the year.<br /><br /><b>Important:</b> Any additional income will change these numbers, giving you a larger tax burden. If you have a good idea of what you will make this year, try a "Fixed Income" estimate instead.';
+    $attentionMessage = '<b>All numbers are only good faith estimates. Please speak with a financial professional before filing your taxes!</b><br /><br  />This is an estimate based on your current daily average income projected through the end of the year.<br /><br /><b>Important:</b> Any additional income will change these numbers, giving you a larger tax burden. If you have a good idea of what you will make this year, try a "Fixed Income" estimate instead.';
 } else {
     $displayType = 'Actual Current Estimate';
 
-    $attentionMessage = '<b>All numbers are only good faith estimates.</b><br /><br  />This is only valid if your income remains the same for the rest of the year.<br /><br /><b>Important:</b> Any additional income will change these numbers, giving you a larger tax burden. If you have a good idea of what you will make this year, try a "Fixed Income Projection" estimate instead.';
+    $attentionMessage = '<b>All numbers are only good faith estimates. Please speak with a financial professional before filing your taxes!</b><br /><br  />This is only valid if your income remains the same for the rest of the year.<br /><br /><b>Important:</b> Any additional income will change these numbers, giving you a larger tax burden. If you have a good idea of what you will make this year, try a "Fixed Income Projection" estimate instead.';
 }
 
 if (!file_exists(ATOS_HOME_DIR . '/modules/tax/Y' . $year)) {
@@ -254,8 +254,11 @@ $queryString = '&year=' . $year;
 $queryString .= (!empty($_GET['income'])) ? '&income=' . $_GET['income'] : '';
 $queryString .= (!empty($_GET['estimate'])) ? '&estimate=' . $_GET['estimate'] : '';
 
+$totalPaid = $taxService->getTotalPaid($year);
+
 $aside = $taxService->getTotalAsideForYear($year);
-$asideDifference = $aside - $tax;
+
+$asideDifference = $aside - $totalPaid - $tax + $totalPaid;
 
 $changes = [
     'logo' => logo(),
@@ -300,9 +303,11 @@ $changes = [
     'taxes' => [
         'asideTotal' => formatMoney($aside * 100),
         'asideDifference' => formatMoney($asideDifference * 100),
+        '_asideDifference' => $asideDifference,
         'totalTax' => formatMoney($tax * 100),
         'effectiveRate' => $taxableIncome > 0 ? round($tax / $taxableIncome, 2) * 100 : 0,
         'regions' => $finalData,
+        'paid' => formatMoney($totalPaid * 100),
     ],
     '_raw' => [
         'taxBurdens' => $taxBurdens['data'],

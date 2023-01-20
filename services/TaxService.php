@@ -391,9 +391,28 @@ class TaxService extends BaseService
 
         $data = $statement->fetch();
 
-        return $data['total'];
+        return $data['total'] ? $data['total'] : 0;
     }
     
+    /**
+     * @param integer $year
+     * @return integer
+     */
+    public function getTotalPaid(int $year): int
+    {
+        $statement = $this->db->prepare("
+            SELECT SUM(amount) as total
+            FROM tax_payment
+            WHERE year = :year
+        ");
+        $statement->bindParam(':year', $year);
+        $statement->execute();
+
+        $data = $statement->fetch();
+
+        return $data['total'];
+    }
+
     /**
      * @return array
      */
@@ -578,6 +597,43 @@ class TaxService extends BaseService
         $dateLow = $year . '-01-01';
         $year++;
         $dateHigh = $year . '-01-01';
+
+        $statement->bindParam(':dateLow', $dateLow);
+        $statement->bindParam(':dateHigh', $dateHigh);
+
+        $statement->execute();
+
+        $total = $statement->fetch();
+
+        return ($total) ? (float) $total['totalValue'] : 0;
+    }
+
+    /**
+     * @param integer $year
+     * @param integer $month
+     * @return float
+     */
+    public function getTotalBaseIncomeByMonth(int $year, int $month): float
+    {
+        $month = str_pad($month, 2, '0', STR_PAD_LEFT);
+
+        $statement = $this->db->prepare("
+            SELECT
+                SUM(story_hour_type.rate * story.hours/ 100) as totalValue
+            FROM
+                story
+            JOIN
+                story_hour_type ON story.rate_type = story_hour_type.id
+            JOIN
+                story_status ON story.status = story_status.id
+            WHERE
+                story_status.is_billable_state = true
+                AND ended_at >= :dateLow
+                AND ended_at <= :dateHigh
+        ");
+
+        $dateLow = $year . '-' . $month . '-01';
+        $dateHigh = $year . '-' . $month . '-31';
 
         $statement->bindParam(':dateLow', $dateLow);
         $statement->bindParam(':dateHigh', $dateHigh);

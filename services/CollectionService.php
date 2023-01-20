@@ -155,6 +155,27 @@ class CollectionService extends BaseService
     }
 
     /**
+     * @param integer $projectId
+     * @return void
+     */
+    public function getNextCollectionForProject(int $projectId)
+    {
+        $statement = $this->db->prepare('
+            SELECT *
+            FROM story_collection
+            WHERE project_id = :project_id
+            ORDER BY created_at DESC
+            LIMIT 1
+        ');
+
+        $statement->bindParam(':project_id', $projectId);
+
+        $statement->execute();
+
+        return $statement->fetch();
+    }
+
+    /**
      * @param int $id
      * @return array
      */
@@ -208,7 +229,7 @@ class CollectionService extends BaseService
     public function getStoriesInCollection(
         int $collectionId,
         bool $isOpen = true,
-        string $order = 'status ASC, created_at DESC',
+        string $order = 'hours DESC, created_at DESC',
         bool $billableOnly = false,
         bool $showCompleteNotBillable = false
     ) {
@@ -282,6 +303,47 @@ class CollectionService extends BaseService
         }
     }
 
+    /**
+     * @param array $data
+     * @return void
+     */
+    public function moveOpenToNextCollection(array $data): void
+    {
+        $statement = $this->db->prepare("
+            SELECT *
+            FROM story_collection
+            WHERE project_id = :id
+            ORDER BY created_at DESC
+            LIMIT 2
+        ");
+
+        $statement->bindParam(':id', $data['id']);
+
+        $statement->execute();
+
+        $collections = $statement->fetchAll();
+
+        $currentCollection = array_shift($collections);
+
+        if (empty($collections)) {
+            redirect('/project', $data['id'], null, 'We could not find another collection to move these stories to.');
+        }
+
+        $stories = $this->getStoriesInCollection($currentCollection['id'], true);
+
+        foreach ($stories as $aStory) {
+            $statement = $this->db->prepare('
+                UPDATE story
+                SET collection = :newCollection
+                WHERE id = :storyId
+            ');
+            $statement->bindParam(':newCollection', $collections[0]['id']);
+            $statement->bindParam(':storyId', $aStory['id']);
+            $statement->execute();
+        }
+
+        redirect('/project', $data['id'], 'Moved all open stories to collection "' . $collections[0]['title'] . '"');
+    }
 
     /**
      * Workflow for shifting is as follows:

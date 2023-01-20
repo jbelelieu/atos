@@ -7,8 +7,6 @@ use services\BaseService;
 /**
  * ATOS: "Built by freelancer 🙋‍♂️, for freelancers 🕺 🤷 💃🏾 "
  *
- * Service for companies/clients.
- *
  * @author @jbelelieu
  * @copyright Humanity, any year.
  * @package Services

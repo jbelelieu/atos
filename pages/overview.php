@@ -112,6 +112,7 @@ foreach ($projects as $aProject) {
             'hours' => $value['hours'],
             'project' => $aProject,
             'total' => formatMoney($value['total']),
+            'started' => formatDate($aProject['created_at']),
         ],
         true
     );

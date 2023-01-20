@@ -28,7 +28,7 @@
     </h2>
     <div class="clearFix"></div>
     
-    <h5 class="bubble noMarginTop">Open</h5> <a class="unorgLink" href="#unorganized">Unorganized</a> <a class="unorgLink" href="#completed">Completed &amp; Billable</a>
+    <h5 class="bubble noMarginTop">Open</h5> <a class="unorgLink" href="#unorganized">Unorganized</a> <a class="unorgLink" href="#completed">Completed &amp; Billable</a> <a class="unorgLink" href="/project?action=moveOpenToNextCollection&id=<?php echo $_GET['id']; ?>">Move All To Next Collection</a>
 
 <?php } ?>
 
@@ -50,17 +50,19 @@
         <th width="90">ID</th>
         <th width="250">Rate Type</th>
         <th width="250">Type</th>
+        <th width="80">Completed</th>
+        <th width="90">Units</th>
         <th width=""></th>
     </tr>
     </thead>
     <tbody>
         <?php echo $openStories; ?>
         <tr class="noHighlight">
-        <td colspan="3">
+        <td colspan="5">
             <button type="submit">Move</button>
         </td>
-        <td class="textRight"></td>
-        <td colspan="2" class="textRight">
+        <td class="bold"><?php echo $openHours; ?></td>
+        <td class="textRight">
             <button type="submit">Update</button>
         </td>
         </tr>

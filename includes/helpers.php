@@ -108,20 +108,22 @@ function parseBool($value): bool
 
 /**
  * @param string $name
- * @param string $default
+ * @param string $color
+ * @param string $fontSize
  * @return string
  */
 function putIcon(
     string $name,
     string $color = '#111',
-    string $default = 'icofont-question-circle'
+    string $fontSize = '20px'
 ): string {
     $useColor = empty($color) ? '#111' : $color;
-    // $useDefault = empty($default) ? 'icofont-question-circle' : $default;
+    
     $finalUse = (substr($name, 0, 7) === 'icofont') ? $name : 'icofont-' . $name;
+    
     $color = ltrim($useColor, '#');
 
-    return '<div class="iconHolder"><i style="color: #' . $color . ';" class="'. $finalUse . '"></i></div>';
+    return '<div class="iconHolder"><i style="font-size:' . $fontSize . ';color: #' . $color . ';" class="'. $finalUse . '"></i></div>';
 }
 
 /**
@@ -137,12 +139,14 @@ function formatMoney($money): string
  * @param string $altText
  * @return string
  */
-function logo(string $altText = ''): string
+function logo(string $altText = 'Company Logo'): string
 {
     $file = '/' . ltrim(getSetting('LOGO_FILE'), '/');
 
+    $url = 'http://' . $_SERVER["HTTP_HOST"] . $file;
+
     return (file_exists(ATOS_HOME_DIR . $file))
-        ? '<div id="logoArea"><img src="' . $file . '" alt="' . $altText . '" /></div>'
+        ? '<div id="logoArea"><img src="' . $url . '" alt="' . $altText . '" /></div>'
         : '';
 }
 

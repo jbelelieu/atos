@@ -8,8 +8,8 @@ ATOS is every freelancer's one-stop shop for managing clients, projects, and you
 
 - 📔&nbsp;&nbsp;&nbsp;[Documentation & Installation](https://jbelelieu.github.io/atos/)
 - 💬&nbsp;&nbsp;&nbsp;<a href="http://twitter.com/intent/tweet?text=Freelancers!%20Check%20out%20ATOS,%20free%20software%20designed%20to%20help%20you%20manage%20your%20clients,%20invoices,%20and%20estimated%20taxes.%20https://github.com/jbelelieu/atos" target="_blank">Tweet About ATOS</a>
+- ☕️&nbsp;&nbsp;&nbsp;<a href="https://jbelelieu.github.io/atos/faq.html" target="_blank">FAQ</a>
 - 🎥&nbsp;&nbsp;&nbsp;<a href="https://youtu.be/DY_ze39ZRt8" target="_blank">Walkthrough Video</a>
-- 🤑&nbsp;&nbsp;&nbsp;<a href="https://opencollective.com/castlamp/projects/by_freelancer_for_freelancer/" target="_blank">Support Me Financially</a>
 - ☕️&nbsp;&nbsp;&nbsp;<a href="https://www.buymeacoffee.com/jbelelieu" target="_blank">Buy Me A Coffee</a>
 
 **Key Features**
@@ -59,6 +59,7 @@ ATOS requires `PHP7+` and `SQLite3`.
 - From Github, download the [latest release ZIP file](https://github.com/jbelelieu/atos/releases)
 - Unzip it to your local machine into a writable folder
 - From the command line, go to the ATOS directory and launch the PHP server: `php -S localhost:9001`
+  - If you want it to run in the background, use `nohup php -S localhost:9001 &`
 - You can now access ATOS from any web browser at `http://localhost:9001`.
 
 Please see the [documentation](docs/index.md) if you need a more detailed installation walkthrough.

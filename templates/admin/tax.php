@@ -1,5 +1,5 @@
 
-<div class="holderFixed marginTop">
+<!-- <div class="holderFixed marginTop">
     <div class="halfHalfColumns">
         <div>
         </div>
@@ -9,7 +9,7 @@
             </form>
         </div>
     </div>
-</div>
+</div> -->
 
 <?php if (empty($taxesThisYear)) { ?>
 <div class="holderFixed border">
@@ -83,11 +83,13 @@
 <?php foreach ($taxes as $aTaxYear) { ?>
 <div class="holderFixed border">
     <div class="borderAlterTop pad noTopPad">
+        <h2 class="marginTopMid">
+            <a href="/tax/render?year=<?php echo $aTaxYear['year']; ?>"><?php echo $aTaxYear['year']; ?></a>
+        </h2>
         <table>
             <thead>
                 <tr class="noHighlight">
-                    <th>Year</th>
-                    <th>Statuses</th>
+                    <th>Filings &amp; Status</th>
                     <th>Income To Date</th>
                     <th>Generate Estimates</th>
                     <th width="42"></th>
@@ -95,11 +97,6 @@
             </thead>
             <tbody>
             <tr>
-                <td class="bold larger">
-                    <a href="/tax/render?year=<?php echo $aTaxYear['year']; ?>">
-                        <?php echo $aTaxYear['year']; ?>
-                    </a>
-                </td>
                 <td>
                     <?php foreach ($aTaxYear['strategies'] as $region => $strategy) { ?>
                         <b><?php echo $aTaxYear[$region]['_class']::REGION; ?>:</b> <?php echo snakeToEnglish($strategy); ?><br />
@@ -140,7 +137,31 @@
         <form action="/tax" method="post">
         <input type="hidden" name="year" value="<?php echo $aTaxYear['year']; ?>" />
         <input type="hidden" name="action" value="createMoneyAside" />
-            <h4 class="marginTopLess">Money Set Aside in <?php echo $aTaxYear['year']; ?></h4>
+
+            <hr />
+            <h4 class="marginTopLess">Monthly Income Breakdown</h4>
+
+            <table class="lessPad">
+                <thead>
+                    <tr class="noHighlight">
+                        <th>Month</th>
+                        <th width="150">Total</th>
+                    </tr>
+                </thead>
+                <tbody>
+                <?php foreach ($aTaxYear['monthly'] as $aMonth => $aTotal) { ?>
+                    <tr>
+                        <td><?php echo $aMonth; ?></td>
+                        <td><?php echo formatMoney($aTotal); ?></td>
+                    </tr>
+                <?php } ?>
+                </tbody>
+            </table>
+
+            <hr />
+            <h4 class="marginTopLess">Money Set Aside in <?php echo $aTaxYear['year']; ?> for Estimated Taxes</h4>
+            <p class="highlight"><b>Important:</b> do not remove anything from this list unless it was added in error. Payments made to tax bodies should be added within the tax projection screen.</p>
+
             <table class="lessPad">
                 <thead>
                     <tr class="noHighlight">

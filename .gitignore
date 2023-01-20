@@ -3,3 +3,6 @@
 .env
 settings.env.php
 db/castlamp.sqlite3
+_vault
+nohup.out
+db/last_backup

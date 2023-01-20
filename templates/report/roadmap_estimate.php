@@ -43,38 +43,49 @@
             </div>
 
             <?php if (!empty($message)) { ?>
-                <div class="pad">
-                    <?php echo $message; ?>
+                <div class="sunk columns1585 pad">
+                    <div class="textRight detailsPadding">
+                        <h4>Notes</h4>
+                    </div>
+                    <div>
+                        <?php echo $message; ?>
+                    </div>
                 </div>
             <?php } ?>
             
             <div class="borderSectionTop">
                 <table width="100%" style="font-size:90%;verticle-align:middle;">
-                    <thead class="sunk">
+                    <thead>
                         <tr class="noHighlight">
-                            <th width="24"></th>
-                            <th width="80">Task #</th>
+                            <th width="">Type</th>
                             <th width="">Task</th>
+                            <th width="100">Est. Hours</th>
                         </tr>
                     </thead>
                     <tbody>
-                        <?php foreach ($stories as $aStory) { ?>
+                        <?php
+                        $totalHours = 0;
+                        foreach ($stories as $aStory) {
+                            $totalHours += $aStory['hours'];
+                            $date = $aStory['ended_at'] ? formatDate($aStory['ended_at']) : 'N/A';
+                        ?>
                             <tr>
                                 <td>
-                                    <input type="checkbox" <?php echo parseBool($aStory['isComplete']) ? 'checked=checked' : 'disabled="disabled"'; ?> />
+                                    <?php echo $aStory['typeTitle']; ?>
                                 </td>
                                 <td>
-                                    <div class="table_bump">
-                                        <?php echo $aStory['show_id']; ?>
-                                    </div>
+                                    <?php echo $aStory['title']; ?>
                                 </td>
                                 <td>
-                                    <div class="table_bump">
-                                        <?php echo $aStory['title']; ?>
-                                    </div>
+                                    <?php echo $aStory['hours']; ?>
                                 </td>
                             </tr>
                         <?php } ?>
+                        <tr>
+                            <td></td>
+                            <td></td>
+                            <td class="bold"><?php echo $totalHours; ?></td>
+                        </tr>
                     </tbody>
                 </table>
             </div>

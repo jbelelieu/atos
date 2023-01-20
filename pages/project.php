@@ -10,7 +10,7 @@ use services\StoryService;
  * ATOS: "Built by freelancer 🙋‍♂️, for freelancers 🕺 🤷 💃🏾 "
  *
  * This file controls all things collections and tasks.
- *
+ * 
  * @author @jbelelieu
  * @copyright Humanity, any year.
  * @license AGPL-3.0 License
@@ -52,6 +52,12 @@ if (isset($_GET['action'])) {
             exit;
         case 'deleteStory':
             $storyService->deleteStory($_GET);
+            exit;
+        case 'moveOpenToNextCollection':
+            $collectionService->moveOpenToNextCollection($_GET);
+            exit;
+        case 'pinFile':
+            $fileLinkService->pinFile($_GET['id'], $_GET['file_id']);
             exit;
         case 'updateStoryStatus':
             $storyService->updateStoryStatus($_GET, 4);
@@ -136,7 +142,7 @@ foreach ($allCollections as $row) {
     $isProjectDefault = parseBool($row['is_project_default']);
 
     $delete = (!$isProjectDefault)
-        ? "<span class=\"delete\" style=\"font-size:90%;\"><a onclick=\"return confirm('Are you sure you want to delete this collection?')\" href=\"/project?action=deleteCollection&project_id=" . $project['id'] . "&id=" . $row['id'] . "\">" . putIcon('icofont-delete') . "</a></span>"
+        ? "<span class=\"delete\" style=\"font-size:90%;\"><a onclick=\"return confirm('Are you sure you want to delete this collection?')\" href=\"/project?action=deleteCollection&project_id=" . $project['id'] . "&id=" . $row['id'] . "\">" . putIcon('icofont-delete', '#111', '16px') . "</a></span>"
         : '';
 
     $update = ($at > 0 && !$isProjectDefault)
@@ -168,13 +174,20 @@ foreach ($collectionResults as $aCollection) {
 
     // Open stories for this collection
     $renderedOpenStories = '';
-    $openStories = $collectionService->getStoriesInCollection($aCollection['id']);
+    $openHours = 0;
+    $openStories = $collectionService->getStoriesInCollection(
+        $aCollection['id'],
+        true,
+        "ended_at ASC"
+    );
     foreach ($openStories as $row) {
         $totalTasks++;
 
         $row['title'] = htmlspecialchars($row['title']);
 
         $label = getLabel($row);
+
+        $openHours += $row['hours'];
 
         $renderedOpenStories .= template(
             'admin/snippets/collection_table_open_entry',
@@ -188,6 +201,8 @@ foreach ($collectionResults as $aCollection) {
                     ]
                 ),
                 'label' => $label,
+                'endedAt' => $row['ended_at'] ? formatDate($row['ended_at'], 'Y-m-d') : null,
+                'hours' => $row['hours'],
                 'hourSelect' => $settingService->buildHourSelect(
                     $row['id'],
                     $row['rate_type'],
@@ -274,6 +289,7 @@ foreach ($collectionResults as $aCollection) {
         [
             'collection' => $aCollection,
             'hours' => $hours,
+            'openHours' => $openHours,
             'isProjectDefault' => $isProjectDefault,
             'openStories' => $renderedOpenStories,
             'otherStories' => $renderedOtherStories,
@@ -301,6 +317,7 @@ echo template(
     [
         '_metaTitle' => $project['title'] . ' (ATOS)',
         'collections' => $collections,
+        'project' => $project,
         'templates' => $allTemplates,
         'allCollections' => $allCollections,
         'collectionsRendered' => $collectionsRendered,
@@ -310,6 +327,7 @@ echo template(
         'project' => $project,
         'totalCollections' => sizeof($allCollections),
         'totalTasks' => $totalTasks,
+        'totalHoursToDate' => $projectService->getProjectTotals($project['id']),
         'hourTypes' => $hourTypeResults,
         'storyStatuses' => $storyStatuses,
         'storyTypes' => $storyTypeResults,

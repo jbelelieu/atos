@@ -36,7 +36,7 @@
     </td>
 </tr>
 <tr class="noHighlight taskBottom">
-    <td colspan="6" class="taskInput">
+    <td colspan="7" class="taskInput">
         <input
             type="text"
             autocomplete="off"

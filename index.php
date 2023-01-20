@@ -30,7 +30,9 @@ require "includes/system.php";
  */
 
 $rUri = explode('?', $_SERVER['REQUEST_URI']);
-$requestUri = $rUri['0'];
+$requestUri = ltrim($rUri['0'], '/');
+$blowup = explode('.', $requestUri);
+$requestUri = '/' . $blowup[0];
 
 switch (strtolower($requestUri)) {
     case '/documents':

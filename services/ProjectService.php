@@ -62,8 +62,10 @@ class ProjectService extends BaseService
                 )
             ');
 
+            $orgName = getSetting('UNORGANIZED_NAME', 'Unorganized');
+            
             $statement->bindParam(':project_id', $lastProjectId);
-            $statement->bindParam(':title', getSetting('UNORGANIZED_NAME', 'Unorganized'));
+            $statement->bindParam(':title', $orgName);
             $statement->execute();
 
             $this->db->commit();
@@ -162,13 +164,20 @@ class ProjectService extends BaseService
             $placeholders .= ',?';
         }
 
-        return [
-            ' AND story.' . $tableKey . ' IN (' . ltrim($placeholders, ',') . ')',
-            $bound
-        ];
+        return (sizeof($array) > 0)
+            ? [
+                ' AND story.' . $tableKey . ' IN (' . ltrim($placeholders, ',') . ')',
+                $bound
+            ]
+            : [
+                '',
+                $bound
+            ];
     }
 
     /**
+     * TODO: Allow for custom ordering
+     * 
      * @param integer $projectId
      * @param array $types
      * @param array $statuses
@@ -237,7 +246,7 @@ class ProjectService extends BaseService
             JOIN story_type on story_type.id = story.type
             WHERE story_collection.project_id = ?
             $whereType$whereStatus$whereCollection$whereCompleted
-            ORDER BY type ASC
+            ORDER BY ended_at ASC, type ASC
         ");
 
         $statement->execute(array_merge([ $projectId ], $bound));
@@ -266,10 +275,34 @@ class ProjectService extends BaseService
             JOIN
                 story_hour_type
                 ON story_hour_type.id = story.rate_type
+            JOIN
+                story_status
+                ON story_status.id = story.status
             WHERE
                 project.id = :project_id
-                AND story.status != 1;
+                AND story.status != 1
+                AND story_status.is_complete_state = true
+                AND story_status.is_billable_state = true;
         ");
+        // $statement = $this->db->prepare("
+        //     SELECT
+        //         COALESCE(SUM(story.hours), 0) as hours,
+        //         COALESCE(SUM(story.hours * story_hour_type.rate), 0) as total
+        //     FROM
+        //         project
+        //     JOIN
+        //         story_collection
+        //         ON project.id = story_collection.project_id
+        //     JOIN
+        //         story
+        //         ON story_collection.id = story.collection
+        //     JOIN
+        //         story_hour_type
+        //         ON story_hour_type.id = story.rate_type
+        //     WHERE
+        //         project.id = :project_id
+        //         AND story.status != 1
+        // ");
 
         $statement->bindParam(':project_id', $projectId);
 

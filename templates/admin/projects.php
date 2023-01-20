@@ -1,32 +1,40 @@
 
 <div class="holder">
+    <!-- <div class="gray textSmall textRight">
+    <?php echo $totalHoursToDate['hours'] . ' hours'; ?>
+    </div> -->
 
     <hr />
-    <h2>Collections</h2>
+    <h2>Project Overview</h2>
+    <div>
+        <h5>Collections</h5>
 
-    <?php if ($totalCollections === 1) { ?>
-        <p class="highlight">
-            Start here by creating your first collection of tasks. A collection is a grouping of tasks that will be billed to a client. One common use case is to map bi-weekly sprints to invoiced work.
-        </p>
-    <?php } ?>
+        <?php if ($totalCollections === 1) { ?>
+            <p class="highlight">
+                Start here by creating your first collection of tasks. A collection is a grouping of tasks that will be billed to a client. One common use case is to map bi-weekly sprints to invoiced work.
+            </p>
+        <?php } ?>
 
-    <form action="/project?id=<?php echo $project['id']; ?>" method="post">
-        <div id="createCollection" class="sunk less">
-            <div id="collections" class="padLessBottom">
-                <?php echo $collections; ?>
-                <input type="text" style="width:150px;" placeholder="Sprint May 1 - 15" required="required" autocomplete="off" name="title" /> <button type="submit">Create</button>
+        <form action="/project?id=<?php echo $project['id']; ?>" method="post">
+            <div id="createCollection" class="sunk less">
+                <div id="collections" class="padLessBottom">
+                    
+                    <?php echo $collections; ?>
+                    
+                    <input type="text" style="width:150px;" placeholder="Sprint May 1 - 15" required="required" autocomplete="off" name="title" /> <button type="submit">Create</button>
+                </div>
             </div>
-        </div>
-        <input type="hidden" name="project_id" value="<?php echo $project['id']; ?>" />
-        <input type="hidden" name="action" value="createCollection" />
-    </form>
+            <input type="hidden" name="project_id" value="<?php echo $project['id']; ?>" />
+            <input type="hidden" name="action" value="createCollection" />
+        </form>
+    </div>
 
     <hr />
     <h2><?php echo $project['title']; ?></h2>
 
     <button type="button" onclick="toggleDiv('createHandOFf')" class="a">Generate Report</button>
-    <button type="button" onclick="toggleDiv('createLink')" class="a">Links</button>
-    <button type="button" onclick="toggleDiv('createFile')" class="a">Files</button>
+    <button type="button" onclick="toggleDiv('createLink')" class="a">Links (<?php echo sizeof($links); ?>)</button>
+    <button type="button" onclick="toggleDiv('createFile')" class="a">Files (<?php echo sizeof($files); ?>)</button>
 
     <div
         id="createLink"
@@ -49,7 +57,9 @@
                     <tbody>
                         <?php foreach ($links as $aLink) { ?>
                             <tr>
-                                <td><?php echo $aLink['title']; ?></td>
+                                <td>
+                                    <?php echo $aLink['title']; ?>
+                                </td>
                                 <td class="ellipsis">
                                     <a href="<?php echo $aLink['data']; ?>" target="_blank">
                                         <?php echo $aLink['data']; ?>
@@ -103,20 +113,28 @@
                 <table>
                     <thead>
                         <tr class="noHighlight">
-                            <th width="250">Title</th>
+                            <th width="400">Title</th>
+                            <th width="120">Date</th>
                             <th>Location</th>
-                            <th width="42"></th>
+                            <th width="62"></th>
                         </tr>
                     </thead>
                     <tbody>
                         <?php foreach ($files as $aFile) { ?>
-                            <tr>
-                                <td><?php echo $aFile['title']; ?></td>
+                            <tr class="noHighlight">
+                                <td class="<?php echo parseBool($aFile['is_pinned']) ? 'bold' : ''; ?>">
+                                    <?php echo parseBool($aFile['is_pinned']) ? putIcon('tack-pin', '#111', '16px') : ''; ?> <a target="_blank" href="<?php echo $aFile['data']; ?>"><?php echo $aFile['title']; ?></a>
+                                </td>
+                                <td>
+                                    <?php echo formatDate($aFile['created_at']); ?>
+                                </td>
                                 <td class="ellipsis">
                                     <?php echo $aFile['data']; ?>
                                 </td>
                                 <td>
                                     <a
+                                        title="Pin"
+                                        href="/project?id=<?php echo $project['id']; ?>&action=pinFile&file_id=<?php echo $aFile['id']; ?>"><?php echo putIcon('icofont-tack-pin'); ?></a><a
                                         title="Delete"
                                         onclick="return confirm('Are you sure?')"
                                         href="/project?id=<?php echo $project['id']; ?>&action=deleteFileLink&file_id=<?php echo $aFile['id']; ?>"><?php echo putIcon('icofont-delete'); ?></a>
@@ -130,8 +148,15 @@
                                     name="title"
                                     required="required"
                                     autocomplete="off"
-                                    required="required"
                                     placeholder="Github Repo" />
+                            </td>
+                            <td>
+                                <input
+                                    type="date"
+                                    name="created_at"
+                                    required="required"
+                                    value="<?php echo date('Y-m-d'); ?>"
+                                    autocomplete="off" />
                             </td>
                             <td>
                                 <input
@@ -280,7 +305,6 @@
     </div>
 
     <div class="clearFix"></div>
-
 
     <?php echo $collectionsRendered; ?>
 </div>
