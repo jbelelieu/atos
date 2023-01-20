@@ -87,7 +87,7 @@ function checkForBackup(string $dbFile): bool {
     if (file_exists($backupFile)) {
         $lastBackup = (int) file_get_contents($backupFile);
 
-        $difference = $lastBackup - time();
+        $difference = time() - $lastBackup;
         if ($difference < 86400) {
             return false;
         }
