@@ -78,7 +78,7 @@
                 <label>Rate</label>
                 $<input
                     type="number"
-                    min=1
+                    min=0
                     required="required"
                     autocomplete="off"
                     name="rate"
