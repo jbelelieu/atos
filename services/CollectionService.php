@@ -342,7 +342,11 @@ class CollectionService extends BaseService
             $statement->execute();
         }
 
-        redirect('/project', $data['id'], 'Moved all open stories to collection "' . $collections[0]['title'] . '"');
+        redirect(
+            '/project',
+            $data['id'],
+            'Moved all open stories to collection "' . $collections[0]['title'] . '"'
+        );
     }
 
     /**

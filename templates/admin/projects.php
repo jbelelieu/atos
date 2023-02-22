@@ -6,6 +6,15 @@
 
     <hr />
     <h2>Project Overview</h2>
+    <span style="margin-left:12px;font-size: 0.9em;font-weight:bold;">
+        <?php if (empty($project['ended_at'])) { ?>
+        <a
+            title="Mark Completed"
+            onclick="return confirm('Are you sure?')"
+            href="/project?id=<?php echo $project['id']; ?>&action=markCompleted">Mark Project Completed</a>
+        <?php } ?>
+    </span>
+
     <div>
         <h5>Collections</h5>
 

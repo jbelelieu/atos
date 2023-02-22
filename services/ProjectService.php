@@ -82,6 +82,26 @@ class ProjectService extends BaseService
      * @param array $data
      * @return void
      */
+    public function markProjectComplete(array $data): void
+    {
+        $statement = $this->db->prepare('
+            UPDATE project
+            SET ended_at = :date
+            WHERE id = :id
+        ');
+
+        $statement->bindParam(':id', $data['id']);
+        $statement->bindParam(':date', date('Y-m-d H:i:s'));
+
+        $statement->execute();
+
+        redirect('/', null, 'The project has been marked as completed.');
+    }
+
+    /**
+     * @param array $data
+     * @return void
+     */
     public function deleteProject(array $data): void
     {
         $statement = $this->db->prepare('

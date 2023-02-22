@@ -96,7 +96,12 @@ $projects = $projectService->getProjects();
 
 $totalProjectValue = 0;
 $totalProjectHours = 0;
+$totalOpenProjectValue = 0;
+$totalOpenProjectHours = 0;
+$totalCompletedProjectValue = 0;
+$totalCompletedProjectHours = 0;
 $renderedProjects = '';
+$completedRenderedProjects = '';
 
 // Project table
 foreach ($projects as $aProject) {
@@ -105,17 +110,42 @@ foreach ($projects as $aProject) {
     $totalProjectValue += $value['total'];
     $totalProjectHours += $value['hours'];
 
-    $renderedProjects .= template(
-        'admin/snippets/project_table_entry',
-        [
-            'deleteLink' => buildLink('/', ['action' => 'deleteProject', 'id' => $aProject['id']]),
-            'hours' => $value['hours'],
-            'project' => $aProject,
-            'total' => formatMoney($value['total']),
-            'started' => formatDate($aProject['created_at']),
-        ],
-        true
-    );
+    if (
+        !$aProject['ended_at']
+        || empty($aProject['ended_at'])
+        || $aProject['ended_at'] === '0000-00-00 00:00:00'
+    ) {
+        $totalOpenProjectValue += $value['total'];
+        $totalOpenProjectHours += $value['hours'];
+
+        $renderedProjects .= template(
+            'admin/snippets/project_table_entry',
+            [
+                'deleteLink' => buildLink('/', ['action' => 'deleteProject', 'id' => $aProject['id']]),
+                'hours' => $value['hours'],
+                'project' => $aProject,
+                'total' => formatMoney($value['total']),
+                'started' => formatDate($aProject['created_at']),
+            ],
+            true
+        );
+    } else {
+        $totalCompletedProjectValue += $value['total'];
+        $totalCompletedProjectHours += $value['hours'];
+        
+        $completedRenderedProjects .= template(
+            'admin/snippets/project_table_complete_entry',
+            [
+                'deleteLink' => buildLink('/', ['action' => 'deleteProject', 'id' => $aProject['id']]),
+                'hours' => $value['hours'],
+                'project' => $aProject,
+                'total' => formatMoney($value['total']),
+                'started' => formatDate($aProject['created_at']),
+                'ended' => formatDate($aProject['ended_at']),
+            ],
+            true
+        );
+    }
 }
 
 echo template(
@@ -125,10 +155,15 @@ echo template(
         'clientSelect' => $clientSelect,
         'clients' => $renderedClients,
         'projects' => $renderedProjects,
+        'completeProjects' => $completedRenderedProjects,
         'totalClients' => sizeof($clients),
         'totalProjectHours' => $totalProjectHours,
         'totalProjectValue' => formatMoney($totalProjectValue),
         'totalClientValue' => formatMoney($totalValue),
+        'totalOpenProjectValue' => formatMoney($totalOpenProjectValue),
+        'totalOpenProjectHours' => $totalOpenProjectHours,
+        'totalCompletedProjectValue' => formatMoney($totalCompletedProjectValue),
+        'totalCompletedProjectHours' => $totalCompletedProjectHours,
         'totalProjects' => sizeof($projects),
     ]
 );

@@ -65,6 +65,7 @@
         </form>
     </div>
 
+    <h4>Active Projects</h4>
     <table>
     <thead>
     <tr class="noHighlight">
@@ -81,11 +82,36 @@
     <?php echo $projects; ?>
     <tr class="noHighlight">
     <td colspan=5></td>
-    <td class="summary"><?php echo $totalProjectHours; ?></td>
-    <td class="summary"><?php echo $totalProjectValue; ?></td>
+    <td class="summary"><?php echo $totalOpenProjectHours; ?></td>
+    <td class="summary"><?php echo $totalOpenProjectValue; ?></td>
     <td></td>
     </tr>
     </table>
+
+    <?php if (!empty($completeProjects)) { ?>
+    <h4>Completed Projects</h4>
+    <table>
+    <thead>
+    <tr class="noHighlight">
+    <th>Title</th>
+    <th>Code</th>
+    <th>Contractor</th>
+    <th>Client</th>
+    <th width=130>Ended</th>
+    <th width=100>Units</th>
+    <th width=140>Billed</th>
+    <th width="42"></th>
+    </tr>
+    </thead>
+    <?php echo $completeProjects; ?>
+    <tr class="noHighlight">
+    <td colspan=5></td>
+    <td class="summary"><?php echo $totalCompletedProjectHours; ?></td>
+    <td class="summary"><?php echo $totalCompletedProjectValue; ?></td>
+    <td></td>
+    </tr>
+    </table>
+    <?php } ?>
 <?php } ?>
 
 

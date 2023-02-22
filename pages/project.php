@@ -44,6 +44,9 @@ if (isset($_GET['action'])) {
         case 'deleteCollection':
             $collectionService->deleteCollection($_GET);
             exit;
+        case 'markCompleted':
+            $projectService->markProjectComplete($_GET);
+            exit;
         case 'deleteFileLink':
             $fileLinkService->deleteFileLink($_GET);
             exit;
