@@ -119,9 +119,9 @@ class ProjectService extends BaseService
     /**
      * @return array
      */
-    public function getProjects()
+    public function getProjects(bool $activeOnly = false)
     {
-        $statement = $this->db->prepare("
+        $sql = "
             SELECT
                 p.*,
                 c1.title as company_name,
@@ -129,7 +129,13 @@ class ProjectService extends BaseService
             FROM project p
             JOIN company c1 ON p.client_id = c1.id
             JOIN company c2 ON p.company_id = c2.id
-        ");
+        ";
+
+        if ($activeOnly) {
+            $sql .= " WHERE p.ended_at IS NOT NULL";
+        }
+
+        $statement = $this->db->prepare($sql);
 
         $statement->execute();
 

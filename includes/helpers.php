@@ -232,7 +232,7 @@ function template(
 
     extract($args);
 
-    $allProjects = (new ProjectService())->getProjects();
+    $allProjects = (new ProjectService())->getProjects(true);
 
     ob_start();
     
