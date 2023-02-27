@@ -132,7 +132,7 @@ class ProjectService extends BaseService
         ";
 
         if ($activeOnly) {
-            $sql .= " WHERE p.ended_at IS NOT NULL";
+            $sql .= " WHERE p.ended_at IS NULL";
         }
 
         $statement = $this->db->prepare($sql);
