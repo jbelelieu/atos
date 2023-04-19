@@ -37,24 +37,44 @@ class FtpService
      * @param string $remoteFile
      * @return void
      */
-    public function upload(string $localFile, string $remoteFile): bool
+    public function upload(
+        string $localFile,
+        string $remoteFile,
+        bool $throw = false
+    ): bool
     {
         if (!$this->host) {
+            if (!$throw) {
+                return false;
+            }
+
             throw new Exception('FTP host not set in options.');
         }
 
         $connId = ftp_connect($this->host, $this->port);
         if (!$connId) {
+            if (!$throw) {
+                return false;
+            }
+            
             throw new Exception('Could not connect to host.');
         }
 
         $connected = ftp_login($connId, $this->username, $this->password);
         if (!$connected) {
+            if (!$throw) {
+                return false;
+            }
+            
             throw new Exception('Could not log into host with supplied credentials.');
         }
 
         $put = ftp_put($connId, $remoteFile, $localFile, FTP_ASCII);
         if (!$put) {
+            if (!$throw) {
+                return false;
+            }
+            
             throw new Exception('Could not upload file to host.');
         }
             
