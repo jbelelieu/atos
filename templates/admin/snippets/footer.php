@@ -1,13 +1,13 @@
 
 <footer>
     <span>
+        v0.0.3 - 2023/04/19
+    </span>
+    <span>
         &copy; Humanity, any year.
     </span>
     <span>
-        <a href="https://opencollective.com/castlamp/projects/by_freelancer_for_freelancer" target="_blank">💵 Donate</a>
-    </span>
-    <span>
-        <a href="https://jbelelieu.github.io/atos/" target="_blank">📚 Documentation</a>
+        <a href="https://jbelelieu.github.io/atos/" target="_blank">📚 Docs</a>
     </span>
     <span>
         <a href="/db" target="_blank">🗂 SQLite DB</a>
