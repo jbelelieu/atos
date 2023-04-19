@@ -1,0 +1,2 @@
+
+ALTER TABLE `story` ADD COLUMN `epic` VARCHAR;

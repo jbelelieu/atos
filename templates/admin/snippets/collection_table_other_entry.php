@@ -36,7 +36,15 @@
     </td>
 </tr>
 <tr class="noHighlight taskBottom">
-    <td colspan="7" class="taskInput">
+    <td colspan="1" class="taskInput">
+        <input
+            type="text"
+            autocomplete="off"
+            style="width:100%;"
+            name="story[<?php echo $story['id']; ?>][epic]"
+            value="<?php echo $story['epic']; ?>" />
+    </td>
+    <td colspan="6" class="taskInput">
         <input
             type="text"
             autocomplete="off"

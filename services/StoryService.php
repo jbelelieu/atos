@@ -291,7 +291,8 @@ class StoryService extends BaseService
                     rate_type = :rate_type,
                     title = :title,
                     collection = :collection,
-                    ended_at = :ended_at
+                    ended_at = :ended_at,
+                    epic = :epic
                 WHERE
                     id = :id
             ');
@@ -307,6 +308,7 @@ class StoryService extends BaseService
             $statement->bindParam(':rate_type', $rateType);
             $statement->bindParam(':title', $aStory['title']);
             $statement->bindParam(':id', $storyId);
+            $statement->bindParam(':epic', $aStory['epic']);
             $statement->execute();
         }
 
