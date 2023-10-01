@@ -99,6 +99,7 @@ class StoryService extends BaseService
                 show_id,
                 due_at,
                 title,
+                epic,
                 collection,
                 rate_type,
                 type,
@@ -110,6 +111,7 @@ class StoryService extends BaseService
                 :show_id,
                 :due_at,
                 :title,
+                :epic,
                 :collection,
                 :rate_type,
                 :type,
@@ -122,6 +124,7 @@ class StoryService extends BaseService
         $statement->bindParam(':show_id', $id);
         $statement->bindParam(':ended_at', $ended_at);
         $statement->bindParam(':due_at', $data['due_at']);
+        $statement->bindParam(':epic', $data['epic']);
         $statement->bindParam(':title', $data['title']);
         $statement->bindParam(':collection', $data['collection']);
         $statement->bindParam(':rate_type', $data['rate_type']);

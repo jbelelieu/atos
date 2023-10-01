@@ -181,7 +181,7 @@ foreach ($collectionResults as $aCollection) {
     $openStories = $collectionService->getStoriesInCollection(
         $aCollection['id'],
         true,
-        "ended_at ASC"
+        "epic DESC, ended_at ASC"
     );
     foreach ($openStories as $row) {
         $totalTasks++;

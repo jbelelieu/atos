@@ -296,10 +296,15 @@
                 </div>
             </div>
 
-            <div class="columns2575">
+            <div class="columnsyyx">
                 <div>
                     <label>Reference Number</label>
                     <input type="text" name="show_id" required="required" autocomplete="off" value="<?php echo $nextId; ?>" />
+                </div>
+
+                <div>
+                    <label>Epic</label>
+                    <input type="text" name="epic" autocomplete="off" />
                 </div>
 
                 <div>

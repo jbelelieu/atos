@@ -991,6 +991,14 @@ button:hover:not(.createNew) {
     margin-top: 6px;
 }
 
+.columnsyyx {
+    display: grid;
+    grid-template-columns: 120px 120px 1fr;
+    grid-template-rows: 1fr;
+    grid-column-gap: 40px;
+    grid-row-gap: 0px;
+}
+
 .columns2575 {
     display: grid;
     grid-template-columns: 190px 1fr;
